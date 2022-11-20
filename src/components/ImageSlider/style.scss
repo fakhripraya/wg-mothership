@@ -1,0 +1,51 @@
+.imageslider-container{
+    position: relative;
+    width: 100%;
+    border-radius: 3.5vmax;
+}
+
+.imageslider-wrapper{
+    text-align: center;
+    justify-content: center;
+    border-radius: inherit;
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+}
+
+.imageslider-wrapper img{
+    width: 100%;
+    border-radius: inherit;
+    cursor: pointer;
+}
+
+.imageslider-button{
+    position: absolute;
+    top: calc(50% - 12px);
+    z-index: 2;
+    font-size: 1.5rem;
+
+    @media screen and (max-width: 1280px){
+        font-size: larger;
+        padding: 6px 10px;
+    }
+
+    @media screen and (max-width: 768px){
+        font-size: medium;
+        padding: 2px 8px;
+    }
+}
+
+.imageslider-left-button{
+    left: 10px;
+    @media screen and (min-width: 2000px){
+        left: 100px;
+    }
+}
+
+.imageslider-right-button{
+    right: 10px;
+    @media screen and (min-width: 2000px){
+        right: 100px;
+    }
+}

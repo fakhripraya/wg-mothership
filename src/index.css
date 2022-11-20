@@ -1,0 +1,8 @@
+body,html {
+  background-color: #151515; /*base background color*/
+  color: #fff; /*base color*/
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}

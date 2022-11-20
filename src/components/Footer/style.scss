@@ -1,0 +1,156 @@
+// MAIN
+.footer-container{
+    padding: 0px 0px;
+    width: 100%;
+    min-height: 100vh;
+}
+
+// COMPONENT BASE
+.footer-button-container{
+    min-width: 200px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (max-width: 1000px) {
+        min-width: 175px;
+        min-height: 75px;
+    }
+    @media screen and (max-width: 768px) {
+        min-width: 150px;
+        min-height: 75px;
+    }
+    @media screen and (max-width: 400px) {
+        min-width: 125px;
+        min-height: 55px;
+    }
+    @media screen and (max-width: 300px) {
+        min-width: 100px;
+        min-height: 50px;
+    }
+}
+
+.footer-button{
+    max-width: 150px;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 100px;
+    font-size: 1.5rem;
+
+    @media screen and (max-width: 1000px) {
+        max-width: 125px;
+        min-height: 40px;
+        font-size: 1.25rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        max-width: 100px;
+        min-height: 25px;
+        font-size: 1rem;
+    }
+    @media screen and (max-width: 400px) {
+        max-width: 75px;
+        min-height: 20px;
+        font-size: 1rem;
+    }
+    @media screen and (max-width: 300px) {
+        max-width: 65px;
+        min-height: 20px;
+        font-size: 1rem;
+    }
+}
+
+.footer-button-outlined{
+    border: 3px solid #fff;
+}
+
+.footer-button-block{
+    background-color: #151515;
+}
+
+.footer-button-block:hover{
+    transform: scale(1) !important;
+    background-color: #fff;
+    color: #151515;
+}
+
+// GRID //
+.footer-grid-wrapper{
+    transition: all 0.5s ease-in-out;
+    display: grid;
+    grid-auto-columns: minmax(auto, 100vw);
+    min-height: inherit;
+    width: 80vw;
+    margin: 0px auto;
+}
+
+// GRID COLUMN 1 //
+.footer-column-1{
+    grid-area: col1;
+}
+
+.footer-column-1-wrapper{
+    display: flex;
+    flex-direction: column;
+    padding: 10vh 0px;
+    max-inline-size: 80vw;
+}
+
+.footer-column-1-media-social{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto;
+    margin-bottom: calc(10px + 5vw);
+}
+
+.footer-column-1-email{
+    margin-top: calc(10px + 2vw);
+}
+
+.footer-column-1-email h1{
+    font-size: 72px;
+    
+    @media screen and (max-width: 1000px) {
+        font-size: 54px;
+    }
+    @media screen and (max-width: 768px) {
+        font-size: 36px;
+    }
+}
+
+.footer-column-1-email-text{
+    text-decoration: none !important;
+    color: #fff;
+}
+
+.footer-column-1-help{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: auto;
+}
+
+.footer-column-2{
+    grid-area: col2;
+}
+
+.footer-column-2-wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-inline-size: 80vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-logo-img{
+    height: 15vmin;
+    cursor: pointer;
+}
+
+.footer-logo-img:hover{
+    transform: scale(1.1);
+    transition: all 0.1s ease-in-out;
+}

@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech&display=swap');
+
+/* Fonts */
+* {
+  font-family: 'Share Tech', sans-serif;
+}
+
+/* Colors */
+.main-color{
+  color: #0DA34D;
+}
+
+.main-bg-color{
+  background-color: #0DA34D;
+}
+
+.dark-color{
+  color: rgb(28, 29, 29);
+}
+
+.dark-bg-color{
+  background-color: rgb(28, 29, 29);
+}
+
+.darker-color{
+  color: #151515;
+}
+
+.darker-bg-color{
+  color: #151515;
+}
+
+.light-color{
+  color: aliceblue;
+}
+
+.light-bg-color{
+  background-color: aliceblue;
+}
+
+/* Global Class Properties */
+.sticky-top{
+  position: sticky !important;
+  top: 0px !important;
+  z-index: 999 !important;
+}
+
+.hidden{
+  opacity: 0 !important;
+}
+
+.break-word{
+ overflow-wrap: break-word !important; 
+}
+
+.max-width{
+ max-width: 100% !important;
+}
+
+/* Scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
+
+/* Handle grid event*/
+/* This is specific a only event for 2 column grid*/
+@mixin grid-template-areas($imgStart: false) {
+  @if $imgStart {
+      grid-template-areas: 'col2 col1';
+  }
+
+  @else {
+      grid-template-areas: 'col1 col2';
+  }
+
+  @media screen and (max-width: 1200px) {
+      @if $imgStart {
+          grid-template-areas:
+              'col1'
+              'col2';
+      }
+
+      @else {
+          grid-template-areas:
+              'col1 col1'
+              'col2 col2';
+      }
+  }
+}
+
+.grid-true {
+  @include grid-template-areas($imgStart: true)
+}
+
+.grid-false {
+  @include grid-template-areas($imgStart: false)
+}

@@ -1,0 +1,235 @@
+/* Handle event*/
+@mixin shrink-size() {
+    @media screen and (max-width: 1280px){
+        font-size: 0.75rem;
+    }
+    @media screen and (max-width: 450px){
+        font-size: 0.5rem;
+    }
+}
+
+@mixin shrink-padding($isCounter: false) {
+    @media screen and (max-width: 1280px){
+        @if $isCounter {
+            padding: 0px 12px;
+        }
+  
+        @else {
+            padding: 0px 10px;
+        }
+    }
+    @media screen and (max-width: 1000px){
+        @if $isCounter {
+            padding: 0px 8px;
+        }
+  
+        @else {
+            padding: 0px 6px;
+        }
+    }
+    @media screen and (max-width: 768px){
+        @if $isCounter {
+            padding: 0px 6px;
+        }
+  
+        @else {
+            padding: 0px 4px;
+        }
+    }
+}
+
+// MAIN STYLES //
+.home-container{
+    min-height: 100vh;
+    min-width: 100vw;
+    padding: 10vh 0px;
+}
+
+.home-wrapper{
+    width: 60vw;
+    margin: 0px auto;
+    position: relative;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    @media screen and (max-width: 1280px){
+        width: 80vw;
+    }
+}
+
+.home-element-container{
+    margin-top: 5vw;
+    max-width: 1280px;
+    width: 100%;
+    border-radius: 1vmax;
+    padding: 24px;
+
+    @media screen and (max-width: 1600px){
+        border-radius: 2vmax;
+    }
+
+    @media screen and (max-width: 1000px){
+        border-radius: 2vmax;
+        padding: 12px;
+        margin-top: 10vw;
+    }
+}
+
+.home-carousel-box{
+    padding: 0px 24px;
+    white-space: nowrap;
+    justify-content: center;
+    border-radius: inherit;
+    cursor: inherit;
+    width: fit-content;
+    @include shrink-padding($isCounter: false);
+    @include shrink-size();
+}
+
+// BALANCES STYLES //
+.home-balance-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-radius: inherit;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+
+    @media screen and (max-width: 768px){
+        padding: 18px;
+        gap: 18px;
+    }
+    @media screen and (max-width: 400px){
+        padding:12px;
+        gap: 12px;
+    }
+}
+
+.home-balance-box{
+    display: flex;
+    flex-direction: column;
+    border-radius: inherit;
+    cursor: pointer;
+    @include shrink-size();
+}
+
+.home-balance-box:hover:nth-child(n){
+    opacity: 0.9;
+}
+
+.home-balance-counter-box{
+    border-radius: inherit;
+    width: 100%;
+    padding: 0px 24px;
+    background-color: aliceblue;
+    @include shrink-padding($isCounter: true);
+}
+
+.home-balance-tools-box{
+    height: fit-content;
+    width: 100%;
+    padding: 0px 24px;
+    @include shrink-padding($isCounter: false);
+}
+
+.home-balance-tools-box:hover{
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+    opacity: 1 !important;
+}
+
+.home-balance-tools-box:hover h1{
+    transition: all 0.3s ease-in-out;
+    color: #151515;
+}
+
+.home-balance-box:hover h3{
+    transition: all 0.3s ease-in-out;
+    color: #151515;
+}
+
+.home-balance-box:hover p{
+    transition: all 0.3s ease-in-out;
+    color: #151515;
+}
+
+.home-title-balance{
+    margin-bottom: 6px;
+}
+
+.home-balance-number{
+    margin-top: 4px;
+    margin-bottom: 0.25em;
+    letter-spacing: 4px;
+}
+
+.home-desc-balance{
+    margin-top: 0px;  
+    font-size: 18px;
+
+    @media screen and (max-width: 500px){
+        font-size: 14px;
+    }
+
+    @media screen and (max-width: 300px){
+        font-size: 12px;
+    }
+}
+
+.home-balance-tools{
+    display: flex;
+    flex-direction: row;
+    border-radius: inherit;
+    align-items: center;
+    justify-content: space-evenly;
+    column-gap: 10px;
+    width: 100%;
+
+    @media screen and (max-width: 260px){
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+// RECOMMENDED STYLES //
+.home-recommend-title{
+    @media screen and (max-width: 768px){
+        font-size: 1.5rem;
+        margin-bottom: 0px;
+    }
+
+    @media screen and (max-width: 400px){
+        font-size: 1rem;
+        margin-bottom: 0px;
+    }
+}
+
+//TODO: Fix leftScrolling not scroll to the max
+.home-recommend-wrapper{
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    border-radius: inherit;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 12px;
+    cursor: grab;
+
+    @media screen and (max-width: 768px){
+        padding: 18px;
+    }
+    @media screen and (max-width: 400px){
+        padding: 12px;
+    }
+}
+
+.home-recommend-box:hover{
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+.home-recommend-box:hover h1{
+    transition: all 0.3s ease-in-out;
+    color: #151515;
+}

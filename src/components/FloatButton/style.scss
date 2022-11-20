@@ -1,0 +1,11 @@
+.floatbutton-container{
+    width: fit-content;
+    height: fit-content;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.floatbutton-container:hover{
+    transform: scale(1.2);
+    transition: all 0.2s ease-in-out;
+}
