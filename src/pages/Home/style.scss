@@ -77,13 +77,80 @@
 
 .home-carousel-box{
     padding: 0px 24px;
-    white-space: nowrap;
     justify-content: center;
     border-radius: inherit;
     cursor: inherit;
     width: fit-content;
     @include shrink-padding($isCounter: false);
     @include shrink-size();
+}
+
+.home-carousel-tag{
+    white-space: nowrap;
+}
+
+.home-carousel-box:hover{
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+.home-carousel-box:hover h1{
+    transition: all 0.3s ease-in-out;
+    color: #151515;
+}
+
+.home-card{
+    min-width: 150px;
+    min-inline-size: 150px;
+    height: auto;
+    padding: 12px !important;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    
+    @media screen and (max-width: 1000px){
+        padding: 8px !important;
+    }
+    @media screen and (max-width: 768px){
+        padding: 6px !important;
+    }
+}
+
+.home-card-img{
+    border-radius: 12px;
+    background-size: cover;
+    width: 100%;
+    height: 150px;
+    background-repeat: no-repeat;
+}
+
+.home-card h1{
+    white-space: nowrap;
+    overflow: hidden;
+    max-inline-size: 150px;
+    text-overflow: ellipsis;
+}
+
+.home-fullwidth-img{
+    margin-top: 5vw;
+    width: 100%;
+    cursor: pointer;
+}
+
+.home-button{
+    margin: 0px auto;
+    text-align: center;
+    background-color: transparent !important;
+    border: 2px solid #0DA34D;
+    color: #0DA34D;
+    max-width: 150px;
+}
+
+.home-button:hover{
+    transform: scale(1) !important;
+    background-color: #fff !important;
+    border: 2px solid #fff;
 }
 
 // BALANCES STYLES //
@@ -205,6 +272,18 @@
     }
 }
 
+.home-recommend-subtitle{
+    @media screen and (max-width: 768px){
+        font-size: 1rem;
+        margin-bottom: 0px;
+    }
+
+    @media screen and (max-width: 400px){
+        font-size: 0.75rem;
+        margin-bottom: 0px;
+    }
+}
+
 //TODO: Fix leftScrolling not scroll to the max
 .home-recommend-wrapper{
     display: flex;
@@ -224,12 +303,12 @@
     }
 }
 
-.home-recommend-box:hover{
-    background-color: #fff;
-    transition: all 0.3s ease-in-out;
-}
+// BOTTOM SECTION //
 
-.home-recommend-box:hover h1{
-    transition: all 0.3s ease-in-out;
-    color: #151515;
+.home-bottom-section{
+    margin-top: 5vw;
+    height: 100vh;
+    width: 100vw;
+    margin-bottom: -10vh;
+    background-color: aliceblue;
 }

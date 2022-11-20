@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { styleInitialState, styleSlideLeft, styleSlideRight } from '../../variables/styles/carousel';
 import dummy from "../../config/json/development/carouselDummy.json";
 
-export default function ImageSlider() {
+export default function ImageSlider(props) {
 
     const imgRef = useRef();
     const [current, setCurrent] = useState({
@@ -92,7 +92,7 @@ export default function ImageSlider() {
     }
 
     return (
-        <div className="imageslider-container">
+        <div style={props.style} className="imageslider-container">
             <FloatButton onClick={() => handleSlideLeftAnimation()} className="imageslider-button imageslider-left-button" >❰</FloatButton>
             <div className="imageslider-wrapper">
                 <img

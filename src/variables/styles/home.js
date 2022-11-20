@@ -58,29 +58,39 @@ export const getRecommendedGaming = () => {
 export const getRecommended = () => {
     return [
         {
-            url: "Nvidia RTX 3090",
+            url: "https://www.shutterstock.com/image-photo/gaming-pc-rgb-led-lights-600w-1621672105.jpg",
             name: "Nvidia RTX 3090",
-            desc: "Nvidia RTX 3090",
+            price: "$8.99",
+            location: "Jakarta Selatan",
+            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum eius nulla nesciunt libero modi",
         },
         {
-            url: "Nvidia RTX 3090",
-            name: "Nvidia RTX 3090",
-            desc: "Nvidia RTX 3090",
+            url: "https://www.shutterstock.com/image-photo/computer-water-cooling-systeminside-air-600w-1210381663.jpg",
+            name: "Nvidia RTX 3080",
+            price: "$2.99",
+            location: "Jakarta Timur",
+            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum eius nulla nesciunt libero modi",
         },
         {
-            url: "Nvidia RTX 3090",
-            name: "Nvidia RTX 3090",
-            desc: "Nvidia RTX 3090",
+            url: "https://www.shutterstock.com/image-photo/computer-water-cooling-systeminside-air-260nw-1210381657.jpg",
+            name: "Nvidia RTX 3070",
+            price: "$5.99",
+            location: "Bekasi",
+            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum eius nulla nesciunt libero modi",
         },
         {
-            url: "Nvidia RTX 3090",
-            name: "Nvidia RTX 3090",
-            desc: "Nvidia RTX 3090",
+            url: "https://www.shutterstock.com/image-photo/powerful-personal-computer-gamer-rig-260nw-1430140061.jpg",
+            name: "Nvidia RTX 3060",
+            price: "$4.99",
+            location: "Jayapura",
+            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum eius nulla nesciunt libero modi",
         },
         {
-            url: "Nvidia RTX 3090",
-            name: "Nvidia RTX 3090",
-            desc: "Nvidia RTX 3090",
+            url: "https://www.shutterstock.com/image-photo/powerful-personal-computer-gamer-rig-260nw-1430140058.jpg",
+            name: "Nvidia RTX 2060",
+            price: "$1.99",
+            location: "Makassar",
+            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum eius nulla nesciunt libero modi",
         },
     ]
 }
