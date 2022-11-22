@@ -239,10 +239,71 @@
     min-height: 100vh;
     padding: 24px;
     color: #fff;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 
     @media screen and (max-width: 1280px){
         width: 80vw;
     }
+}
+
+.home-hero-container h1{
+    font-size: 10em;
+    margin-bottom: 5vh;
+
+    @media screen and (max-width: 1715px){
+        font-size: 7.5em;
+    }
+
+    @media screen and (max-width: 1300px){
+        font-size: 5em;
+    }
+
+    @media screen and (max-width: 768px){
+        margin-top: 100px;
+    }
+
+    @media screen and (max-width: 300px){
+        font-size: 3em;
+        margin-top: 100px;
+    }
+}
+
+.home-hero-container h3{
+    @media screen and (max-width: 768px){
+        font-size: 0.75em;
+    }
+}
+
+.hero-round-button{
+    margin-top: 3.5vh;
+    display: flex;
+    flex-direction: column;
+    width: 120px;
+    height: 120px;
+    border-radius: 1000px;
+    justify-content: center;
+    align-items: center;
+    background-color: #1c1d1d;
+    cursor: pointer;
+
+    @media screen and (max-width: 768px){
+        transform: scale(0.75);
+    }
+}
+
+.hero-round-button p{
+    margin-bottom: 0px;
+}
+
+.hero-round-button h2{
+    margin-top: 0px;
+}
+
+.hero-round-button:hover{
+    transform: scale(1.1);
+    transition: all 0.1s ease-in-out;
 }
 
 // BALANCES STYLES //
@@ -435,5 +496,17 @@ background: #151515;
 
     @media screen and (max-width: 1280px){
         width: 80vw;
+    }
+}
+
+.home-company-profile h1{
+    @media screen and (max-width: 768px){
+        font-size: 1.25em;
+    }
+}
+
+.home-company-profile h3{
+    @media screen and (max-width: 768px){
+        font-size: 0.75em;
     }
 }

@@ -116,23 +116,19 @@ export default function Home() {
                     <div className="home-section home-hero-section darker-bg-color">
                         <div className="home-hero-container justify-center">
                             <h1>
-                                Kenapa sih pilih WG ?
+                                WARUNK GAMINK
                             </h1>
                             <h3>
-                                Kategori Produk Terlengkap. Salah satu keunggulan yang bisa langsung dirasakan dengan belanja di Bukalapak adalah lengkapnya kategori produk. Halaman situs Bukalapak memiliki tampilan navigasi kategori barang untuk memudahkan pembeli dalam memilih produk yang dinginkan. Kategori tersedia lengkap mulai dari kebutuhan rumah tangga, elektronik rumah tangga, furniture rumah tangga, hingga gadget dan smartphone. Bukalapak juga dikenal baik sebagai toko online murah untuk kategori sepeda beserta aksesorisnya lengkap. Tidak hanya itu, tersedia juga produk fashion anak, pria, dan wanita, serta produk otomotif yang kini juga sudah tersedia dalam fitur BukaMobil.
+                                Butuh komputer cepet, high-end, high-res untuk keperluan rendering, gaming, kantor, atau apapun yang lu butuhin dengan spec tersebut ?
                             </h3>
-                            <h3>
-                                Promo Meriah. Selain lengkapnya kategori produk yang tersedia, Bukalapak juga menawarkan harga promo menarik setiap harinya yang bisa Anda akses pada halaman promo. Terdapat banyak pilihan promo dengan masa berlaku yang beragam untuk berbagai produk, di antaranya promo smartphone hingga promo tiket kereta murah. Caranya juga sangat mudah, Anda hanya perlu memasukkan kode voucher atau kode promo yang sedang berlaku untuk produk yang Anda inginkan.
-                            </h3>
-                            <h3>
-                                Virtual Product. Situs jual beli online Bukalapak juga menyediakan virtual product dalam bentuk e-voucher dan tiket, mulai dari tiket pesawat, tiket kereta, pulsa, paket data, tagihan listrik, token listrik, angsuran kredit, air PDAM, kartu prakerja hingga voucher game. Harga yang ditawarkan juga lebih murah dibandingkan toko lainnya sehingga belanja Anda lebih hemat. Tersedia juga fitur pembayaran zakat profesi yang bisa Anda bayarkan dengan sangat mudah dan praktis dengan bantuan kalkulator zakat untuk menghitung bayaran zakat yang sebaiknya dibayar.
-                            </h3>
-                            <h3>
-                                Aman dan Terpercaya. Belanja online di Bukalapak tidak perlu khawatir tertipu dengan adanya jaminan 100% aman. Pembeli diberikan jaminan 100% uang kembali apabila produk yang sudah Anda bayar tidak kunjung tiba di tempat Anda. Tak jarang orang yang khawatir tertipu sehingga memilih untuk beli offline. Singkirkan segala keraguan belanja online dengan adanya jaminan uang aman 100% di Bukalapak.
-                            </h3>
-                            <h3>
-                                Sistem Pembayaran Mudah. Situs belanja online terpercaya Bukalapak menawarkan beragam sistem pembayaran untuk memudahkan jual beli online Anda, di antaranya pembayaran yang praktis melalui BukaDompet, yakni dompet virtual yang bisa Anda isi dengan melakukan transfer sehingga memudahkan Anda dalam ativitas shoping setiap harinya di Bukalapak. Selain itu, ada juga pembayaran melalui bank transfer, instant payment melalui BCA KlikPay, Mandiri E-Cash, dan CIMB Clicks, serta sistem cicilan yang bisa Anda lakukan dengan kartu kredit dan juga cicilan Kredivo.
-                            </h3>
+                            <div className="hero-round-button">
+                                <p>
+                                    Scroll
+                                </p>
+                                <h2>
+                                    ↓
+                                </h2>
+                            </div>
                         </div>
                     </div>
                     <ImageSlider />
