@@ -92,7 +92,7 @@ export default function Home() {
                 <h3 className="margin-bottom-0 light-color">
                     {item.location}
                 </h3>
-                <h3 style={{ marginTop: "0.2em" }} className="margin-bottom-0 light-color">
+                <h3 style={{ marginTop: "0.2em" }} className="margin-bottom-0 main-color">
                     From {item.price}
                 </h3>
                 <p className="light-color">

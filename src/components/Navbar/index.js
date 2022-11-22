@@ -71,7 +71,7 @@ export default function Navbar() {
 
     const ShowMenuButtons = () => {
         return menus.map((menu, index) => {
-            return <Button key={`button-${index}`}>{menu.name}</Button>
+            return <Button onClick={() => navigate(menu.route)} key={`button-${index}`}>{menu.name}</Button>
         })
     }
 

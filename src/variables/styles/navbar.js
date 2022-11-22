@@ -2,15 +2,15 @@ export const getMenus = () => {
     return [
         {
             name: "Home",
-            url: "/"
+            route: "/"
         },
         {
             name: "Rental",
-            url: "/rental"
+            route: "/rental"
         },
         {
             name: "Finder",
-            url: "/finder"
+            route: "/finder"
         },
     ]
 }
