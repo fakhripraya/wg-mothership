@@ -154,3 +154,14 @@
 .grid-false {
   @include grid-template-areas($imgStart: false)
 }
+
+// APP COMPONENT // 
+.fixed-app-button{
+  width: 60px !important;
+  height: 60px !important;
+  padding: 12px;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  transition: all 0.3s ease-in-out;
+}

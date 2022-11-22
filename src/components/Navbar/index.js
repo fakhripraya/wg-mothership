@@ -4,12 +4,11 @@ import Button from '../Button';
 import Footer from '../Footer';
 import TextInput from '../TextInput';
 import { useNavigate } from 'react-router-dom';
-import { sendWACS } from '../../utils/functions/global';
 import OverridingContainer from '../OveriddingContainer';
 import WGLogo from '../../assets/images/ic_new_wg_logo.png';
 import ICHamburger from '../../assets/svg/ic_hamburg_3.svg';
 import { handleOpenLoginModal } from '../../utils/functions/credentials';
-import { styleInitialState, onScrollY, getMenus } from '../../variables/styles/navbar';
+import { getMenus } from '../../variables/styles/navbar';
 
 export default function Navbar() {
 

@@ -25,15 +25,18 @@
     z-index: 2;
     font-size: 1.5rem;
     color: #151515;
+    background-color: #fff;
+    width: 40px !important;
+    height: 40px !important;
 
     @media screen and (max-width: 1280px){
         font-size: larger;
-        padding: 6px 10px;
     }
 
     @media screen and (max-width: 768px){
         font-size: medium;
-        padding: 2px 8px;
+        width: 25px !important;
+        height: 25px !important;
     }
 }
 

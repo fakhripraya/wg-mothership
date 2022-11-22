@@ -8,6 +8,7 @@ import Button from '../../components/Button';
 export default function Home() {
 
     // HOOKS //
+    const heroRef = useRef();
     const flashSaleRef = useRef();
     const officialStoreRef = useRef();
     const recommendRenderingCarouselRef = useRef();
@@ -19,6 +20,10 @@ export default function Home() {
     let pos = { top: 0, left: 0, x: 0, y: 0 };
 
     // FUNCTIONS SPECIFIC //
+    function handleScrollToFirstSection() {
+        window.scrollTo({ top: heroRef.current.offsetHeight, behavior: "smooth" });
+    }
+
     function scrollCarousel(e, ele) {
 
         pos = {
@@ -113,15 +118,15 @@ export default function Home() {
         <Fragment>
             <div className="home-container">
                 <div className="home-wrapper">
-                    <div className="home-section home-hero-section darker-bg-color">
+                    <div ref={heroRef} className="home-section home-hero-section darker-bg-color">
                         <div className="home-hero-container justify-center">
                             <h1>
-                                WARUNK GAMINK
+                                WARUNK <span className="hero-span-text">GAMINK</span>
                             </h1>
                             <h3>
                                 Butuh komputer cepet, high-end, high-res untuk keperluan rendering, gaming, kantor, atau apapun yang lu butuhin dengan spec tersebut ?
                             </h3>
-                            <div className="hero-round-button">
+                            <div onClick={() => handleScrollToFirstSection()} className="hero-round-button">
                                 <p>
                                     Scroll
                                 </p>
@@ -211,7 +216,7 @@ export default function Home() {
                         <Button className="home-button">See More</Button>
                     </div>
                     <div className="home-company-section home-section">
-                        <div className="home-company-profile justify-center">
+                        <div className="home-company-profile lighter-color justify-center">
                             <h1>
                                 Kenapa sih pilih WG ?
                             </h1>
@@ -231,7 +236,7 @@ export default function Home() {
                                 Sistem Pembayaran Mudah. Situs belanja online terpercaya Bukalapak menawarkan beragam sistem pembayaran untuk memudahkan jual beli online Anda, di antaranya pembayaran yang praktis melalui BukaDompet, yakni dompet virtual yang bisa Anda isi dengan melakukan transfer sehingga memudahkan Anda dalam ativitas shoping setiap harinya di Bukalapak. Selain itu, ada juga pembayaran melalui bank transfer, instant payment melalui BCA KlikPay, Mandiri E-Cash, dan CIMB Clicks, serta sistem cicilan yang bisa Anda lakukan dengan kartu kredit dan juga cicilan Kredivo.
                             </h3>
                         </div>
-                        <div className="home-company-profile">
+                        <div className="home-company-profile lighter-color">
                             <h1>
                                 Kembangin warnet kalian !
                             </h1>
