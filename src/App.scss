@@ -23,11 +23,11 @@
 }
 
 .darker-color{
-  color: #151515;
+  color: #151515 !important;
 }
 
 .darker-bg-color{
-  color: #151515;
+  background-color: #151515 !important;
 }
 
 .light-color{
@@ -46,9 +46,23 @@
   background-color: #fff;
 }
 
+.red-color{
+  color: rgb(254, 44, 85);
+}
+
+.red-bg-color{
+  background-color: rgb(254, 44, 85);
+}
+
 /* Global Class Properties */
 .sticky-top{
   position: sticky !important;
+  top: 0px !important;
+  z-index: 999 !important;
+}
+
+.fixed-top{
+  position: fixed !important;
   top: 0px !important;
   z-index: 999 !important;
 }
@@ -93,18 +107,18 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #151515;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: transparent;
+  background: #fff;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: transparent;
+  background: #fff;
 }
 
 /* Handle grid event*/

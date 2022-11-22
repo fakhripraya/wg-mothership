@@ -1,18 +1,11 @@
-// DESKTOP VIEW //
-.navbar-header-container{
-    padding: 0px 0px;
-    width: 100%;
+// NAVBAR MAIN
+.navbar{
+    width: 100vw;
+    background-color: #151515;
     transition: all 0.5s ease-in-out;
-
-    @media screen and (max-width: 1000px) {
-        display: none;
-    }
 }
 
-.navbar-header-wrapper{
-    display: flex;
-    justify-content: flex-end;
-}
+// DESKTOP VIEW //
 
 .navbar-header-wrapper ul{
     list-style: none;
@@ -25,9 +18,8 @@
 }
 
 .navbar-container{
-    padding: 12px 0px;
     width: 100%;
-    transition: all 0.5s ease-in-out;
+    padding: 12px 0px;
 }
 
 .navbar-wrapper{
@@ -112,7 +104,7 @@
 
 .navbar-submenu-section{
     margin: auto;
-    margin-right: 0px !important;
+    margin-right: 12px !important;
     flex-direction: row;
     display: flex;
     justify-content: flex-end;

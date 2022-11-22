@@ -119,7 +119,7 @@
     justify-content: center;
     align-items: center;
     margin: auto auto;
-    border: 1px solid #0DA34D;
+    background-color: #1c1d1d;
     
     @media screen and (max-width: 1000px){
         padding: 8px !important;
@@ -150,6 +150,7 @@
     margin-bottom: 0px;
     white-space: nowrap;
     overflow: hidden;
+    letter-spacing: 1.5px;
     max-inline-size: 100%;
     text-overflow: ellipsis;
 }
@@ -162,6 +163,7 @@
     margin-top: 0px;
     white-space: nowrap;
     overflow: hidden;
+    letter-spacing: 1.5px;
     max-inline-size: 100%;
     text-overflow: ellipsis;
 }
@@ -204,6 +206,43 @@
     transform: scale(1) !important;
     background-color: #0DA34D !important;
     color: #fff;
+}
+
+.home-section{
+    margin-top: 5vw;
+    min-height: 100vh;
+    width: 100vw;
+
+    @media screen and (max-width: 1000px){
+        margin-top: 10vw;
+    }
+}
+
+// TOP SECTION //
+
+.home-hero-section{
+    margin-top: -10vh !important;
+    margin-bottom: 5vw;
+
+    @media screen and (max-width: 1000px){
+        margin-bottom: 10vw;
+    }
+}
+
+.home-hero-container{
+    opacity: 0.9;
+    width: 60vw;
+    margin: 0px auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 24px;
+    color: #fff;
+
+    @media screen and (max-width: 1280px){
+        width: 80vw;
+    }
 }
 
 // BALANCES STYLES //
@@ -337,7 +376,6 @@
     }
 }
 
-//TODO: Fix leftScrolling not scroll to the max
 .home-recommend-wrapper{
     display: flex;
     flex-direction: row;
@@ -356,18 +394,32 @@
     }
 }
 
+/* Scrollbar */
+/* width */
+.home-recommend-wrapper::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+/* Track */
+.home-recommend-wrapper::-webkit-scrollbar-track {
+background: #151515;
+}
+  
+/* Handle */
+.home-recommend-wrapper::-webkit-scrollbar-thumb {
+background: #151515;
+border-radius: 10px;
+}
+  
+/* Handle on hover */
+.home-recommend-wrapper::-webkit-scrollbar-thumb:hover {
+background: #151515;
+}
+
 // BOTTOM SECTION //
 
-.home-bottom-section{
-    margin-top: 5vw;
-    min-height: 100vh;
-    width: 100vw;
+.home-company-section{
     margin-bottom: -10vh;
-    background-color: #fff;
-
-    @media screen and (max-width: 1000px){
-        margin-top: 10vw;
-    }
 }
 
 .home-company-profile{

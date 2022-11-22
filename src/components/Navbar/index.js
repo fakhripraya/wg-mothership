@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useRef, useState } from 'react';
 import './style.scss';
 import Button from '../Button';
 import Footer from '../Footer';
-import { v4 as uuidv4 } from 'uuid';
 import TextInput from '../TextInput';
 import { useNavigate } from 'react-router-dom';
 import { sendWACS } from '../../utils/functions/global';
@@ -15,21 +14,19 @@ import { styleInitialState, onScrollY, getMenus } from '../../variables/styles/n
 export default function Navbar() {
 
     const navigate = useNavigate();
-    const navHeader = useRef();
+    const navbarRef = useRef();
     const [toggleMenu, setToggleMenu] = useState(false);
     const [login, setLogin] = useState(null);
     const [menus, setMenus] = useState(() => getMenus());
-    const [style, setStyle] = useState(styleInitialState);
 
     // FUNCTIONS SPECIFIC //
-    function handleStyleChange() {
-        if (window.scrollY >= 10)
-            setStyle(onScrollY(navHeader));
-        else
-            setStyle(styleInitialState);
-    }
 
     function handleOverridingMenu() {
+        if (!toggleMenu)
+            navbarRef.current.style.opacity = 0;
+        else
+            navbarRef.current.style.opacity = 1;
+
         setToggleMenu(!toggleMenu)
     }
 
@@ -81,25 +78,12 @@ export default function Navbar() {
 
     // RENDERS SPECIFIC //
     useEffect(() => {
-        window.addEventListener('scroll', handleStyleChange)
-        return () => {
-            window.removeEventListener('scroll', handleStyleChange)
-        }
     }, []);
 
     return (
         <Fragment>
-            <div className="sticky-top">
-                <div style={style.navbarHeader} className="navbar-header-container" ref={navHeader}>
-                    <div className="navbar-header-wrapper">
-                        <ul >
-                            <Button >Privacy and Policy</Button>
-                            <Button >Terms and Conditions</Button>
-                            <Button onClick={() => sendWACS()}>Customer Service</Button>
-                        </ul>
-                    </div>
-                </div>
-                <div style={style.navbar} className="navbar-container">
+            <div className="fixed-top navbar" ref={navbarRef}>
+                <div className="navbar-container">
                     <div className="navbar-wrapper">
                         <div className="navbar-logo-wrapper">
                             <img onClick={() => navigate('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
