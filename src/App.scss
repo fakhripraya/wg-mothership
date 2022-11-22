@@ -38,6 +38,14 @@
   background-color: aliceblue;
 }
 
+.lighter-color{
+  color: #fff;
+}
+
+.lighter-bg-color{
+  background-color: #fff;
+}
+
 /* Global Class Properties */
 .sticky-top{
   position: sticky !important;
@@ -71,6 +79,10 @@
 
 .cursor-pointer{
   cursor: pointer;
+}
+
+.justify-center{
+  justify-content: center;
 }
 
 /* Scrollbar */
