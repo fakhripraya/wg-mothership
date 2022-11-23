@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.scss';
 
 export default function Finder() {
 
+    // STATES //
+    const [breadcrumbs, setBreadcrumb] = useState([]);
+
+    // VARIABLES
     let pos = { top: 0, left: 0, x: 0, y: 0 };
 
     function scrollCarousel(e, ele) {
@@ -38,9 +42,25 @@ export default function Finder() {
         window.addEventListener('mouseup', mouseUpHandler);
     }
 
+    useEffect(()=>{
+        // INITIAL RENDER
+        const dummyBreadcrumb = ["Home","Graphical Renders","Tesla P100"];
+        setBreadcrumb(dummyBreadcrumb);
+    }, [])
+
     return (
         <div className="finder-container">
             <div className="finder-wrapper">
+                <div className="finder-breadcrumbs">
+                    {breadcrumbs.map((item)=>{
+                        if(item !== breadcrumbs[breadcrumbs.length - 1]) return <h3>{item + " > "}</h3>
+                        else return <h3>{item}</h3>
+                    })}
+                </div>
+                <div className="finder-title">
+                    <h2>THIS IS THE TITLE OF THE FINDER</h2>
+                </div>
+
             </div>
         </div>
     )

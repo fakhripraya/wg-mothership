@@ -204,7 +204,7 @@ export default function Home() {
                             <ShowGrabableCardCarousel uniqueKey={'official-stores'} arrayFunc={() => getRecommended()} />
                         </div>
                     </div>
-                    <img className="home-fullwidth-img" src={dummy[1].url} alt="-home-fullwidth-image"></img>
+                    <img className="home-fullwidth-img" src={dummy[1].url} alt="ads-2"></img>
                     <div className="home-element-container darker-bg-color">
                         <h1 className="home-recommend-title light-color">
                             ALL STORES
