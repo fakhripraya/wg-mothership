@@ -77,6 +77,9 @@ export default function Navbar() {
 
     // RENDERS SPECIFIC //
     useEffect(() => {
+        if(navbarRef.current){
+            navbarRef.current.style
+        }
     }, []);
 
     return (
