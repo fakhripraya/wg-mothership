@@ -1,14 +1,25 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, {
+    Fragment,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import './style.scss';
 import Button from '../Button';
 import Footer from '../Footer';
 import TextInput from '../TextInput';
-import { useNavigate } from 'react-router-dom';
+import {
+    useNavigate
+} from 'react-router-dom';
 import OverridingContainer from '../OveriddingContainer';
 import WGLogo from '../../assets/images/ic_new_wg_logo.png';
 import ICHamburger from '../../assets/svg/ic_hamburg_3.svg';
-import { handleOpenLoginModal } from '../../utils/functions/credentials';
-import { getMenus } from '../../variables/styles/navbar';
+import {
+    handleOpenLoginModal
+} from '../../utils/functions/credentials';
+import {
+    getMenus
+} from '../../variables/styles/navbar';
 
 export default function Navbar() {
 
@@ -77,9 +88,6 @@ export default function Navbar() {
 
     // RENDERS SPECIFIC //
     useEffect(() => {
-        if(navbarRef.current){
-            navbarRef.current.style
-        }
     }, []);
 
     return (

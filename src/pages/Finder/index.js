@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+    useEffect,
+    useState
+} from 'react';
 import './style.scss';
 
 export default function Finder() {
@@ -6,45 +9,11 @@ export default function Finder() {
     // STATES //
     const [breadcrumbs, setBreadcrumb] = useState([]);
 
-    // VARIABLES
-    let pos = { top: 0, left: 0, x: 0, y: 0 };
+    // COMPONENT FUNCTIONS //
 
-    function scrollCarousel(e, ele) {
-        pos = {
-            // The current scroll
-            left: ele.scrollLeft,
-            // Get the current mouse position
-            x: e.clientX,
-            y: e.clientY,
-        };
-
-        function mouseMoveHandler(e) {
-            // How far the mouse has been moved
-            const dx = e.clientX - pos.x;
-
-            // Scroll the element
-            ele.scrollLeft = pos.left - dx;
-        }
-
-        function mouseUpHandler() {
-            window.removeEventListener('mousemove', mouseMoveHandler);
-            window.removeEventListener('mouseup', mouseUpHandler);
-
-            ele.style.cursor = 'grab';
-            ele.style.removeProperty('user-select');
-        }
-
-        // Change the cursor and prevent user from selecting the text
-        ele.style.cursor = 'grabbing';
-        ele.style.userSelect = 'none';
-
-        window.addEventListener('mousemove', mouseMoveHandler);
-        window.addEventListener('mouseup', mouseUpHandler);
-    }
-
-    useEffect(()=>{
+    useEffect(() => {
         // INITIAL RENDER
-        const dummyBreadcrumb = ["Home","Graphical Renders","Tesla P100"];
+        const dummyBreadcrumb = ["Home", "Graphical Renders", "Tesla P100"];
         setBreadcrumb(dummyBreadcrumb);
     }, [])
 
@@ -52,15 +21,55 @@ export default function Finder() {
         <div className="finder-container">
             <div className="finder-wrapper">
                 <div className="finder-breadcrumbs">
-                    {breadcrumbs.map((item)=>{
-                        if(item !== breadcrumbs[breadcrumbs.length - 1]) return <h3>{item + " > "}</h3>
+                    {breadcrumbs.map((item) => {
+                        if (item !== breadcrumbs[breadcrumbs.length - 1]) return <h3>{item}</h3>
                         else return <h3>{item}</h3>
                     })}
                 </div>
                 <div className="finder-title">
                     <h2>THIS IS THE TITLE OF THE FINDER</h2>
                 </div>
+                <div className="finder-flex-container">
+                    <div className="finder-tools-container">
+                        <h2>Category</h2>
+                    </div>
+                    <div className="finder-cards-container">
+                        <div className="finder-cards-header">
+                            <div className="finder-cards-counter">
+                                <span>asdasdas</span>
+                                <strong>asdasdasd</strong>
+                            </div>
+                            <div className="finder-dropdown-container">
+                                <span className="finder-dropdown-title">Sort by: </span>
+                                <div className="finder-dropdown-button-container">
+                                    <button className="finder-dropdown-button-wrapper">
+                                        <label className="finder-dropdown-button-label">
+                                            <span className="light-color">Fittest</span>
+                                        </label>
+                                        <span className="finder-dropdown-button-label-after" ></span>
+                                    </button>
+                                    <div className="filter-dropdown-items-container">
+                                        <ul className="filter-dropdown-items-unordered-list">
+                                            <li className="filter-dropdown-items-list">
+                                                <button className="filter-dropdow-list-button">
+                                                    <span>Fittest</span>
+                                                </button>
+                                            </li>
+                                            <li className="filter-dropdown-items-list">
+                                                <button className="filter-dropdow-list-button">
+                                                    <span>Jancokest</span>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="finder-cards-wrapper">
 
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )

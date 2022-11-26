@@ -9,6 +9,7 @@
     margin: 0px auto;
     position: relative;
     align-items: center;
+    -webkit-box-align: center;
     display: flex;
     flex-direction: column;
     @media screen and (max-width: 1280px){

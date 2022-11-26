@@ -11,6 +11,7 @@
     min-height: 100px;
     display: flex;
     align-items: center;
+    -webkit-box-align: center;
     justify-content: center;
 
     @media screen and (max-width: 1000px) {
@@ -143,6 +144,7 @@
     max-inline-size: 80vw;
     justify-content: center;
     align-items: center;
+    -webkit-box-align: center;
 }
 
 .footer-logo-img{

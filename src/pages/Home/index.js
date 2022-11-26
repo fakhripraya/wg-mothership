@@ -1,9 +1,23 @@
-import React, { Fragment, useEffect, useRef } from 'react';
-import ImageSlider from '../../components/ImageSlider';
-import { getBalanceTools, getGrid, getRecommended, getRecommendedGaming, getRecommendedGraphicRendering } from '../../variables/styles/home';
+import React, {
+    Fragment,
+    useEffect,
+    useRef
+} from 'react';
 import './style.scss';
-import dummy from "../../config/json/development/carouselDummy.json";
 import Button from '../../components/Button';
+import ImageSlider from '../../components/ImageSlider';
+import dummy from "../../config/json/development/carouselDummy.json";
+import {
+    scrollCarousel
+} from '../../utils/functions/global';
+import {
+    getBalanceTools,
+    getGrid, getRecommended,
+    getRecommendedGaming,
+    getRecommendedGraphicRendering
+} from '../../variables/styles/home';
+import Tag from '../../components/Tag';
+import Card from '../../components/Card';
 
 export default function Home() {
 
@@ -14,48 +28,11 @@ export default function Home() {
     const recommendRenderingCarouselRef = useRef();
     const recommendGamingCarouselRef = useRef();
     const recommendCarouselRef = useRef();
-    const gridRefs = {}
-
-    // VARIABLES //
-    let pos = { top: 0, left: 0, x: 0, y: 0 };
+    const gridRefs = {};
 
     // FUNCTIONS SPECIFIC //
     function handleScrollToFirstSection() {
         window.scrollTo({ top: heroRef.current.offsetHeight, behavior: "smooth" });
-    }
-
-    function scrollCarousel(e, ele) {
-
-        pos = {
-            // The current scroll
-            left: ele.scrollLeft,
-            // Get the current mouse position
-            x: e.clientX,
-            y: e.clientY,
-        };
-
-        function mouseMoveHandler(e) {
-            // How far the mouse has been moved
-            const dx = e.clientX - pos.x;
-
-            // Scroll the element
-            ele.scrollLeft = pos.left - dx;
-        }
-
-        function mouseUpHandler() {
-            window.removeEventListener('mousemove', mouseMoveHandler);
-            window.removeEventListener('mouseup', mouseUpHandler);
-
-            ele.style.cursor = 'grab';
-            ele.style.removeProperty('user-select');
-        }
-
-        // Change the cursor and prevent user from selecting the text
-        ele.style.cursor = 'grabbing';
-        ele.style.userSelect = 'none';
-
-        window.addEventListener('mousemove', mouseMoveHandler);
-        window.addEventListener('mouseup', mouseUpHandler);
     }
 
     // COMPONENTS SPECIFIC //
@@ -74,31 +51,19 @@ export default function Home() {
 
     const ShowGrabableCarouselTag = (props) => {
         return props.arrayFunc().map((item, index) => {
-            return <div key={`carousel-${props.uniqueKey}-${index}`} className="home-carousel-box home-carousel-tag main-bg-color">
-                <h1 className="light-color">
-                    {item.name}
-                </h1>
-            </div>
+            return <Tag key={`carousel-${props.uniqueKey}-${index}`} text={item.name} />
         })
     }
 
     const ShowGrabableCardCarousel = (props) => {
         return props.arrayFunc().map((item, index) => {
-            return <div key={`carousel-${props.uniqueKey}-${index}`} className="home-carousel-box home-card">
-                <img className="home-card-img" src={item.url} alt={item.name}></img>
-                <h1 className="light-color">
-                    {item.name}
-                </h1>
-                <h3 className="margin-bottom-0 light-color">
-                    {item.location}
-                </h3>
-                <h3 style={{ marginTop: "0.2em" }} className="margin-bottom-0 main-color">
-                    From {item.price}
-                </h3>
-                <p className="light-color">
-                    {item.desc}
-                </p>
-            </div>
+            return <Card
+                key={`carousel-${props.uniqueKey}-${index}`}
+                imgUrl={item.url}
+                title={item.name}
+                location={item.location}
+                price={item.price}
+                desc={item.desc} />
         })
     }
 
