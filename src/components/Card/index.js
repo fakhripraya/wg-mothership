@@ -3,7 +3,7 @@ import './style.scss';
 
 export default function Card(props) {
     return (
-        <div className="card-container">
+        <div className={"card-container " + props.className}>
             <img className="card-img" src={props.imgUrl} alt={props.title}></img>
             <h1 className="light-color">
                 {props.title}

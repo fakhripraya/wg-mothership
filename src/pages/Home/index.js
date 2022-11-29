@@ -21,7 +21,7 @@ import Card from '../../components/Card';
 
 export default function Home() {
 
-    // HOOKS //
+    // REFS //
     const heroRef = useRef();
     const flashSaleRef = useRef();
     const officialStoreRef = useRef();

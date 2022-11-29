@@ -358,9 +358,6 @@
     gap: 12px;
     cursor: grab;
 
-    @media screen and (max-width: 768px){
-        padding: 18px;
-    }
     @media screen and (max-width: 400px){
         padding: 12px;
     }
