@@ -2,6 +2,7 @@ import React, {
     useEffect,
     useState
 } from 'react';
+import Dropdown from '../../components/Dropdown';
 import './style.scss';
 
 export default function Finder() {
@@ -9,7 +10,8 @@ export default function Finder() {
     // STATES //
     const [breadcrumbs, setBreadcrumb] = useState([]);
 
-    // COMPONENT FUNCTIONS //
+    // FUNCTIONS SPECIFIC //
+    
 
     useEffect(() => {
         // INITIAL RENDER
@@ -21,9 +23,9 @@ export default function Finder() {
         <div className="finder-container">
             <div className="finder-wrapper">
                 <div className="finder-breadcrumbs">
-                    {breadcrumbs.map((item) => {
-                        if (item !== breadcrumbs[breadcrumbs.length - 1]) return <h3>{item}</h3>
-                        else return <h3>{item}</h3>
+                    {breadcrumbs.map((item,index) => {
+                        if (item !== breadcrumbs[breadcrumbs.length - 1]) return <h3 key={`${item}-${index}`} >{item}</h3>
+                        else return <h3 key={`${item}-${index}`}>{item}</h3>
                     })}
                 </div>
                 <div className="finder-title">
@@ -39,31 +41,7 @@ export default function Finder() {
                                 <span>asdasdas</span>
                                 <strong>asdasdasd</strong>
                             </div>
-                            <div className="finder-dropdown-container">
-                                <span className="finder-dropdown-title">Sort by: </span>
-                                <div className="finder-dropdown-button-container">
-                                    <button className="finder-dropdown-button-wrapper">
-                                        <label className="finder-dropdown-button-label">
-                                            <span className="light-color">Fittest</span>
-                                        </label>
-                                        <span className="finder-dropdown-button-label-after" ></span>
-                                    </button>
-                                    <div className="filter-dropdown-items-container">
-                                        <ul className="filter-dropdown-items-unordered-list">
-                                            <li className="filter-dropdown-items-list">
-                                                <button className="filter-dropdow-list-button">
-                                                    <span>Fittest</span>
-                                                </button>
-                                            </li>
-                                            <li className="filter-dropdown-items-list">
-                                                <button className="filter-dropdow-list-button">
-                                                    <span>Jancokest</span>
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                            <Dropdown toggle={true} values={["Fittest","Jancokest"]}/>
                         </div>
                         <div className="finder-cards-wrapper">
 
