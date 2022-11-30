@@ -20,7 +20,7 @@ export default function Finder() {
     // COMPONENTS SPECIFIC //
     const ShowBreadcrumbs = () => {
         let breadCrumbTexts = "";
-        breadcrumbs.forEach((item) => breadCrumbTexts += `${item} > `);
+        breadcrumbs.forEach((item) => breadCrumbTexts += `${item} - `);
         breadCrumbTexts = breadCrumbTexts.slice(0, -2);
         return <h3>{breadCrumbTexts}</h3>
     }

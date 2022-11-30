@@ -22,7 +22,7 @@ export default function Dropdown(props) {
                 <label className="dropdown-value dropdown-button-label">
                     <span className="light-color">{value}</span>
                 </label>
-                <span className="dropdown-button-label-after" ></span>
+                <span style={{ transform: toggle === true ? "rotate(0deg)" : "rotate(180deg)" }} className="dropdown-button-label-after" />
             </button>
             <div className={
                 toggle === false ?
