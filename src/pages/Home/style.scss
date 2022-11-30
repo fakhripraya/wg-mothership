@@ -361,8 +361,12 @@
     justify-content: flex-start;
     gap: 12px;
     cursor: grab;
-    padding: 12px 0px;
+    padding: 18px 0px;
     padding-bottom: 0px !important;
+
+    @media screen and (max-width: 2500px){
+        padding: 12px 0px;
+    }
 }
 
 /* Scrollbar */
