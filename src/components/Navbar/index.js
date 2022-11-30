@@ -20,6 +20,7 @@ import {
 import {
     getMenus
 } from '../../variables/styles/navbar';
+import Dropdown from '../Dropdown';
 
 export default function Navbar() {
 
@@ -56,9 +57,9 @@ export default function Navbar() {
                 <Button >Search</Button>
             </li>
             <li className="navbar-menu-item-wrapper">
-                <Button >Device</Button>
-                <Button >Pricing</Button>
-                <Button >Location</Button>
+                <Dropdown showTitle={false} toggle={true} values={["Fittest", "Jancokest"]} />
+                <Dropdown showTitle={false} toggle={true} values={["Fittest", "Jancokest"]} />
+                <Dropdown showTitle={false} toggle={true} values={["Fittest", "Jancokest"]} />
             </li>
         </Fragment>
     }

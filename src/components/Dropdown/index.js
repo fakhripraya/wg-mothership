@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import "./styles.scss";
 
 export default function Dropdown(props) {
@@ -16,8 +16,8 @@ export default function Dropdown(props) {
 
     return <div
         className="dropdown-container">
-        <span className="dropdown-title">Sort by: </span>
-        <div className="dropdown-button-container">
+        <span style={{ display: props.showTitle === false && "none" }} className="dropdown-title">Sort by: </span>
+        <div style={props.style} className="dropdown-button-container">
             <button onClick={() => handleOpenFilter()} className="dropdown-button-wrapper">
                 <label className="dropdown-value dropdown-button-label">
                     <span className="light-color">{value}</span>

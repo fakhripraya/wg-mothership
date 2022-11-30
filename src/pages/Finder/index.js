@@ -105,7 +105,7 @@ export default function Finder() {
                                 <span>Showing 1 - 60 products of 257k of </span>
                                 <strong>Graphical Render</strong>
                             </div>
-                            <Dropdown toggle={true} values={["Fittest", "Jancokest"]} />
+                            <Dropdown style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={["Fittest", "Jancokest"]} />
                         </div>
                         <div className="finder-cards-wrapper">
                             <ShowGridCardCarousel arrayFunc={() => getGrid()} />
