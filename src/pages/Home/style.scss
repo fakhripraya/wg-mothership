@@ -357,9 +357,12 @@
     justify-content: flex-start;
     gap: 12px;
     cursor: grab;
+}
 
-    @media screen and (max-width: 400px){
-        padding: 12px;
+.home-first-recommend-wrapper{
+    @media screen and (max-width: 768px){
+        padding-top: 18px;
+        padding-bottom: 0px !important;
     }
 }
 

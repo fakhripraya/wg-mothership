@@ -69,7 +69,7 @@ export default function Home() {
 
     const ShowGridCardCarousel = (props) => {
         return props.arrayFunc().map((item, index) => {
-            return <div key={'all-stores-' + `${index}`} onMouseDown={(event) => scrollCarousel(event, gridRefs[index])} className="home-recommend-wrapper" ref={ref => gridRefs[index] = ref}>
+            return <div key={'all-stores-' + `${index}`} onMouseDown={(event) => scrollCarousel(event, gridRefs[index])} className={"home-recommend-wrapper " + item.className} ref={ref => gridRefs[index] = ref}>
                 <ShowGrabableCardCarousel uniqueKey={'all-stores-' + `id-${index}`} arrayFunc={() => item.arrayFunc()} />
             </div>
         })
@@ -109,7 +109,7 @@ export default function Home() {
                         <h3 className="home-recommend-subtitle light-color">
                             Counting countdown: 58:34:21 - <span className="cursor-pointer main-color">See more</span>
                         </h3>
-                        <div onMouseDown={(event) => scrollCarousel(event, flashSaleRef.current)} className="home-recommend-wrapper" ref={flashSaleRef}>
+                        <div onMouseDown={(event) => scrollCarousel(event, flashSaleRef.current)} className="home-recommend-wrapper home-first-recommend-wrapper" ref={flashSaleRef}>
                             <ShowGrabableCardCarousel uniqueKey={'flash-sale'} arrayFunc={() => getRecommended()} />
                         </div>
                     </div>
@@ -135,7 +135,7 @@ export default function Home() {
                         <h1 className="home-recommend-title light-color">
                             RECOMMENDED FOR GRAPHIC RENDERING
                         </h1>
-                        <div onMouseDown={(event) => scrollCarousel(event, recommendRenderingCarouselRef.current)} className="home-recommend-wrapper" ref={recommendRenderingCarouselRef}>
+                        <div onMouseDown={(event) => scrollCarousel(event, recommendRenderingCarouselRef.current)} className="home-recommend-wrapper home-first-recommend-wrapper" ref={recommendRenderingCarouselRef}>
                             <ShowGrabableCarouselTag uniqueKey={'recommend-graphic-rendering'} arrayFunc={() => getRecommendedGraphicRendering()} />
                         </div>
                     </div>
@@ -143,7 +143,7 @@ export default function Home() {
                         <h1 className="home-recommend-title light-color">
                             RECOMMENDED FOR GAMING
                         </h1>
-                        <div onMouseDown={(event) => scrollCarousel(event, recommendGamingCarouselRef.current)} className="home-recommend-wrapper" ref={recommendGamingCarouselRef}>
+                        <div onMouseDown={(event) => scrollCarousel(event, recommendGamingCarouselRef.current)} className="home-recommend-wrapper home-first-recommend-wrapper" ref={recommendGamingCarouselRef}>
                             <ShowGrabableCarouselTag uniqueKey={'recommend-gaming'} arrayFunc={() => getRecommendedGaming()} />
                         </div>
                     </div>
@@ -154,7 +154,7 @@ export default function Home() {
                         <h3 className="home-recommend-subtitle cursor-pointer main-color">
                             See more
                         </h3>
-                        <div onMouseDown={(event) => scrollCarousel(event, recommendCarouselRef.current)} className="home-recommend-wrapper" ref={recommendCarouselRef}>
+                        <div onMouseDown={(event) => scrollCarousel(event, recommendCarouselRef.current)} className="home-recommend-wrapper home-first-recommend-wrapper" ref={recommendCarouselRef}>
                             <ShowGrabableCardCarousel uniqueKey={'recommend-for-you'} arrayFunc={() => getRecommended()} />
                         </div>
                     </div>
@@ -165,7 +165,7 @@ export default function Home() {
                         <h3 className="home-recommend-subtitle cursor-pointer main-color">
                             See more
                         </h3>
-                        <div onMouseDown={(event) => scrollCarousel(event, officialStoreRef.current)} className="home-recommend-wrapper" ref={officialStoreRef}>
+                        <div onMouseDown={(event) => scrollCarousel(event, officialStoreRef.current)} className="home-recommend-wrapper home-first-recommend-wrapper" ref={officialStoreRef}>
                             <ShowGrabableCardCarousel uniqueKey={'official-stores'} arrayFunc={() => getRecommended()} />
                         </div>
                     </div>

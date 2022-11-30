@@ -18,10 +18,17 @@ export default function Finder() {
     const [breadcrumbs, setBreadcrumb] = useState([]);
 
     // COMPONENTS SPECIFIC //
+    const ShowBreadcrumbs = () => {
+        let breadCrumbTexts = "";
+        breadcrumbs.forEach((item) => breadCrumbTexts += `${item} > `);
+        breadCrumbTexts = breadCrumbTexts.slice(0, -2);
+        return <h3>{breadCrumbTexts}</h3>
+    }
+
     const ShowGrabableCardCarousel = (props) => {
         return props.arrayFunc().map((item, index) => {
             return <Card
-                className="darker-bg-color"
+                className="dark-bg-color"
                 key={`finding-carousel-${props.uniqueKey}-${index}`}
                 imgUrl={item.url}
                 title={item.name}
@@ -52,10 +59,7 @@ export default function Finder() {
         <div className="finder-container">
             <div className="finder-wrapper">
                 <div className="finder-breadcrumbs">
-                    {breadcrumbs.map((item, index) => {
-                        if (item !== breadcrumbs[breadcrumbs.length - 1]) return <h3 key={`${item}-${index}`} >{item}</h3>
-                        else return <h3 key={`${item}-${index}`}>{item}</h3>
-                    })}
+                    <ShowBreadcrumbs />
                 </div>
                 <div className="finder-title">
                     <h2>THIS IS THE TITLE OF THE FINDER</h2>
@@ -98,10 +102,7 @@ export default function Finder() {
                     <div className="finder-cards-container">
                         <div className="finder-cards-header">
                             <div className="finder-cards-counter">
-                                <span>Showing </span>
-                                <span>1 - 60 </span>
-                                <span>products of </span>
-                                <span>257k of </span>
+                                <span>Showing 1 - 60 products of 257k of </span>
                                 <strong>Graphical Render</strong>
                             </div>
                             <Dropdown toggle={true} values={["Fittest", "Jancokest"]} />
