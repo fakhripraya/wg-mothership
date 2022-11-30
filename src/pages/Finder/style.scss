@@ -183,6 +183,10 @@
 .finder-cards-wrapper{
     border-radius: 1em;
     padding: 1em 0px;
+
+    @media screen and (max-width: 768px){
+        padding-top: 0px !important;
+    }
 }
 
 .finder-cards-button-wrapper{
@@ -201,12 +205,17 @@
     justify-content: flex-start;
     gap: 12px;
     cursor: grab;
+
+    @media screen and (max-width: 768px){
+        padding: 18px 0px;
+        padding-bottom: 0px !important;
+    }
 }
 
 /* Scrollbar */
 /* width */
 .finder-cards-grid-wrapper::-webkit-scrollbar {
-    width: 10px;
+    display: none;
 }
   
 /* Track */

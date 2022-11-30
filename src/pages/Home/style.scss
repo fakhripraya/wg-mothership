@@ -357,11 +357,9 @@
     justify-content: flex-start;
     gap: 12px;
     cursor: grab;
-}
-
-.home-first-recommend-wrapper{
+    
     @media screen and (max-width: 768px){
-        padding-top: 18px;
+        padding: 18px 0px;
         padding-bottom: 0px !important;
     }
 }
@@ -369,8 +367,8 @@
 /* Scrollbar */
 /* width */
 .home-recommend-wrapper::-webkit-scrollbar {
-    width: 10px;
-  }
+    display: none;
+}
   
 /* Track */
 .home-recommend-wrapper::-webkit-scrollbar-track {

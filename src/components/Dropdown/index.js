@@ -16,7 +16,7 @@ export default function Dropdown(props) {
 
     return <div
         className="dropdown-container">
-        <span style={{ display: props.showTitle === false && "none" }} className="dropdown-title">Sort by: </span>
+        <span style={{ display: props.showTitle === false && "none" }} className="dropdown-title">Sort by : </span>
         <div style={props.style} className="dropdown-button-container">
             <button onClick={() => handleOpenFilter()} className="dropdown-button-wrapper">
                 <label className="dropdown-value dropdown-button-label">
