@@ -138,7 +138,6 @@ export const getGridItems = () => {
 export const getGrid = () => {
     return [
         {
-            className: "home-first-recommend-wrapper",
             arrayFunc: () => getGridItems()
         },
         {
