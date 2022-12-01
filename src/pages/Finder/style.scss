@@ -156,6 +156,68 @@
     }
 }
 
+.finder-cards-top-header-container{
+    display: flex;
+    flex-direction: row;
+    border-radius: 24px;
+    justify-content: flex-start;
+    padding: 0px 0px 18px 0px;
+
+    @media screen and (max-width: 2500px){
+        padding: 0px 0px 12px 0px;
+    }
+}
+
+.finder-filter-button{
+    scale: 2;
+    border-style: none;
+    cursor: pointer;
+    border-radius: 100px;
+    height: 60px !important;
+    width: 60px !important;
+    transition: all 0.3s ease-in-out;
+    background-image: url('../../assets//svg/caret-right-solid.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    justify-self: center;
+    align-self: center;
+    display: none;
+    margin-right: 18px;
+    background-color: transparent;
+    box-shadow: none !important;
+
+    @media screen and (max-width: 2500px){
+        margin-right: 12px;
+    }
+
+    @media screen and (max-width: 1000px){
+        display: flex;
+    }
+  
+    @media screen and (max-width: 768px) {
+      width: 40px !important;
+      height: 40px !important;
+    }
+}
+
+.finder-cards-tag-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    border-radius: 24px;
+    align-items: center;
+    -webkit-box-align: center;
+    justify-content: flex-start;
+    gap: 12px;
+    cursor: grab;
+}
+
+/* Scrollbar */
+/* width */
+.finder-cards-tag-container::-webkit-scrollbar {
+    display: none;
+}
+
 .finder-cards-header {
     background-color: #1c1d1d;
     display: flex;

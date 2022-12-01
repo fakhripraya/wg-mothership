@@ -168,4 +168,9 @@
   bottom: 24px;
   right: 24px;
   transition: all 0.3s ease-in-out;
+
+  @media screen and (max-width: 768px) {
+    width: 40px !important;
+    height: 40px !important;
+  }
 }

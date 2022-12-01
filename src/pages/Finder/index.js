@@ -1,5 +1,6 @@
 import React, {
     useEffect,
+    useRef,
     useState
 } from 'react';
 import Dropdown from '../../components/Dropdown';
@@ -7,11 +8,14 @@ import Button from '../../components/Button';
 import './style.scss';
 import Card from '../../components/Card';
 import { scrollCarousel } from '../../utils/functions/global';
-import { getGrid } from '../../variables/styles/home';
+import { getGrid, getRecommendedGaming } from '../../variables/styles/home';
+import Tag from '../../components/Tag';
+import FloatButton from '../../components/FloatButton';
 
 export default function Finder() {
 
     // REFS //
+    const finderTagRef = useRef();
     const gridRefs = {};
 
     // STATES //
@@ -23,6 +27,12 @@ export default function Finder() {
         breadcrumbs.forEach((item) => breadCrumbTexts += `${item} - `);
         breadCrumbTexts = breadCrumbTexts.slice(0, -2);
         return <h3>{breadCrumbTexts}</h3>
+    }
+
+    const ShowGrabableCarouselTag = (props) => {
+        return props.arrayFunc().map((item, index) => {
+            return <Tag key={`carousel-${props.uniqueKey}-${index}`} text={item.name} textStyle={{ marginTop: "12px", marginBottom: "12px" }} />
+        })
     }
 
     const ShowGrabableCardCarousel = (props) => {
@@ -100,6 +110,13 @@ export default function Finder() {
                         </div>
                     </div>
                     <div className="finder-cards-container">
+                        <div className="finder-cards-top-header-container" >
+                            <FloatButton className="finder-filter-button">
+                            </FloatButton>
+                            <div onMouseDown={(event) => scrollCarousel(event, finderTagRef.current)} className="finder-cards-tag-container" ref={finderTagRef}>
+                                <ShowGrabableCarouselTag uniqueKey={'finder-tag'} arrayFunc={() => getRecommendedGaming()} />
+                            </div>
+                        </div>
                         <div className="finder-cards-header">
                             <div className="finder-cards-counter">
                                 <span>Showing 1 - 60 products of 257k of </span>
