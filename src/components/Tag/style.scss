@@ -1,13 +1,3 @@
-/* Handle event*/
-@mixin shrink-size() {
-    @media screen and (max-width: 1280px){
-        font-size: 0.75rem;
-    }
-    @media screen and (max-width: 450px){
-        font-size: 0.5rem;
-    }
-}
-
 @mixin shrink-padding($isCounter: false) {
     @media screen and (max-width: 1280px){
         @if $isCounter {
@@ -46,7 +36,6 @@
     width: fit-content;
     white-space: nowrap;
     @include shrink-padding($isCounter: false);
-    @include shrink-size();
 }
 
 .tag-container:hover{

@@ -39,9 +39,9 @@ export default function Home() {
     const ShowTools = () => {
         return getBalanceTools().map((items, index) => {
             return <div key={`tool-${index}`} className="home-balance-box home-balance-tools-box main-bg-color">
-                <h1 className="home-title-balance light-color">
+                <h2 className="home-title-balance light-color">
                     {items.name}
-                </h1>
+                </h2>
                 <p className="home-desc-balance light-color">
                     {items.desc}
                 </p>
@@ -103,9 +103,9 @@ export default function Home() {
                     </div>
                     <ImageSlider />
                     <div className="home-element-container darker-bg-color">
-                        <h1 className="home-recommend-title light-color">
+                        <h2 className="home-recommend-title light-color">
                             FLASH RENTAL
-                        </h1>
+                        </h2>
                         <h3 className="home-recommend-subtitle light-color">
                             Counting countdown: 58:34:21 - <span className="cursor-pointer main-color">See more</span>
                         </h3>
@@ -132,25 +132,25 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="home-element-container darker-bg-color">
-                        <h1 className="home-recommend-title light-color">
+                        <h2 className="home-recommend-title light-color">
                             RECOMMENDED FOR GRAPHIC RENDERING
-                        </h1>
+                        </h2>
                         <div onMouseDown={(event) => scrollCarousel(event, recommendRenderingCarouselRef.current)} className="home-recommend-wrapper" ref={recommendRenderingCarouselRef}>
                             <ShowGrabableCarouselTag uniqueKey={'recommend-graphic-rendering'} arrayFunc={() => getRecommendedGraphicRendering()} />
                         </div>
                     </div>
                     <div className="home-element-container darker-bg-color">
-                        <h1 className="home-recommend-title light-color">
+                        <h2 className="home-recommend-title light-color">
                             RECOMMENDED FOR GAMING
-                        </h1>
+                        </h2>
                         <div onMouseDown={(event) => scrollCarousel(event, recommendGamingCarouselRef.current)} className="home-recommend-wrapper" ref={recommendGamingCarouselRef}>
                             <ShowGrabableCarouselTag uniqueKey={'recommend-gaming'} arrayFunc={() => getRecommendedGaming()} />
                         </div>
                     </div>
                     <div className="home-element-container darker-bg-color">
-                        <h1 className="home-recommend-title light-color">
+                        <h2 className="home-recommend-title light-color">
                             RECOMMENDED FOR YOU
-                        </h1>
+                        </h2>
                         <h3 className="home-recommend-subtitle cursor-pointer main-color">
                             See more
                         </h3>
@@ -159,9 +159,9 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="home-element-container darker-bg-color">
-                        <h1 className="home-recommend-title light-color">
+                        <h2 className="home-recommend-title light-color">
                             OFFICIAL STORES
-                        </h1>
+                        </h2>
                         <h3 className="home-recommend-subtitle cursor-pointer main-color">
                             See more
                         </h3>
@@ -171,9 +171,9 @@ export default function Home() {
                     </div>
                     <img className="home-fullwidth-img" src={dummy[1].url} alt="ads-2"></img>
                     <div className="home-element-container darker-bg-color">
-                        <h1 className="home-recommend-title light-color">
+                        <h2 className="home-recommend-title light-color">
                             ALL STORES
-                        </h1>
+                        </h2>
                         <h3 className="home-recommend-subtitle ">
                             Look for all available stores - <span className="cursor-pointer main-color">See more</span>
                         </h3>
@@ -181,7 +181,7 @@ export default function Home() {
                         <Button className="home-button home-grid-button">See More</Button>
                     </div>
                     <div className="home-company-section home-section">
-                        <div className="home-company-profile lighter-color justify-center">
+                        <div className="home-company-profile lighter-color">
                             <h1>
                                 Kenapa sih pilih WG ?
                             </h1>

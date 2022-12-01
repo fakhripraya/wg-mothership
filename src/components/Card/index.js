@@ -5,9 +5,9 @@ export default function Card(props) {
     return (
         <div className={"card-container " + props.className}>
             <img className="card-img" src={props.imgUrl} alt={props.title}></img>
-            <h1 className="light-color">
+            <h2 className="light-color">
                 {props.title}
-            </h1>
+            </h2>
             <h3 className="margin-bottom-0 light-color">
                 {props.location}
             </h3>
