@@ -39,9 +39,9 @@ export default function Home() {
     const ShowTools = () => {
         return getBalanceTools().map((items, index) => {
             return <div key={`tool-${index}`} className="home-balance-box home-balance-tools-box main-bg-color">
-                <h2 className="home-title-balance light-color">
+                <h3 className="home-title-balance light-color">
                     {items.name}
-                </h2>
+                </h3>
                 <p className="home-desc-balance light-color">
                     {items.desc}
                 </p>
