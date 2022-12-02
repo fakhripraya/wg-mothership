@@ -15,7 +15,7 @@ import {
     getGrid, getRecommended,
     getRecommendedGaming,
     getRecommendedGraphicRendering
-} from '../../variables/styles/home';
+} from '../../variables/dummy/home';
 import Tag from '../../components/Tag';
 import Card from '../../components/Card';
 

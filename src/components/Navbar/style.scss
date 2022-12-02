@@ -1,8 +1,7 @@
 // NAVBAR MAIN
 .navbar{
     width: 100vw;
-    background-color: #151515;
-    transition: all 0.5s ease-in-out;
+    background-color: #0DA34D;
     font-size: 1.15em;
 }
 
@@ -20,7 +19,11 @@
 
 .navbar-container{
     width: 100%;
-    padding: 12px 0px;
+    padding: 12px 0px 0px 0px;
+
+    @media screen and (max-width: 1000px) {
+        padding: 12px 0px;
+    }
 }
 
 .navbar-wrapper{

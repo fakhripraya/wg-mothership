@@ -1,5 +1,5 @@
 .bottom-sheet-background {
-  position: sticky;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100vw;
@@ -15,12 +15,12 @@
   width: 100vw;
   height: auto;
   max-height: 50%;
+  transform: translateY(100%);
   border: 1px solid rgba(0, 0, 0, 0.2);
   z-index: 1001;
   overflow-y: scroll;
   overflow-x: hidden;
-  transform: translateY(100%);
-  transition: transform 0.1s ease-in;
+  transition: transform 0.4s ease-out;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -54,11 +54,12 @@
   position: relative;
   width: 25%;
   height: 10px;
-  left: 37.5%;
   border-radius: 10px;
   text-decoration: none;
   outline: none;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0);
   cursor: pointer;
+  margin: 6px auto ;
+  display: block;
 }

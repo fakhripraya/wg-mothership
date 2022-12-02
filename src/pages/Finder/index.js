@@ -1,4 +1,5 @@
 import React, {
+    Fragment,
     useEffect,
     useRef,
     useState
@@ -8,9 +9,12 @@ import Button from '../../components/Button';
 import './style.scss';
 import Card from '../../components/Card';
 import { scrollCarousel } from '../../utils/functions/global';
-import { getGrid, getRecommendedGaming } from '../../variables/styles/home';
+import { getGrid, getRecommendedGaming } from '../../variables/dummy/home';
 import Tag from '../../components/Tag';
 import FloatButton from '../../components/FloatButton';
+import BottomSheet from '../../components/BottomSheet';
+import Accordion from '../../components/Accordion';
+import { filterData } from '../../variables/dummy/finder';
 
 export default function Finder() {
 
@@ -20,6 +24,12 @@ export default function Finder() {
 
     // STATES //
     const [breadcrumbs, setBreadcrumb] = useState([]);
+    const [toggle, setToggle] = useState(false);
+
+    // FUNCTIONS SPECIFIC //
+    function handleBottomSheet() {
+        setToggle(!toggle);
+    }
 
     // COMPONENTS SPECIFIC //
     const ShowBreadcrumbs = () => {
@@ -27,6 +37,12 @@ export default function Finder() {
         breadcrumbs.forEach((item) => breadCrumbTexts += `${item} - `);
         breadCrumbTexts = breadCrumbTexts.slice(0, -2);
         return <h3>{breadCrumbTexts}</h3>
+    }
+
+    const ShowAccordions = (props) => {
+        return props.datas.map((item, index) => {
+            return <Accordion key={`${props.key}-accordion-${index}`} title={item.title} data={item.data} />
+        })
     }
 
     const ShowGrabableCarouselTag = (props) => {
@@ -66,73 +82,48 @@ export default function Finder() {
     }, [])
 
     return (
-        <div className="finder-container">
-            <div className="finder-wrapper">
-                <div className="finder-breadcrumbs">
-                    <ShowBreadcrumbs />
-                </div>
-                <div className="finder-title">
-                    <h2>THIS IS THE TITLE OF THE FINDER</h2>
-                </div>
-                <div className="finder-flex-container">
-                    <div className="finder-tools-container">
-                        <div className="finder-accordion-wrapper">
-                            <button className="finder-accordion-button">
-                                <h3 className="finder-accordion-title light-color">Kategori</h3>
-                            </button>
-                            <div className="finder-accordion-lists-container">
-                                <button className="finder-accordion-button">
-                                    <h6 className="finder-accordion-subtitle light-color">Graphical Render</h6>
-                                </button>
-                                <button className="finder-accordion-button">
-                                    <h6 className="finder-accordion-subtitle light-color">Gaming</h6>
-                                </button>
-                                <button className="finder-accordion-button">
-                                    <h6 className="finder-accordion-subtitle light-color">Working</h6>
-                                </button>
-                            </div>
-                        </div>
-                        <div className="finder-accordion-wrapper">
-                            <button className="finder-accordion-button">
-                                <h3 className="finder-accordion-title light-color">Location</h3>
-                            </button>
-                            <div className="finder-accordion-lists-container">
-                                <button className="finder-accordion-button">
-                                    <h6 className="finder-accordion-subtitle light-color">Jakarta Selatan</h6>
-                                </button>
-                                <button className="finder-accordion-button">
-                                    <h6 className="finder-accordion-subtitle light-color">Jember</h6>
-                                </button>
-                                <button className="finder-accordion-button">
-                                    <h6 className="finder-accordion-subtitle light-color">Palembang</h6>
-                                </button>
-                            </div>
-                        </div>
+        <Fragment>
+            <div className="finder-container">
+                <div className="finder-wrapper">
+                    <div className="finder-breadcrumbs">
+                        <ShowBreadcrumbs />
                     </div>
-                    <div className="finder-cards-container">
-                        <div className="finder-cards-top-header-container" >
-                            <FloatButton className="finder-filter-button">
-                            </FloatButton>
-                            <div onMouseDown={(event) => scrollCarousel(event, finderTagRef.current)} className="finder-cards-tag-container" ref={finderTagRef}>
-                                <ShowGrabableCarouselTag uniqueKey={'finder-tag'} arrayFunc={() => getRecommendedGaming()} />
+                    <div className="finder-title">
+                        <h2>THIS IS THE TITLE OF THE FINDER</h2>
+                    </div>
+                    <div className="finder-flex-container">
+                        <div className="finder-tools-container">
+                            <ShowAccordions key="desktop" datas={filterData} />
+                        </div>
+                        <div className="finder-cards-container">
+                            <div className="finder-cards-top-header-container" >
+                                <FloatButton onClick={() => handleBottomSheet()} className="finder-filter-button" />
+                                <div onMouseDown={(event) => scrollCarousel(event, finderTagRef.current)} className="finder-cards-tag-container" ref={finderTagRef}>
+                                    <ShowGrabableCarouselTag uniqueKey={'finder-tag'} arrayFunc={() => getRecommendedGaming()} />
+                                </div>
                             </div>
-                        </div>
-                        <div className="finder-cards-header">
-                            <div className="finder-cards-counter">
-                                <span>Showing 1 - 60 products of 257k of </span>
-                                <strong>Graphical Render</strong>
+                            <div className="finder-cards-header">
+                                <div className="finder-cards-counter">
+                                    <span>Showing 1 - 60 products of 257k of </span>
+                                    <strong>Graphical Render</strong>
+                                </div>
+                                <Dropdown style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={["Fittest", "Jancokest"]} />
                             </div>
-                            <Dropdown style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={["Fittest", "Jancokest"]} />
-                        </div>
-                        <div className="finder-cards-wrapper">
-                            <ShowGridCardCarousel arrayFunc={() => getGrid()} />
-                        </div>
-                        <div className="finder-cards-button-wrapper">
-                            <Button className="finder-button">See More</Button>
+                            <div className="finder-cards-wrapper">
+                                <ShowGridCardCarousel arrayFunc={() => getGrid()} />
+                            </div>
+                            <div className="finder-cards-button-wrapper">
+                                <Button className="finder-button">See More</Button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
+                <div className="finder-mobile-tools-container">
+                    <ShowAccordions key="desktop" datas={filterData} />
+                </div>
+            </BottomSheet>
+        </Fragment>
     )
 }

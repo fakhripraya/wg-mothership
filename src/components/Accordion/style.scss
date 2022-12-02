@@ -1,0 +1,76 @@
+.accordion-wrapper{
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    align-items: flex-start;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 1em;
+}
+
+.accordion-button{
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px 8px 9px 12px;
+    border: none;
+    background-color:transparent;
+    cursor: pointer;
+    appearance: none;
+}
+
+.accordion-title{
+    display: block;
+    position: relative;
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: 18px;
+    letter-spacing: 0px;
+    text-align: left;
+    text-decoration: initial;
+    margin: 0px;
+}
+
+
+.accordion-button-label-after{
+    display: flex;
+    content: "";
+    background-image: url('../../assets/svg/caret-down-solid.svg');
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: transform 280ms ease 0s, background-color 0.12s ease 0s;
+    transform: rotate(0deg);
+    border-radius: 50%;
+}
+
+.accordion-subtitle{
+    display: block;
+    position: relative;
+    font-weight: 800;
+    font-size: 1rem;
+    line-height: 18px;
+    letter-spacing: 0px;
+    text-decoration: initial;
+    text-align: left;
+    margin: 0px;
+    margin-left: 4px;
+}
+
+.accordion-lists-container{
+    transition: max-height 0.5s ease-in-out;
+    width: 100%;
+    max-height: fit-content;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.accordion-lists-container::-webkit-scrollbar {
+    display: none;
+}

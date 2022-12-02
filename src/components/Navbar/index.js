@@ -19,13 +19,12 @@ import {
 } from '../../utils/functions/credentials';
 import {
     getMenus
-} from '../../variables/styles/navbar';
+} from '../../variables/path/navbar';
 import Dropdown from '../Dropdown';
 
 export default function Navbar() {
 
     const navigate = useNavigate();
-    const navbarRef = useRef();
     const [toggleMenu, setToggleMenu] = useState(false);
     const [login, setLogin] = useState(null);
     const [menus, setMenus] = useState(() => getMenus());
@@ -33,11 +32,6 @@ export default function Navbar() {
     // FUNCTIONS SPECIFIC //
 
     function handleOverridingMenu() {
-        if (!toggleMenu)
-            navbarRef.current.style.opacity = 0;
-        else
-            navbarRef.current.style.opacity = 1;
-
         setToggleMenu(!toggleMenu)
     }
 
@@ -93,7 +87,7 @@ export default function Navbar() {
 
     return (
         <Fragment>
-            <div className="fixed-top navbar" ref={navbarRef}>
+            <div className="fixed-top navbar">
                 <div className="navbar-container">
                     <div className="navbar-wrapper">
                         <div className="navbar-logo-wrapper">

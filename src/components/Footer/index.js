@@ -2,7 +2,7 @@ import React from 'react';
 import './style.scss';
 import Button from '../Button';
 import WGLogo from '../../assets/images/ic_new_wg_logo.png';
-import { getSocialMedia } from '../../variables/styles/footer';
+import { getSocialMedia } from '../../variables/path/footer';
 
 export default function TextInput(props) {
 
