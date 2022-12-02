@@ -1,7 +1,7 @@
 import React from "react";
 import Home from '../../pages/Home';
 import Error404 from '../../pages/Error404';
-import Rental from '../../pages/Rental';
+import Remote from '../../pages/Remote';
 import Finder from '../../pages/Finder';
 
 export const routes = [
@@ -10,11 +10,11 @@ export const routes = [
         component: <Home />,
     },
     {
-        path: '/rental',
-        component: <Rental />,
+        path: '/rdp',
+        component: <Remote />,
     },
     {
-        path: '/finder',
+        path: '/market',
         component: <Finder />,
     },
     {

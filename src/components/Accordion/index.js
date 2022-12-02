@@ -5,7 +5,7 @@ export default function Accordion(props) {
 
     const listRef = useRef();
     const iconRef = useRef();
-    const [toggle, setToggle] = useState(false);
+    const [toggle, setToggle] = useState(true);
 
     function handleAccordionClick() {
         setToggle(!toggle);

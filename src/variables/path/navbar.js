@@ -5,12 +5,12 @@ export const getMenus = () => {
             route: "/"
         },
         {
-            name: "Rental",
-            route: "/rental"
+            name: "Remote",
+            route: "/rdp"
         },
         {
-            name: "Finder",
-            route: "/finder"
+            name: "Rental Market",
+            route: "/market"
         },
     ]
 }
