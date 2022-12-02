@@ -76,7 +76,7 @@ export default function Navbar() {
     const ShowMenuButtonsMobile = () => {
         return menus.map((menu, index) => {
             return <ShowMenuRow key={`mobile-button-${index}`}>
-                <Button >{menu.name}</Button>
+                <Button onClick={() => navigate(menu.route)}>{menu.name}</Button>
             </ShowMenuRow>
         })
     }
