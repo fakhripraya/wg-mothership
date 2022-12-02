@@ -1,12 +1,23 @@
 export const filterData = [
     {
+        title: "Connection",
+        data: [
+            {
+                title: "Instant P2P"
+            },
+            {
+                title: "Batch rental"
+            },
+        ]
+    },
+    {
         title: "Category",
         data: [
             {
                 title: "Grapichal Render"
             },
             {
-                title: "Gaming"
+                title: "Remote Server"
             },
             {
                 title: "Working Space"
