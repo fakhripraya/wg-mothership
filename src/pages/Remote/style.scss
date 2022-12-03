@@ -21,3 +21,41 @@
         width: 80vw;
     }
 }
+
+.remote-title{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.remote-header{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 12px;
+    border-radius: 1em;
+}
+
+.remote-searchbar-container{
+    flex: 0 0 100%;
+}
+
+.remote-searchbar-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+}
+
+.remote-tools-container{
+    flex: 0 0 100%;
+}
+
+.remote-tools-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+}

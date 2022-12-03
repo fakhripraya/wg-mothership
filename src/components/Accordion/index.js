@@ -26,7 +26,7 @@ export default function Accordion(props) {
         <div className="accordion-wrapper">
             <button onClick={() => handleAccordionClick()} className="accordion-button">
                 <h3 className="accordion-title light-color">{props.title}</h3>
-                <span class="accordion-button-label-after" ref={iconRef} />
+                <span className="accordion-button-label-after" ref={iconRef} />
             </button>
             <div ref={listRef} className="accordion-lists-container">
                 {
