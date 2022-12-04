@@ -69,8 +69,8 @@ export default function Home() {
 
     const ShowGridCardCarousel = (props) => {
         return props.arrayFunc().map((item, index) => {
-            return <div key={'all-stores-' + `${index}`} onMouseDown={(event) => scrollCarousel(event, gridRefs[index])} className={"home-recommend-wrapper " + item.className} ref={ref => gridRefs[index] = ref}>
-                <ShowGrabableCardCarousel uniqueKey={'all-stores-' + `id-${index}`} arrayFunc={() => item.arrayFunc()} />
+            return <div key={`all-stores-${index}`} onMouseDown={(event) => scrollCarousel(event, gridRefs[index])} className={"home-recommend-wrapper " + item.className} ref={ref => gridRefs[index] = ref}>
+                <ShowGrabableCardCarousel uniqueKey={`all-stores-id-${index}`} arrayFunc={() => item.arrayFunc()} />
             </div>
         })
     }
