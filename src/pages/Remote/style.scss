@@ -1,3 +1,9 @@
+@mixin text-ellipsis() {
+    white-space: wrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
 // MAIN STYLES //
 .remote-container{
     min-height: 100vh;
@@ -34,7 +40,6 @@
 .remote-header{
     width: 100%;
     display: flex;
-    flex-direction: column;
     gap: 12px;
     flex-wrap: wrap;
     height: auto;
@@ -85,6 +90,25 @@
     align-items: center;
 }
 
+.remote-add-button{
+    width: 100%;
+    display: flex;
+    height: auto;
+    padding: 12px;
+    border-radius: 1em;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+}
+
+.remote-add-button:hover{
+    background-color: #0DA34D;
+}
+
+.remote-add-button:hover span{
+    color: #fff !important;
+    transition: all 0.25s ease-in-out;
+}
+
 // BODY //
 .remote-body{
     width: 100%;
@@ -100,6 +124,11 @@
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
+    @include text-ellipsis();
+}
+
+.remote-body-identifier *{
+    @include text-ellipsis();
 }
 
 .remote-identifier-img-wrapper{
@@ -115,24 +144,40 @@
 .remote-identifier-img{
     height: 75%;
     width: 75%;
+    border-radius: 8px;
 }
 
 .remote-body-cpu-spec{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
+    @include text-ellipsis();
+}
+
+.remote-body-cpu-spec *{
+    @include text-ellipsis();
 }
 
 .remote-body-graphical-spec{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
+    @include text-ellipsis();
+}
+
+.remote-body-graphical-spec *{
+    @include text-ellipsis();
 }
 
 .remote-body-storage-spec{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
+    @include text-ellipsis();
+}
+
+.remote-body-storage-spec *{
+    @include text-ellipsis();
 }
 
 .remote-body-storage-spec .accordion-wrapper .accordion-button{
@@ -150,12 +195,22 @@
     text-align: left;
     align-items: center;
     justify-content: center;
+    @include text-ellipsis();
+}
+
+.remote-body-storage-spec-items{
+    @include text-ellipsis();
 }
 
 .remote-body-rent-detail{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
+    @include text-ellipsis();
+}
+
+.remote-body-rent-detail *{
+    @include text-ellipsis();
 }
 
 .remote-body-rent-detail-status{
@@ -174,4 +229,24 @@
     cursor: pointer;
     text-align: center;
     padding: 6px;
+}
+
+.remote-paging{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    padding: 12px;
+    gap: 6px;
+    transition: all 0.25s ease-in-out;
+}
+
+.remote-paging-button{
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+}
+
+.remote-paging-button:hover{
+    background-color: #0DA34D;
 }

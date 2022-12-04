@@ -4,7 +4,7 @@ import Dropdown from '../../components/Dropdown';
 import Checkbox from '../../components/Checkbox';
 import TextInput from '../../components/TextInput';
 import './style.scss';
-import { filterCheckboxes, filterDropdowns, storageList } from '../../variables/dummy/remote';
+import { filterCheckboxes, filterDropdowns, itemListDummy } from '../../variables/dummy/remote';
 import Accordion from '../../components/Accordion';
 
 export default function Remote() {
@@ -22,12 +22,47 @@ export default function Remote() {
         })
     }
 
-    const ShowBody = () =>{
-
+    const ShowBody = (props) =>{
+        return itemListDummy.map((item,index)=>{
+            return <div key={`remote-items-${index}`} className="remote-body margin-top-12-18 dark-bg-color">
+                <div className="remote-body-identifier">
+                    <h3 className="margin-top-0" >{item.title}</h3>
+                    <h4 className="margin-top-0 margin-bottom-0" >ID: {item.ID}</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >List date: {item.date}</h4>
+                    <div className="remote-identifier-img-wrapper">
+                        <img className="remote-identifier-img" src={item.img.src} alt={item.img.alt}/>                      
+                    </div>
+                </div>
+                <div className="remote-body-cpu-spec">
+                    <h3 className="margin-top-0 margin-bottom-0" >{item.cpu.title}</h3>
+                    <h4 className="margin-bottom-0" >Core: {item.cpu.core} Cores</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >Thread: {item.cpu.thread} Threads</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >Clock Speed: {item.cpu.clockSpeed} Ghz</h4>
+                </div>
+                <div className="remote-body-graphical-spec">
+                    <h3 className="margin-top-0 margin-bottom-0" >{item.graphical.title}</h3>
+                    <h4 className="margin-bottom-0" >Core: {item.graphical.cudaCore} Cuda Core</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >Clock Speed: {item.graphical.clockSpeed}  Ghz</h4>
+                    <h4 className="margin-bottom-0" >Memory: {item.graphical.memory} {item.graphical.memoryUnit} Memory</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >Memory Type: {item.graphical.memoryType}</h4>
+                </div>
+                <div className="remote-body-storage-spec">
+                    <ShowAccordion datas={item.storageList}/>
+                </div>
+                <div className="remote-body-rent-detail">
+                    <h4 className="margin-top-0 margin-bottom-0" >Durations : {item.rentDetail.duration} {item.rentDetail.durationUnit}</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >End at : {item.rentDetail.endAt}</h4>
+                    <h5 className="margin-top-0 margin-bottom-0" >{item.rentDetail.price}{item.rentDetail.priceUnit}</h5>
+                    <h5 className="margin-bottom-0 dark-color light-bg-color remote-body-rent-button" >Details</h5>
+                    <h5 className="main-bg-color remote-body-rent-detail-status" >Status : {item.rentDetail.status}</h5>
+                    <h5 className="margin-top-0 margin-bottom-0 red-bg-color remote-body-rent-button" >Cancel</h5>
+                </div>
+            </div>
+        })
     }
 
-    const ShowAccordion = () =>{
-        return storageList.map((item,index)=>{
+    const ShowAccordion = (props) =>{
+        return props.datas.map((item,index)=>{
             return <Accordion 
             key={`remote-item-accordion-${index}`}
             isButton={false} 
@@ -70,38 +105,16 @@ export default function Remote() {
                         </div>
                     </div>
                 </div>
-                <div className="remote-body margin-top-bottom-12-18 dark-bg-color">
-                    <div className="remote-body-identifier">
-                        <h3 className="margin-top-0 margin-bottom-0 text-ellipsis" >Title</h3>
-                        <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >ID</h4>
-                        <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >15 june 2022</h4>
-                        <div className="remote-identifier-img-wrapper">
-                            <img className="remote-identifier-img" src={"https://www.shutterstock.com/image-photo/gaming-pc-rgb-led-lights-600w-1621672105.jpg"} alt={"s"}/>                      
-                        </div>
-                    </div>
-                    <div className="remote-body-cpu-spec">
-                        <h3 className="margin-top-0 margin-bottom-0 text-ellipsis" >Intel I5 6600K</h3>
-                        <h4 className="margin-bottom-0 text-ellipsis" >4 thread</h4>
-                        <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >4 core</h4>
-                        <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >3.9 Ghz</h4>
-                    </div>
-                    <div className="remote-body-graphical-spec">
-                        <h3 className="margin-top-0 margin-bottom-0 text-ellipsis" >RTX 3080 </h3>
-                        <h4 className="margin-bottom-0 text-ellipsis" >10240 Cuda Core</h4>
-                        <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >1.67 Ghz</h4>
-                        <h4 className="margin-bottom-0 text-ellipsis" >12GB Memory</h4>
-                        <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >GDDR6X</h4>
-                    </div>
-                    <div className="remote-body-storage-spec">
-                        <ShowAccordion/>
-                    </div>
-                    <div className="remote-body-rent-detail">
-                        <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >Duration 5 hours</h4>
-                        <h5 className="margin-top-0 margin-bottom-0 text-ellipsis" >0.276$ / Hour</h5>
-                        <h5 className="margin-bottom-0 text-ellipsis dark-color light-bg-color remote-body-rent-button" >Details</h5>
-                        <h5 className="text-ellipsis main-bg-color remote-body-rent-detail-status" >Status : Active</h5>
-                        <h5 className="margin-top-0 margin-bottom-0 text-ellipsis red-bg-color remote-body-rent-button" >Cancel</h5>
-                    </div>
+                <div className="remote-add-button margin-top-12-18 dark-bg-color justify-center">
+                    <span className="main-color">Add +</span>
+                </div>
+                <ShowBody/>
+                <div className="remote-paging margin-top-12-18 justify-center">
+                    <div className="dark-bg-color remote-paging-button">Prev</div>
+                    <div className="dark-bg-color remote-paging-button">1</div>
+                    <div className="dark-bg-color remote-paging-button">2</div>
+                    <div className="dark-bg-color remote-paging-button">3</div>
+                    <div className="dark-bg-color remote-paging-button">Next</div>
                 </div>
             </div>
         </div>
