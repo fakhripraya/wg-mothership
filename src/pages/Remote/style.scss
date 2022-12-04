@@ -27,8 +27,10 @@
     flex-direction: row;
     width: 100%;
     justify-content: flex-start;
+    margin-top: 1em;
 }
 
+// HEADER //
 .remote-header{
     width: 100%;
     display: flex;
@@ -51,11 +53,125 @@
 }
 
 .remote-tools-container{
-    flex: 0 0 100%;
+    flex: 100%;
 }
 
 .remote-tools-wrapper{
     display: flex;
     flex-direction: row;
     gap: 6px;
+}
+
+.remote-checkbox{
+    flex: 50%;
+}
+
+.remote-checkbox-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+}
+
+.remote-dropdown-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex: 50%;
+    gap: 6px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+// BODY //
+.remote-body{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    height: auto;
+    padding: 12px;
+    border-radius: 1em;
+}
+
+.remote-body-identifier{
+    flex: 20%;
+    flex-wrap: wrap;
+    height: auto;
+}
+
+.remote-identifier-img-wrapper{
+    height: auto;
+    width: auto;
+    margin-top: 18px;
+
+    @media screen and (max-width: 2500px){
+        margin-top: 12px;
+    }
+}
+
+.remote-identifier-img{
+    height: 75%;
+    width: 75%;
+}
+
+.remote-body-cpu-spec{
+    flex: 20%;
+    flex-wrap: wrap;
+    height: auto;
+}
+
+.remote-body-graphical-spec{
+    flex: 20%;
+    flex-wrap: wrap;
+    height: auto;
+}
+
+.remote-body-storage-spec{
+    flex: 20%;
+    flex-wrap: wrap;
+    height: auto;
+}
+
+.remote-body-storage-spec .accordion-wrapper .accordion-button{
+    padding: 0px 8px 9px 0px !important;
+}
+
+.remote-body-storage-spec .accordion-wrapper .accordion-button h3{
+   line-height: 1em;
+}
+
+.remote-body-storage-spec-items{
+    flex-wrap: wrap;
+    height: auto;
+    width: 100%;
+    text-align: left;
+    align-items: center;
+    justify-content: center;
+}
+
+.remote-body-rent-detail{
+    flex: 20%;
+    flex-wrap: wrap;
+    height: auto;
+}
+
+.remote-body-rent-detail-status{
+    padding: 6px;
+    text-align: center;
+    margin-bottom: 18px;
+    border-radius: 8px;
+
+    @media screen and (max-width: 2500px){
+        margin-bottom: 12px;
+    }
+}
+
+.remote-body-rent-button{
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    padding: 6px;
 }

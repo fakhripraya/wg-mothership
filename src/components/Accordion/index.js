@@ -1,17 +1,28 @@
-import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import "./style.scss"
 
 export default function Accordion(props) {
 
     const listRef = useRef();
     const iconRef = useRef();
-    const [toggle, setToggle] = useState(true);
+    const [toggle, setToggle] = useState(props.toggle);
 
+    // FUNCTION SPECIFICS //
     function handleAccordionClick() {
         setToggle(!toggle);
     }
 
-    useLayoutEffect(() => {
+    // COMPONENT SPECIFICS //
+    const ShowItems = () =>{
+        if(!props.isButton) return props.children
+        return props.data.map((item, index) => {
+            return <button key={`accordion-${item.title}-${index}`} className="accordion-button">
+                <h6 className="accordion-subtitle light-color">{item.title}</h6>
+            </button>
+        })
+    }
+
+    useEffect(() => {
         if (toggle) {
             listRef.current.style.maxHeight = "500px";
             iconRef.current.style.transform = "rotate(180deg)";
@@ -29,13 +40,7 @@ export default function Accordion(props) {
                 <span className="accordion-button-label-after" ref={iconRef} />
             </button>
             <div ref={listRef} className="accordion-lists-container">
-                {
-                    props.data.map((item, index) => {
-                        return <button key={`accordion-${item.title}-${index}`} className="accordion-button">
-                            <h6 className="accordion-subtitle light-color">{item.title}</h6>
-                        </button>
-                    })
-                }
+                <ShowItems/>
             </div>
         </div>
     )

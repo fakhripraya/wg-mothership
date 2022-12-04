@@ -41,7 +41,7 @@ export default function Finder() {
 
     const ShowAccordions = (props) => {
         return props.datas.map((item, index) => {
-            return <Accordion key={`${props.key}-accordion-${index}`} title={item.title} data={item.data} />
+            return <Accordion key={`${props.uniqueKey}-accordion-${index}`} toggle={true} isButton={true} title={item.title} data={item.data} />
         })
     }
 
@@ -121,7 +121,7 @@ export default function Finder() {
             </div>
             <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
                 <div className="finder-mobile-tools-container">
-                    <ShowAccordions key="desktop" datas={filterData} />
+                    <ShowAccordions uniqueKey="desktop" datas={filterData} />
                 </div>
             </BottomSheet>
         </Fragment>
