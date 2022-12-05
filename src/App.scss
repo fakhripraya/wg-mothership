@@ -54,6 +54,15 @@
   background-color: rgb(254, 44, 85);
 }
 
+.link-color{
+  color: #151515  !important;
+  transition: all 0.3s ease-in-out;
+}
+
+.link-color:hover{
+  color: #fff  !important;
+}
+
 /* Global Class Properties */
 .sticky-top{
   position: sticky !important;
@@ -82,7 +91,8 @@
 }
 
 .max-width{
- max-width: 100% !important;
+  width: 100%;
+  max-width: 100% !important;
 }
 
 .full-width{
@@ -120,6 +130,20 @@
   padding-top: 18px;
   @media screen and (max-width: 2500px){
     padding-top: 12px;
+  }
+}
+
+.margin-bottom-12-18{
+  margin-bottom: 18px;
+  @media screen and (max-width: 2500px){
+    margin-bottom: 12px;
+  }
+}
+
+.padding-bottom-12-18{
+  padding-bottom: 18px;
+  @media screen and (max-width: 2500px){
+    padding-bottom: 12px;
   }
 }
 

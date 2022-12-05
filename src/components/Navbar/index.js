@@ -155,6 +155,7 @@ export default function Navbar() {
                         <img onClick={() => { handleOpenLoginModal() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                     </ShowNavbar>
                     <Login />
+                    <Footer />
                 </div>
             </OverridingContainer >
         </Fragment >
