@@ -32,6 +32,9 @@ export const getRecommendedGraphicRendering = () => {
         {
             name: "Nvidia Quadro RTX 8000",
         },
+        {
+            name: "Nvidia Quadro RTX 9000",
+        },
     ]
 }
 
@@ -51,6 +54,9 @@ export const getRecommendedGaming = () => {
         },
         {
             name: "Nvidia GTX 1660",
+        },
+        {
+            name: "Nvidia GTX 1060",
         },
     ]
 }
@@ -92,6 +98,20 @@ export const getRecommended = () => {
             location: "Makassar",
             desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum eius nulla nesciunt libero modi",
         },
+        {
+            url: "https://www.shutterstock.com/image-photo/powerful-personal-computer-gamer-rig-260nw-1430140058.jpg",
+            name: "Nvidia GTX 1060",
+            price: "$0.99",
+            location: "Makassar",
+            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum eius nulla nesciunt libero modi",
+        },
+        {
+            url: "https://www.shutterstock.com/image-photo/powerful-personal-computer-gamer-rig-260nw-1430140058.jpg",
+            name: "Nvidia GTX 1050 ti",
+            price: "$0.49",
+            location: "Makassar",
+            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum eius nulla nesciunt libero modi",
+        },
     ]
 }
 
@@ -129,6 +149,20 @@ export const getGridItems = () => {
             url: "https://www.shutterstock.com/image-photo/powerful-personal-computer-gamer-rig-260nw-1430140061.jpg",
             name: "Nvidia RTX 3060",
             price: "$4.99",
+            location: "Jayapura",
+            desc: "Lorem ipsum, dolor sit amet",
+        },
+        {
+            url: "https://www.shutterstock.com/image-photo/powerful-personal-computer-gamer-rig-260nw-1430140061.jpg",
+            name: "Nvidia GTX 1060",
+            price: "$0.99",
+            location: "Jayapura",
+            desc: "Lorem ipsum, dolor sit amet",
+        },
+        {
+            url: "https://www.shutterstock.com/image-photo/powerful-personal-computer-gamer-rig-260nw-1430140061.jpg",
+            name: "Nvidia RTX 1050 TI",
+            price: "$0.49",
             location: "Jayapura",
             desc: "Lorem ipsum, dolor sit amet",
         }
