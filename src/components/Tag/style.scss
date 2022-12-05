@@ -37,6 +37,10 @@
     white-space: nowrap;
     margin-right: 12px;
     @include shrink-padding($isCounter: false);
+
+    @media screen and (max-width: 1000px){
+        margin-right: 8px !important;
+    }
 }
 
 .tag-container:last-child{

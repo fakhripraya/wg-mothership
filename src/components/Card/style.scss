@@ -39,8 +39,8 @@
     justify-content: center;
     -webkit-box-align: center;
     align-items: center;
-    margin: auto auto;
-    margin-right: 12px!important;
+    margin: auto 0px;
+    margin-right: 12px !important;
     background-color: #1c1d1d;
     cursor: inherit;
     transition: all 0.3s ease-in-out;
@@ -48,6 +48,7 @@
     
     @media screen and (max-width: 1000px){
         padding: 8px !important;
+        margin-right: 8px !important;
     }
     @media screen and (max-width: 768px){
         padding: 6px !important;
