@@ -210,15 +210,12 @@
     justify-content: center;
     align-items: center;
     -webkit-box-align: center;
-    gap: 24px;
 
     @media screen and (max-width: 768px){
-        padding: 18px;
-        gap: 18px;
+        padding:18px;
     }
     @media screen and (max-width: 400px){
         padding:12px;
-        gap: 12px;
     }
 }
 
@@ -227,6 +224,7 @@
     flex-direction: column;
     border-radius: inherit;
     cursor: pointer;
+    margin-bottom: 12px;
 }
 
 .home-balance-box:hover:nth-child(n){
@@ -245,7 +243,12 @@
     height: fit-content;
     width: 100%;
     padding: 0px 24px;
+    margin-right: 12px;
     @include shrink-padding($isCounter: false);
+}
+
+.home-balance-tools-box:last-child{
+    margin-right: 0px;
 }
 
 .home-balance-tools-box:hover{
@@ -290,12 +293,10 @@
     align-items: center;
     -webkit-box-align: center;
     justify-content: space-evenly;
-    column-gap: 10px;
     width: 100%;
 
     @media screen and (max-width: 310px){
         flex-wrap: wrap;
-        gap: 10px;
     }
 }
 
@@ -328,7 +329,6 @@
     align-items: center;
     -webkit-box-align: center;
     justify-content: flex-start;
-    gap: 12px;
     cursor: grab;
     padding: 18px 0px;
     padding-bottom: 0px !important;

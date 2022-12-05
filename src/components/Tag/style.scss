@@ -35,7 +35,12 @@
     cursor: inherit;
     width: fit-content;
     white-space: nowrap;
+    margin-right: 12px;
     @include shrink-padding($isCounter: false);
+}
+
+.tag-container:last-child{
+    margin-right: 0px !important;
 }
 
 .tag-container:hover{

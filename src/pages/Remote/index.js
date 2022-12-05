@@ -12,13 +12,13 @@ export default function Remote() {
     // COMPONENTS SPECIFIC //
     const ShowCheckboxes = ()=>{
         return filterCheckboxes.map((item,index)=>{
-            return <Checkbox key={`checkbox-${item.title}-${index}`} title={item.title}/>
+            return <Checkbox key={`checkbox-${item.title}-${index}`} className="remote-checkbox-item" title={item.title}/>
         })
     }
 
     const ShowDropdowns = ()=>{
         return filterDropdowns.map((item,index)=>{
-            return <Dropdown key={`remote-filter-dropdown-${index}`} style={{ width: "100px", maxWidth: "100px" }} showTitle={item.showTitle} toggle={item.toggle} values={item.values} />
+            return <Dropdown key={`remote-filter-dropdown-${index}`} className="remote-dropdown-item" style={{ width: "100px", maxWidth: "100px" }} showTitle={item.showTitle} toggle={item.toggle} values={item.values} />
         })
     }
 
@@ -88,7 +88,7 @@ export default function Remote() {
                 <div className="remote-header dark-bg-color">
                     <div className="remote-searchbar-container">
                         <div className="remote-searchbar-wrapper">
-                            <TextInput/>
+                            <TextInput className="remote-searchbar-input"/>
                             <Button>Search</Button>
                         </div>
                     </div>

@@ -40,6 +40,7 @@
     -webkit-box-align: center;
     align-items: center;
     margin: auto auto;
+    margin-right: 12px!important;
     background-color: #1c1d1d;
     cursor: inherit;
     transition: all 0.3s ease-in-out;
@@ -51,6 +52,10 @@
     @media screen and (max-width: 768px){
         padding: 6px !important;
     }
+}
+
+.card-container:last-child{
+    margin-right: 0px!important;
 }
 
 .card-container:hover{
