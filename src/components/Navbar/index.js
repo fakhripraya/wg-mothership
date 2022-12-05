@@ -20,15 +20,19 @@ import {
 } from '../../variables/path/navbar';
 import Dropdown from '../Dropdown';
 import Login from '../../pages/Login';
+import Register from '../../pages/Register';
+import ForgotPassword from '../../pages/ForgotPassword';
+import { FORGOT_PASSWORD, LOGIN, REGISTER } from '../../variables/global';
 
 export default function Navbar() {
 
     const ref = useRef();
     const navigate = useNavigate();
     const [toggleMenu, setToggleMenu] = useState(false);
-    const [toggleLogin, setToggleLogin] = useState(false);
     const [login, setLogin] = useState(null);
     const [menus, setMenus] = useState(() => getMenus());
+    const [toggleOverriding, setToggleOverriding] = useState(false);
+    const [overriding, setOverridding] = useState("");
 
     // FUNCTIONS SPECIFIC //
 
@@ -38,17 +42,18 @@ export default function Navbar() {
             ref.current.style.visibility = visibility;
         }
 
-        if (!toggleLogin) displayChange("0", "hidden");
+        if (!toggleOverriding) displayChange("0", "hidden");
         else displayChange("1", "visible");
     }
 
     function handleOverridingMenu() {
-        setToggleMenu(!toggleMenu)
+        setToggleMenu(!toggleMenu);
     }
 
-    function handleOpenLoginModal() {
+    function handleOpenLoginOverriding() {
         handleNavbarDisplay();
-        setToggleLogin(!toggleLogin)
+        setOverridding(LOGIN);
+        setToggleOverriding(!toggleOverriding);
     }
 
     // COMPONENTS SPECIFIC //
@@ -63,7 +68,7 @@ export default function Navbar() {
         </div>
     }
     const ShowProfile = () => {
-        if (!login) return <Button onClick={() => handleOpenLoginModal()}>Login</Button>
+        if (!login) return <Button onClick={() => handleOpenLoginOverriding()}>Login</Button>
         return <Fragment>
             <Button onClick={() => { navigator.clipboard.writeText("markontolito") }}>Notification</Button>
             <Button >Profile</Button>
@@ -105,6 +110,19 @@ export default function Navbar() {
         return menus.map((menu, index) => {
             return <Button onClick={() => navigate(menu.route)} key={`button-${index}`}><span className="white-space-no-wrap">{menu.name}</span></Button>
         })
+    }
+
+    const ShowOverriding = () => {
+
+        // SUB COMPONENTS //
+        const LoginShow = () => <Login functions={[setOverridding]} />
+        const RegisterShow = () => <Register functions={[setOverridding]} />
+        const ForgotPasswordShow = () => <ForgotPassword functions={[setOverridding]} />
+
+        // SHOW TOGGLES //
+        if (overriding === LOGIN) return <LoginShow />
+        if (overriding === REGISTER) return <RegisterShow />
+        if (overriding === FORGOT_PASSWORD) return <ForgotPasswordShow />
     }
 
     // RENDERS SPECIFIC //
@@ -149,12 +167,12 @@ export default function Navbar() {
                     <Footer />
                 </div>
             </OverridingContainer >
-            <OverridingContainer toggle={toggleLogin}>
+            <OverridingContainer toggle={toggleOverriding}>
                 <div className="sticky-top">
                     <ShowNavbar>
-                        <img onClick={() => { handleOpenLoginModal() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                        <img onClick={() => { handleOpenLoginOverriding() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                     </ShowNavbar>
-                    <Login />
+                    <ShowOverriding />
                     <Footer />
                 </div>
             </OverridingContainer >

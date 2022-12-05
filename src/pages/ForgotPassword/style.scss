@@ -1,0 +1,90 @@
+// MAIN STYLES //
+.forgot-password-container{
+    min-height: 100%;
+    min-width: 100%;
+    padding-bottom: 10vh;
+    padding-top: 160px;
+    @media screen and (max-width: 1000px){
+        padding-top: 80px;
+    }
+}
+
+.forgot-password-wrapper{
+    width: 40vw;
+    margin: 0px auto;
+    position: relative;
+    align-items: flex-start;
+    -webkit-box-align: center;
+    display: flex;
+    flex-direction: column;
+    @media screen and (max-width: 1280px){
+        width: 60vw;
+    }
+    @media screen and (max-width: 768px){
+        width: 80vw;
+    }
+}
+
+.forgot-password-input-title{
+    width: 100px;
+    margin: 10px 10px 0px 0px !important;
+}
+
+.forgot-password-textinput-box{
+    margin-top: 12px;
+    width: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.forgot-password-textinput{
+    padding: 6px 0px;
+    border-radius: 8px;
+    text-decoration: none;
+    outline: none;
+    font-size: large;
+    background-color: #fff;
+}
+
+.forgot-password-button{
+    margin-top: 12px;
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+}
+
+.forgot-password-button-text{
+    margin: 6px !important;
+}
+
+.forgot-password-forgot-pass{
+    align-self: flex-start;
+}
+
+.forgot-password-middle-text{
+    align-self: center;
+}
+
+.forgot-password-open-auths{
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.forgot-password-open-auths-button{
+    margin-top: 12px;
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+    margin-right: 6px;
+}
+
+.forgot-password-open-auths-button img{
+    height: 40px;
+    width: 40px;
+}
+
+.forgot-password-open-auths-button:last-child{
+    margin-right: 0px !important;
+}

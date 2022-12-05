@@ -3,6 +3,6 @@ import './style.scss';
 
 export default function TextInput(props) {
     return (
-        <input type={props.type} className={"input-text " + props.className}></input>
+        <input maxLength={props.maxLength} type={props.type} className={"input-text " + props.className}></input>
     )
 }
