@@ -55,7 +55,7 @@
 }
 
 .link-color{
-  color: #151515  !important;
+  color: rgb(28, 29, 29) !important;
   transition: all 0.3s ease-in-out;
 }
 
@@ -88,6 +88,10 @@
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
+}
+
+.text-align-center{
+  text-align: center !important;
 }
 
 .max-width{

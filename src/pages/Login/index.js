@@ -13,17 +13,17 @@ export default function Login() {
     return (
         <div className="login-container">
             <div className="login-wrapper">
-                <h2 className="margin-bottom-12-18">Join to become the a member,</h2>
+                <h2 className="margin-bottom-12-18">Join to become a member,</h2>
                 <h3 className="margin-top-0 margin-bottom-12-18">gain maximum profitability by rentaling your device to others virtually or physically</h3>
                 <div className="login-textinput-box">
                     <h2 className="login-input-title">ID</h2>
-                    <TextInput className="login-textinput">
+                    <TextInput type="text" className="login-textinput text-align-center">
 
                     </TextInput>
                 </div>
                 <div className="login-textinput-box">
                     <h2 className="login-input-title">Pass</h2>
-                    <TextInput className="login-textinput">
+                    <TextInput type="password" className="login-textinput text-align-center">
 
                     </TextInput>
                 </div>
