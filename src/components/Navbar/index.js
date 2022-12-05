@@ -14,30 +14,56 @@ import {
 import OverridingContainer from '../OveriddingContainer';
 import WGLogo from '../../assets/images/ic_new_wg_logo.png';
 import ICHamburger from '../../assets/svg/ic_hamburg_3.svg';
-import {
-    handleOpenLoginModal
-} from '../../utils/functions/credentials';
+import XMark from '../../assets/svg/xmark-solid.svg';
 import {
     getMenus
 } from '../../variables/path/navbar';
 import Dropdown from '../Dropdown';
+import Login from '../../pages/Login';
 
 export default function Navbar() {
 
+    const ref = useRef();
     const navigate = useNavigate();
     const [toggleMenu, setToggleMenu] = useState(false);
+    const [toggleLogin, setToggleLogin] = useState(false);
     const [login, setLogin] = useState(null);
     const [menus, setMenus] = useState(() => getMenus());
 
     // FUNCTIONS SPECIFIC //
 
+    function handleNavbarDisplay() {
+        function displayChange(opacity, visibility) {
+            ref.current.style.opacity = opacity;
+            ref.current.style.visibility = visibility;
+        }
+
+        if (!toggleLogin) displayChange("0", "hidden");
+        else displayChange("1", "visible");
+    }
+
     function handleOverridingMenu() {
         setToggleMenu(!toggleMenu)
     }
 
+    function handleOpenLoginModal() {
+        handleNavbarDisplay();
+        setToggleLogin(!toggleLogin)
+    }
+
     // COMPONENTS SPECIFIC //
+    const ShowNavbar = (props) => {
+        return <div className="navbar-container">
+            <div className="navbar-wrapper">
+                <div className="navbar-mobile-logo-wrapper">
+                    <img onClick={() => navigate('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
+                </div>
+                {props.children}
+            </div>
+        </div>
+    }
     const ShowProfile = () => {
-        if (!login) return <Button onClick={() => handleOpenLoginModal(setLogin)}>Login</Button>
+        if (!login) return <Button onClick={() => handleOpenLoginModal()}>Login</Button>
         return <Fragment>
             <Button onClick={() => { navigator.clipboard.writeText("markontolito") }}>Notification</Button>
             <Button >Profile</Button>
@@ -87,7 +113,7 @@ export default function Navbar() {
 
     return (
         <Fragment>
-            <div className="fixed-top navbar">
+            <div ref={ref} className="fixed-top navbar">
                 <div className="navbar-container">
                     <div className="navbar-wrapper">
                         <div className="navbar-logo-wrapper">
@@ -110,14 +136,9 @@ export default function Navbar() {
             </div>
             <OverridingContainer toggle={toggleMenu}>
                 <div className="sticky-top">
-                    <div className="navbar-container">
-                        <div className="navbar-wrapper">
-                            <div className="navbar-mobile-logo-wrapper">
-                                <img onClick={() => navigate('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
-                            </div>
-                            <img onClick={() => { handleOverridingMenu() }} className='navbar-mobile-hamburger-image' src={ICHamburger} alt="ic_hamburger" />
-                        </div>
-                    </div>
+                    <ShowNavbar>
+                        <img onClick={() => { handleOverridingMenu() }} className='navbar-mobile-hamburger-image' src={ICHamburger} alt="ic_hamburger" />
+                    </ShowNavbar>
                     <ul className="navbar-mobile-menu-wrapper">
                         <ShowSearchBar />
                     </ul>
@@ -126,6 +147,14 @@ export default function Navbar() {
                     </ShowMenuRow>
                     <ShowMenuButtonsMobile />
                     <Footer />
+                </div>
+            </OverridingContainer >
+            <OverridingContainer toggle={toggleLogin}>
+                <div className="sticky-top">
+                    <ShowNavbar>
+                        <img onClick={() => { handleOpenLoginModal() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                    </ShowNavbar>
+                    <Login />
                 </div>
             </OverridingContainer >
         </Fragment >

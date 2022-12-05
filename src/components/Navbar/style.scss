@@ -3,6 +3,7 @@
     width: 100vw;
     background-color: #0DA34D;
     font-size: 1.15em;
+    transition: all 0.3s ease-in-out;
 }
 
 // DESKTOP VIEW //
@@ -20,7 +21,8 @@
 .navbar-container{
     width: 100%;
     padding: 12px 0px 0px 0px;
-
+    transition: all 0.3s ease-in-out;
+    
     @media screen and (max-width: 1000px) {
         padding: 12px 0px;
     }

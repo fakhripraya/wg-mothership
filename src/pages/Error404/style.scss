@@ -1,0 +1,30 @@
+.error404-container{
+    min-height: 100vh;
+    min-width: 100vw;
+    padding-bottom: 10vh;
+    padding-top: 160px;
+    @media screen and (max-width: 1000px){
+        padding-top: 80px;
+    }
+}
+.error404-wrapper{
+    width: 60vw;
+    margin: 0px auto;
+    position: relative;
+    align-items: center;
+    -webkit-box-align: center;
+    display: flex;
+    flex-direction: column;
+    @media screen and (max-width: 1280px){
+        width: 80vw;
+    }
+}
+
+.error404-title{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 1em;
+}

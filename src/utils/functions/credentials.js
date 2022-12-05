@@ -1,3 +1,3 @@
-export function handleOpenLoginModal(callback) {
+export function handleLogin(callback) {
     callback({});
 }
