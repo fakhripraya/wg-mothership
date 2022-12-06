@@ -6,7 +6,3 @@ body,html {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
-
-*{
-  overflow: hidden !important;
-}
