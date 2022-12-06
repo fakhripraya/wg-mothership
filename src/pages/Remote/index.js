@@ -116,6 +116,12 @@ export default function Remote() {
                     <div className="dark-bg-color remote-paging-button">3</div>
                     <div className="dark-bg-color remote-paging-button">Next</div>
                 </div>
+                <div className="remote-searchbar-container">
+                    <div className="remote-searchbar-wrapper">
+                        <TextInput className="remote-searchbar-input" />
+                        <Button>Search</Button>
+                    </div>
+                </div>
             </div>
         </div>
     )
