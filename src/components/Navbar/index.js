@@ -23,7 +23,7 @@ import Register from '../../pages/Register';
 import ForgotPassword from '../../pages/ForgotPassword';
 import NewPassword from '../../pages/NewPassword';
 import OTP from '../../pages/OTP';
-import { EMPTY, LOGIN } from '../../variables/global';
+import { EMPTY, LOGIN, MENU_MOBILE } from '../../variables/global';
 
 // GLOBAL COMPONENTS FOR COMPONENT RELATED TO NAVBAR
 export const ShowNavbar = (props) => {
@@ -57,10 +57,6 @@ export default function Navbar() {
 
         if (overridingToggle === EMPTY) displayChange("1", "visible");
         else displayChange("0", "hidden");
-    }
-
-    function handleOverridingMenu() {
-        setToggleMenu(!toggleMenu);
     }
 
     function handleOpenOverriding(overridingToggle) {
@@ -137,14 +133,14 @@ export default function Navbar() {
                                 <ShowProfile />
                             </ul>
                         </ul>
-                        <img onClick={() => { handleOverridingMenu() }} className='navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view' src={ICHamburger} alt="ic_hamburger" />
+                        <img onClick={() => { handleOpenOverriding(MENU_MOBILE) }} className='navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view' src={ICHamburger} alt="ic_hamburger" />
                     </div>
                 </div>
             </div>
-            <OverridingContainer toggle={toggleMenu}>
+            <OverridingContainer toggle={toggleOverride === MENU_MOBILE}>
                 <div className="sticky-top">
                     <ShowNavbar>
-                        <img onClick={() => { handleOverridingMenu() }} className='navbar-mobile-hamburger-image' src={ICHamburger} alt="ic_hamburger" />
+                        <img onClick={() => { handleOpenOverriding(EMPTY) }} className='navbar-mobile-hamburger-image' src={ICHamburger} alt="ic_hamburger" />
                     </ShowNavbar>
                     <ul className="navbar-mobile-menu-wrapper">
                         <ShowSearchBar />
