@@ -67,6 +67,11 @@ export default function Navbar(props) {
         setToggleOverride(overridingToggle);
     }
 
+    function handlePageNavigation(navMenu){
+        handleOpenOverriding(EMPTY);
+        navigate(navMenu);
+    }
+
     // COMPONENTS SPECIFIC //
     const ShowProfile = () => {
         if (!props.login) return <Button onClick={() => handleOpenOverriding(LOGIN)}>Login</Button>
@@ -102,14 +107,14 @@ export default function Navbar(props) {
     const ShowMenuButtonsMobile = () => {
         return menus.map((menu, index) => {
             return <ShowMenuRow key={`mobile-button-${index}`}>
-                <Button onClick={() => navigate(menu.route)}>{menu.name}</Button>
+                <Button onClick={() => handlePageNavigation(menu.route)}>{menu.name}</Button>
             </ShowMenuRow>
         })
     }
 
     const ShowMenuButtons = () => {
         return menus.map((menu, index) => {
-            return <Button onClick={() => navigate(menu.route)} key={`button-${index}`}><span className="white-space-no-wrap">{menu.name}</span></Button>
+            return <Button onClick={() => handlePageNavigation(menu.route)} key={`button-${index}`}><span className="white-space-no-wrap">{menu.name}</span></Button>
         })
     }
 
@@ -123,7 +128,7 @@ export default function Navbar(props) {
                 <div className="navbar-container">
                     <div className="navbar-wrapper">
                         <div className="navbar-logo-wrapper">
-                            <img onClick={() => navigate('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
+                            <img onClick={() => handlePageNavigation('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
                         </div>
                         <ul className="navbar-menu-wrapper">
                             <ShowSearchBar />
