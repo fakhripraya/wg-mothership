@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../components/Button';
 import Dropdown from '../../components/Dropdown';
-import Checkbox from '../../components/Checkbox';
+import Checkbox from '../../components/RadioButton';
 import TextInput from '../../components/TextInput';
 import './style.scss';
 import { filterCheckboxes, filterDropdowns, itemListDummy } from '../../variables/dummy/remote';
