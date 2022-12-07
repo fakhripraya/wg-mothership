@@ -6,9 +6,10 @@
     overflow-x: hidden;
     z-index: -1;
     top: 0;
-    opacity: 0;
+    left: 0;
+    transform: translateY(-100%);
     visibility: hidden;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.75s ease-out;
 }
 
 /* width */
@@ -34,8 +35,9 @@ background: #0DA34D;
 
 .overriding-container-view{
     z-index: 1002 !important;
-    opacity: 1 !important;
+    // opacity: 1 !important;
     visibility: visible !important;
+    transform: translateY(0%) !important;
 }
 
 .overriding-wrapper{

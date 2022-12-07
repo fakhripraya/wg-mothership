@@ -21,6 +21,9 @@ import Dropdown from '../Dropdown';
 import Login from '../../pages/Login';
 import Register from '../../pages/Register';
 import ForgotPassword from '../../pages/ForgotPassword';
+import NewPassword from '../../pages/NewPassword';
+import OTP from '../../pages/OTP';
+import { EMPTY, LOGIN } from '../../variables/global';
 
 // GLOBAL COMPONENTS FOR COMPONENT RELATED TO NAVBAR
 export const ShowNavbar = (props) => {
@@ -42,55 +45,34 @@ export default function Navbar() {
     const [toggleMenu, setToggleMenu] = useState(false);
     const [login, setLogin] = useState(null);
     const [menus, setMenus] = useState(() => getMenus());
-    const [toggleLogin, setToggleLogin] = useState(false);
-    const [toggleRegister, setToggleRegister] = useState(false);
-    const [toggleForgotPassword, setToggleForgotPassword] = useState(false);
+    const [toggleOverride, setToggleOverride] = useState(EMPTY);
 
     // FUNCTIONS SPECIFIC //
 
-    function handleNavbarDisplay(toggleOverriding) {
+    function handleNavbarDisplay(overridingToggle) {
         function displayChange(opacity, visibility) {
             ref.current.style.opacity = opacity;
             ref.current.style.visibility = visibility;
         }
 
-        if (!toggleOverriding) displayChange("0", "hidden");
-        else displayChange("1", "visible");
+        if (overridingToggle === EMPTY) displayChange("1", "visible");
+        else displayChange("0", "hidden");
     }
 
     function handleOverridingMenu() {
         setToggleMenu(!toggleMenu);
     }
 
-    function handleOpenLoginOverriding() {
-        handleNavbarDisplay(toggleLogin);
-        setToggleMenu(false);
-        setToggleRegister(false);
-        setToggleForgotPassword(false);
-        setToggleLogin(!toggleLogin);
-    }
-
-    function handleOpenRegisterOverriding() {
-        handleNavbarDisplay(toggleRegister);
-        setToggleMenu(false);
-        setToggleRegister(!toggleRegister);
-        setToggleForgotPassword(false);
-        setToggleLogin(false);
-    }
-
-    function handleOpenForgotPasswordOverriding() {
-        handleNavbarDisplay(toggleForgotPassword);
-        setToggleMenu(false);
-        setToggleRegister(false);
-        setToggleForgotPassword(!toggleForgotPassword);
-        setToggleLogin(false);
+    function handleOpenOverriding(overridingToggle) {
+        handleNavbarDisplay(overridingToggle);
+        setToggleOverride(overridingToggle);
     }
 
     // COMPONENTS SPECIFIC //
     const ShowProfile = () => {
-        if (!login) return <Button onClick={() => handleOpenLoginOverriding()}>Login</Button>
+        if (!login) return <Button onClick={() => handleOpenOverriding(LOGIN)}>Login</Button>
         return <Fragment>
-            <Button onClick={() => { navigator.clipboard.writeText("markontolito") }}>Notification</Button>
+            <Button >Notification</Button>
             <Button >Profile</Button>
         </Fragment>
     }
@@ -174,9 +156,11 @@ export default function Navbar() {
                     <Footer />
                 </div>
             </OverridingContainer >
-            <Login functions={[handleOpenRegisterOverriding, handleOpenForgotPasswordOverriding]} toggle={toggleLogin} handleOpen={handleOpenLoginOverriding} />
-            <Register functions={[handleOpenLoginOverriding, handleOpenForgotPasswordOverriding]} toggle={toggleRegister} handleOpen={handleOpenRegisterOverriding} />
-            <ForgotPassword functions={[handleOpenLoginOverriding]} toggle={toggleForgotPassword} handleOpen={handleOpenForgotPasswordOverriding} />
+            <Login toggle={toggleOverride} handleOpen={handleOpenOverriding} />
+            <Register toggle={toggleOverride} handleOpen={handleOpenOverriding} />
+            <ForgotPassword toggle={toggleOverride} handleOpen={handleOpenOverriding} />
+            <NewPassword toggle={toggleOverride} handleOpen={handleOpenOverriding} />
+            <OTP toggle={toggleOverride} handleOpen={handleOpenOverriding} />
         </Fragment >
     )
 }

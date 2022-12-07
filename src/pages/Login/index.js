@@ -8,23 +8,29 @@ import OverridingContainer from '../../components/OveriddingContainer';
 import Footer from '../../components/Footer';
 import { ShowNavbar } from '../../components/Navbar';
 import XMark from '../../assets/svg/xmark-solid.svg';
+import {
+    EMPTY,
+    FORGOT_PASSWORD,
+    LOGIN,
+    REGISTER
+} from '../../variables/global';
 
 export default function Login(props) {
 
     // FUNCTIONS SPECIFIC //
     function handleOpenForgotPassword() {
-        props.functions[1]();
+        props.handleOpen(FORGOT_PASSWORD);
     }
 
     function handleOpenRegister() {
-        props.functions[0]();
+        props.handleOpen(REGISTER);
     }
 
     return (
-        <OverridingContainer toggle={props.toggle}>
+        <OverridingContainer toggle={props.toggle === LOGIN}>
             <div className="sticky-top">
                 <ShowNavbar>
-                    <img onClick={() => { props.handleOpen() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                    <img onClick={() => { props.handleOpen(EMPTY) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                 </ShowNavbar>
                 <div className="login-container">
                     <div className="login-wrapper">

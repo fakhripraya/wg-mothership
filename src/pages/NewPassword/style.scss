@@ -1,5 +1,5 @@
 // MAIN STYLES //
-.otp-container{
+.new-password-container{
     min-height: 100%;
     min-width: 100%;
     padding-bottom: 10vh;
@@ -9,7 +9,7 @@
     }
 }
 
-.otp-wrapper{
+.new-password-wrapper{
     width: 40vw;
     margin: 0px auto;
     position: relative;
@@ -25,12 +25,12 @@
     }
 }
 
-.otp-input-title{
+.new-password-input-title{
     width: 100px;
     margin: 10px 10px 0px 0px !important;
 }
 
-.otp-textinput-box{
+.new-password-textinput-box{
     margin-top: 12px;
     width: 100%;
     list-style: none;
@@ -38,7 +38,7 @@
     flex-direction: row;
 }
 
-.otp-textinput{
+.new-password-textinput{
     padding: 6px 0px;
     border-radius: 8px;
     text-decoration: none;
@@ -47,32 +47,32 @@
     background-color: #fff;
 }
 
-.otp-button{
+.new-password-button{
     margin-top: 12px;
     text-align: center;
     justify-self: center;
     align-self: center;
 }
 
-.otp-button-text{
+.new-password-button-text{
     margin: 6px !important;
 }
 
-.otp-forgot-pass{
+.new-password-forgot-pass{
     align-self: flex-start;
 }
 
-.otp-middle-text{
+.new-password-middle-text{
     align-self: center;
 }
 
-.otp-open-auths{
+.new-password-open-auths{
     align-self: center;
     display: flex;
     flex-direction: row;
 }
 
-.otp-open-auths-button{
+.new-password-open-auths-button{
     margin-top: 12px;
     text-align: center;
     justify-self: center;
@@ -80,11 +80,11 @@
     margin-right: 6px;
 }
 
-.otp-open-auths-button img{
+.new-password-open-auths-button img{
     height: 40px;
     width: 40px;
 }
 
-.otp-open-auths-button:last-child{
+.new-password-open-auths-button:last-child{
     margin-right: 0px !important;
 }

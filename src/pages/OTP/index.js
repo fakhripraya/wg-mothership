@@ -1,35 +1,54 @@
-import React, { useState } from 'react';
-import OverridingContainer from '../../components/OveriddingContainer';
+import React, { useState, Fragment } from 'react';
 import './style.scss';
+import TextInput from '../../components/TextInput';
+import Button from '../../components/Button';
+import OverridingContainer from '../../components/OveriddingContainer';
+import { ShowNavbar } from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import XMark from '../../assets/svg/xmark-solid.svg';
+import {
+    EMPTY,
+    LOGIN,
+    NEW_PASSWORD,
+    OTP_PAGE
+} from '../../variables/global';
 
-export default function OTP() {
+export default function OTP(props) {
 
-    const [toggleMenu, setToggleMenu] = useState(false);
+    // FUNCTIONS SPECIFIC //
+    function handleOpenLogin() {
+        props.handleOpen(LOGIN);
+    }
 
-    function handleOverridingMenu() {
-        setToggleMenu(!toggleMenu)
+    function handleSubmitOTP() {
+        props.handleOpen(OTP_PAGE);
+        props.handleOpen(NEW_PASSWORD);
     }
 
     return (
-        <OverridingContainer toggle={toggleMenu}>
+        <OverridingContainer toggle={props.toggle === OTP_PAGE}>
             <div className="sticky-top">
-                <div className="navbar-container">
-                    <div className="navbar-wrapper">
-                        <div className="navbar-mobile-logo-wrapper">
-                            <img onClick={() => navigate('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
+                <ShowNavbar>
+                    <img onClick={() => { props.handleOpen(EMPTY) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                </ShowNavbar>
+                <div className="otp-container">
+                    <div className="otp-wrapper">
+                        <h2 className="margin-bottom-12-18">Just Input The OTP we sent</h2>
+                        <h3 className="margin-top-0 margin-bottom-12-18">We Just Sent An OTP Code To Your Email, Put It Here So We Can Make Sure It Is You !</h3>
+                        <div className="otp-textinput-box">
+                            <h3 className="otp-input-title">OTP</h3>
+                            <TextInput maxLength="6" type="password" className="otp-textinput text-align-center">
+
+                            </TextInput>
                         </div>
-                        <img onClick={() => { handleOverridingMenu() }} className='navbar-mobile-hamburger-image' src={ICHamburger} alt="ic_hamburger" />
+                        <h3 onClick={() => handleOpenLogin()} className="otp-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
+                        <Button onClick={() => handleSubmitOTP()} className="otp-button dark-bg-color">
+                            <h2 className="otp-button-text">Submit</h2>
+                        </Button>
                     </div>
                 </div>
-                <ul className="navbar-mobile-menu-wrapper">
-                    <ShowSearchBar />
-                </ul>
-                <ShowMenuRow>
-                    <ShowProfile />
-                </ShowMenuRow>
-                <ShowMenuButtonsMobile />
                 <Footer />
             </div>
-        </OverridingContainer >
+        </OverridingContainer>
     )
 }
