@@ -52,6 +52,7 @@ export default function Navbar() {
 
     function handleOpenLoginOverriding() {
         handleNavbarDisplay();
+        setToggleMenu(false);
         setOverridding(LOGIN);
         setToggleOverriding(!toggleOverriding);
     }

@@ -5,5 +5,5 @@ body,html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  overflow-y: hidden !important;
+  overflow-y: hidden !important; /*TODO: Delete after test*/
 }
