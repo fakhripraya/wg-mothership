@@ -47,7 +47,7 @@ export default function Navbar(props) {
     // VARIABLE
     const ref = useRef();
     const navigate = useNavigate();
-    const menus = useState(() => getMenus());
+    const menus = getMenus();
 
     // STATES
     const [toggleOverride, setToggleOverride] = useState(EMPTY);
