@@ -13,6 +13,7 @@ import { styleInitialState } from './variables/styles/app';
 function App() {
 
   const [style, setStyle] = useState(styleInitialState);
+  const [loginInfo, setLoginInfo] = useState(null);
 
   // kick off the polyfill!
   // smoothen scrolling on iphone
@@ -38,7 +39,7 @@ function App() {
 
   return (
     <Router history={history} basename="/">
-      <NavBar history={history} />
+      <NavBar loginInfo={loginInfo} setLoginInfo={setLoginInfo} />
       <Routes>
         {routes.map((item, index) => {
           return <Route

@@ -23,7 +23,11 @@ import Register from '../../pages/Register';
 import ForgotPassword from '../../pages/ForgotPassword';
 import NewPassword from '../../pages/NewPassword';
 import OTP from '../../pages/OTP';
-import { EMPTY, LOGIN, MENU_MOBILE } from '../../variables/global';
+import {
+    EMPTY,
+    LOGIN,
+    MENU_MOBILE
+} from '../../variables/global';
 
 // GLOBAL COMPONENTS FOR COMPONENT RELATED TO NAVBAR
 export const ShowNavbar = (props) => {
@@ -38,13 +42,14 @@ export const ShowNavbar = (props) => {
     </div>
 }
 
-export default function Navbar() {
+export default function Navbar(props) {
 
+    // VARIABLE
     const ref = useRef();
     const navigate = useNavigate();
-    const [toggleMenu, setToggleMenu] = useState(false);
-    const [login, setLogin] = useState(null);
-    const [menus, setMenus] = useState(() => getMenus());
+    const menus = useState(() => getMenus());
+
+    // STATES
     const [toggleOverride, setToggleOverride] = useState(EMPTY);
 
     // FUNCTIONS SPECIFIC //
@@ -59,14 +64,24 @@ export default function Navbar() {
         else displayChange("0", "hidden");
     }
 
+    function handleWindowScroll(overridingToggle) {
+        // Scroll window to top
+        window.scrollTo(0, 0);
+
+        // Then use condition for the scrolling behavior
+        if (overridingToggle === EMPTY) window.document.getElementsByTagName('html')[0].style.overflow = "auto";
+        else window.document.getElementsByTagName('html')[0].style.overflow = "hidden";
+    }
+
     function handleOpenOverriding(overridingToggle) {
+        handleWindowScroll(overridingToggle);
         handleNavbarDisplay(overridingToggle);
         setToggleOverride(overridingToggle);
     }
 
     // COMPONENTS SPECIFIC //
     const ShowProfile = () => {
-        if (!login) return <Button onClick={() => handleOpenOverriding(LOGIN)}>Login</Button>
+        if (!props.login) return <Button onClick={() => handleOpenOverriding(LOGIN)}>Login</Button>
         return <Fragment>
             <Button >Notification</Button>
             <Button >Profile</Button>

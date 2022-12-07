@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React from 'react';
 import './style.scss';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
@@ -45,7 +45,7 @@ export default function NewPassword(props) {
                             </TextInput>
                         </div>
                         <h3 onClick={() => handleOpenLogin()} className="new-password-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
-                        <Button className="new-password-button dark-bg-color">
+                        <Button onClick={() => handleSubmitNewPassword()} className="new-password-button dark-bg-color">
                             <h2 className="new-password-button-text">Submit</h2>
                         </Button>
                     </div>

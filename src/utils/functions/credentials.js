@@ -1,3 +1,3 @@
-export function handleLogin(callback) {
+export function handleLoginRequest(callback) {
     callback({});
 }
