@@ -24,9 +24,19 @@ import Register from '../../pages/Register';
 import ForgotPassword from '../../pages/ForgotPassword';
 import { FORGOT_PASSWORD, LOGIN, REGISTER } from '../../variables/global';
 
-// TODO: DELETE AFTER
-import GoogleIcon from '../../assets/svg/google.svg';
-import FacebookIcon from '../../assets/svg/facebook-f.svg';
+// GLOBAL COMPONENTS FOR COMPONENT RELATED TO NAVBAR
+export const ShowNavbar = (props) => {
+    const navigate = useNavigate();
+    return <div className="navbar-container">
+        <div className="navbar-wrapper">
+            <div className="navbar-mobile-logo-wrapper">
+                <img onClick={() => navigate('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
+            </div>
+            {props.children}
+        </div>
+    </div>
+}
+
 export default function Navbar() {
 
     const ref = useRef();
@@ -61,16 +71,6 @@ export default function Navbar() {
     }
 
     // COMPONENTS SPECIFIC //
-    const ShowNavbar = (props) => {
-        return <div className="navbar-container">
-            <div className="navbar-wrapper">
-                <div className="navbar-mobile-logo-wrapper">
-                    <img onClick={() => navigate('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
-                </div>
-                {props.children}
-            </div>
-        </div>
-    }
     const ShowProfile = () => {
         if (!login) return <Button onClick={() => handleOpenLoginOverriding()}>Login</Button>
         return <Fragment>
@@ -133,16 +133,6 @@ export default function Navbar() {
     useEffect(() => {
     }, []);
 
-    //TODO: DELETE AFTER
-    // FUNCTIONS SPECIFIC //
-    function handleOpenForgotPassword() {
-        setOverridding(FORGOT_PASSWORD);
-    }
-
-    function handleOpenRegister() {
-        setOverridding(REGISTER);
-    }
-
     return (
         <Fragment>
             <div ref={ref} className="fixed-top navbar">
@@ -181,51 +171,16 @@ export default function Navbar() {
                     <Footer />
                 </div>
             </OverridingContainer >
-            <OverridingContainer toggle={toggleOverriding}>
+            {/* <OverridingContainer toggle={toggleOverriding}>
                 <div className="sticky-top">
                     <ShowNavbar>
                         <img onClick={() => { handleOpenLoginOverriding() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                     </ShowNavbar>
-                    <div className="login-container">
-                        <div className="login-wrapper">
-                            <h2 className="margin-bottom-12-18">Sign in to access</h2>
-                            <h3 className="margin-top-0 margin-bottom-12-18">Start Rentaling Your Device Now, What Are You Waiting For ?</h3>
-                            <div className="login-textinput-box">
-                                <h3 className="login-input-title">ID</h3>
-                                <TextInput type="text" className="login-textinput text-align-center">
-
-                                </TextInput>
-                            </div>
-                            <div className="login-textinput-box">
-                                <h3 className="login-input-title">Pass</h3>
-                                <TextInput type="password" className="login-textinput text-align-center">
-
-                                </TextInput>
-                            </div>
-                            <h3 onClick={() => handleOpenForgotPassword()} className="login-forgot-pass link-color cursor-pointer">Forgot your password</h3>
-                            <Button className="login-button dark-bg-color">
-                                <h2 className="login-button-text">Sign In</h2>
-                            </Button>
-                            <br></br>
-                            <h3 className="login-middle-text">Or continue with</h3>
-                            <div className="login-open-auths">
-                                <Button className="login-open-auths-button light-bg-color">
-                                    <img src={GoogleIcon} alt={"google-icon"} />
-                                </Button>
-                                <Button className="login-open-auths-button light-bg-color">
-                                    <img src={FacebookIcon} alt={"facebook-icon"} />
-                                </Button>
-                            </div>
-                            <br></br>
-                            <br></br>
-                            <br></br>
-                            <h3 className="login-middle-text">Not a member ? <span onClick={() => handleOpenRegister()} className="link-color cursor-pointer">Sign up now</span></h3>
-                        </div>
-                    </div>
                     <ShowOverriding />
                     <Footer />
                 </div>
-            </OverridingContainer >
+            </OverridingContainer > */}
+            <Login toggle={toggleOverriding} handleOpenLogin={handleOpenLoginOverriding} />
         </Fragment >
     )
 }
