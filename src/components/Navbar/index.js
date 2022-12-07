@@ -173,6 +173,9 @@ export default function Navbar() {
                     <ShowNavbar>
                         <img onClick={() => { handleOpenLoginOverriding() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                     </ShowNavbar>
+                    <ul className="navbar-mobile-menu-wrapper">
+                        <ShowSearchBar />
+                    </ul>
                     <ShowOverriding />
                     <Footer />
                 </div>
