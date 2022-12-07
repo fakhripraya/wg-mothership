@@ -3,7 +3,7 @@ import './style.scss';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import OverridingContainer from '../../components/OveriddingContainer';
-import { ShowNavbar } from '../../components/Navbar';
+import { ShowNavbar } from '../../components/Global';
 import Footer from '../../components/Footer';
 import XMark from '../../assets/svg/xmark-solid.svg';
 import {

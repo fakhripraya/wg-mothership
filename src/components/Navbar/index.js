@@ -28,19 +28,7 @@ import {
     LOGIN,
     MENU_MOBILE
 } from '../../variables/global';
-
-// GLOBAL COMPONENTS FOR COMPONENT RELATED TO NAVBAR
-export const ShowNavbar = (props) => {
-    const navigate = useNavigate();
-    return <div className="navbar-container">
-        <div className="navbar-wrapper">
-            <div className="navbar-mobile-logo-wrapper">
-                <img onClick={() => navigate('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
-            </div>
-            {props.children}
-        </div>
-    </div>
-}
+import { ShowNavbar } from '../Global';
 
 export default function Navbar(props) {
 

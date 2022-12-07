@@ -6,7 +6,7 @@ import GoogleIcon from '../../assets/svg/google.svg';
 import FacebookIcon from '../../assets/svg/facebook-f.svg';
 import OverridingContainer from '../../components/OveriddingContainer';
 import Footer from '../../components/Footer';
-import { ShowNavbar } from '../../components/Navbar';
+import { ShowNavbar } from '../../components/Global';
 import XMark from '../../assets/svg/xmark-solid.svg';
 import {
     EMPTY,

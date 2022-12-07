@@ -22,7 +22,7 @@ export default function Remote() {
         })
     }
 
-    const ShowBody = (props) => {
+    const ShowBody = () => {
         return itemListDummy.map((item, index) => {
             return <div key={`remote-items-${index}`} className="remote-body margin-top-12-18 dark-bg-color">
                 <div className="remote-body-items remote-body-identifier">

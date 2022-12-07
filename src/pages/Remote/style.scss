@@ -159,6 +159,11 @@
     height: 75%;
     width: 75%;
     border-radius: 8px;
+
+    @media screen and (max-width: 768px){
+        height: 100%;
+        width: 100%;
+    }
 }
 
 .remote-body-cpu-spec{

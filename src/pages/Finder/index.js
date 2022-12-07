@@ -15,6 +15,7 @@ import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import Accordion from '../../components/Accordion';
 import { filterData } from '../../variables/dummy/finder';
+import { ShowBreadcrumbs } from '../../components/Global';
 
 export default function Finder() {
 
@@ -32,13 +33,6 @@ export default function Finder() {
     }
 
     // COMPONENTS SPECIFIC //
-    const ShowBreadcrumbs = () => {
-        let breadCrumbTexts = "";
-        breadcrumbs.forEach((item) => breadCrumbTexts += `${item} - `);
-        breadCrumbTexts = breadCrumbTexts.slice(0, -2);
-        return <h3>{breadCrumbTexts}</h3>
-    }
-
     const ShowAccordions = (props) => {
         return props.datas.map((item, index) => {
             return <Accordion key={`${props.uniqueKey}-accordion-${index}`} toggle={true} isButton={true} title={item.title} data={item.data} />
@@ -66,27 +60,24 @@ export default function Finder() {
 
     const ShowGridCardCarousel = (props) => {
         return props.arrayFunc().map((item, index) => {
-            return <div key={'all-finding-' + `${index}`} onMouseDown={(event) => scrollCarousel(event, gridRefs[index])} className="finder-cards-grid-wrapper" ref={ref => gridRefs[index] = ref}>
-                <ShowGrabableCardCarousel uniqueKey={'all-finding-' + `id-${index}`} arrayFunc={() => item.arrayFunc()} />
+            return <div key={`all-finding-${index}`} onMouseDown={(event) => scrollCarousel(event, gridRefs[index])} className="finder-cards-grid-wrapper" ref={ref => gridRefs[index] = ref}>
+                <ShowGrabableCardCarousel uniqueKey={`all-finding-id-${index}`} arrayFunc={() => item.arrayFunc()} />
             </div>
         })
     }
 
-    // FUNCTIONS SPECIFIC //
-
-
+    // INITIAL RENDER
     useEffect(() => {
-        // INITIAL RENDER
         const dummyBreadcrumb = ["Home", "Graphical Renders", "Tesla P100"];
         setBreadcrumb(dummyBreadcrumb);
-    }, [])
+    }, []);
 
     return (
         <Fragment>
             <div className="finder-container">
                 <div className="finder-wrapper">
                     <div className="finder-breadcrumbs">
-                        <ShowBreadcrumbs />
+                        <ShowBreadcrumbs trails={breadcrumbs} />
                     </div>
                     <div className="finder-title">
                         <h2>THIS IS THE TITLE OF THE FINDER</h2>
