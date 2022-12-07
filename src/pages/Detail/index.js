@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { ShowBreadcrumbs } from '../../components/Global'
+import { smoothScrollTop } from '../../utils/functions/global';
 
 export default function Detail() {
 
@@ -9,6 +10,7 @@ export default function Detail() {
 
     // INITIAL RENDER
     useEffect(() => {
+        smoothScrollTop();
         const dummyBreadcrumb = ["Home", "Graphical Renders", "Tesla P100"];
         setBreadcrumb(dummyBreadcrumb);
     }, []);

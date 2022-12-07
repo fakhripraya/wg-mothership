@@ -40,3 +40,11 @@ export function scrollCarousel(e, ele) {
     window.addEventListener('mousemove', mouseMoveHandler);
     window.addEventListener('mouseup', mouseUpHandler);
 }
+
+export function smoothScrollTop() {
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    });
+}

@@ -8,7 +8,7 @@ import Dropdown from '../../components/Dropdown';
 import Button from '../../components/Button';
 import './style.scss';
 import Card from '../../components/Card';
-import { scrollCarousel } from '../../utils/functions/global';
+import { scrollCarousel, smoothScrollTop } from '../../utils/functions/global';
 import { getGrid, getRecommendedGaming } from '../../variables/dummy/home';
 import Tag from '../../components/Tag';
 import FloatButton from '../../components/FloatButton';
@@ -68,6 +68,7 @@ export default function Finder() {
 
     // INITIAL RENDER
     useEffect(() => {
+        smoothScrollTop();
         const dummyBreadcrumb = ["Home", "Graphical Renders", "Tesla P100"];
         setBreadcrumb(dummyBreadcrumb);
     }, []);

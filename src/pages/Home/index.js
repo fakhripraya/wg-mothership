@@ -8,7 +8,7 @@ import Button from '../../components/Button';
 import ImageSlider from '../../components/ImageSlider';
 import dummy from "../../config/json/development/carouselDummy.json";
 import {
-    scrollCarousel
+    scrollCarousel, smoothScrollTop
 } from '../../utils/functions/global';
 import {
     getBalanceTools,
@@ -75,8 +75,9 @@ export default function Home() {
         })
     }
 
-    // RENDERS SPECIFIC //
+    // INITIAL RENDER
     useEffect(() => {
+        smoothScrollTop();
     }, []);
 
     return (

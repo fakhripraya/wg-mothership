@@ -1,9 +1,18 @@
 import './App.scss';
-import React, { Suspense, useEffect, useState } from 'react';
+import React,
+{
+  Suspense,
+  useEffect,
+  useState
+} from 'react';
 import NavBar from './components/Navbar';
 import Footer from './components/Footer';
 import { createBrowserHistory } from 'history';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from 'react-router-dom';
 import { routes } from './config/router/path'
 import smoothscroll from 'smoothscroll-polyfill';
 import FloatButton from './components/FloatButton';
@@ -12,8 +21,8 @@ import { styleInitialState } from './variables/styles/app';
 
 function App() {
 
-  const [style, setStyle] = useState(styleInitialState);
   const [loginInfo, setLoginInfo] = useState(null);
+  const [style, setStyle] = useState(styleInitialState);
 
   // kick off the polyfill!
   // smoothen scrolling on iphone

@@ -6,6 +6,8 @@ import TextInput from '../../components/TextInput';
 import './style.scss';
 import { filterCheckboxes, filterDropdowns, itemListDummy } from '../../variables/dummy/remote';
 import Accordion from '../../components/Accordion';
+import { useEffect } from 'react';
+import { smoothScrollTop } from '../../utils/functions/global';
 
 export default function Remote() {
 
@@ -78,6 +80,11 @@ export default function Remote() {
             </Accordion>
         })
     }
+
+    // INITIAL RENDER
+    useEffect(() => {
+        smoothScrollTop();
+    }, []);
 
     return (
         <div className="remote-container">
