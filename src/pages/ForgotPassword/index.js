@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import './style.scss';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
-import { LOGIN } from '../../variables/global';
+import OverridingContainer from '../../components/OveriddingContainer';
+import { ShowNavbar } from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import XMark from '../../assets/svg/xmark-solid.svg';
 
 export default function ForgotPassword(props) {
 
@@ -10,7 +13,7 @@ export default function ForgotPassword(props) {
 
     // FUNCTIONS SPECIFIC //
     function handleOpenLogin() {
-        props.functions[0](LOGIN);
+        props.functions[0]();
     }
 
     function handleSubmitEmail() {
@@ -89,10 +92,18 @@ export default function ForgotPassword(props) {
     }
 
     return (
-        <div className="forgot-password-container">
-            <div className="forgot-password-wrapper">
-                <ShowField />
+        <OverridingContainer toggle={props.toggle}>
+            <div className="sticky-top">
+                <ShowNavbar>
+                    <img onClick={() => { props.handleOpen() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                </ShowNavbar>
+                <div className="forgot-password-container">
+                    <div className="forgot-password-wrapper">
+                        <ShowField />
+                    </div>
+                </div>
+                <Footer />
             </div>
-        </div>
+        </OverridingContainer>
     )
 }

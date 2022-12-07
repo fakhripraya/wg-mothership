@@ -1,74 +1,81 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import './style.scss';
-import {
-    useNavigate
-} from 'react-router-dom';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import GoogleIcon from '../../assets/svg/google.svg';
 import FacebookIcon from '../../assets/svg/facebook-f.svg';
-import { FORGOT_PASSWORD, LOGIN } from '../../variables/global';
+import OverridingContainer from '../../components/OveriddingContainer';
+import { ShowNavbar } from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import XMark from '../../assets/svg/xmark-solid.svg';
 
 export default function Register(props) {
 
     // FUNCTIONS SPECIFIC //
     function handleOpenForgotPassword() {
-        console.log(props.functions[0])
-        props.functions[0](FORGOT_PASSWORD);
+        props.functions[1]();
     }
 
     function handleOpenLogin() {
-        props.functions[0](LOGIN);
+        props.functions[0]();
     }
 
     return (
-        <div className="register-container">
-            <div className="register-wrapper">
-                <h2 className="margin-bottom-12-18">Join To Become A Member</h2>
-                <h3 className="margin-top-0 margin-bottom-12-18">Gain Maximum Profitability By Rentaling Your Device To Others Virtually Or Physically</h3>
-                <div className="register-textinput-box">
-                    <h3 className="register-input-title">ID</h3>
-                    <TextInput type="text" className="register-textinput text-align-center">
+        <OverridingContainer toggle={props.toggle}>
+            <div className="sticky-top">
+                <ShowNavbar>
+                    <img onClick={() => { props.handleOpen() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                </ShowNavbar>
+                <div className="register-container">
+                    <div className="register-wrapper">
+                        <h2 className="margin-bottom-12-18">Join To Become A Member</h2>
+                        <h3 className="margin-top-0 margin-bottom-12-18">Gain Maximum Profitability By Rentaling Your Device To Others Virtually Or Physically</h3>
+                        <div className="register-textinput-box">
+                            <h3 className="register-input-title">ID</h3>
+                            <TextInput type="text" className="register-textinput text-align-center">
 
-                    </TextInput>
-                </div>
-                <div className="register-textinput-box">
-                    <h3 className="register-input-title">Email</h3>
-                    <TextInput type="text" className="register-textinput text-align-center">
+                            </TextInput>
+                        </div>
+                        <div className="register-textinput-box">
+                            <h3 className="register-input-title">Email</h3>
+                            <TextInput type="text" className="register-textinput text-align-center">
 
-                    </TextInput>
-                </div>
-                <div className="register-textinput-box">
-                    <h3 className="register-input-title">Pass</h3>
-                    <TextInput type="password" className="register-textinput text-align-center">
+                            </TextInput>
+                        </div>
+                        <div className="register-textinput-box">
+                            <h3 className="register-input-title">Pass</h3>
+                            <TextInput type="password" className="register-textinput text-align-center">
 
-                    </TextInput>
-                </div>
-                <div className="register-textinput-box">
-                    <h3 className="register-input-title">Confirm</h3>
-                    <TextInput type="password" className="register-textinput text-align-center">
+                            </TextInput>
+                        </div>
+                        <div className="register-textinput-box">
+                            <h3 className="register-input-title">Confirm</h3>
+                            <TextInput type="password" className="register-textinput text-align-center">
 
-                    </TextInput>
+                            </TextInput>
+                        </div>
+                        <h3 onClick={() => handleOpenForgotPassword()} className="register-forgot-pass link-color cursor-pointer">Forgot your password</h3>
+                        <Button className="register-button dark-bg-color">
+                            <h2 className="register-button-text">Sign Up</h2>
+                        </Button>
+                        <br></br>
+                        <h3 className="register-middle-text">Or continue with</h3>
+                        <div className="register-open-auths">
+                            <Button className="register-open-auths-button light-bg-color">
+                                <img src={GoogleIcon} alt={"google-icon"} />
+                            </Button>
+                            <Button className="register-open-auths-button light-bg-color">
+                                <img src={FacebookIcon} alt={"facebook-icon"} />
+                            </Button>
+                        </div>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <h3 className="register-middle-text">Already have an account ? <span onClick={() => handleOpenLogin()} className="link-color cursor-pointer">Sign in now</span></h3>
+                    </div>
                 </div>
-                <h3 onClick={() => handleOpenForgotPassword()} className="register-forgot-pass link-color cursor-pointer">Forgot your password</h3>
-                <Button className="register-button dark-bg-color">
-                    <h2 className="register-button-text">Sign Up</h2>
-                </Button>
-                <br></br>
-                <h3 className="register-middle-text">Or continue with</h3>
-                <div className="register-open-auths">
-                    <Button className="register-open-auths-button light-bg-color">
-                        <img src={GoogleIcon} alt={"google-icon"} />
-                    </Button>
-                    <Button className="register-open-auths-button light-bg-color">
-                        <img src={FacebookIcon} alt={"facebook-icon"} />
-                    </Button>
-                </div>
-                <br></br>
-                <br></br>
-                <br></br>
-                <h3 className="register-middle-text">Already have an account ? <span onClick={() => handleOpenLogin()} className="link-color cursor-pointer">Sign in now</span></h3>
+                <Footer />
             </div>
-        </div>
+        </OverridingContainer>
     )
 }

@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import './style.scss';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import GoogleIcon from '../../assets/svg/google.svg';
 import FacebookIcon from '../../assets/svg/facebook-f.svg';
-import { FORGOT_PASSWORD, REGISTER } from '../../variables/global';
 import OverridingContainer from '../../components/OveriddingContainer';
 import Footer from '../../components/Footer';
 import { ShowNavbar } from '../../components/Navbar';
@@ -14,19 +13,18 @@ export default function Login(props) {
 
     // FUNCTIONS SPECIFIC //
     function handleOpenForgotPassword() {
-        // console.log(props.functions[0])
-        // props.functions[0](FORGOT_PASSWORD);
+        props.functions[1]();
     }
 
     function handleOpenRegister() {
-        // props.functions[0](REGISTER);
+        props.functions[0]();
     }
 
     return (
         <OverridingContainer toggle={props.toggle}>
             <div className="sticky-top">
                 <ShowNavbar>
-                    <img onClick={() => { props.handleOpenLogin() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                    <img onClick={() => { props.handleOpen() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                 </ShowNavbar>
                 <div className="login-container">
                     <div className="login-wrapper">

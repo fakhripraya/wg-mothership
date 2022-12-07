@@ -14,7 +14,6 @@ import {
 import OverridingContainer from '../OveriddingContainer';
 import WGLogo from '../../assets/images/ic_new_wg_logo.png';
 import ICHamburger from '../../assets/svg/ic_hamburg_3.svg';
-import XMark from '../../assets/svg/xmark-solid.svg';
 import {
     getMenus
 } from '../../variables/path/navbar';
@@ -22,7 +21,6 @@ import Dropdown from '../Dropdown';
 import Login from '../../pages/Login';
 import Register from '../../pages/Register';
 import ForgotPassword from '../../pages/ForgotPassword';
-import { FORGOT_PASSWORD, LOGIN, REGISTER } from '../../variables/global';
 
 // GLOBAL COMPONENTS FOR COMPONENT RELATED TO NAVBAR
 export const ShowNavbar = (props) => {
@@ -44,12 +42,13 @@ export default function Navbar() {
     const [toggleMenu, setToggleMenu] = useState(false);
     const [login, setLogin] = useState(null);
     const [menus, setMenus] = useState(() => getMenus());
-    const [toggleOverriding, setToggleOverriding] = useState(false);
-    const [overriding, setOverridding] = useState("");
+    const [toggleLogin, setToggleLogin] = useState(false);
+    const [toggleRegister, setToggleRegister] = useState(false);
+    const [toggleForgotPassword, setToggleForgotPassword] = useState(false);
 
     // FUNCTIONS SPECIFIC //
 
-    function handleNavbarDisplay() {
+    function handleNavbarDisplay(toggleOverriding) {
         function displayChange(opacity, visibility) {
             ref.current.style.opacity = opacity;
             ref.current.style.visibility = visibility;
@@ -64,10 +63,27 @@ export default function Navbar() {
     }
 
     function handleOpenLoginOverriding() {
-        handleNavbarDisplay();
+        handleNavbarDisplay(toggleLogin);
         setToggleMenu(false);
-        setOverridding(LOGIN);
-        setToggleOverriding(!toggleOverriding);
+        setToggleRegister(false);
+        setToggleForgotPassword(false);
+        setToggleLogin(!toggleLogin);
+    }
+
+    function handleOpenRegisterOverriding() {
+        handleNavbarDisplay(toggleRegister);
+        setToggleMenu(false);
+        setToggleRegister(!toggleRegister);
+        setToggleForgotPassword(false);
+        setToggleLogin(false);
+    }
+
+    function handleOpenForgotPasswordOverriding() {
+        handleNavbarDisplay(toggleForgotPassword);
+        setToggleMenu(false);
+        setToggleRegister(false);
+        setToggleForgotPassword(!toggleForgotPassword);
+        setToggleLogin(false);
     }
 
     // COMPONENTS SPECIFIC //
@@ -116,19 +132,6 @@ export default function Navbar() {
         })
     }
 
-    const ShowOverriding = () => {
-
-        // SUB COMPONENTS //
-        const LoginShow = () => <Login functions={[setOverridding]} />
-        const RegisterShow = () => <Register functions={[setOverridding]} />
-        const ForgotPasswordShow = () => <ForgotPassword functions={[setOverridding]} />
-
-        // SHOW TOGGLES //
-        if (overriding === LOGIN) return <LoginShow />
-        if (overriding === REGISTER) return <RegisterShow />
-        if (overriding === FORGOT_PASSWORD) return <ForgotPasswordShow />
-    }
-
     // RENDERS SPECIFIC //
     useEffect(() => {
     }, []);
@@ -171,16 +174,9 @@ export default function Navbar() {
                     <Footer />
                 </div>
             </OverridingContainer >
-            {/* <OverridingContainer toggle={toggleOverriding}>
-                <div className="sticky-top">
-                    <ShowNavbar>
-                        <img onClick={() => { handleOpenLoginOverriding() }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
-                    </ShowNavbar>
-                    <ShowOverriding />
-                    <Footer />
-                </div>
-            </OverridingContainer > */}
-            <Login toggle={toggleOverriding} handleOpenLogin={handleOpenLoginOverriding} />
+            <Login functions={[handleOpenRegisterOverriding, handleOpenForgotPasswordOverriding]} toggle={toggleLogin} handleOpen={handleOpenLoginOverriding} />
+            <Register functions={[handleOpenLoginOverriding, handleOpenForgotPasswordOverriding]} toggle={toggleRegister} handleOpen={handleOpenRegisterOverriding} />
+            <ForgotPassword functions={[handleOpenLoginOverriding]} toggle={toggleForgotPassword} handleOpen={handleOpenForgotPasswordOverriding} />
         </Fragment >
     )
 }
