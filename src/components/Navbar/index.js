@@ -112,12 +112,6 @@ export default function Navbar(props) {
         })
     }
 
-    const ShowMenuButtons = () => {
-        return menus.map((menu, index) => {
-            return <Button onClick={() => handlePageNavigation(menu.route)} key={`button-${index}`}><span className="white-space-no-wrap">{menu.name}</span></Button>
-        })
-    }
-
     // RENDERS SPECIFIC //
     useEffect(() => {
     }, []);
@@ -130,17 +124,6 @@ export default function Navbar(props) {
                         <div className="navbar-logo-wrapper">
                             <img onClick={() => handlePageNavigation('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
                         </div>
-                        <ul className="navbar-menu-wrapper">
-                            <ShowSearchBar />
-                        </ul>
-                        <ul className="navbar-submenu-wrapper">
-                            <ul className="navbar-submenu-section">
-                                <ShowMenuButtons />
-                            </ul>
-                            <ul className="navbar-submenu-section">
-                                <ShowProfile />
-                            </ul>
-                        </ul>
                         <img onClick={() => { handleOpenOverriding(MENU_MOBILE) }} className='navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view' src={ICHamburger} alt="ic_hamburger" />
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 // NAVBAR MAIN
 .navbar{
     width: 100vw;
-    background-color: #0DA34D;
+    background-color: transparent;
     font-size: 1.15em;
     transition: all 0.3s ease-in-out;
 }
@@ -20,12 +20,8 @@
 
 .navbar-container{
     width: 100%;
-    padding: 12px 0px 0px 0px;
+    padding: 12px 0px;
     transition: all 0.3s ease-in-out;
-    
-    @media screen and (max-width: 1000px) {
-        padding: 12px 0px;
-    }
 }
 
 .navbar-wrapper{
@@ -35,11 +31,7 @@
 }
 
 .navbar-logo-wrapper{
-    flex: 0.5;
-
-    @media screen and (max-width: 1000px) {
-        flex: 1;
-    }
+    flex: 1;
 }
 
 .navbar-logo-img{
@@ -52,17 +44,6 @@
 .navbar-logo-img:hover{
     transform: scale(1.1);
     transition: all 0.1s ease-in-out;
-}
-
-
-.navbar-menu-wrapper{
-    flex: 1;
-    flex-direction: column;
-    display: flex;
-
-    @media screen and (max-width: 1000px) {
-        display: none;
-    }
 }
 
 .navbar-menu-wrapper li{
@@ -98,16 +79,6 @@
     margin-right: 2px;
 }
 
-.navbar-submenu-wrapper{
-    flex: 1.5;
-    flex-direction: row;
-    display: flex;
-
-    @media screen and (max-width: 1000px) {
-        display: none;
-    }
-}
-
 .navbar-submenu-section{
     margin: auto;
     margin-right: 6px !important;
@@ -129,9 +100,7 @@
 }
 
 .navbar-mobile-hamburger-image-view{
-    @media screen and (min-width: 1000px) {
-        display: none;
-    }
+    
 }
 
 .navbar-mobile-hamburger-image{
