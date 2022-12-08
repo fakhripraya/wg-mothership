@@ -16,7 +16,7 @@ import {
 import { routes } from './config/router/path'
 import smoothscroll from 'smoothscroll-polyfill';
 import FloatButton from './components/FloatButton';
-import { sendWACS } from './utils/functions/global';
+import { sendWACS, smoothScrollTop } from './utils/functions/global';
 import { styleInitialState } from './variables/styles/app';
 
 function App() {
@@ -35,8 +35,8 @@ function App() {
   }
 
   function handleStyleChange() {
-    if (window.scrollY > 200) setStyle({ floatButton: { transform: "scale(0)" } });
-    else setStyle({ floatButton: { transform: "scale(1)" } });
+    if (window.scrollY > 200) setStyle({ floatButton: { transform: "scale(0)" },ScrollTopButton: { transform: "scale(1)" } });
+    else setStyle({ floatButton: { transform: "scale(1)" },ScrollTopButton: { transform: "scale(0)" } });
   }
 
   useEffect(() => {
@@ -61,6 +61,11 @@ function App() {
         )}
       </Routes>
       <Footer />
+      <FloatButton style={{ transform: `${style.ScrollTopButton.transform}` }} onClick={() => smoothScrollTop()} className="fixed-app-button main-bg-color">
+        <h3 className="light-color">
+          Scroll Top
+        </h3>
+      </FloatButton>
       <FloatButton style={{ transform: `${style.floatButton.transform}` }} onClick={() => sendWA()} className="fixed-app-button main-bg-color">
         <h3 className="light-color">
           Chat

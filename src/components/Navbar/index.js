@@ -29,6 +29,7 @@ import {
     MENU_MOBILE
 } from '../../variables/global';
 import { ShowNavbar } from '../Global';
+import { navbarInitialStyle } from '../../variables/styles/navbar';
 
 export default function Navbar(props) {
 
@@ -39,6 +40,7 @@ export default function Navbar(props) {
 
     // STATES
     const [toggleOverride, setToggleOverride] = useState(EMPTY);
+    const [navbarStyle, setNavbarStyle] = useState(navbarInitialStyle);
 
     // FUNCTIONS SPECIFIC //
 
@@ -59,6 +61,11 @@ export default function Navbar(props) {
         // Then use condition for the scrolling behavior
         if (overridingToggle === EMPTY) window.document.getElementsByTagName('html')[0].style.overflow = "auto";
         else window.document.getElementsByTagName('html')[0].style.overflow = "hidden";
+    }
+
+    function handleNavbarHide() {
+        if (window.scrollY > 80) setNavbarStyle({ transform: 'translateY(-100%)'});
+        else setNavbarStyle({ transform: 'translateY(0)'});
     }
 
     function handleOpenOverriding(overridingToggle) {
@@ -114,11 +121,13 @@ export default function Navbar(props) {
 
     // RENDERS SPECIFIC //
     useEffect(() => {
+        window.addEventListener("scroll", handleNavbarHide);
+        return ()=> window.removeEventListener("scroll", handleNavbarHide);
     }, []);
 
     return (
         <Fragment>
-            <div ref={ref} className="fixed-top navbar">
+            <div style={navbarStyle} ref={ref} className="fixed-top navbar">
                 <div className="navbar-container">
                     <div className="navbar-wrapper">
                         <div className="navbar-logo-wrapper">
