@@ -5,14 +5,14 @@
 }
 
 // MAIN STYLES //
-.remote-container{
+.my-remote-container{
     min-height: 100vh;
     min-width: 100vw;
     padding-bottom: 10vh;
     padding-top: 80px;
 }
 
-.remote-wrapper{
+.my-remote-wrapper{
     width: 60vw;
     margin: 0px auto;
     position: relative;
@@ -25,7 +25,7 @@
     }
 }
 
-.remote-title{
+.my-remote-title{
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -34,7 +34,7 @@
 }
 
 // HEADER //
-.remote-header{
+.my-remote-header{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -43,35 +43,35 @@
     border-radius: 1em;
 }
 
-.remote-searchbar-container{
+.my-remote-searchbar-container{
     flex: 0 0 100%;
     margin-bottom: 12px;
 }
 
-.remote-searchbar-wrapper{
+.my-remote-searchbar-wrapper{
     display: flex;
     flex-direction: row;
     border-right: 6px solid transparent;
 }
 
-.remote-searchbar-input{
+.my-remote-searchbar-input{
     margin-right: 6px;
 }
 
-.remote-tools-container{
+.my-remote-tools-container{
     flex: 100%;
 }
 
-.remote-tools-wrapper{
+.my-remote-tools-wrapper{
     display: flex;
     flex-direction: row;
 }
 
-.remote-checkbox{
+.my-remote-checkbox{
     flex: 50%;
 }
 
-.remote-checkbox-wrapper{
+.my-remote-checkbox-wrapper{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -79,12 +79,12 @@
     align-items: center;
 }
 
-.remote-checkbox-item{
+.my-remote-checkbox-item{
     border-right: 6px solid transparent;
     border-bottom: 6px solid transparent;
 }
 
-.remote-dropdown-wrapper{
+.my-remote-dropdown-wrapper{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -93,12 +93,12 @@
     align-items: center;
 }
 
-.remote-dropdown-item{
+.my-remote-dropdown-item{
     border-right: 6px solid transparent;
     border-bottom: 6px solid transparent;
 }
 
-.remote-add-button{
+.my-remote-add-button{
     width: 100%;
     display: flex;
     height: auto;
@@ -108,17 +108,17 @@
     transition: all 0.25s ease-in-out;
 }
 
-.remote-add-button:hover{
+.my-remote-add-button:hover{
     background-color: #0DA34D;
 }
 
-.remote-add-button:hover span{
+.my-remote-add-button:hover span{
     color: #fff !important;
     transition: all 0.25s ease-in-out;
 }
 
 // BODY //
-.remote-body{
+.my-remote-body{
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -127,22 +127,22 @@
     border-radius: 1em;
 }
 
-.remote-body-items{
+.my-remote-body-items{
     padding: 6px;
 }
 
-.remote-body-identifier{
+.my-remote-body-identifier{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.remote-body-identifier *{
+.my-remote-body-identifier *{
     @include text-ellipsis();
 }
 
-.remote-identifier-img-wrapper{
+.my-remote-identifier-img-wrapper{
     height: auto;
     width: auto;
     margin-top: 18px;
@@ -152,7 +152,7 @@
     }
 }
 
-.remote-identifier-img{
+.my-remote-identifier-img{
     height: 75%;
     width: 75%;
     border-radius: 8px;
@@ -163,48 +163,48 @@
     }
 }
 
-.remote-body-cpu-spec{
+.my-remote-body-cpu-spec{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.remote-body-cpu-spec *{
+.my-remote-body-cpu-spec *{
     @include text-ellipsis();
 }
 
-.remote-body-graphical-spec{
+.my-remote-body-graphical-spec{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.remote-body-graphical-spec *{
+.my-remote-body-graphical-spec *{
     @include text-ellipsis();
 }
 
-.remote-body-storage-spec{
+.my-remote-body-storage-spec{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.remote-body-storage-spec *{
+.my-remote-body-storage-spec *{
     @include text-ellipsis();
 }
 
-.remote-body-storage-spec .accordion-wrapper .accordion-button{
+.my-remote-body-storage-spec .accordion-wrapper .accordion-button{
     padding: 0px 8px 9px 0px !important;
 }
 
-.remote-body-storage-spec .accordion-wrapper .accordion-button h3{
+.my-remote-body-storage-spec .accordion-wrapper .accordion-button h3{
    line-height: 1em;
 }
 
-.remote-body-storage-spec-items{
+.my-remote-body-storage-spec-items{
     flex-wrap: wrap;
     height: auto;
     width: 100%;
@@ -214,22 +214,22 @@
     @include text-ellipsis();
 }
 
-.remote-body-storage-spec-items{
+.my-remote-body-storage-spec-items{
     @include text-ellipsis();
 }
 
-.remote-body-rent-detail{
+.my-remote-body-rent-detail{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.remote-body-rent-detail *{
+.my-remote-body-rent-detail *{
     @include text-ellipsis();
 }
 
-.remote-body-rent-detail-status{
+.my-remote-body-rent-detail-status{
     padding: 6px;
     text-align: center;
     margin-bottom: 18px;
@@ -240,7 +240,7 @@
     }
 }
 
-.remote-body-rent-button{
+.my-remote-body-rent-button{
     border-radius: 8px;
     cursor: pointer;
     text-align: center;
@@ -248,11 +248,11 @@
     transition: all 0.3s ease-in-out;
 }
 
-.remote-body-rent-button:hover{
+.my-remote-body-rent-button:hover{
     opacity: 0.65;
 }
 
-.remote-paging{
+.my-remote-paging{
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -261,7 +261,7 @@
     transition: all 0.25s ease-in-out;
 }
 
-.remote-paging-button{
+.my-remote-paging-button{
     cursor: pointer;
     padding: 6px;
     border-radius: 8px;
@@ -269,10 +269,10 @@
     transition: all 0.25s ease-in-out;
 }
 
-.remote-paging-button:last-child{
+.my-remote-paging-button:last-child{
     margin-right: 0px !important;
 }
 
-.remote-paging-button:hover{
+.my-remote-paging-button:hover{
     background-color: #0DA34D;
 }

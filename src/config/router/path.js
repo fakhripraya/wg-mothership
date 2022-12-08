@@ -1,8 +1,9 @@
 import React from "react";
 import Home from '../../pages/Home';
 import Error404 from '../../pages/Error404';
-import Remote from '../../pages/Remote';
+import MyRemote from '../../pages/MyRemote';
 import Finder from '../../pages/Finder';
+import RDP from "../../pages/RDP";
 
 export const routes = [
     {
@@ -10,8 +11,12 @@ export const routes = [
         component: <Home />,
     },
     {
+        path: '/myremote',
+        component: <MyRemote />,
+    },
+    {
         path: '/rdp',
-        component: <Remote />,
+        component: <RDP />,
     },
     {
         path: '/market',
