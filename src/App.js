@@ -63,7 +63,7 @@ function App() {
       <Footer />
       <FloatButton style={{ transform: `${style.ScrollTopButton.transform}` }} onClick={() => smoothScrollTop()} className="fixed-app-button main-bg-color">
         <h3 className="light-color">
-          Scroll Top
+          Menu
         </h3>
       </FloatButton>
       <FloatButton style={{ transform: `${style.floatButton.transform}` }} onClick={() => sendWA()} className="fixed-app-button main-bg-color">
