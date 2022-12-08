@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './style.scss';
 import { useState } from 'react';
 import { ShowBreadcrumbs } from '../../components/Global'
 import { smoothScrollTop } from '../../utils/functions/global';
@@ -18,11 +19,11 @@ export default function Detail() {
     return (
         <div className="detail-container">
             <div className="detail-wrapper">
-                <div className="finder-breadcrumbs">
+                <div className="detail-breadcrumbs">
                     <ShowBreadcrumbs trails={breadcrumbs} />
                 </div>
-                <div className="finder-title">
-                    <h2>THIS IS THE TITLE OF THE FINDER</h2>
+                <div className="detail-title">
+                    <h2>THIS IS THE TITLE OF THE DETAIL</h2>
                 </div>
                 <div >
 

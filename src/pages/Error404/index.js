@@ -4,9 +4,7 @@ import Button from '../../components/Button';
 import './style.scss';
 
 export default function Error404() {
-
     const navigate = useNavigate();
-
     return (
         <div className="error404-container">
             <div className="error404-wrapper">

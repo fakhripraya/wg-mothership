@@ -9,10 +9,7 @@
     min-height: 100vh;
     min-width: 100vw;
     padding-bottom: 10vh;
-    padding-top: 160px;
-    @media screen and (max-width: 1000px){
-        padding-top: 80px;
-    }
+    padding-top: 80px;
 }
 
 .detail-wrapper{
@@ -26,4 +23,19 @@
     @media screen and (max-width: 1280px){
         width: 80vw;
     }
+}
+
+.detail-breadcrumbs{
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.detail-title{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
 }

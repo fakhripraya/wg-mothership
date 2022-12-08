@@ -35,8 +35,8 @@ function App() {
   }
 
   function handleStyleChange() {
-    if (window.scrollY > 200) setStyle({ floatButton: { transform: "scale(0)" },ScrollTopButton: { transform: "scale(1)" } });
-    else setStyle({ floatButton: { transform: "scale(1)" },ScrollTopButton: { transform: "scale(0)" } });
+    if (window.scrollY > 200) setStyle({ floatButton: { transform: "scale(0)" }, ScrollTopButton: { transform: "scale(1)" } });
+    else setStyle({ floatButton: { transform: "scale(1)" }, ScrollTopButton: { transform: "scale(0)" } });
   }
 
   useEffect(() => {

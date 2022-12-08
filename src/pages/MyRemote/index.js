@@ -8,8 +8,14 @@ import { filterCheckboxes, filterDropdowns, itemListDummy } from '../../variable
 import Accordion from '../../components/Accordion';
 import { useEffect } from 'react';
 import { smoothScrollTop } from '../../utils/functions/global';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyRemote() {
+
+    // FUNCTIONS SPECIFIC //
+    function handleOpenDetail(item, navigate) {
+        navigate(`/detail?itemId=${item.ID}`);
+    }
 
     // COMPONENTS SPECIFIC //
     const ShowCheckboxes = () => {
@@ -25,6 +31,9 @@ export default function MyRemote() {
     }
 
     const ShowBody = () => {
+        // HOOK
+        const navigate = useNavigate();
+        // Render list
         return itemListDummy.map((item, index) => {
             return <div key={`my-remote-items-${index}`} className="my-remote-body margin-top-12-18 dark-bg-color">
                 <div className="my-remote-body-items my-remote-body-identifier">
@@ -55,7 +64,7 @@ export default function MyRemote() {
                     <h4 className="margin-top-0 margin-bottom-0" >Durations : {item.rentDetail.duration} {item.rentDetail.durationUnit}</h4>
                     <h4 className="margin-top-0 margin-bottom-0" >End at : {item.rentDetail.endAt}</h4>
                     <h5 className="margin-top-0 margin-bottom-0" >{item.rentDetail.price}{item.rentDetail.priceUnit}</h5>
-                    <h5 className="margin-bottom-0 dark-color light-bg-color my-remote-body-rent-button" >Details</h5>
+                    <h5 onClick={() => handleOpenDetail(item, navigate)} className="margin-bottom-0 dark-color light-bg-color my-remote-body-rent-button" >Details</h5>
                     <h5 className="main-bg-color my-remote-body-rent-detail-status" >Status : {item.rentDetail.status}</h5>
                     <h5 className="margin-top-0 margin-bottom-0 red-bg-color my-remote-body-rent-button" >Cancel</h5>
                 </div>
