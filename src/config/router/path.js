@@ -6,6 +6,7 @@ import Finder from '../../pages/Finder';
 import RDP from "../../pages/RDP";
 import Detail from "../../pages/Detail";
 import RDPConnect from "../../pages/RDPConnect";
+import MyRentals from "../../pages/MyRentals";
 
 export const routes = [
     {
@@ -15,6 +16,10 @@ export const routes = [
     {
         path: '/myremote',
         component: <MyRemote />,
+    },
+    {
+        path: '/myrental',
+        component: <MyRentals />,
     },
     {
         path: '/detail',

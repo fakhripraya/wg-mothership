@@ -9,7 +9,7 @@ import { ShowNavbar } from '../../components/Global';
 import Footer from '../../components/Footer';
 import XMark from '../../assets/svg/xmark-solid.svg';
 import {
-    EMPTY,
+    NO_STRING,
     FORGOT_PASSWORD,
     LOGIN,
     REGISTER
@@ -30,7 +30,7 @@ export default function Register(props) {
         <OverridingContainer toggle={props.toggle === REGISTER}>
             <div className="sticky-top">
                 <ShowNavbar>
-                    <img onClick={() => { props.handleOpen(EMPTY) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                    <img onClick={() => { props.handleOpen(NO_STRING) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                 </ShowNavbar>
                 <div className="register-container">
                     <div className="register-wrapper">
@@ -38,27 +38,19 @@ export default function Register(props) {
                         <h3 className="margin-top-0 margin-bottom-12-18">Gain Maximum Profitability By Rentaling Your Device To Others Virtually Or Physically</h3>
                         <div className="register-textinput-box">
                             <h3 className="register-input-title">ID</h3>
-                            <TextInput type="text" className="register-textinput text-align-center">
-
-                            </TextInput>
+                            <TextInput type="text" className="register-textinput text-align-center" />
                         </div>
                         <div className="register-textinput-box">
                             <h3 className="register-input-title">Email</h3>
-                            <TextInput type="text" className="register-textinput text-align-center">
-
-                            </TextInput>
+                            <TextInput type="text" className="register-textinput text-align-center" />
                         </div>
                         <div className="register-textinput-box">
                             <h3 className="register-input-title">Pass</h3>
-                            <TextInput type="password" className="register-textinput text-align-center">
-
-                            </TextInput>
+                            <TextInput type="password" className="register-textinput text-align-center" />
                         </div>
                         <div className="register-textinput-box">
                             <h3 className="register-input-title">Confirm</h3>
-                            <TextInput type="password" className="register-textinput text-align-center">
-
-                            </TextInput>
+                            <TextInput type="password" className="register-textinput text-align-center" />
                         </div>
                         <h3 onClick={() => handleOpenForgotPassword()} className="register-forgot-pass link-color cursor-pointer">Forgot your password</h3>
                         <Button className="register-button dark-bg-color">

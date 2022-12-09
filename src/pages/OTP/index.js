@@ -7,7 +7,7 @@ import { ShowNavbar } from '../../components/Global';
 import Footer from '../../components/Footer';
 import XMark from '../../assets/svg/xmark-solid.svg';
 import {
-    EMPTY,
+    NO_STRING,
     LOGIN,
     NEW_PASSWORD,
     OTP_PAGE
@@ -29,7 +29,7 @@ export default function OTP(props) {
         <OverridingContainer toggle={props.toggle === OTP_PAGE}>
             <div className="sticky-top">
                 <ShowNavbar>
-                    <img onClick={() => { props.handleOpen(EMPTY) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                    <img onClick={() => { props.handleOpen(NO_STRING) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                 </ShowNavbar>
                 <div className="otp-container">
                     <div className="otp-wrapper">
@@ -37,9 +37,7 @@ export default function OTP(props) {
                         <h3 className="margin-top-0 margin-bottom-12-18">We Just Sent An OTP Code To Your Email, Put It Here So We Can Make Sure It Is You !</h3>
                         <div className="otp-textinput-box">
                             <h3 className="otp-input-title">OTP</h3>
-                            <TextInput maxLength="6" type="password" className="otp-textinput text-align-center">
-
-                            </TextInput>
+                            <TextInput maxLength="6" type="password" className="otp-textinput text-align-center" />
                         </div>
                         <h3 onClick={() => handleOpenLogin()} className="otp-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
                         <Button onClick={() => handleSubmitOTP()} className="otp-button dark-bg-color">

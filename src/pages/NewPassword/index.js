@@ -7,7 +7,7 @@ import { ShowNavbar } from '../../components/Global';
 import Footer from '../../components/Footer';
 import XMark from '../../assets/svg/xmark-solid.svg';
 import {
-    EMPTY,
+    NO_STRING,
     LOGIN,
     NEW_PASSWORD
 } from '../../variables/global';
@@ -26,7 +26,7 @@ export default function NewPassword(props) {
         <OverridingContainer toggle={props.toggle === NEW_PASSWORD}>
             <div className="sticky-top">
                 <ShowNavbar>
-                    <img onClick={() => { props.handleOpen(EMPTY) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                    <img onClick={() => { props.handleOpen(NO_STRING) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                 </ShowNavbar>
                 <div className="new-password-container">
                     <div className="new-password-wrapper">
@@ -34,15 +34,11 @@ export default function NewPassword(props) {
                         <h3 className="margin-top-0 margin-bottom-12-18">Alright, Nicely Done Pal, Now Just Input Your New Pass</h3>
                         <div className="new-password-textinput-box">
                             <h3 className="new-password-input-title">New Pass</h3>
-                            <TextInput type="password" className="new-password-textinput text-align-center">
-
-                            </TextInput>
+                            <TextInput type="password" className="new-password-textinput text-align-center" />
                         </div>
                         <div className="new-password-textinput-box">
                             <h3 className="new-password-input-title">Confirm</h3>
-                            <TextInput type="password" className="new-password-textinput text-align-center">
-
-                            </TextInput>
+                            <TextInput type="password" className="new-password-textinput text-align-center" />
                         </div>
                         <h3 onClick={() => handleOpenLogin()} className="new-password-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
                         <Button onClick={() => handleSubmitNewPassword()} className="new-password-button dark-bg-color">

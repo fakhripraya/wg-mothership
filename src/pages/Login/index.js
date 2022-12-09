@@ -9,7 +9,7 @@ import Footer from '../../components/Footer';
 import { ShowNavbar } from '../../components/Global';
 import XMark from '../../assets/svg/xmark-solid.svg';
 import {
-    EMPTY,
+    NO_STRING,
     FORGOT_PASSWORD,
     LOGIN,
     REGISTER
@@ -30,7 +30,7 @@ export default function Login(props) {
         <OverridingContainer toggle={props.toggle === LOGIN}>
             <div className="sticky-top">
                 <ShowNavbar>
-                    <img onClick={() => { props.handleOpen(EMPTY) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                    <img onClick={() => { props.handleOpen(NO_STRING) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                 </ShowNavbar>
                 <div className="login-container">
                     <div className="login-wrapper">
@@ -38,15 +38,11 @@ export default function Login(props) {
                         <h3 className="margin-top-0 margin-bottom-12-18">Start Rentaling Your Device Now, What Are You Waiting For ?</h3>
                         <div className="login-textinput-box">
                             <h3 className="login-input-title">ID</h3>
-                            <TextInput type="text" className="login-textinput text-align-center">
-
-                            </TextInput>
+                            <TextInput type="text" className="login-textinput text-align-center" />
                         </div>
                         <div className="login-textinput-box">
                             <h3 className="login-input-title">Pass</h3>
-                            <TextInput type="password" className="login-textinput text-align-center">
-
-                            </TextInput>
+                            <TextInput type="password" className="login-textinput text-align-center" />
                         </div>
                         <h3 onClick={() => handleOpenForgotPassword()} className="login-forgot-pass link-color cursor-pointer">Forgot your password</h3>
                         <Button className="login-button dark-bg-color">

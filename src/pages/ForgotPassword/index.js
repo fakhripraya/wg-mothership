@@ -7,7 +7,7 @@ import { ShowNavbar } from '../../components/Global';
 import Footer from '../../components/Footer';
 import XMark from '../../assets/svg/xmark-solid.svg';
 import {
-    EMPTY,
+    NO_STRING,
     FORGOT_PASSWORD,
     LOGIN,
     OTP_PAGE
@@ -29,7 +29,7 @@ export default function ForgotPassword(props) {
         <OverridingContainer toggle={props.toggle === FORGOT_PASSWORD}>
             <div className="sticky-top">
                 <ShowNavbar>
-                    <img onClick={() => { props.handleOpen(EMPTY) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                    <img onClick={() => { props.handleOpen(NO_STRING) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                 </ShowNavbar>
                 <div className="forgot-password-container">
                     <div className="forgot-password-wrapper">
@@ -37,9 +37,7 @@ export default function ForgotPassword(props) {
                         <h3 className="margin-top-0 margin-bottom-12-18">Don't Worry We Got You, Just Send Us A Recovery Email</h3>
                         <div className="forgot-password-textinput-box">
                             <h3 className="forgot-password-input-title">Email</h3>
-                            <TextInput type="text" className="forgot-password-textinput text-align-center">
-
-                            </TextInput>
+                            <TextInput type="text" className="forgot-password-textinput text-align-center" />
                         </div>
                         <h3 onClick={() => handleOpenLogin()} className="forgot-password-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
                         <Button onClick={() => handleSubmitEmail()} className="forgot-password-button dark-bg-color">

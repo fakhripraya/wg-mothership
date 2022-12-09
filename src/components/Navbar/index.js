@@ -24,7 +24,7 @@ import ForgotPassword from '../../pages/ForgotPassword';
 import NewPassword from '../../pages/NewPassword';
 import OTP from '../../pages/OTP';
 import {
-    EMPTY,
+    NO_STRING,
     LOGIN,
     MENU_MOBILE
 } from '../../variables/global';
@@ -39,7 +39,7 @@ export default function Navbar(props) {
     const menus = getMenus();
 
     // STATES
-    const [toggleOverride, setToggleOverride] = useState(EMPTY);
+    const [toggleOverride, setToggleOverride] = useState(NO_STRING);
     const [navbarStyle, setNavbarStyle] = useState(navbarInitialStyle);
 
     // FUNCTIONS SPECIFIC //
@@ -50,7 +50,7 @@ export default function Navbar(props) {
             ref.current.style.visibility = visibility;
         }
 
-        if (overridingToggle === EMPTY) displayChange("1", "visible");
+        if (overridingToggle === NO_STRING) displayChange("1", "visible");
         else displayChange("0", "hidden");
     }
 
@@ -59,13 +59,13 @@ export default function Navbar(props) {
         window.scrollTo(0, 0);
 
         // Then use condition for the scrolling behavior
-        if (overridingToggle === EMPTY) window.document.getElementsByTagName('html')[0].style.overflow = "auto";
+        if (overridingToggle === NO_STRING) window.document.getElementsByTagName('html')[0].style.overflow = "auto";
         else window.document.getElementsByTagName('html')[0].style.overflow = "hidden";
     }
 
     function handleNavbarHide() {
-        if (window.scrollY > 80) setNavbarStyle({ transform: 'translateY(-100%)'});
-        else setNavbarStyle({ transform: 'translateY(0)'});
+        if (window.scrollY > 80) setNavbarStyle({ transform: 'translateY(-100%)' });
+        else setNavbarStyle({ transform: 'translateY(0)' });
     }
 
     function handleOpenOverriding(overridingToggle) {
@@ -74,8 +74,8 @@ export default function Navbar(props) {
         setToggleOverride(overridingToggle);
     }
 
-    function handlePageNavigation(navMenu){
-        handleOpenOverriding(EMPTY);
+    function handlePageNavigation(navMenu) {
+        handleOpenOverriding(NO_STRING);
         navigate(navMenu);
     }
 
@@ -122,7 +122,7 @@ export default function Navbar(props) {
     // RENDERS SPECIFIC //
     useEffect(() => {
         window.addEventListener("scroll", handleNavbarHide);
-        return ()=> window.removeEventListener("scroll", handleNavbarHide);
+        return () => window.removeEventListener("scroll", handleNavbarHide);
     }, []);
 
     return (
@@ -140,7 +140,7 @@ export default function Navbar(props) {
             <OverridingContainer toggle={toggleOverride === MENU_MOBILE}>
                 <div className="sticky-top">
                     <ShowNavbar>
-                        <img onClick={() => { handleOpenOverriding(EMPTY) }} className='navbar-mobile-hamburger-image' src={ICHamburger} alt="ic_hamburger" />
+                        <img onClick={() => { handleOpenOverriding(NO_STRING) }} className='navbar-mobile-hamburger-image' src={ICHamburger} alt="ic_hamburger" />
                     </ShowNavbar>
                     <ul className="navbar-mobile-menu-wrapper">
                         <ShowSearchBar />
