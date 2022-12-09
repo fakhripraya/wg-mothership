@@ -11,7 +11,7 @@ export default function RDP() {
 
     // FUNCTIONS SPECIFIC //
     function answerRDPInvitation() {
-        navigate(`/rdp/connect?code=${code}`);
+        navigate(`/rdp/room?code=${code}`);
     }
 
     useEffect(() => {

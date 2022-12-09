@@ -1,12 +1,12 @@
 // MAIN STYLES //
-.rdp-connect-container{
+.rdp-room-container{
     min-height: 100vh;
     min-width: 100vw;
     padding-bottom: 10vh;
     padding-top: 80px;
 }
 
-.rdp-connect-wrapper{
+.rdp-room-wrapper{
     width: 60vw;
     margin: 0px auto;
     position: relative;
@@ -19,11 +19,11 @@
     }
 }
 
-.rdp-connect-input-title{
+.rdp-room-input-title{
     padding: 12px 0px 0px 0px;
 }               
 
-.rdp-connect-textinput-box{
+.rdp-room-textinput-box{
     margin-top: 12px;
     width: 100%;
     list-style: none;
@@ -33,7 +33,7 @@
     flex-direction: column;
 }
 
-.rdp-connect-textinput{
+.rdp-room-textinput{
     padding: 6px 0px;
     border-radius: 8px;
     text-decoration: none;
@@ -42,7 +42,7 @@
     background-color: #fff;
 }
 
-.rdp-connect-button-connect{
+.rdp-room-button-connect{
     align-self: center;
     margin-top: 12px;
     max-width: 120px;
