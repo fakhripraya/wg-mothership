@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function RDP() {
 
+    // HOOKS //
     const [code, setCode] = useState('');
     const navigate = useNavigate();
 

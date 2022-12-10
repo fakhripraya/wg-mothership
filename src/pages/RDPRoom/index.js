@@ -1,9 +1,12 @@
-import React, { useRef,useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import io from "socket.io-client";
 import { iceConfig } from '../../config/rtc/ice';
 import './style.scss';
 
-export default function RDPRoom(props) {
+export default function RDPRoom() {
+
+    // REFS //
     const userVideo = useRef();
     const partnerVideo = useRef();
     const peerRef = useRef();
@@ -11,20 +14,31 @@ export default function RDPRoom(props) {
     const otherUser = useRef();
     const userStream = useRef();
 
+    // HOOKS //
+    const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    // VARIABLES //
+    const paramCode = searchParams.get("code");
+
     useEffect(() => {
+        if (!paramCode) navigate('/rdp');
+
         navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
             userVideo.current.srcObject = stream;
             userStream.current = stream;
 
-            socketRef.current = io.connect("/");
-            socketRef.current.emit("join room", props.match.params.code);
+            socketRef.current = io.connect(process.env.REACT_APP_SIGNALER_SERVICE);
+            socketRef.current.emit("join room", paramCode);
 
             socketRef.current.on('other user', userID => {
+                console.log("masuk other joined")
                 callUser(userID);
                 otherUser.current = userID;
             });
 
             socketRef.current.on("user joined", userID => {
+                console.log("masuk other joined")
                 otherUser.current = userID;
             });
 
@@ -85,6 +99,7 @@ export default function RDPRoom(props) {
     }
 
     function handleAnswer(message) {
+        console.log("masuk")
         const desc = new RTCSessionDescription(message.sdp);
         peerRef.current.setRemoteDescription(desc).catch(e => console.log(e));
     }
