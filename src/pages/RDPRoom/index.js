@@ -19,7 +19,8 @@ export default function RDPRoom() {
 
     // HOOKS //
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    // eslint-disable-next-line no-unused-vars
+    const [searchParams, setSearchParams] = useSearchParams(); 
 
     // VARIABLES //
     const roomCode = searchParams.get("code");
