@@ -20,7 +20,7 @@ export default function RDPRoom() {
     // HOOKS //
     const navigate = useNavigate();
     // eslint-disable-next-line no-unused-vars
-    const [searchParams, setSearchParams] = useSearchParams(); 
+    const [searchParams, setSearchParams] = useSearchParams();
 
     // VARIABLES //
     const roomCode = searchParams.get("code");
@@ -38,6 +38,7 @@ export default function RDPRoom() {
             userStream.current = stream;
 
             socketRef.current = io.connect(process.env.REACT_APP_SIGNALER_SERVICE, {
+                withCredentials: true,
                 extraHeaders: {
                     "user-agent": "Mozilla"
                 }
