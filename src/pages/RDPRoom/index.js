@@ -37,7 +37,11 @@ export default function RDPRoom() {
             userVideo.current.srcObject = stream;
             userStream.current = stream;
 
-            socketRef.current = io.connect(process.env.REACT_APP_SIGNALER_SERVICE);
+            socketRef.current = io.connect(process.env.REACT_APP_SIGNALER_SERVICE, {
+                extraHeaders: {
+                    "user-agent": "Mozilla"
+                }
+            });
             socketRef.current.emit("join room", userJoin, roomCode);
 
             socketRef.current.on('user call', userID => {
