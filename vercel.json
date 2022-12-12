@@ -1,3 +1,0 @@
-{
-    "buildCommand": "npm config rm proxy npm config rm https-proxy react-scripts build"
-}
