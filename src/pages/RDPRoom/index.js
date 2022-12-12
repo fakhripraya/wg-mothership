@@ -68,7 +68,7 @@ export default function RDPRoom() {
 
     function createPeer(userID) {
         RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection;
-        const peer = new RTCPeerConnection(iceConfig.iceServers);
+        const peer = new RTCPeerConnection(iceConfig);
 
         peer.onicecandidate = handleICECandidateEvent;
         peer.ontrack = handleTrackEvent;
