@@ -30,30 +30,30 @@ export default function RDPRoom() {
 
         const userJoin = {
             id: userIDDummy, //test
-            socketId: null,
         }
 
         navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
             userVideo.current.srcObject = stream;
             userStream.current = stream;
 
+            // SOCKET CONNECT //
             socketRef.current = io.connect(process.env.REACT_APP_SIGNALER_SERVICE, {
                 withCredentials: true,
                 extraHeaders: {
                     "user-agent": "Mozilla"
                 }
             });
+
+            // SOCKET EMIT //
             socketRef.current.emit("join room", userJoin, roomCode);
 
+            // SOCKET ON //
+            socketRef.current.on("rdp error", (reason) => navigate(`/rdp/error?reason=${reason}`));
             socketRef.current.on('user call', userID => {
                 callUser(userID);
                 otherUser.current = userID;
             });
-
-            socketRef.current.on("user joined", otherID => {
-                otherUser.current = otherID;
-            });
-
+            socketRef.current.on("user joined", otherID => otherUser.current = otherID);
             socketRef.current.on("offer", handleRecieveCall);
             socketRef.current.on("answer", handleAnswer);
             socketRef.current.on("ice-candidate", handleNewICECandidateMsg);
@@ -61,12 +61,18 @@ export default function RDPRoom() {
 
     }, []);
 
+    function hasRTCPeerConnection() {
+        let RTCPeerConnectionConstructor = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+        return !!RTCPeerConnectionConstructor;
+    }
+
     function callUser(userID) {
         peerRef.current = createPeer(userID);
         userStream.current.getTracks().forEach(track => peerRef.current.addTrack(track, userStream.current));
     }
 
     function createPeer(userID) {
+        //TODO: Create some warning message to the user to disable website extension that interfere the RTCPeerConnection constructor
         let RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection;
         const peer = new RTCPeerConnection(iceConfig);
 

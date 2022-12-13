@@ -7,6 +7,7 @@ import RDP from "../../pages/RDP";
 import Detail from "../../pages/Detail";
 import MyRentals from "../../pages/MyRentals";
 import RDPRoom from "../../pages/RDPRoom";
+import RDPRoomError from "../../pages/RDPRoomError";
 
 export const routes = [
     {
@@ -32,6 +33,10 @@ export const routes = [
     {
         path: '/rdp/room',
         component: <RDPRoom />,
+    },
+    {
+        path: '/rdp/error',
+        component: <RDPRoomError />,
     },
     {
         path: '/market',
