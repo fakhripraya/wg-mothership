@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import io from "socket.io-client";
 import { v4 as uuid } from 'uuid';
 import { iceConfig } from '../../config/rtc/ice';
+import { connectWebsocket } from '../../config/websocket/websocket';
+import { useAxiosGet } from '../../utils/hooks/useAxios';
+import { ROOM_AVAILABLE, ROOM_FULL, URL_ROOM_CHECK, USER_ALREADY_JOIN } from '../../variables/global';
 import './style.scss';
 
 const userIDDummy = uuid();
@@ -19,47 +21,66 @@ export default function RDPRoom() {
 
     // HOOKS //
     const navigate = useNavigate();
+    const getCheckRoom = useAxiosGet();
     // eslint-disable-next-line no-unused-vars
     const [searchParams, setSearchParams] = useSearchParams();
 
     // VARIABLES //
     const roomCode = searchParams.get("code");
+    const userJoin = {
+        id: userIDDummy, //TODO: currently using dummy, change to dynamic data
+    }
 
     useEffect(() => {
+        // navigate back to /rdp if room code is undefined 
         if (!roomCode) navigate('/rdp');
 
-        const userJoin = {
-            id: userIDDummy, //test
-        }
+        // SOCKET CONNECT //
+        socketRef.current = connectWebsocket(process.env.REACT_APP_SIGNALER_SERVICE);
 
-        navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
-            userVideo.current.srcObject = stream;
-            userStream.current = stream;
-
-            // SOCKET CONNECT //
-            socketRef.current = io.connect(process.env.REACT_APP_SIGNALER_SERVICE, {
-                withCredentials: true,
-                extraHeaders: {
-                    "user-agent": "Mozilla"
-                }
-            });
-
-            // SOCKET EMIT //
-            socketRef.current.emit("join room", userJoin, roomCode);
-
-            // SOCKET ON //
-            socketRef.current.on("rdp error", (reason) => navigate(`/rdp/error?reason=${reason}`));
-            socketRef.current.on('user call', userID => {
-                callUser(userID);
-                otherUser.current = userID;
-            });
-            socketRef.current.on("user joined", otherID => otherUser.current = otherID);
-            socketRef.current.on("offer", handleRecieveCall);
-            socketRef.current.on("answer", handleAnswer);
-            socketRef.current.on("ice-candidate", handleNewICECandidateMsg);
+        // SOCKET ON //
+        socketRef.current.on("rdp error", (reason) => navigate(`/rdp/error?reason=${reason}`));
+        socketRef.current.on('user call', userID => {
+            callUser(userID);
+            otherUser.current = userID;
         });
+        socketRef.current.on("user joined", otherID => otherUser.current = otherID);
+        socketRef.current.on("offer", handleRecieveCall);
+        socketRef.current.on("answer", handleAnswer);
+        socketRef.current.on("ice-candidate", handleNewICECandidateMsg);
 
+        async function proceedCheckRoom() {
+            await getCheckRoom.getData({
+                endpoint: process.env.REACT_APP_SIGNALER_SERVICE,
+                url: `${URL_ROOM_CHECK}?userId=${userJoin.id}&roomCode=${roomCode}`,
+            });
+        };
+
+        // Check if room is full or not
+        proceedCheckRoom()
+            .catch(console.error);
+
+        return () => {
+            if (userStream.current) userStream.current.getTracks().forEach((tracks) => tracks.stop());
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        if (getCheckRoom.responseStatus) {
+            if (getCheckRoom.responseData.code === USER_ALREADY_JOIN) navigate(`/rdp/error?reason=${USER_ALREADY_JOIN}`);
+            if (getCheckRoom.responseData.code === ROOM_FULL) navigate(`/rdp/error?reason=${ROOM_FULL}`);
+            if (getCheckRoom.responseData.code === ROOM_AVAILABLE) {
+                // GET USER DISPLAY AND SIGNAL RTC CALL
+                navigator.mediaDevices.getDisplayMedia({ cursor: false }).then(stream => {
+                    userVideo.current.srcObject = stream;
+                    userStream.current = stream;
+                    socketRef.current.emit("join room", userJoin, roomCode);
+                });
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getCheckRoom.responseData, getCheckRoom.responseError, getCheckRoom.responseStatus, getCheckRoom.errorContent]);
 
     function hasRTCPeerConnection() {
         let RTCPeerConnectionConstructor = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
@@ -144,8 +165,8 @@ export default function RDPRoom() {
     return (
         <div className="rdp-room-container">
             <div className="rdp-room-wrapper">
-                <video autoPlay ref={userVideo} />
-                <video autoPlay ref={partnerVideo} />
+                <video className="rdp-room-user-video" autoPlay ref={userVideo} />
+                <video className="rdp-room-partner-video" autoPlay ref={partnerVideo} />
             </div>
         </div>
     );

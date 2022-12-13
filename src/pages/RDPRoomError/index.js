@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './style.scss';
 import Button from '../../components/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -7,7 +7,6 @@ import { RDPFailMessage } from '../../utils/functions/rdp';
 export default function RDPRoomError() {
 
     // HOOKS //
-    const [code, setCode] = useState('');
     const navigate = useNavigate();
     // eslint-disable-next-line no-unused-vars
     const [searchParams, setSearchParams] = useSearchParams();
