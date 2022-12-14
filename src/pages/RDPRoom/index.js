@@ -67,7 +67,7 @@ export default function RDPRoom() {
     }, []);
 
     useEffect(() => {
-        if (getCheckRoom.responseStatus) {
+        if (getCheckRoom.responseStatus && getCheckRoom.responseData.code) {
             if (getCheckRoom.responseData.code === USER_ALREADY_JOIN) navigate(`/rdp/error?reason=${USER_ALREADY_JOIN}`);
             if (getCheckRoom.responseData.code === ROOM_FULL) navigate(`/rdp/error?reason=${ROOM_FULL}`);
             if (getCheckRoom.responseData.code === ROOM_AVAILABLE) {
