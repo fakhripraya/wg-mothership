@@ -68,20 +68,21 @@ export default function Navbar(props) {
         else setNavbarStyle({ transform: 'translateY(0)' });
     }
 
-    function handleOpenOverriding(overridingToggle) {
+    function handlePageNavigation(navMenu) {
+        window.handleOpenOverriding(NO_STRING);
+        navigate(navMenu);
+    }
+
+    // WINDOW FUNCTIONS //
+    window.handleOpenOverriding = function (overridingToggle) {
         handleWindowScroll(overridingToggle);
         handleNavbarDisplay(overridingToggle);
         setToggleOverride(overridingToggle);
     }
 
-    function handlePageNavigation(navMenu) {
-        handleOpenOverriding(NO_STRING);
-        navigate(navMenu);
-    }
-
     // COMPONENTS SPECIFIC //
     const ShowProfile = () => {
-        if (!props.login) return <Button onClick={() => handleOpenOverriding(LOGIN)}>Login</Button>
+        if (!props.login) return <Button onClick={() => window.handleOpenOverriding(LOGIN)}>Login</Button>
         return <Fragment>
             <Button >Notification</Button>
             <Button >Profile</Button>
@@ -133,14 +134,14 @@ export default function Navbar(props) {
                         <div className="navbar-logo-wrapper">
                             <img onClick={() => handlePageNavigation('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
                         </div>
-                        <img onClick={() => { handleOpenOverriding(MENU_MOBILE) }} className='navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view' src={ICHamburger} alt="ic_hamburger" />
+                        <img onClick={() => { window.handleOpenOverriding(MENU_MOBILE) }} className='navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view' src={ICHamburger} alt="ic_hamburger" />
                     </div>
                 </div>
             </div>
             <OverridingContainer toggle={toggleOverride === MENU_MOBILE}>
                 <div className="sticky-top">
                     <ShowNavbar>
-                        <img onClick={() => { handleOpenOverriding(NO_STRING) }} className='navbar-mobile-hamburger-image' src={ICHamburger} alt="ic_hamburger" />
+                        <img onClick={() => { window.handleOpenOverriding(NO_STRING) }} className='navbar-mobile-hamburger-image' src={ICHamburger} alt="ic_hamburger" />
                     </ShowNavbar>
                     <ul className="navbar-mobile-menu-wrapper">
                         <ShowSearchBar />
@@ -152,11 +153,11 @@ export default function Navbar(props) {
                     <Footer />
                 </div>
             </OverridingContainer >
-            <Login toggle={toggleOverride} handleOpen={handleOpenOverriding} />
-            <Register toggle={toggleOverride} handleOpen={handleOpenOverriding} />
-            <ForgotPassword toggle={toggleOverride} handleOpen={handleOpenOverriding} />
-            <NewPassword toggle={toggleOverride} handleOpen={handleOpenOverriding} />
-            <OTP toggle={toggleOverride} handleOpen={handleOpenOverriding} />
+            <Login toggle={toggleOverride} handleOpen={window.handleOpenOverriding} />
+            <Register toggle={toggleOverride} handleOpen={window.handleOpenOverriding} />
+            <ForgotPassword toggle={toggleOverride} handleOpen={window.handleOpenOverriding} />
+            <NewPassword toggle={toggleOverride} handleOpen={window.handleOpenOverriding} />
+            <OTP toggle={toggleOverride} handleOpen={window.handleOpenOverriding} />
         </Fragment >
     )
 }

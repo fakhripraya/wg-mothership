@@ -21,7 +21,6 @@ export default function Detail() {
     function handleHostRDP() {
 
         const user = JSON.parse(localStorage.getItem("user"));
-        console.log(user);
 
         postDetailItemReq.postData({
             endpoint: process.env.REACT_APP_SIGNALER_SERVICE,

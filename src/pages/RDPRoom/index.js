@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { v4 as uuid } from 'uuid';
 import { iceConfig } from '../../config/rtc/ice';
 import { connectWebsocket } from '../../config/websocket/websocket';
 import { useAxiosGet } from '../../utils/hooks/useAxios';
 import {
+    LOGIN_REQUIRED,
     NO_STRING,
     ROOM_AVAILABLE,
     ROOM_FULL,
@@ -15,8 +15,6 @@ import {
     USER_ALREADY_JOIN
 } from '../../variables/global';
 import './style.scss';
-
-const userIDDummy = uuid();
 
 export default function RDPRoom() {
 
@@ -33,17 +31,17 @@ export default function RDPRoom() {
     const getCheckRoomReq = useAxiosGet();
     // eslint-disable-next-line no-unused-vars
     const [searchParams, setSearchParams] = useSearchParams();
+    // eslint-disable-next-line no-unused-vars
     const [OnlineStatus, setOnlineStatus] = useState(NO_STRING);
 
     // VARIABLES //
     const roomCode = searchParams.get("roomCode");
-    const userJoin = {
-        id: userIDDummy, //TODO: currently using dummy, change to dynamic data
-    }
+    const userJoin = JSON.parse(localStorage.getItem("user")) || null; //TODO: currently using dummy, change to dynamic data
 
     useEffect(() => {
         // navigate back to /rdp if room code is undefined 
-        if (!roomCode) navigate('/rdp');
+        if (!userJoin) navigate(`/rdp/error?reason=${LOGIN_REQUIRED}`);
+        if (!roomCode) navigate(`/rdp/error?reason=${ROOM_UNAVAILABLE}`);
 
         // SOCKET CONNECT //
         socketRef.current = connectWebsocket(process.env.REACT_APP_SIGNALER_SERVICE);

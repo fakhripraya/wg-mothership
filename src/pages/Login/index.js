@@ -15,8 +15,13 @@ import {
     REGISTER
 } from '../../variables/global';
 import { v4 as uuid } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login(props) {
+
+    // HOOKS //
+    const navigate = useNavigate();
+
 
     // FUNCTIONS SPECIFIC //
     function handleLoginRequest(callback) {
@@ -56,6 +61,7 @@ export default function Login(props) {
                         <h3 onClick={() => handleOpenForgotPassword()} className="login-forgot-pass link-color cursor-pointer">Forgot your password</h3>
                         <Button onClick={() => handleLoginRequest(() => {
                             props.handleOpen(NO_STRING);
+                            navigate('/');
                         })} className="login-button dark-bg-color">
                             <h2 className="login-button-text">Sign In</h2>
                         </Button>

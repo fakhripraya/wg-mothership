@@ -45,4 +45,11 @@
 .rdp-room-error-button-back{
     align-self: flex-start;
     max-width: 120px;
+    margin: 6px 6px 6px 0px;
+}
+
+.rdp-room-error-button-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }

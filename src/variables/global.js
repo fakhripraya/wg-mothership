@@ -12,6 +12,7 @@ export const NEW_PASSWORD = "NEW_PASSWORD";
 export const OTP_PAGE = "OTP_PAGE";
 
 // RDP FAIL REASON //
+export const LOGIN_REQUIRED = "LOGIN_REQUIRED";
 export const ROOM_FULL = "ROOM_FULL";
 export const ROOM_AVAILABLE = "ROOM_AVAILABLE";
 export const ROOM_UNAVAILABLE = "ROOM_UNAVAILABLE";

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './style.scss';
 import Button from '../../components/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { RDPFailMessage } from '../../utils/functions/rdp';
+import { RDPFailButton, RDPFailMessage } from '../../utils/functions/rdp';
 
 export default function RDPRoomError() {
 
@@ -19,10 +19,13 @@ export default function RDPRoomError() {
         navigate(`/rdp`);
     }
 
+    // COMPONENT SPECIFIC //
     const ShowErrorMessage = () => {
         const errorMessage = RDPFailMessage(reason);
         return <h4 className="margin-top-0 margin-bottom-12-18">{errorMessage}</h4>
     }
+
+    const ShowErrorButton = () => RDPFailButton(reason);
 
     useEffect(() => {
         // Scroll window to top
@@ -40,9 +43,12 @@ export default function RDPRoomError() {
                 <div className="rdp-room-error-textinput-box">
                     <h3 className="rdp-room-error-input-title">Oh no, <span className="red-color">something's not right</span></h3>
                     <ShowErrorMessage />
-                    <Button onClick={() => handleGoBack()} className="rdp-room-error-button-back">
-                        Back
-                    </Button>
+                    <div className="rdp-room-error-button-wrapper">
+                        <Button onClick={() => handleGoBack()} className="rdp-room-error-button-back">
+                            Back
+                        </Button>
+                        <ShowErrorButton />
+                    </div>
                 </div>
             </div>
         </div>
