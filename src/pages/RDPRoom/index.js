@@ -1,10 +1,19 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import { iceConfig } from '../../config/rtc/ice';
 import { connectWebsocket } from '../../config/websocket/websocket';
 import { useAxiosGet } from '../../utils/hooks/useAxios';
-import { ROOM_AVAILABLE, ROOM_FULL, URL_ROOM_CHECK, USER_ALREADY_JOIN } from '../../variables/global';
+import {
+    NO_STRING,
+    ROOM_AVAILABLE,
+    ROOM_FULL,
+    ROOM_UNAVAILABLE,
+    RTC_PEER_CONNECTION_FAILED,
+    RTC_PEER_UNTRUSTED_CONNECTION,
+    URL_ROOM_CHECK,
+    USER_ALREADY_JOIN
+} from '../../variables/global';
 import './style.scss';
 
 const userIDDummy = uuid();
@@ -21,12 +30,13 @@ export default function RDPRoom() {
 
     // HOOKS //
     const navigate = useNavigate();
-    const getCheckRoom = useAxiosGet();
+    const getCheckRoomReq = useAxiosGet();
     // eslint-disable-next-line no-unused-vars
     const [searchParams, setSearchParams] = useSearchParams();
+    const [OnlineStatus, setOnlineStatus] = useState(NO_STRING);
 
     // VARIABLES //
-    const roomCode = searchParams.get("code");
+    const roomCode = searchParams.get("roomCode");
     const userJoin = {
         id: userIDDummy, //TODO: currently using dummy, change to dynamic data
     }
@@ -40,9 +50,9 @@ export default function RDPRoom() {
 
         // SOCKET ON //
         socketRef.current.on("rdp error", (reason) => navigate(`/rdp/error?reason=${reason}`));
-        socketRef.current.on('user call', userID => {
-            callUser(userID);
-            otherUser.current = userID;
+        socketRef.current.on('user call', userSocketID => {
+            callUser(userSocketID);
+            otherUser.current = userSocketID;
         });
         socketRef.current.on("user joined", otherID => otherUser.current = otherID);
         socketRef.current.on("offer", handleRecieveCall);
@@ -50,7 +60,7 @@ export default function RDPRoom() {
         socketRef.current.on("ice-candidate", handleNewICECandidateMsg);
 
         async function proceedCheckRoom() {
-            await getCheckRoom.getData({
+            await getCheckRoomReq.getData({
                 endpoint: process.env.REACT_APP_SIGNALER_SERVICE,
                 url: `${URL_ROOM_CHECK}?userId=${userJoin.id}&roomCode=${roomCode}`,
             });
@@ -67,10 +77,13 @@ export default function RDPRoom() {
     }, []);
 
     useEffect(() => {
-        if (getCheckRoom.responseStatus && getCheckRoom.responseData.code) {
-            if (getCheckRoom.responseData.code === USER_ALREADY_JOIN) navigate(`/rdp/error?reason=${USER_ALREADY_JOIN}`);
-            if (getCheckRoom.responseData.code === ROOM_FULL) navigate(`/rdp/error?reason=${ROOM_FULL}`);
-            if (getCheckRoom.responseData.code === ROOM_AVAILABLE) {
+        // function to check the response data from the api
+        function getDisplayMediaCheck() {
+            if (!getCheckRoomReq.responseData.code) return;
+            if (getCheckRoomReq.responseData.code === ROOM_UNAVAILABLE) navigate(`/rdp/error?reason=${ROOM_UNAVAILABLE}`);
+            if (getCheckRoomReq.responseData.code === USER_ALREADY_JOIN) navigate(`/rdp/error?reason=${USER_ALREADY_JOIN}`);
+            if (getCheckRoomReq.responseData.code === ROOM_FULL) navigate(`/rdp/error?reason=${ROOM_FULL}`);
+            if (getCheckRoomReq.responseData.code === ROOM_AVAILABLE) {
                 // GET USER DISPLAY AND SIGNAL RTC CALL
                 navigator.mediaDevices.getDisplayMedia({ cursor: false }).then(stream => {
                     userVideo.current.srcObject = stream;
@@ -79,42 +92,76 @@ export default function RDPRoom() {
                 });
             }
         }
+
+        if (getCheckRoomReq.responseStatus && getCheckRoomReq.responseData) getDisplayMediaCheck();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getCheckRoom.responseData, getCheckRoom.responseError, getCheckRoom.responseStatus, getCheckRoom.errorContent]);
+    }, [getCheckRoomReq.responseData, getCheckRoomReq.responseError, getCheckRoomReq.responseStatus, getCheckRoomReq.errorContent]);
 
     function hasRTCPeerConnection() {
         let RTCPeerConnectionConstructor = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
         return !!RTCPeerConnectionConstructor;
     }
 
-    function callUser(userID) {
-        peerRef.current = createPeer(userID);
+    function callUser(userSocketID) {
+        peerRef.current = createPeer(userSocketID);
         userStream.current.getTracks().forEach(track => peerRef.current.addTrack(track, userStream.current));
     }
 
-    function createPeer(userID) {
-        //TODO: Create some warning message to the user to disable website extension that interfere the RTCPeerConnection constructor
+    function createPeer(userSocketID) {
+        if (!hasRTCPeerConnection()) navigate(`/rdp/error?reason=${RTC_PEER_CONNECTION_FAILED}`);
+
         let RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection;
         const peer = new RTCPeerConnection(iceConfig);
 
+        peer.onconnectionstatechange = handleOnConnectionStateChange;
         peer.onicecandidate = handleICECandidateEvent;
         peer.ontrack = handleTrackEvent;
-        peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userID);
+        peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userSocketID);
 
         return peer;
     }
 
-    function handleNegotiationNeededEvent(userID) {
+    function handleOnConnectionStateChange(e) {
+
+        const isTrusted = e.isTrusted;
+        const connectionState = e.currentTarget.connectionState;
+        if (!isTrusted) navigate(`/rdp/error?reason=${RTC_PEER_UNTRUSTED_CONNECTION}`);
+
+        switch (connectionState) {
+            //TODO: Create pop up label to identify connection
+            case "new":
+            case "checking":
+                setOnlineStatus("Connecting…");
+                break;
+            case "connected":
+                setOnlineStatus("Online");
+                break;
+            case "disconnected":
+                setOnlineStatus("Disconnecting…");
+                break;
+            case "closed":
+                setOnlineStatus("Offline");
+                break;
+            case "failed":
+                navigate(`/rdp/error?reason=${RTC_PEER_CONNECTION_FAILED}`);
+                break;
+            default:
+                setOnlineStatus("Unknown");
+                break;
+        }
+    }
+
+    function handleNegotiationNeededEvent(userSocketID) {
         peerRef.current.createOffer().then(offer => {
             return peerRef.current.setLocalDescription(offer);
         }).then(() => {
             const payload = {
-                target: userID,
+                target: userSocketID,
                 caller: socketRef.current.id,
                 sdp: peerRef.current.localDescription
             };
             socketRef.current.emit("offer", payload);
-        }).catch(e => console.log(e));
+        }).catch(e => navigate(`/rdp/error?reason=${RTC_PEER_CONNECTION_FAILED}`));
     }
 
     function handleRecieveCall(incoming) {
@@ -133,12 +180,12 @@ export default function RDPRoom() {
                 sdp: peerRef.current.localDescription
             }
             socketRef.current.emit("answer", payload);
-        })
+        }).catch(e => navigate(`/rdp/error?reason=${RTC_PEER_CONNECTION_FAILED}`));
     }
 
     function handleAnswer(message) {
         const desc = new RTCSessionDescription(message.sdp);
-        peerRef.current.setRemoteDescription(desc).catch(e => console.log(e));
+        peerRef.current.setRemoteDescription(desc).catch(e => navigate(`/rdp/error?reason=${RTC_PEER_CONNECTION_FAILED}`));
     }
 
     function handleICECandidateEvent(e) {
@@ -153,9 +200,8 @@ export default function RDPRoom() {
 
     function handleNewICECandidateMsg(incoming) {
         const candidate = new RTCIceCandidate(incoming);
-
         peerRef.current.addIceCandidate(candidate)
-            .catch(e => console.log(e));
+            .catch(e => navigate(`/rdp/error?reason=${RTC_PEER_CONNECTION_FAILED}`));
     }
 
     function handleTrackEvent(e) {

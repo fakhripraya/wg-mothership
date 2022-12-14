@@ -14,10 +14,19 @@ import {
     LOGIN,
     REGISTER
 } from '../../variables/global';
+import { v4 as uuid } from 'uuid';
 
 export default function Login(props) {
 
     // FUNCTIONS SPECIFIC //
+    function handleLoginRequest(callback) {
+        //TODO: localstorage is for test purpose, change while we work on LOGIN page backend later
+        localStorage.setItem("user", JSON.stringify({
+            id: uuid(),
+        }));
+        callback();
+    }
+
     function handleOpenForgotPassword() {
         props.handleOpen(FORGOT_PASSWORD);
     }
@@ -45,7 +54,9 @@ export default function Login(props) {
                             <TextInput type="password" className="login-textinput text-align-center" />
                         </div>
                         <h3 onClick={() => handleOpenForgotPassword()} className="login-forgot-pass link-color cursor-pointer">Forgot your password</h3>
-                        <Button className="login-button dark-bg-color">
+                        <Button onClick={() => handleLoginRequest(() => {
+                            props.handleOpen(NO_STRING);
+                        })} className="login-button dark-bg-color">
                             <h2 className="login-button-text">Sign In</h2>
                         </Button>
                         <br></br>

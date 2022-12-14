@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 export default function RDP() {
 
     // HOOKS //
-    const [code, setCode] = useState('');
+    const [roomCode, setRoomCode] = useState('');
     const navigate = useNavigate();
 
     // FUNCTIONS SPECIFIC //
     function answerRDPInvitation() {
-        navigate(`/rdp/room?code=${code}`);
+        navigate(`/rdp/room?roomCode=${roomCode}`);
     }
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export default function RDP() {
                 <div className="rdp-textinput-box">
                     <h3 className="rdp-input-title">Rental Code</h3>
                     <h4 className="margin-top-0 margin-bottom-12-18">Input the invitation <span className="main-color">code</span> from your rental host, if you haven't get the code you can ask the host to <span className="main-color">re-generate</span> the code</h4>
-                    <TextInput onChange={(e) => setCode(e.target.value)} type="text" className="rdp-textinput text-align-center" />
+                    <TextInput onChange={(e) => setRoomCode(e.target.value)} type="text" className="rdp-textinput text-align-center" />
                     <Button onClick={() => answerRDPInvitation()} className="rdp-button-connect">
                         Connect
                     </Button>
