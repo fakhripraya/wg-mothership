@@ -4,8 +4,10 @@ import { iceConfig } from '../../config/rtc/ice';
 import { connectWebsocket } from '../../config/websocket/websocket';
 import { useAxiosGet } from '../../utils/hooks/useAxios';
 import {
+    HOST,
     LOGIN_REQUIRED,
     NO_STRING,
+    PEER,
     ROOM_AVAILABLE,
     ROOM_FULL,
     ROOM_UNAVAILABLE,
@@ -32,7 +34,8 @@ export default function RDPRoom() {
     // eslint-disable-next-line no-unused-vars
     const [searchParams, setSearchParams] = useSearchParams();
     // eslint-disable-next-line no-unused-vars
-    const [OnlineStatus, setOnlineStatus] = useState(NO_STRING);
+    const [onlineStatus, setOnlineStatus] = useState(NO_STRING);
+    const [user, setUser] = useState(null);
 
     // VARIABLES //
     const roomCode = searchParams.get("roomCode");
@@ -82,18 +85,34 @@ export default function RDPRoom() {
             if (getCheckRoomReq.responseData.code === USER_ALREADY_JOIN) navigate(`/rdp/error?reason=${USER_ALREADY_JOIN}`);
             if (getCheckRoomReq.responseData.code === ROOM_FULL) navigate(`/rdp/error?reason=${ROOM_FULL}`);
             if (getCheckRoomReq.responseData.code === ROOM_AVAILABLE) {
-                // GET USER DISPLAY AND SIGNAL RTC CALL
-                navigator.mediaDevices.getDisplayMedia({ cursor: false }).then(stream => {
-                    userVideo.current.srcObject = stream;
-                    userStream.current = stream;
-                    socketRef.current.emit("join room", userJoin, roomCode);
+
+                const userRDPRole = getCheckRoomReq.responseData.created_by === userJoin.id ? HOST : PEER;
+                console.log(getCheckRoomReq.responseData.created_by)
+                console.log(userRDPRole)
+                setUser({
+                    ...userJoin,
+                    rdp_role: userRDPRole,
                 });
+
+                // GET USER DISPLAY FOR THE HOST
+                if (userRDPRole) {
+                    navigator.mediaDevices.getDisplayMedia({ cursor: false }).then(stream => {
+                        if (userVideo.current) userVideo.current.srcObject = stream;
+                        userStream.current = stream;
+                        //  SIGNAL RTC CALL
+                        socketRef.current.emit("join room", userJoin, roomCode);
+                    });
+                }
+
+
             }
         }
 
         if (getCheckRoomReq.responseStatus && getCheckRoomReq.responseData) getDisplayMediaCheck();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getCheckRoomReq.responseData, getCheckRoomReq.responseError, getCheckRoomReq.responseStatus, getCheckRoomReq.errorContent]);
+
+    // FUNCTION SPECIFIC //
 
     function hasRTCPeerConnection() {
         let RTCPeerConnectionConstructor = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
@@ -102,7 +121,11 @@ export default function RDPRoom() {
 
     function callUser(userSocketID) {
         peerRef.current = createPeer(userSocketID);
-        userStream.current.getTracks().forEach(track => peerRef.current.addTrack(track, userStream.current));
+        console.log(userStream.current)
+        userStream.current.getTracks().forEach(track => {
+            console.log(track)
+            peerRef.current.addTrack(track, userStream.current)
+        });
     }
 
     function createPeer(userSocketID) {
@@ -203,14 +226,27 @@ export default function RDPRoom() {
     }
 
     function handleTrackEvent(e) {
-        partnerVideo.current.srcObject = e.streams[0];
+        if (!user) return;
+        if (user.rdp_role !== HOST) partnerVideo.current.srcObject = e.streams[0];
     };
+
+    // COMPONENT SPECIFIC //
+
+    const ShowRDPVideoDisplay = () => {
+        if (!user) return;
+
+        console.log(user)
+
+        // if the user is HOST return host video as own video
+        if (user.rdp_role === HOST) return <video className="rdp-room-user-video" autoPlay ref={userVideo} />
+        // if the user is not the HOST return host video as partner video
+        return <video className="rdp-room-partner-video" autoPlay ref={partnerVideo} />
+    }
 
     return (
         <div className="rdp-room-container">
             <div className="rdp-room-wrapper">
-                <video className="rdp-room-user-video" autoPlay ref={userVideo} />
-                <video className="rdp-room-partner-video" autoPlay ref={partnerVideo} />
+                <ShowRDPVideoDisplay />
             </div>
         </div>
     );

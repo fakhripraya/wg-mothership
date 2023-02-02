@@ -31,6 +31,9 @@ export const PATCH = "PATCH";
 export const DELETE = "DELETE";
 
 // SERVICE ROUTE
-
 export const URL_ROOM_CHECK = '/v1/room/check';
 export const URL_ROOM_CREATE = '/v1/room/create';
+
+// USER RDP ROLE
+export const HOST = "HOST";
+export const PEER = "PEER";
