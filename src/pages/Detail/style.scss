@@ -63,6 +63,7 @@
     border-radius: 12px;
     padding: 18px;
     margin: 0px 12px;
+    box-sizing: border-box;
 
     @media screen and (max-width: 1080px){
         margin: 6px;
@@ -129,6 +130,7 @@
     padding: 18px;
     border-radius: 12px;
     height: fit-content;
+    box-sizing: border-box;
 
     @media screen and (max-width: 1080px){
         flex: 1;
@@ -225,6 +227,7 @@
     padding: 18px;
     border-radius: 12px;
     margin: 0px 12px;
+    box-sizing: border-box;
 
     @media screen and (max-width: 1080px){
         flex: 1;
