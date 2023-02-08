@@ -13,16 +13,13 @@
 }
 
 .detail-wrapper{
-    width: 60vw;
+    width: 80vw;
     margin: 0px auto;
     position: relative;
     align-items: center;
     -webkit-box-align: center;
     display: flex;
     flex-direction: column;
-    @media screen and (max-width: 1280px){
-        width: 80vw;
-    }
 }
 
 .detail-breadcrumbs{
@@ -33,9 +30,204 @@
     justify-content: flex-start;
 }
 
+.detail-flex-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    margin-top: 12px;
+
+    @media screen and (max-width: 1080px){
+        flex-direction: column;
+        min-height: fit-content;
+        margin-top: 0px;
+    }
+}
+
+.detail-flexbox{
+    padding: 0px 20px;
+
+    @media screen and (max-width: 1080px){
+        padding: 20px 0px;
+    }
+}
+
+.detail-flexbox-pictures{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    justify-content: flex-start;
+    flex: 1;
+    border-radius: 12px;
+    padding: 18px;
+    margin: 0px 12px;
+
+    @media screen and (max-width: 1080px){
+        margin: 6px;
+        flex: 1;
+        justify-content: center;
+    }
+}
+
+.detail-picture-box{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: fit-content;
+}
+
+.detail-picture-box-options{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 300px;
+    align-self: center;
+    justify-content: space-around;
+    height: 80px;
+    align-items: center;
+
+    @media screen and (max-width: 1080px){
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+.detail-picture-box-options-item{
+    display: flex;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.detail-picture{
+    width: 25vw;
+    height: 25vw;
+    max-width: 300px;
+    max-height: 300px;
+    display: flex;
+    padding: 0px;
+    margin: auto;
+    border: none;
+    padding: 12px;
+    box-sizing: border-box;
+
+    @media screen and (max-width: 1080px){
+        height: auto;
+        width: auto;
+    }
+}
+
+.detail-flexbox-details{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+    flex: 2;
+    margin: 0px 12px;
+    padding: 18px;
+    border-radius: 12px;
+    height: fit-content;
+
+    @media screen and (max-width: 1080px){
+        flex: 1;
+        margin: 6px;
+    }
+}
+
 .detail-title{
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: flex-start;
+}
+
+.detail-count{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0px;
+    justify-content: flex-start;
+}
+
+.detail-pricetag{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.detail-tabs{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.detail-tabs *{
+    display: flex;
+    margin-right: 12px;
+    justify-content: flex-start;
+}
+
+.detail-body-text{
+    width: 100%;
+}
+
+.detail-merchant{
+    display: grid;
+    width: 100%;
+    grid-template-areas: 'col1 col2 col3';
+    grid-template-columns: 80px 60% auto;
+}
+
+.detail-wrap-box{
+    display: flex;
+    flex-direction: row;
+    width: calc(100% + 20px);
+    justify-content: flex-start;
+}
+
+.detail-merchant-pfp{
+    grid-area: col1;
+    width: 60px;
+    height: 60px;
+    margin: 0px 12px 0px 0px;
+    object-fit: contain;
+    border-radius: 50%;
+
+    @media screen and (max-width: 762px){
+        width: 48px;
+        height: 48px;
+    }
+}
+
+.detail-merchant-profile{
+    grid-area: col2;
+}
+
+.detail-merchant-follow{
+    grid-area: col3;
+    max-width: 60px;
+    align-self: center;
+    justify-self: flex-end;
+    width: fit-content;
+    height: fit-content;
+}
+
+.detail-flexbox-pricing{
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 18px;
+    border-radius: 12px;
+    margin: 0px 12px;
+
+    @media screen and (max-width: 1080px){
+        flex: 1;
+        margin: 6px;
+    }
 }

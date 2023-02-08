@@ -111,12 +111,21 @@
   margin-top: 0px !important;
 }
 
+.margin-top-bottom-0{
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
 .cursor-pointer{
   cursor: pointer;
 }
 
 .justify-center{
   justify-content: center;
+}
+
+.justify-flex-end{
+  justify-self: flex-end !important;
 }
 
 .white-space-no-wrap{

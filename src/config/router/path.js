@@ -23,7 +23,7 @@ export const routes = [
         component: <MyRentals />,
     },
     {
-        path: '/detail',
+        path: '/detail/:id',
         component: <Detail />,
     },
     {

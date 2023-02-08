@@ -15,6 +15,6 @@ export const getMenus = () => {
         {
             name: "Rental Market",
             route: "/market"
-        },
+        }
     ]
 }
