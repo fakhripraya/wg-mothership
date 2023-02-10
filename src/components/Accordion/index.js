@@ -13,8 +13,8 @@ export default function Accordion(props) {
     }
 
     // COMPONENT SPECIFICS //
-    const ShowItems = () =>{
-        if(!props.isButton) return props.children
+    const ShowItems = () => {
+        if (!props.isButton) return props.children
         return props.data.map((item, index) => {
             return <button key={`accordion-${item.title}-${index}`} className="accordion-button">
                 <h6 className="accordion-subtitle light-color">{item.title}</h6>
@@ -40,7 +40,7 @@ export default function Accordion(props) {
                 <span className="accordion-button-label-after" ref={iconRef} />
             </button>
             <div ref={listRef} className="accordion-lists-container">
-                <ShowItems/>
+                <ShowItems />
             </div>
         </div>
     )

@@ -7,12 +7,17 @@ import Button from '../../components/Button';
 import { useAxiosPost } from '../../utils/hooks/useAxios';
 import { URL_ROOM_CREATE } from '../../variables/global';
 import { useNavigate } from 'react-router-dom';
+import TextInput from '../../components/TextInput';
+import MinusIcon from '../../assets/svg/square-minus-solid.svg';
+import PlusIcon from '../../assets/svg/square-plus-solid.svg';
+import Accordion from '../../components/Accordion';
+import { filterData } from '../../variables/dummy/detail';
 
 export default function Detail() {
 
     // HOOKS //
     const postDetailItemReq = useAxiosPost();
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     // STATES //
     const [breadcrumbs, setBreadcrumb] = useState([]);
@@ -31,6 +36,13 @@ export default function Detail() {
         })
     }
 
+    // COMPONENTS SPECIFIC //
+    const ShowAccordions = (props) => {
+        return props.datas.map((item, index) => {
+            return <Accordion key={`${props.uniqueKey}-accordion-${index}`} toggle={true} isButton={true} title={item.title} data={item.data} />
+        })
+    }
+
     // INITIAL RENDER
     useEffect(() => {
         smoothScrollTop();
@@ -41,7 +53,8 @@ export default function Detail() {
     useEffect(() => {
         function handleRDPNavigation() {
             if (!postDetailItemReq.responseData.roomCode) return;
-            navigate(`/rdp/room?roomCode=${postDetailItemReq.responseData.roomCode}`);
+            //navigate(`/rdp/room?roomCode=${postDetailItemReq.responseData.roomCode}`);
+            window.location.replace(`http://localhost:3000/rdp/room?roomCode=${postDetailItemReq.responseData.roomCode}`);
         }
         if (postDetailItemReq.responseStatus && postDetailItemReq.responseData) handleRDPNavigation();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,67 +79,152 @@ export default function Detail() {
                         </div>
                     </div>
                     <div className="detail-flexbox detail-flexbox-details dark-bg-color">
-                        <h2 className="detail-title margin-top-bottom-0">THIS IS THE TITLE OF THE DETAIL</h2>
-                        <p className="detail-count">Tersewa&nbsp;<span>35+</span>&nbsp;<img aria-hidden="true" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg" class="icon-star" alt="" /> 4.9 ( dari 11 rating )</p>
+                        <h2 className="detail-title margin-top-bottom-0">lilin aromaterapi lemongrass/ sereh wangi - soy wax pengusir nyamuk</h2>
+                        <p className="detail-count">Tersewa&nbsp;<span>35+</span>&nbsp;<img aria-hidden="true" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg" alt="" /> 4.9 ( dari 11 rating )</p>
                         <h1 className="detail-pricetag">Rp.88.800</h1>
-                        <hr className="max-width" />
+                        <hr style={{ opacity: 0.1 }} className="max-width" />
                         <div className="detail-tabs">
-                            <Button onClick={() => handleHostRDP()}>
+                            <Button>
                                 Details
                             </Button>
-                            <Button onClick={() => handleHostRDP()}>
-                                Info Toko
-                            </Button>
-                            <Button onClick={() => handleHostRDP()}>
+                            <Button>
                                 Ketentuan
                             </Button>
                         </div>
-                        <hr className="max-width" />
+                        <hr style={{ opacity: 0.1 }} className="max-width" />
                         <p className="detail-body-text margin-bottom-0">Kondisi: Baru</p>
                         <p className="detail-body-text margin-top-bottom-0">Berat Satuan: 150 g</p>
                         <p className="detail-body-text margin-top-bottom-0">Kategori: Lilin Aroma Terapi</p>
                         <p className="detail-body-text margin-top-0">Etalase: Semua Etalase</p>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nam iste debitis aut eligendi error pariatur necessitatibus tenetur, ipsa, facere, reiciendis quasi sit voluptatibus atque placeat in consequatur exercitationem corrupti. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab a laudantium consequuntur. Magni accusantium totam est corrupti nemo eius, doloribus asperiores rem quas fugit quasi pariatur aperiam ad neque incidunt. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat cupiditate deserunt natus deleniti nemo sunt nobis doloremque nesciunt rerum. Cum explicabo ea natus inventore esse numquam ad placeat facere modi!</p>
-                        <hr className="max-width" />
+                        <hr style={{ opacity: 0.1 }} className="max-width" />
                         <div className="detail-merchant">
                             <img className="detail-merchant-pfp" src="https://images.tokopedia.net/img/cache/215-square/GAnVPX/2021/8/17/8b9136a1-364e-4702-9fab-8802f184c8e8.jpg" alt="Logo candelaacts" />
                             <div className="detail-merchant-profile" >
                                 <h4 className="detail-body-text margin-top-bottom-0">Ricky The Seller</h4>
                                 <p className="detail-body-text margin-top-0">Online 14 hari lalu</p>
                                 <div className="detail-wrap-box">
-                                    <p style={{ alignSelf: "center" }} className="margin-top-bottom-0">4.9 <img aria-hidden="true" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg" class="icon-star" alt="" /> Star</p>
-                                    <Button style={{ marginLeft: "8px", backgroundColor: "red" }} className="margin-top-bottom-0" onClick={() => handleHostRDP()}>
+                                    <p style={{ alignSelf: "center" }} className="margin-top-bottom-0">4.9 <img aria-hidden="true" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg" alt="" /> Star</p>
+                                    <Button style={{ marginLeft: "8px", backgroundColor: "red" }} className="margin-top-bottom-0">
                                         SELLER GESIT !
                                     </Button>
                                 </div>
                             </div>
-                            <Button className="detail-merchant-follow" onClick={() => handleHostRDP()}>
+                            <Button className="detail-merchant-follow">
                                 Follow
                             </Button>
                         </div>
-                        <hr className="max-width" />
+                        <hr style={{ opacity: 0.1 }} className="max-width" />
                         <h3 className="detail-title margin-bottom-0">Pemesanan</h3>
                         <p className="detail-body-text">Pesanan akan dikirim dari <span style={{ fontWeight: "bold" }}>Jakarta Utara</span></p>
                         <div className="detail-wrap-box">
-                            <Button onClick={() => handleHostRDP()}>
+                            <Button>
                                 Chat
                             </Button>
-                            <Button style={{ marginLeft: "8px" }} onClick={() => handleHostRDP()}>
+                            <Button style={{ marginLeft: "8px" }}>
                                 Lihat Pilihan kurir
                             </Button>
                         </div>
-                        <hr className="max-width" />
+                        <hr style={{ opacity: 0.1 }} className="max-width" />
                         <p className="detail-body-text">Ada kendala dengan seller ? <a style={{ fontWeight: "bold", cursor: "pointer" }}>Lapor aja !</a></p>
                     </div>
                     <div className="detail-flexbox detail-flexbox-pricing dark-bg-color">
-
+                        <h1 className="detail-title margin-top-bottom-0">Pesan</h1>
+                        <h3 className="detail-title margin-top-bottom-0">Jumlah Peminjaman</h3>
+                        <div style={{ marginBottom: "8px" }} className="detail-flexbox-pricing-rowbox">
+                            <TextInput style={{ marginRight: "8px" }} className="detail-flexbox-pricing-count-area"></TextInput>
+                            <img className="detail-flexbox-pricing-count-button" src={PlusIcon} alt={"plus-icon"} />
+                            <img className="detail-flexbox-pricing-count-button" src={MinusIcon} alt={"minus-icon"} />
+                        </div>
+                        <h3 className="detail-title margin-top-bottom-0">Masukan Catatan Bila Ada</h3>
+                        <TextInput className="detail-flexbox-pricing-longtext-area"></TextInput>
+                        <div className="detail-flexbox-pricing-rowbox">
+                            <h2 className="detail-title margin-top-0">Subtotal</h2>
+                            <h2 className="detail-title margin-top-0">Rp.88.000</h2>
+                        </div>
+                        <Button>
+                            Masukkan Keranjang
+                        </Button>
+                        <br />
+                        <Button>
+                            Langsung Pesan
+                        </Button>
+                        <br />
+                        <div className="detail-flexbox-pricing-other">
+                            <Button style={{ marginRight: "8px" }} className="detail-button-outlined full-width">
+                                Chat
+                            </Button>
+                            <Button className="detail-button-outlined full-width">
+                                Share
+                            </Button>
+                        </div>
                     </div>
                 </div>
-                <div >
-                    <Button onClick={() => handleHostRDP()}>
-                        host an RDP
-                    </Button>
+                <div className="detail-flex-container">
+                    <div className="detail-flexbox detail-flexbox-filter dark-bg-color">
+                        <h1 className="detail-title margin-top-bottom-0">Review Barang</h1>
+                        <div className="detail-review-rating">
+                            <img style={{ height: "36px", width: "36px", marginRight: "8px" }} aria-hidden="true" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg" alt="" />
+                            <p style={{ fontSize: "72px" }} >4.9 </p>
+                            <p style={{ fontSize: "72px" }} >/</p>
+                            <p style={{ fontSize: "36px" }} >5.0</p>
+                        </div>
+                        <p className="detail-body-text margin-top-0">100% peminjam merasa puas</p>
+                        <p className="detail-body-text margin-top-0">11 rating • 9 ulasan</p>
+                        <br />
+                        <ShowAccordions uniqueKey="filter-rating" datas={filterData} />
+                    </div>
+                    <div className="detail-flexbox detail-flexbox-review dark-bg-color">
+                        <h1 className="detail-title margin-top-0">Foto Review Dari Peminjam</h1>
+                        <div className="detail-picture-box-review">
+                            <img className="detail-picture-box-review-item" src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g" />
+                            <img className="detail-picture-box-review-item" src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g" />
+                            <img className="detail-picture-box-review-item" src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g" />
+                            <img className="detail-picture-box-review-item" src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g" />
+                            <img className="detail-picture-box-review-item" src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g" />
+                            <img className="detail-picture-box-review-item" src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g" />
+                        </div>
+                        <h1 className="detail-title margin-bottom-0">Review Dari Peminjam</h1>
+                        <p className="detail-body-text margin-top-0">Menampilkan 9 ulasan dari 9</p>
+                        <div className="detail-merchant">
+                            <img className="detail-merchant-pfp" src="https://images.tokopedia.net/img/cache/215-square/GAnVPX/2021/8/17/8b9136a1-364e-4702-9fab-8802f184c8e8.jpg" alt="Logo candelaacts" />
+                            <div className="detail-merchant-profile" >
+                                <h4 className="detail-body-text margin-top-bottom-0">Ricky The Seller</h4>
+                                <p className="detail-body-text margin-top-0">Online 14 hari lalu</p>
+                                <div className="detail-wrap-box">
+                                    <p style={{ alignSelf: "center" }} className="margin-top-bottom-0">4.9 <img aria-hidden="true" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg" alt="" /> Star</p>
+                                </div>
+                            </div>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nam iste debitis aut eligendi error pariatur necessitatibus tenetur, ipsa, facere, reiciendis quasi sit voluptatibus atque placeat in consequatur exercitationem corrupti. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab a laudantium consequuntur. Magni accusantium totam est corrupti nemo eius, doloribus asperiores rem quas fugit quasi pariatur aperiam ad neque incidunt. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat cupiditate deserunt natus deleniti nemo sunt nobis doloremque nesciunt rerum. Cum explicabo ea natus inventore esse numquam ad placeat facere modi!</p>
+                        </div>
+                        <div className="detail-merchant">
+                            <img className="detail-merchant-pfp" src="https://images.tokopedia.net/img/cache/215-square/GAnVPX/2021/8/17/8b9136a1-364e-4702-9fab-8802f184c8e8.jpg" alt="Logo candelaacts" />
+                            <div className="detail-merchant-profile" >
+                                <h4 className="detail-body-text margin-top-bottom-0">Ricky The Seller</h4>
+                                <p className="detail-body-text margin-top-0">Online 14 hari lalu</p>
+                                <div className="detail-wrap-box">
+                                    <p style={{ alignSelf: "center" }} className="margin-top-bottom-0">4.9 <img aria-hidden="true" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg" alt="" /> Star</p>
+                                </div>
+                            </div>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nam iste debitis aut eligendi error pariatur necessitatibus tenetur, ipsa, facere, reiciendis quasi sit voluptatibus atque placeat in consequatur exercitationem corrupti. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab a laudantium consequuntur. Magni accusantium totam est corrupti nemo eius, doloribus asperiores rem quas fugit quasi pariatur aperiam ad neque incidunt. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat cupiditate deserunt natus deleniti nemo sunt nobis doloremque nesciunt rerum. Cum explicabo ea natus inventore esse numquam ad placeat facere modi!</p>
+                        </div>
+                        <div className="detail-merchant">
+                            <img className="detail-merchant-pfp" src="https://images.tokopedia.net/img/cache/215-square/GAnVPX/2021/8/17/8b9136a1-364e-4702-9fab-8802f184c8e8.jpg" alt="Logo candelaacts" />
+                            <div className="detail-merchant-profile" >
+                                <h4 className="detail-body-text margin-top-bottom-0">Ricky The Seller</h4>
+                                <p className="detail-body-text margin-top-0">Online 14 hari lalu</p>
+                                <div className="detail-wrap-box">
+                                    <p style={{ alignSelf: "center" }} className="margin-top-bottom-0">4.9 <img aria-hidden="true" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg" alt="" /> Star</p>
+                                </div>
+                            </div>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nam iste debitis aut eligendi error pariatur necessitatibus tenetur, ipsa, facere, reiciendis quasi sit voluptatibus atque placeat in consequatur exercitationem corrupti. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab a laudantium consequuntur. Magni accusantium totam est corrupti nemo eius, doloribus asperiores rem quas fugit quasi pariatur aperiam ad neque incidunt. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat cupiditate deserunt natus deleniti nemo sunt nobis doloremque nesciunt rerum. Cum explicabo ea natus inventore esse numquam ad placeat facere modi!</p>
+                        </div>
+                    </div>
+                    <div className="detail-flexbox detail-flexbox-hidden" />
                 </div>
+                <Button style={{ marginTop: "8px" }}>
+                    Load More Review
+                </Button>
             </div>
         </div>
     )

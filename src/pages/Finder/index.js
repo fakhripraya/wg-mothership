@@ -85,7 +85,7 @@ export default function Finder() {
                     </div>
                     <div className="finder-flex-container">
                         <div className="finder-tools-container">
-                            <ShowAccordions key="desktop" datas={filterData} />
+                            <ShowAccordions uniqueKey="desktop" datas={filterData} />
                         </div>
                         <div className="finder-cards-container">
                             <div className="finder-cards-top-header-container" >
