@@ -129,7 +129,7 @@ export default function Detail() {
                             </Button>
                         </div>
                         <hr style={{ opacity: 0.1 }} className="max-width" />
-                        <p className="detail-body-text">Ada kendala dengan seller ? <a style={{ fontWeight: "bold", cursor: "pointer" }}>Lapor aja !</a></p>
+                        <p className="detail-body-text">Ada kendala dengan seller ? <a className="main-color" style={{ fontWeight: "bold", cursor: "pointer" }}>Lapor aja !</a></p>
                     </div>
                     <div className="detail-flexbox detail-flexbox-pricing">
                         <h1 className="detail-title margin-top-bottom-0">Pesan</h1>
