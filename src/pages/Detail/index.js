@@ -81,7 +81,9 @@ export default function Detail() {
                     </div>
                     <div className="detail-flexbox detail-flexbox-details ">
                         <h2 className="detail-title margin-top-bottom-0">lilin aromaterapi lemongrass/ sereh wangi - soy wax pengusir nyamuk</h2>
-                        <p className="detail-count">Tersewa&nbsp;<span>35+</span>&nbsp;<img aria-hidden="true" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg" alt="" /> 4.9 ( dari 11 rating )</p>
+                        <br />
+                        <p className="detail-count">Tersewa&nbsp;<span>35+</span></p>
+                        <p className="detail-count"><img aria-hidden="true" src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg" alt="" /> 4.9 ( dari 11 rating )</p>
                         <h1 className="detail-pricetag">Rp.88.800</h1>
                         <hr style={{ opacity: 0.1 }} className="max-width" />
                         <div className="detail-tabs">
