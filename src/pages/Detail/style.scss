@@ -195,7 +195,7 @@
     justify-content: flex-start;
 }
 
-.detail-merchant-pfp{
+.detail-pfp{
     grid-area: col1;
     width: 60px;
     height: 60px;
@@ -213,7 +213,7 @@
     }
 }
 
-.detail-merchant-profile{
+.detail-merchant-status{
     grid-area: col2;
     @media screen and (max-width: 480px){
         margin-bottom: 8px;
@@ -244,6 +244,7 @@
     border-radius: 12px;
     margin: 0px 6px;
     box-sizing: border-box;
+    border: 1.5px solid #0DA34D;
 
     @media screen and (max-width: 1280px){
         flex: 1;
@@ -253,7 +254,7 @@
 
 .detail-flexbox-filter{
     display: flex;
-    flex: 1;
+    flex: 0.5;
     flex-direction: column;
     width: 100%;
     justify-content: flex-start;
@@ -274,12 +275,13 @@
     flex-direction: column;
     width: 100%;
     justify-content: flex-start;
-    flex: 2;
+    flex: 1.5;
     margin: 0px 6px;
     padding: 18px;
     border-radius: 12px;
     height: fit-content;
     box-sizing: border-box;
+    min-height: 500px;
 
     @media screen and (max-width: 1280px){
         flex: 1;
@@ -342,6 +344,9 @@
 .detail-flexbox-pricing-count-area{
     border-radius: 6px !important;
     width: 50%;
+    margin-right: 8px;
+    background-color: rgb(28, 29, 29);
+    color: white;
 }
 
 .detail-flexbox-pricing-count-button{
@@ -354,6 +359,9 @@
     border-radius: 6px !important;
     margin: 8px 0px;
     min-height: 200px;
+    background-color: rgb(28, 29, 29) !important;
+    color: white;
+    text-align: start;
 }
 
 .detail-flexbox-pricing-rowbox{
@@ -392,4 +400,16 @@
         flex: 1;
         display: none;
     }
+}
+
+.detail-comment{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.detail-comment-status{
+    @media screen and (max-width: 480px){
+        margin-bottom: 8px;
+     }
 }
