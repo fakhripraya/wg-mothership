@@ -22,7 +22,6 @@ export default function Login(props) {
     // HOOKS //
     const navigate = useNavigate();
 
-
     // FUNCTIONS SPECIFIC //
     function handleLoginRequest(callback) {
         //TODO: localstorage is for test purpose, change while we work on LOGIN page backend later

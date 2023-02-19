@@ -8,6 +8,8 @@ import Detail from "../../pages/Detail";
 import MyRentals from "../../pages/MyRentals";
 import RDPRoom from "../../pages/RDPRoom";
 import RDPRoomError from "../../pages/RDPRoomError";
+import AddRental from "../../pages/AddRental";
+import Dashboard from "../../pages/Dashboard";
 
 export const routes = [
     {
@@ -41,6 +43,14 @@ export const routes = [
     {
         path: '/market',
         component: <Finder />,
+    },
+    {
+        path: '/add/rental',
+        component: <AddRental />,
+    },
+    {
+        path: '/dashboard',
+        component: <Dashboard />,
     },
     {
         path: '*',

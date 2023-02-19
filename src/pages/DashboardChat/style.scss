@@ -1,0 +1,20 @@
+// MAIN STYLES //
+.dashboard-chat-container{
+    height: 100%;
+    width: 100%;
+    background-color: yellow;
+    padding: 0.25em 1em;
+    
+    @media screen and (max-width: 480px) {
+        padding: 1em 1em;
+    }
+}
+
+.dashboard-chat-wrapper{
+    margin: 0px auto;
+    position: relative;
+    align-items: center;
+    -webkit-box-align: center;
+    display: flex;
+    flex-direction: column;
+}
