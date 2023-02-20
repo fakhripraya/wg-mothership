@@ -77,7 +77,7 @@ export default function DashboardHome() {
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-4 dashboard-home-grid-item-small main-bg-color">
                         <img src={BellIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h2>Buat Pengingat</h2>
+                        <h2>Buat Reminder</h2>
                     </div>
                 </div>
                 <div className="dashboard-home-flex-container">
