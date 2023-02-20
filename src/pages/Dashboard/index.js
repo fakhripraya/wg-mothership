@@ -88,6 +88,7 @@ export default function Finder() {
                                     <h3>Hello, Fakhri !</h3>
                                 </div>
                                 <div className="dashboard-cards-tool-items">
+                                    <FloatButton onClick={() => handleBottomSheet()} className="dashboard-menu-button dashboard-menu-button-no-complaint" />
                                     <FloatButton onClick={() => handleBottomSheet()} className="dashboard-menu-button dashboard-menu-button-bell" />
                                     <Dropdown style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={["Fittest", "Jancokest"]} />
                                 </div>

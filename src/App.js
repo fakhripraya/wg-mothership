@@ -68,7 +68,7 @@ function App() {
       </FloatButton>
       <FloatButton style={{ transform: `${style.floatButton.transform}` }} onClick={() => sendWA()} className="fixed-app-button main-bg-color">
         <h3 className="light-color">
-          Chat
+          Service
         </h3>
       </FloatButton>
     </Router>

@@ -23,6 +23,7 @@
     width: 100%;
     justify-content: space-between;
     margin-bottom: 12px;
+    margin-top: 3em;
 }
 
 .dashboard-home-flex-item{
@@ -52,7 +53,6 @@
 }
 
 .dashboard-home-grid-container{
-    margin-top: 3em;
     height: 100%;
     width: 100%;
     display: grid;
@@ -60,6 +60,7 @@
     'statistic statistic item1 item2'
     'statistic statistic item3 item4';
     gap: 12px;
+    margin-bottom: 12px;
 
     @media screen and (max-width: 1280px){
         grid-template-areas:
@@ -76,12 +77,20 @@
 
 .dashboard-home-grid-item-big{
     min-height: 400px;
-    width: 100%;
+    min-width: 100%;
+    width: fit-content;
+    border-radius: 12px;
 }
 
 .dashboard-home-grid-item-small{
+    cursor: pointer;
     min-height: 200px;
+    min-width: 200px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .dashboard-home-grid-item-statistic{
@@ -102,4 +111,8 @@
 
 .dashboard-home-grid-item-4{
     grid-area: item4;
+}
+
+.dashboard-home-grid-item-icon{
+    height: 48px;
 }

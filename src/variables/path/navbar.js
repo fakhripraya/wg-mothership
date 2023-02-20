@@ -5,12 +5,8 @@ export const getMenus = () => {
             route: "/"
         },
         {
-            name: "My Remote",
-            route: "/myremote"
-        },
-        {
-            name: "My Rentals",
-            route: "/myrental"
+            name: "Dashboard",
+            route: "/dashboard"
         },
         {
             name: "Rental Market",
