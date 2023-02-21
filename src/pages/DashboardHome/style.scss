@@ -2,14 +2,10 @@
 .dashboard-home-container{
     min-height: 100vh;
     height: auto;
-    width: auto;
-    max-width: 60vw;
+    width: 100%;
     padding: 3em 0em;
     margin-bottom: 1em;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
-    justify-self: center;
+    margin-right: 1em;
 }
 
 .dashboard-home-wrapper{
