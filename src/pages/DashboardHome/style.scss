@@ -2,7 +2,8 @@
 .dashboard-home-container{
     min-height: 100vh;
     height: auto;
-    width: 60vw;
+    width: auto;
+    max-width: 60vw;
     padding: 3em 0em;
     margin-bottom: 1em;
     align-items: center;
