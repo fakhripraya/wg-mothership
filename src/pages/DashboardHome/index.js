@@ -91,7 +91,7 @@ export default function DashboardHome() {
                         <h1 className="margin-bottom-0 dashboard-home-flex-item-number">
                             12
                         </h1>
-                        <h3 className="margin-top-0">6 Chat Belum Terbaca</h3>
+                        <h3 className="margin-top-0">6 Belum Terbaca</h3>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-big-1 dashboard-home-grid-item-big dark-bg-color">
                         <h2>Saldo</h2>
