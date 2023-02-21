@@ -85,7 +85,7 @@
 .dashboard-home-grid-item-statistic{
     grid-area: statistic;
     min-height: fit-content;
-    min-width: 100%;
+    max-width: 100%;
     width: fit-content;
     border-radius: 12px;
 }
