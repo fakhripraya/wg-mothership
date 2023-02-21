@@ -60,7 +60,7 @@ export default function DashboardHome() {
         <div className="dashboard-home-container">
             <div className="dashboard-home-wrapper">
                 <div className="dashboard-home-grid-container">
-                    <div className="dashboard-home-grid-item dashboard-home-grid-item-statistic dashboard-home-grid-item-big">
+                    <div className="dashboard-home-grid-item dashboard-home-grid-item-statistic">
                         <LineChart chartData={userData} />
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-1 dashboard-home-grid-item-small main-bg-color">

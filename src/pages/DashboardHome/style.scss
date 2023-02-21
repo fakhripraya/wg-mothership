@@ -52,12 +52,12 @@
 }
 
 .dashboard-home-grid-item-big{
-    min-height: 200px;
+    min-height: fit-content;
     min-width: 100%;
     width: fit-content;
     border-radius: 12px;
-    //padding: 1em;
-    //box-sizing: border-box;
+    padding: 1em;
+    box-sizing: border-box;
 }
 
 .dashboard-home-grid-item-small{
@@ -70,6 +70,8 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding: 1em;
+    box-sizing: border-box;
 }
 
 .dashboard-home-grid-item-small img{
@@ -80,6 +82,10 @@
 
 .dashboard-home-grid-item-statistic{
     grid-area: statistic;
+    min-height: fit-content;
+    min-width: 100%;
+    width: fit-content;
+    border-radius: 12px;
 }
 
 .dashboard-home-grid-item-1{
