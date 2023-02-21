@@ -1,13 +1,16 @@
 // MAIN STYLES //
 .dashboard-container{
     min-height: 100vh;
-    min-width: 100vw;
+    width: 60vw;
     padding-bottom: 10vh;
     padding-top: 120px;
+
+    @media screen and (max-width: 1280px){
+        width: 80vw;
+    }
 }
 
 .dashboard-wrapper{
-    width: 60vw;
     margin: 0px auto;
     position: relative;
     align-items: center;
@@ -15,11 +18,6 @@
     -webkit-box-align: center;
     display: flex;
     flex-direction: column;
-    
-    @media screen and (max-width: 1280px){
-        width: 100vw;
-        border: 5vw solid transparent;
-    }
 }
 
 .dashboard-button{
