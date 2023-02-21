@@ -60,6 +60,10 @@
     border-radius: 12px;
     padding: 1em;
     box-sizing: border-box;
+
+    @media screen and (max-width: 680px){
+        padding: 8px;
+    }
 }
 
 .dashboard-home-grid-item-small{
@@ -74,6 +78,10 @@
     text-align: center;
     padding: 1em;
     box-sizing: border-box;
+
+    @media screen and (max-width: 680px){
+        padding: 8px;
+    }
 }
 
 .dashboard-home-grid-item-small img{
