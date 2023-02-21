@@ -55,8 +55,8 @@
 
 .dashboard-home-grid-item-big{
     min-height: fit-content;
-    min-width: 100%;
-    width: fit-content;
+    min-width: 50%;
+    width: 100%;
     border-radius: 12px;
     padding: 1em;
     box-sizing: border-box;
@@ -65,7 +65,7 @@
 .dashboard-home-grid-item-small{
     cursor: pointer;
     min-height: 100px;
-    min-width: 100px;
+    min-width: 50%;
     width: 100%;
     display: flex;
     flex-direction: column;
