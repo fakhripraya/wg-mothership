@@ -61,7 +61,7 @@ export default function DashboardHome() {
             <div className="dashboard-home-wrapper">
                 <div className="dashboard-home-grid-container">
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-statistic dashboard-home-grid-item-big">
-                        <LineChart chartData={userData} />
+
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-1 dashboard-home-grid-item-small main-bg-color">
                         <img src={ProductIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
