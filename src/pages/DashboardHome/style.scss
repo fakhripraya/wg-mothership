@@ -84,9 +84,10 @@
 
 .dashboard-home-grid-item-statistic{
     grid-area: statistic;
-    min-height: fit-content;
-    min-width: fit-content;
+    height: fit-content;
+    width: 25vw;
     border-radius: 12px;
+    justify-self: center;
     
     @media screen and (max-width: 680px){
         height: fit-content;
