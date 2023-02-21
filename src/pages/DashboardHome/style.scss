@@ -56,6 +56,8 @@
 .dashboard-home-grid-item-big{
     min-height: fit-content;
     min-width: 100%;
+    justify-self: center;
+    align-self: center;
     width: fit-content;
     border-radius: 12px;
     padding: 1em;
@@ -70,10 +72,17 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    justify-self: center;
+    align-self: center;
     align-items: center;
     text-align: center;
     padding: 1em;
     box-sizing: border-box;
+
+    @media screen and (min-width: 1280px){
+        justify-self: unset;
+        align-self: unset;
+    }
 }
 
 .dashboard-home-grid-item-small img{
@@ -87,6 +96,8 @@
     min-height: fit-content;
     min-width: 100%;
     width: fit-content;
+    justify-self: center;
+    align-self: center;
     border-radius: 12px;
 }
 
