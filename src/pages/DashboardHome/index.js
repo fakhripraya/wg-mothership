@@ -82,7 +82,7 @@ export default function DashboardHome() {
                 </div>
                 <div className="dashboard-home-flex-container">
                     <div className="dashboard-home-flex-item dark-bg-color">
-                        <h2>Pesanan / Order</h2>
+                        <h2>Pesanan</h2>
                         <h1 className="margin-bottom-0 dashboard-home-flex-item-number">
                             6
                         </h1>
@@ -98,7 +98,7 @@ export default function DashboardHome() {
                 </div>
                 <div className="dashboard-home-flex-container dashboard-home-flex-item-last">
                     <div className="dashboard-home-flex-item dark-bg-color dashboard-home-flex-item-last">
-                        <h2>Saldo / Balance</h2>
+                        <h2>Saldo</h2>
                         <h1 className="margin-bottom-0 dashboard-home-flex-item-number">
                             Rp.1.232.032.091
                         </h1>
