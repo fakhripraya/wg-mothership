@@ -87,6 +87,15 @@
     min-height: fit-content;
     min-width: fit-content;
     border-radius: 12px;
+    
+    @media screen and (max-width: 680px){
+        height: fit-content;
+        max-width: 90%;
+        max-height: 100%;
+        width: fit-content;
+        min-height: unset;
+        min-width: unset;
+    }
 }
 
 .dashboard-home-grid-item-1{
