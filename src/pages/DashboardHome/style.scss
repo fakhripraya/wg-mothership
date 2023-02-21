@@ -16,31 +16,6 @@
     align-items: center;
 }
 
-.dashboard-home-flex-container{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    margin-top: 3em;
-}
-
-.dashboard-home-flex-item{
-    min-height: 200px;
-    width: 100%;
-    margin-right: 12px;
-    word-wrap: break-word;
-    max-width: 100vw;
-    border-radius: 1em;
-    padding: 1em;
-    justify-content: center;
-    align-items: center;
-}
-
-.dashboard-home-flex-item-last{
-    margin: 0px !important;
-}
-
 .dashboard-home-flex-item-number{
     font-size: 96px;
 
@@ -55,7 +30,9 @@
     display: grid;
     grid-template-areas:
     'statistic statistic item1 item2'
-    'statistic statistic item3 item4';
+    'statistic statistic item3 item4'
+    'small1 small1 small2 small2'
+    'big1 big1 big1 big1';
     gap: 12px;
     margin-bottom: 12px;
 
@@ -64,7 +41,9 @@
     'statistic statistic'
     'statistic statistic'
     'item1 item2'
-    'item3 item4';
+    'item3 item4'
+    'small1 small2'
+    'big1 big1';
     }
 }
 
@@ -115,6 +94,18 @@
 
 .dashboard-home-grid-item-4{
     grid-area: item4;
+}
+
+.dashboard-home-grid-big-1{
+    grid-area: big1;
+}
+
+.dashboard-home-grid-small-1{
+    grid-area: small1;
+}
+
+.dashboard-home-grid-small-2{
+    grid-area: small2;
 }
 
 .dashboard-home-grid-item-icon{
