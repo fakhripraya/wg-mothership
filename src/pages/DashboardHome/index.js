@@ -79,21 +79,21 @@ export default function DashboardHome() {
                         <img src={BellIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
                         <h3>Reminder</h3>
                     </div>
-                    <div className="dashboard-home-grid-item dashboard-home-grid-small-1 dashboard-home-grid-item-small dark-bg-color">
+                    <div className="dashboard-home-grid-item dashboard-home-grid-small-1 dashboard-home-grid-item-big dark-bg-color">
                         <h2>Pesanan</h2>
                         <h1 className="margin-bottom-0 dashboard-home-flex-item-number">
                             6
                         </h1>
                         <h3 className="margin-top-0">4 belum terkonfirmasi</h3>
                     </div>
-                    <div className="dashboard-home-grid-item dashboard-home-grid-small-2 dashboard-home-grid-item-small dark-bg-color">
+                    <div className="dashboard-home-grid-item dashboard-home-grid-small-2 dashboard-home-grid-item-big dark-bg-color">
                         <h2>Chat</h2>
                         <h1 className="margin-bottom-0 dashboard-home-flex-item-number">
                             12
                         </h1>
                         <h3 className="margin-top-0">6 Chat Belum Terbaca</h3>
                     </div>
-                    <div className="dashboard-home-grid-item dashboard-home-grid-big-1 dashboard-home-grid-item-small dark-bg-color">
+                    <div className="dashboard-home-grid-item dashboard-home-grid-big-1 dashboard-home-grid-item-big dark-bg-color">
                         <h2>Saldo</h2>
                         <h1 className="margin-bottom-0 dashboard-home-flex-item-number">
                             Rp.1.232.032.091
