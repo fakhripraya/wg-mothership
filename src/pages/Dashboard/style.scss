@@ -15,10 +15,10 @@
     -webkit-box-align: center;
     display: flex;
     flex-direction: column;
-    margin-right: 10vw;
     
     @media screen and (max-width: 1280px){
-        width: 80vw;
+        width: 100vw;
+        border: 5vw solid transparent;
     }
 }
 
