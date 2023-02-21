@@ -75,7 +75,7 @@
 }
 
 .dashboard-home-grid-item-big{
-    min-height: 250px;
+    min-height: 200px;
     min-width: 100%;
     width: fit-content;
     border-radius: 12px;
@@ -83,13 +83,20 @@
 
 .dashboard-home-grid-item-small{
     cursor: pointer;
-    min-height: 200px;
-    min-width: 200px;
+    min-height: 100px;
+    min-width: 100px;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
+}
+
+.dashboard-home-grid-item-small img{
+    @media screen and (max-width: 680px){
+        margin-top: 1em !important;
+    }
 }
 
 .dashboard-home-grid-item-statistic{

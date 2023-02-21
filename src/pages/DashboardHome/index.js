@@ -65,7 +65,7 @@ export default function DashboardHome() {
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-1 dashboard-home-grid-item-small main-bg-color">
                         <img src={ProductIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h2>Buat katalog rental</h2>
+                        <h2>Katalog Rental</h2>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-2 dashboard-home-grid-item-small main-bg-color">
                         <img src={ChatIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
@@ -77,7 +77,7 @@ export default function DashboardHome() {
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-4 dashboard-home-grid-item-small main-bg-color">
                         <img src={BellIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h2>Buat Reminder</h2>
+                        <h2>Reminder</h2>
                     </div>
                 </div>
                 <div className="dashboard-home-flex-container">
