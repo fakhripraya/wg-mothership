@@ -37,24 +37,24 @@ export default function Register(props) {
                         <h2 className="margin-bottom-12-18">Join To Become A Member</h2>
                         <h3 className="margin-top-0 margin-bottom-12-18">Gain Maximum Profitability By Rentaling Your Device To Others Virtually Or Physically</h3>
                         <div className="register-textinput-box">
-                            <h3 className="register-input-title">ID</h3>
+                            <label className="register-input-title">ID</label>
                             <TextInput type="text" className="register-textinput text-align-center" />
                         </div>
                         <div className="register-textinput-box">
-                            <h3 className="register-input-title">Email</h3>
+                            <label className="register-input-title">Email</label>
                             <TextInput type="text" className="register-textinput text-align-center" />
                         </div>
                         <div className="register-textinput-box">
-                            <h3 className="register-input-title">Pass</h3>
+                            <label className="register-input-title">Pass</label>
                             <TextInput type="password" className="register-textinput text-align-center" />
                         </div>
                         <div className="register-textinput-box">
-                            <h3 className="register-input-title">Confirm</h3>
+                            <label className="register-input-title">Confirm</label>
                             <TextInput type="password" className="register-textinput text-align-center" />
                         </div>
                         <h3 onClick={() => handleOpenForgotPassword()} className="register-forgot-pass link-color cursor-pointer">Forgot your password</h3>
                         <Button className="register-button dark-bg-color">
-                            <h2 className="register-button-text">Sign Up</h2>
+                            <h3 className="register-button-text">Sign Up</h3>
                         </Button>
                         <br></br>
                         <h3 className="register-middle-text">Or continue with</h3>

@@ -36,12 +36,12 @@ export default function ForgotPassword(props) {
                         <h2 className="margin-bottom-12-18">Lose Your Password ?</h2>
                         <h3 className="margin-top-0 margin-bottom-12-18">Don't Worry We Got You, Just Send Us A Recovery Email</h3>
                         <div className="forgot-password-textinput-box">
-                            <h3 className="forgot-password-input-title">Email</h3>
+                            <label className="forgot-password-input-title">Email</label>
                             <TextInput type="text" className="forgot-password-textinput text-align-center" />
                         </div>
                         <h3 onClick={() => handleOpenLogin()} className="forgot-password-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
                         <Button onClick={() => handleSubmitEmail()} className="forgot-password-button dark-bg-color">
-                            <h2 className="forgot-password-button-text">Send Email</h2>
+                            <h3 className="forgot-password-button-text">Send Email</h3>
                         </Button>
                     </div>
                 </div>

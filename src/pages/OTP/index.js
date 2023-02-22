@@ -36,12 +36,12 @@ export default function OTP(props) {
                         <h2 className="margin-bottom-12-18">Just Input The OTP we sent</h2>
                         <h3 className="margin-top-0 margin-bottom-12-18">We Just Sent An OTP Code To Your Email, Put It Here So We Can Make Sure It Is You !</h3>
                         <div className="otp-textinput-box">
-                            <h3 className="otp-input-title">OTP</h3>
+                            <label className="otp-input-title">OTP</label>
                             <TextInput maxLength="6" type="password" className="otp-textinput text-align-center" />
                         </div>
                         <h3 onClick={() => handleOpenLogin()} className="otp-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
                         <Button onClick={() => handleSubmitOTP()} className="otp-button dark-bg-color">
-                            <h2 className="otp-button-text">Submit</h2>
+                            <h3 className="otp-button-text">Submit</h3>
                         </Button>
                     </div>
                 </div>

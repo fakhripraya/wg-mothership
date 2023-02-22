@@ -50,11 +50,11 @@ export default function Login(props) {
                         <h2 className="margin-bottom-12-18">Sign in to access</h2>
                         <h3 className="margin-top-0 margin-bottom-12-18">Start Rentaling Your Device Now, What Are You Waiting For ?</h3>
                         <div className="login-textinput-box">
-                            <h3 className="login-input-title">ID</h3>
+                            <label className="login-input-title">ID</label>
                             <TextInput type="text" className="login-textinput text-align-center" />
                         </div>
                         <div className="login-textinput-box">
-                            <h3 className="login-input-title">Pass</h3>
+                            <label className="login-input-title">Pass</label>
                             <TextInput type="password" className="login-textinput text-align-center" />
                         </div>
                         <h3 onClick={() => handleOpenForgotPassword()} className="login-forgot-pass link-color cursor-pointer">Forgot your password</h3>
@@ -62,7 +62,7 @@ export default function Login(props) {
                             props.handleOpen(NO_STRING);
                             navigate('/');
                         })} className="login-button dark-bg-color">
-                            <h2 className="login-button-text">Sign In</h2>
+                            <h3 className="login-button-text">Sign In</h3>
                         </Button>
                         <br></br>
                         <h3 className="login-middle-text">Or continue with</h3>

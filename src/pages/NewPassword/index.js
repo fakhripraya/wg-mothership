@@ -33,16 +33,16 @@ export default function NewPassword(props) {
                         <h2 className="margin-bottom-12-18">It Is You ! Nice !!</h2>
                         <h3 className="margin-top-0 margin-bottom-12-18">Alright, Nicely Done Pal, Now Just Input Your New Pass</h3>
                         <div className="new-password-textinput-box">
-                            <h3 className="new-password-input-title">New Pass</h3>
+                            <label className="new-password-input-title">New Pass</label>
                             <TextInput type="password" className="new-password-textinput text-align-center" />
                         </div>
                         <div className="new-password-textinput-box">
-                            <h3 className="new-password-input-title">Confirm</h3>
+                            <label className="new-password-input-title">Confirm</label>
                             <TextInput type="password" className="new-password-textinput text-align-center" />
                         </div>
                         <h3 onClick={() => handleOpenLogin()} className="new-password-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
                         <Button onClick={() => handleSubmitNewPassword()} className="new-password-button dark-bg-color">
-                            <h2 className="new-password-button-text">Submit</h2>
+                            <h3 className="new-password-button-text">Submit</h3>
                         </Button>
                     </div>
                 </div>
