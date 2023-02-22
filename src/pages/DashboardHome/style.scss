@@ -85,11 +85,15 @@
 .dashboard-home-grid-item-statistic{
     grid-area: statistic;
     height: fit-content;
-    width: 25vw;
+    width: 35vw;
     border-radius: 12px;
     justify-self: center;
+
+    @media screen and (max-width: 1440px){
+        width: 75vw;
+    }
     
-    @media screen and (max-width: 680px){
+    @media screen and (max-width: 480px){
         height: fit-content;
         max-width: 90%;
         max-height: 100%;

@@ -119,9 +119,6 @@ export default function DashboardMyOrders(props) {
                         </div>
                     </div>
                 </div>
-                <div className="my-orders-add-button margin-top-12-18 dark-bg-color justify-center">
-                    <span className="main-color">Add +</span>
-                </div>
                 <ShowBody />
                 <div className="my-orders-paging margin-top-12-18 justify-center">
                     <div className="dark-bg-color my-orders-paging-button">Prev</div>

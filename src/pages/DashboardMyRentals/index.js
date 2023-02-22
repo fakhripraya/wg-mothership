@@ -13,9 +13,16 @@ import { DASHBOARD_CATALOG } from '../../variables/global';
 
 export default function DashboardMyRentals(props) {
 
+    // HOOK
+    const navigate = useNavigate();
+
     // FUNCTIONS SPECIFIC //
     function handleOpenDetail(item, navigate) {
         navigate(`/detail?itemId=${item.ID}`);
+    }
+
+    function handleGoToAddCatalogue(navigate) {
+        navigate(`/dashboard/add/catalogue`);
     }
 
     // COMPONENTS SPECIFIC //
@@ -119,7 +126,7 @@ export default function DashboardMyRentals(props) {
                         </div>
                     </div>
                 </div>
-                <div className="my-rentals-add-button margin-top-12-18 dark-bg-color justify-center">
+                <div onClick={() => handleGoToAddCatalogue(navigate)} className="my-rentals-add-button margin-top-12-18 dark-bg-color justify-center">
                     <span className="main-color">Add +</span>
                 </div>
                 <ShowBody />

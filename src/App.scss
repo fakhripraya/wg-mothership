@@ -94,6 +94,14 @@
   text-align: center !important;
 }
 
+.align-self-start{
+  align-self: flex-start !important;
+}
+
+.align-self-end{
+  align-self: flex-end !important;
+}
+
 .max-width{
   width: 100%;
   max-width: 100% !important;
@@ -126,6 +134,10 @@
 
 .justify-flex-end{
   justify-self: flex-end !important;
+}
+
+.justify-flex-start{
+  justify-self: flex-start !important;
 }
 
 .white-space-no-wrap{
@@ -249,6 +261,7 @@
   position: fixed;
   bottom: 24px;
   right: 24px;
+  z-index: 9999 !important;
   text-align: center;
   transition: all 0.3s ease-in-out;
 

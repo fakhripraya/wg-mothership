@@ -11,10 +11,11 @@ import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import DashboardHome from '../DashboardHome';
 import DashboardMyRentals from '../DashboardMyRentals';
-import { DASHBOARD_CATALOG, DASHBOARD_HOME, DASHBOARD_ORDERS } from '../../variables/global';
+import { DASHBOARD_CATALOG, DASHBOARD_CHATS, DASHBOARD_HOME, DASHBOARD_ORDERS } from '../../variables/global';
 import DashboardMyOrders from '../DashboardMyOrders';
+import DashboardChat from '../DashboardChat';
 
-export default function Finder() {
+export default function Dashboard() {
 
     // STATES //
     const [toggle, setToggle] = useState(false);
@@ -37,6 +38,10 @@ export default function Finder() {
         setToggleOpenBody(DASHBOARD_ORDERS);
     }
 
+    function handleOpenChats() {
+        setToggleOpenBody(DASHBOARD_CHATS);
+    }
+
     // INITIAL RENDER
     useEffect(() => {
         smoothScrollTop();
@@ -50,7 +55,7 @@ export default function Finder() {
                         <div className="dashboard-tools-container">
                             <FloatButton onClick={() => handleOpenHome()} className="dashboard-menu-button dashboard-menu-button-home" />
                             <FloatButton onClick={() => handleOpenOrders()} className="dashboard-menu-button dashboard-menu-button-order" />
-                            <FloatButton className="dashboard-menu-button dashboard-menu-button-chat" />
+                            <FloatButton onClick={() => handleOpenChats()} className="dashboard-menu-button dashboard-menu-button-chat" />
                             <FloatButton onClick={() => handleOpenCatalogue()} className="dashboard-menu-button dashboard-menu-button-product" />
                         </div>
                         <div className="dashboard-cards-container">
@@ -68,6 +73,7 @@ export default function Finder() {
                             <DashboardHome toggleOpen={toggleOpenBody} />
                             <DashboardMyRentals toggleOpen={toggleOpenBody} />
                             <DashboardMyOrders toggleOpen={toggleOpenBody} />
+                            <DashboardChat toggleOpen={toggleOpenBody} />
                         </div>
                     </div>
                 </div>
@@ -76,7 +82,7 @@ export default function Finder() {
                 <div className="dashboard-mobile-tools-container">
                     <FloatButton onClick={() => handleOpenHome()} className="dashboard-menu-button dashboard-menu-button-home" />
                     <FloatButton onClick={() => handleOpenOrders()} className="dashboard-menu-button dashboard-menu-button-order" />
-                    <FloatButton className="dashboard-menu-button dashboard-menu-button-chat" />
+                    <FloatButton onClick={() => handleOpenChats()} className="dashboard-menu-button dashboard-menu-button-chat" />
                     <FloatButton onClick={() => handleOpenCatalogue()} className="dashboard-menu-button dashboard-menu-button-product" />
                 </div>
             </BottomSheet>

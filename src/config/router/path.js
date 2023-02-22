@@ -6,8 +6,8 @@ import RDP from "../../pages/RDP";
 import Detail from "../../pages/Detail";
 import RDPRoom from "../../pages/RDPRoom";
 import RDPRoomError from "../../pages/RDPRoomError";
-import AddRental from "../../pages/AddRental";
 import Dashboard from "../../pages/Dashboard";
+import AddCatalogue from "../../pages/AddCatalogue";
 
 export const routes = [
     {
@@ -15,7 +15,7 @@ export const routes = [
         component: <Home />,
     },
     {
-        path: '/detail/:id',
+        path: '/detail',
         component: <Detail />,
     },
     {
@@ -35,8 +35,8 @@ export const routes = [
         component: <Finder />,
     },
     {
-        path: '/add/rental',
-        component: <AddRental />,
+        path: '/dashboard/add/catalogue',
+        component: <AddCatalogue />,
     },
     {
         path: '/dashboard',
