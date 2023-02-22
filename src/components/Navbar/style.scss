@@ -66,6 +66,10 @@
     text-align: left;
 }
 
+.navbar-button-label{
+    font-family: 'Share Tech', sans-serif;
+}
+
 .navbar-menu-item-wrapper{
     width: 100%;
     padding: 6px 0px;
@@ -132,19 +136,4 @@
     flex-direction: row;
     display: flex;
     transition: all 0.5s ease-in-out;
-}
-
-.navbar-mobile-bottom-wrapper{
-    position: relative;
-    bottom: 0px;
-}
-
-.navbar-mobile-bottom-wrapper ul{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-}
-
-.navbar-mobile-bottom-wrapperul :nth-child(n){
-    margin-right: 12px;
 }
