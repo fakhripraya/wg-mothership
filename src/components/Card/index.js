@@ -8,12 +8,12 @@ export default function Card(props) {
             <h2 className="light-color">
                 {props.title}
             </h2>
-            <h3 className="margin-bottom-0 light-color">
+            <p className="margin-bottom-0 light-color">
                 {props.location}
-            </h3>
-            <h3 style={{ marginTop: "0.2em" }} className="margin-bottom-0 main-color">
+            </p>
+            <p style={{ marginTop: "0.2em" }} className="margin-bottom-0 main-color">
                 From {props.price}
-            </h3>
+            </p>
             <p className="light-color">
                 {props.desc}
             </p>

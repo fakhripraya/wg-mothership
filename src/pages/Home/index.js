@@ -96,9 +96,6 @@ export default function Home() {
                                 <h3>
                                     Scroll
                                 </h3>
-                                <h2>
-                                    ↓
-                                </h2>
                             </div>
                         </div>
                     </div>
