@@ -82,10 +82,10 @@ export default function Navbar(props) {
 
     // COMPONENTS SPECIFIC //
     const ShowProfile = () => {
-        if (!props.login) return <Button onClick={() => window.handleOpenOverriding(LOGIN)}><label className="navbar-button-label">Login</label></Button>
+        if (!props.login) return <Button onClick={() => window.handleOpenOverriding(LOGIN)}>Login</Button>
         return <Fragment>
-            <Button ><label className="navbar-button-label">Notification</label></Button>
-            <Button ><label className="navbar-button-label">Profile</label></Button>
+            <Button >Notification</Button>
+            <Button >Profile</Button>
         </Fragment>
     }
 
@@ -115,7 +115,7 @@ export default function Navbar(props) {
     const ShowMenuButtons = () => {
         return menus.map((menu, index) => {
             return <ShowMenuRow key={`mobile-button-${index}`}>
-                <Button onClick={() => handlePageNavigation(menu.route)}><label className="navbar-button-label">{menu.name}</label></Button>
+                <Button onClick={() => handlePageNavigation(menu.route)}>{menu.name}</Button>
             </ShowMenuRow>
         })
     }

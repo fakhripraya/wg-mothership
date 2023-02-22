@@ -93,9 +93,9 @@ export default function Home() {
                                 Butuh komputer cepet, high-end, high-res untuk keperluan rendering, gaming, kantor, atau apapun yang lu butuhin dengan spec tersebut ?
                             </h3>
                             <div onClick={() => handleScrollToFirstSection()} className="hero-round-button">
-                                <p>
+                                <h3>
                                     Scroll
-                                </p>
+                                </h3>
                                 <h2>
                                     ↓
                                 </h2>
