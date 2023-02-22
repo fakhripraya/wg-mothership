@@ -82,9 +82,13 @@ export default function Dashboard() {
             <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
                 <div className="dashboard-mobile-tools-container">
                     <FloatButton onClick={() => handleOpenHome()} className="dashboard-menu-button dashboard-menu-button-home" />
+                    <p className="dashboard-menu-button-text" onClick={() => handleOpenHome()} >Home</p>
                     <FloatButton onClick={() => handleOpenOrders()} className="dashboard-menu-button dashboard-menu-button-order" />
+                    <p className="dashboard-menu-button-text" onClick={() => handleOpenOrders()}>Pesanan</p>
                     <FloatButton onClick={() => handleOpenChats()} className="dashboard-menu-button dashboard-menu-button-chat" />
+                    <p className="dashboard-menu-button-text" onClick={() => handleOpenChats()}>Chats</p>
                     <FloatButton onClick={() => handleOpenCatalogue()} className="dashboard-menu-button dashboard-menu-button-product" />
+                    <p className="dashboard-menu-button-text" onClick={() => handleOpenCatalogue()}>Katalog</p>
                 </div>
             </BottomSheet>
         </Fragment>

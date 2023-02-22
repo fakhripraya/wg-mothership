@@ -82,24 +82,24 @@ export default function DashboardHome(props) {
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-small-1 dashboard-home-grid-item-big dark-bg-color">
                         <h2>Pesanan</h2>
-                        <h1 className="margin-bottom-0 dashboard-home-flex-item-number">
+                        <h1 className="margin-bottom-0">
                             6
                         </h1>
-                        <h3 className="margin-top-0">4 belum terkonfirmasi</h3>
+                        <p className="margin-top-0">4 belum terkonfirmasi</p>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-small-2 dashboard-home-grid-item-big dark-bg-color">
                         <h2>Chat</h2>
-                        <h1 className="margin-bottom-0 dashboard-home-flex-item-number">
+                        <h1 className="margin-bottom-0">
                             12
                         </h1>
-                        <h3 className="margin-top-0">6 Belum Terbaca</h3>
+                        <p className="margin-top-0">6 Belum Terbaca</p>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-big-1 dashboard-home-grid-item-big dark-bg-color">
                         <h2>Saldo</h2>
-                        <h1 className="margin-bottom-0 dashboard-home-flex-item-number">
+                        <h1 className="margin-bottom-0">
                             Rp.1.232.032.091
                         </h1>
-                        <h3 className="margin-top-0">2 Rental Berjalan</h3>
+                        <p className="margin-top-0">2 Rental Berjalan</p>
                     </div>
                 </div>
             </div>

@@ -129,6 +129,16 @@
     border-radius: 0px !important;
 }
 
+.dashboard-menu-button-text{
+    cursor: pointer;
+}
+
+.dashboard-menu-button-text:hover{
+    transform: scale(1.1);
+    transition: all 0.2s ease-in-out;
+}
+
+
 .dashboard-menu-button-home{
     background-image: url("../../assets/svg/house-solid.svg");
 }
@@ -264,8 +274,11 @@ background: inherit;
     height: 100%;
     min-height: 200px;
     justify-content: space-evenly;
-    width: fit-content;
-    padding: 6px;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding: 2em;
+    box-sizing: border-box;
     background-color: #0DA34D;
     display: flex;
     flex-direction: column;

@@ -17,14 +17,6 @@
     align-items: center;
 }
 
-.dashboard-home-flex-item-number{
-    font-size: 96px;
-
-    @media screen and (max-width: 680px){
-        font-size: 2em;
-    }
-}
-
 .dashboard-home-grid-container{
     height: fit-content;
     width: 100%;
@@ -34,10 +26,12 @@
     'statistic statistic item3 item4'
     'small1 small1 small2 small2'
     'big1 big1 big1 big1';
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 12px;
     margin-bottom: 12px;
 
     @media screen and (max-width: 1280px){
+        grid-template-columns: 1fr 1fr;
         grid-template-areas:
     'statistic statistic'
     'statistic statistic'
@@ -53,10 +47,6 @@
 }
 
 .dashboard-home-grid-item-big{
-    min-height: 100px;
-    height: fit-content;
-    min-width: 50%;
-    width: 100%;
     border-radius: 12px;
     padding: 12px;
     box-sizing: border-box;
@@ -64,9 +54,6 @@
 
 .dashboard-home-grid-item-small{
     cursor: pointer;
-    min-height: 100px;
-    min-width: 50%;
-    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -85,22 +72,9 @@
 .dashboard-home-grid-item-statistic{
     grid-area: statistic;
     height: fit-content;
-    width: 35vw;
+    width: 100%;
     border-radius: 12px;
     justify-self: center;
-
-    @media screen and (max-width: 1440px){
-        width: 75vw;
-    }
-    
-    @media screen and (max-width: 480px){
-        height: fit-content;
-        max-width: 90%;
-        max-height: 100%;
-        width: fit-content;
-        min-height: unset;
-        min-width: unset;
-    }
 }
 
 .dashboard-home-grid-item-1{
