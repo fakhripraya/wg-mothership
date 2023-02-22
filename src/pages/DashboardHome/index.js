@@ -5,6 +5,7 @@ import RentalIcon from '../../assets/svg/book-solid.svg';
 import BellIcon from '../../assets/svg/bell-solid.svg';
 import LineChart from "../../components/LineChart";
 import './style.scss';
+import { DASHBOARD_HOME } from '../../variables/global';
 
 const UserData = [
     {
@@ -39,7 +40,7 @@ const UserData = [
     },
 ];
 
-export default function DashboardHome() {
+export default function DashboardHome(props) {
 
     const [userData, setUserData] = useState({
         labels: UserData.map((data) => data.year),
@@ -57,7 +58,7 @@ export default function DashboardHome() {
     });
 
     return (
-        <div className="dashboard-home-container">
+        <div className={props.toggleOpen === DASHBOARD_HOME ? "dashboard-home-container" : "display-none"}>
             <div className="dashboard-home-wrapper">
                 <div className="dashboard-home-grid-container">
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-statistic">

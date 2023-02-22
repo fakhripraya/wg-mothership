@@ -9,8 +9,9 @@ import Accordion from '../../components/Accordion';
 import { useEffect } from 'react';
 import { smoothScrollTop } from '../../utils/functions/global';
 import { useNavigate } from 'react-router-dom';
+import { DASHBOARD_CATALOG } from '../../variables/global';
 
-export default function MyRentals() {
+export default function DashboardMyRentals(props) {
 
     // FUNCTIONS SPECIFIC //
     function handleOpenDetail(item, navigate) {
@@ -96,11 +97,8 @@ export default function MyRentals() {
     }, []);
 
     return (
-        <div className="my-rentals-container">
+        <div className={props.toggleOpen === DASHBOARD_CATALOG ? "my-rentals-container" : "display-none"}>
             <div className="my-rentals-wrapper">
-                <div className="my-rentals-title">
-                    <h2>MY RENTAL LISTS</h2>
-                </div>
                 <div className="my-rentals-header dark-bg-color">
                     <div className="my-rentals-searchbar-container">
                         <div className="my-rentals-searchbar-wrapper">
