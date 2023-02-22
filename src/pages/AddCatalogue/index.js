@@ -19,6 +19,7 @@ export default function AddCatalogue() {
             <div className="add-catalogue-wrapper">
                 <div className="add-catalogue-text-container">
                     <div className="add-catalogue-text-wrapper">
+                        <br />
                         <Button onClick={() => handleGoBackDashboard(navigate)} className="align-self-start add-catalogue-button red-bg-color">
                             <h4 className="add-catalogue-button-text">Go Back</h4>
                         </Button>
