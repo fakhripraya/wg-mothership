@@ -26,20 +26,9 @@ export default function Dashboard() {
         setToggle(!toggle);
     }
 
-    function handleOpenHome() {
+    function handleOpenPage(keyword) {
         setToggleOpenBody(DASHBOARD_HOME);
-    }
-
-    function handleOpenCatalogue() {
-        setToggleOpenBody(DASHBOARD_CATALOG);
-    }
-
-    function handleOpenOrders() {
-        setToggleOpenBody(DASHBOARD_ORDERS);
-    }
-
-    function handleOpenChats() {
-        setToggleOpenBody(DASHBOARD_CHATS);
+        handleBottomSheet();
     }
 
     // INITIAL RENDER
@@ -53,10 +42,10 @@ export default function Dashboard() {
                 <div className="dashboard-wrapper">
                     <div className="dashboard-flex-container">
                         <div className="dashboard-tools-container">
-                            <FloatButton onClick={() => handleOpenHome()} className="dashboard-menu-button dashboard-menu-button-home" />
-                            <FloatButton onClick={() => handleOpenOrders()} className="dashboard-menu-button dashboard-menu-button-order" />
-                            <FloatButton onClick={() => handleOpenChats()} className="dashboard-menu-button dashboard-menu-button-chat" />
-                            <FloatButton onClick={() => handleOpenCatalogue()} className="dashboard-menu-button dashboard-menu-button-product" />
+                            <FloatButton onClick={() => handleOpenPage(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" />
+                            <FloatButton onClick={() => handleOpenPage(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" />
+                            <FloatButton onClick={() => handleOpenPage(DASHBOARD_CHATS)} className="dashboard-menu-button dashboard-menu-button-chat" />
+                            <FloatButton onClick={() => handleOpenPage(DASHBOARD_CATALOG)} className="dashboard-menu-button dashboard-menu-button-product" />
                         </div>
                         <div className="dashboard-cards-container">
                             <div className="dashboard-cards-header">
@@ -81,14 +70,10 @@ export default function Dashboard() {
             </div>
             <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
                 <div className="dashboard-mobile-tools-container">
-                    <FloatButton onClick={() => handleOpenHome()} className="dashboard-menu-button dashboard-menu-button-home" />
-                    <p className="dashboard-menu-button-text" onClick={() => handleOpenHome()} >Home</p>
-                    <FloatButton onClick={() => handleOpenOrders()} className="dashboard-menu-button dashboard-menu-button-order" />
-                    <p className="dashboard-menu-button-text" onClick={() => handleOpenOrders()}>Pesanan</p>
-                    <FloatButton onClick={() => handleOpenChats()} className="dashboard-menu-button dashboard-menu-button-chat" />
-                    <p className="dashboard-menu-button-text" onClick={() => handleOpenChats()}>Chats</p>
-                    <FloatButton onClick={() => handleOpenCatalogue()} className="dashboard-menu-button dashboard-menu-button-product" />
-                    <p className="dashboard-menu-button-text" onClick={() => handleOpenCatalogue()}>Katalog</p>
+                    <FloatButton onClick={() => handleOpenPage(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" />
+                    <FloatButton onClick={() => handleOpenPage(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" />
+                    <FloatButton onClick={() => handleOpenPage(DASHBOARD_CHATS)} className="dashboard-menu-button dashboard-menu-button-chat" />
+                    <FloatButton onClick={() => handleOpenPage(DASHBOARD_CATALOG)} className="dashboard-menu-button dashboard-menu-button-product" />
                 </div>
             </BottomSheet>
         </Fragment>
