@@ -27,7 +27,7 @@ export default function Dashboard() {
     }
 
     function handleOpenPage(keyword) {
-        setToggleOpenBody(DASHBOARD_HOME);
+        setToggleOpenBody(keyword);
         handleBottomSheet();
     }
 
