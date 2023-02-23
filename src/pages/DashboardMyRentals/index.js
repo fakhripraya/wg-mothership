@@ -13,9 +13,6 @@ import { DASHBOARD_CATALOG } from '../../variables/global';
 
 export default function DashboardMyRentals(props) {
 
-    // HOOK
-    const navigate = useNavigate();
-
     // FUNCTIONS SPECIFIC //
     function handleOpenDetail(item, navigate) {
         navigate(`/detail?itemId=${item.ID}`);
@@ -38,10 +35,21 @@ export default function DashboardMyRentals(props) {
         })
     }
 
+    const ShowAddButton = () => {
+        // HOOK
+        const navigate = useNavigate();
+
+        // RENDER
+        return <div onClick={() => handleGoToAddCatalogue(navigate)} className="my-rentals-add-button margin-top-12-18 dark-bg-color justify-center">
+            <span className="main-color">Add +</span>
+        </div>
+    }
+
     const ShowBody = () => {
         // HOOK
         const navigate = useNavigate();
-        // Render list
+
+        // RENDER
         return itemListDummy.map((item, index) => {
             return <div key={`my-rentals-items-${index}`} className="my-rentals-body margin-top-12-18 dark-bg-color">
                 <div className="my-rentals-body-items my-rentals-body-identifier">
@@ -126,9 +134,7 @@ export default function DashboardMyRentals(props) {
                         </div>
                     </div>
                 </div>
-                <div onClick={() => handleGoToAddCatalogue(navigate)} className="my-rentals-add-button margin-top-12-18 dark-bg-color justify-center">
-                    <span className="main-color">Add +</span>
-                </div>
+                <ShowAddButton />
                 <ShowBody />
                 <div className="my-rentals-paging margin-top-12-18 justify-center">
                     <div className="dark-bg-color my-rentals-paging-button">Prev</div>
