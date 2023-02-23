@@ -28,6 +28,10 @@ export default function Dashboard() {
 
     function handleOpenPage(keyword) {
         setToggleOpenBody(keyword);
+    }
+
+    function handleOpenPageMobile(keyword) {
+        setToggleOpenBody(keyword);
         handleBottomSheet();
     }
 
@@ -69,11 +73,34 @@ export default function Dashboard() {
                 </div>
             </div>
             <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
-                <div className="dashboard-mobile-tools-container">
-                    <FloatButton onClick={() => handleOpenPage(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" />
-                    <FloatButton onClick={() => handleOpenPage(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" />
-                    <FloatButton onClick={() => handleOpenPage(DASHBOARD_CHATS)} className="dashboard-menu-button dashboard-menu-button-chat" />
-                    <FloatButton onClick={() => handleOpenPage(DASHBOARD_CATALOG)} className="dashboard-menu-button dashboard-menu-button-product" />
+                <div className="dashboard-mobile-menu-container">
+                    <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" >
+                        <br />
+                        <br />
+                        <br />
+                        Home
+                    </FloatButton>
+                    <br />
+                    <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" >
+                        <br />
+                        <br />
+                        <br />
+                        Orders
+                    </FloatButton>
+                    <br />
+                    <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_CHATS)} className="dashboard-menu-button dashboard-menu-button-chat" >
+                        <br />
+                        <br />
+                        <br />
+                        Chats
+                    </FloatButton>
+                    <br />
+                    <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_CATALOG)} className="dashboard-menu-button dashboard-menu-button-product" >
+                        <br />
+                        <br />
+                        <br />
+                        Catalogue
+                    </FloatButton>
                 </div>
             </BottomSheet>
         </Fragment>

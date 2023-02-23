@@ -270,9 +270,9 @@ background: inherit;
 
 // MOBILE //
 
-.dashboard-mobile-tools-container{
-    height: 100%;
-    min-height: 200px;
+.dashboard-mobile-menu-container{
+    height: fit-content;
+    min-height: 50vh;
     justify-content: space-evenly;
     align-items: center;
     text-align: center;
