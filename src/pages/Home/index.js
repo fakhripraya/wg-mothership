@@ -87,7 +87,7 @@ export default function Home() {
                     <div ref={heroRef} className="home-section home-hero-section darker-bg-color">
                         <div className="home-hero-container justify-center">
                             <h1>
-                                Del <span className="hero-span-text">Ted</span>
+                                IN <span className="hero-span-text">SIGHT</span>
                             </h1>
                             <h3>
                                 Butuh komputer cepet, high-end, high-res untuk keperluan rendering, gaming, kantor, atau apapun yang lu butuhin dengan spec tersebut ?
