@@ -153,8 +153,8 @@
         margin-top: 100px;
     }
 
-    @media screen and (max-width: 300px){
-        font-size: 3em;
+    @media screen and (max-width: 480px){
+        font-size: 2.5em;
         margin-top: 100px;
     }
 }
@@ -180,14 +180,6 @@
     @media screen and (max-width: 768px){
         transform: scale(0.75);
     }
-}
-
-.hero-round-button p{
-    margin-bottom: 0px;
-}
-
-.hero-round-button h2{
-    margin-top: 0px;
 }
 
 .hero-round-button:hover{

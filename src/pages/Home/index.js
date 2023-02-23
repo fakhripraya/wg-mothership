@@ -87,11 +87,11 @@ export default function Home() {
                     <div ref={heroRef} className="home-section home-hero-section darker-bg-color">
                         <div className="home-hero-container justify-center">
                             <h1>
-                                IN <span className="hero-span-text">SIGHT</span>
+                                FORE <span className="hero-span-text">FRONT</span>
                             </h1>
-                            <h3>
+                            <label>
                                 Butuh komputer cepet, high-end, high-res untuk keperluan rendering, gaming, kantor, atau apapun yang lu butuhin dengan spec tersebut ?
-                            </h3>
+                            </label>
                             <div onClick={() => handleScrollToFirstSection()} className="hero-round-button">
                                 <h3>
                                     Scroll
