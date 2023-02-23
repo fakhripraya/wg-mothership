@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
+import Dropdown from '../../components/Dropdown';
 import TextInput from '../../components/TextInput';
 import './style.scss';
 
@@ -28,6 +29,9 @@ export default function AddCatalogue() {
                         <div className="add-catalogue-textinput-box">
                             <TextInput type="text" className="add-catalogue-textinput text-align-center" />
                         </div>
+                        <br />
+                        <h3 className="margin-top-0 margin-bottom-12-18">What is the <span className="main-color">type</span> of your rental ?</h3>
+                        <Dropdown style={{ width: "150px", maxWidth: "150px" }} showTitle={false} toggle={true} values={["Digital Rental", "Physical Rental"]} />
                         <br />
                         <h2 className="margin-bottom-12-18">Set the <span className="main-color">product details</span></h2>
                         <h3 className="margin-top-0 margin-bottom-12-18">Next you need to tell us the <span className="main-color">detail</span> informations about your product</h3>
@@ -62,14 +66,17 @@ export default function AddCatalogue() {
                         <div className="add-catalogue-textinput-box">
                             <label className="add-catalogue-input-title">Price 1</label>
                             <TextInput type="text" className="add-catalogue-textinput text-align-center" />
+                            <Dropdown style={{ marginLeft: "8px", width: "75px", maxWidth: "75px" }} showTitle={false} toggle={true} values={["/ Day", "/ 3 Day", "/ 7 Day", "/ 15 Day", "/ 30 Day", "/ Month", "/ 3 Month", "/ 6 Day", "/ 12 Month", "/ Year"]} />
                         </div>
                         <div className="add-catalogue-textinput-box">
                             <label className="add-catalogue-input-title">Price 2</label>
                             <TextInput type="text" className="add-catalogue-textinput text-align-center" />
+                            <Dropdown style={{ marginLeft: "8px", width: "75px", maxWidth: "75px" }} showTitle={false} toggle={true} values={["/ Day", "/ 3 Day", "/ 7 Day", "/ 15 Day", "/ 30 Day", "/ Month", "/ 3 Month", "/ 6 Day", "/ 12 Month", "/ Year"]} />
                         </div>
                         <div className="add-catalogue-textinput-box">
                             <label className="add-catalogue-input-title">Price 3</label>
                             <TextInput type="text" className="add-catalogue-textinput text-align-center" />
+                            <Dropdown style={{ marginLeft: "8px", width: "75px", maxWidth: "75px" }} showTitle={false} toggle={true} values={["/ Day", "/ 3 Day", "/ 7 Day", "/ 15 Day", "/ 30 Day", "/ Month", "/ 3 Month", "/ 6 Day", "/ 12 Month", "/ Year"]} />
                         </div>
                         <Button className="align-self-end add-catalogue-button main-bg-color">
                             <h4 className="add-catalogue-button-text">+</h4>
@@ -118,18 +125,18 @@ export default function AddCatalogue() {
                         <h3 className="margin-top-0 margin-bottom-12-18">Your customer need to <span className="main-color">pick it at</span> ?</h3>
                         <div className="add-catalogue-textinput-box">
                             <label className="add-catalogue-input-title">Pilih Kurir 1</label>
-                            <TextInput type="text" className="add-catalogue-textinput text-align-center" />
+                            <Dropdown showTitle={false} toggle={true} values={["JNE", "SiCepat"]} />
                         </div>
                         <div className="add-catalogue-textinput-box">
                             <label className="add-catalogue-input-title">Pilih Kurir 2</label>
-                            <TextInput type="text" className="add-catalogue-textinput text-align-center" />
+                            <Dropdown showTitle={false} toggle={true} values={["JNE", "SiCepat"]} />
                         </div>
                         <Button className="align-self-end add-catalogue-button main-bg-color">
                             <h4 className="add-catalogue-button-text">+</h4>
                         </Button>
                         <br />
                         <Button className="add-catalogue-button main-bg-color">
-                            <h4 className="add-catalogue-button-text">Next</h4>
+                            <h4 className="add-catalogue-button-text">Submit</h4>
                         </Button>
                     </div>
                 </div>
