@@ -1,5 +1,5 @@
-import '.style.scss';
-import React, { Fragment } from 'react';
+import './style.scss';
+import React, { Fragment, useRef, useEffect } from 'react';
 
 export default function Modal(props) {
 
@@ -16,10 +16,8 @@ export default function Modal(props) {
     return (
         <Fragment>
             <div onClick={() => handleOnClick()} className={toggle === true ? 'modal-background' : ''} />
-            <div className="modal-container">
-                <div className="modal-wrapper">
-                    {children}
-                </div>
+            <div style={{ display: toggle === true ? 'block' : 'none' }} className="modal-container dark-bg-color">
+                {children}
             </div>
         </Fragment>
     )

@@ -1,22 +1,52 @@
 .modal-container{
     position: fixed;
-    bottom: 0;
-    left: 50%;
-    max-width: 60vw;
-    width: auto;
-    height: auto;
-    max-height: 50%;
+    width: 50vw;
+    left: 25%;
+    top: 12.5%;
+    height: 75vh;
     border: 1px solid rgba(0, 0, 0, 0.2);
     z-index: 1001;
     overflow-y: scroll;
     overflow-x: hidden;
     transition: transform 0.4s ease-out;
     border-radius: 8px;
+
+    @media screen and (max-width: 1280px){
+        width: 60vw;
+        left: 20%;
+        height: 50vh;
+        top: 25%;
+    }
+    @media screen and (max-width: 768px){
+        width: 100vw;
+        left: 0%;
+        top: 0%;
+        height: 100vh;
+        border-radius: 0px;
+    }
 }
 
-.modal-wrapper{
-
-}
+/* Scrollbar */
+/* width */
+.modal-container::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+.modal-container::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+  
+  /* Handle */
+.modal-container::-webkit-scrollbar-thumb {
+    background: #151515 !important;
+    border-radius: 10px !important;
+  }
+  
+  /* Handle on hover */
+.modal-container::-webkit-scrollbar-thumb:hover {
+    background: #fff !important;
+  }
 
 .modal-background{
     position: fixed;

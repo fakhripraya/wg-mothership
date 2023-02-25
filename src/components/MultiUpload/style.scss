@@ -1,0 +1,28 @@
+.multi-upload-dropzone-box {
+    padding: 12px 15px;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    border: 5px dashed rgb(29,29,29);
+    flex-direction: column;
+}
+
+.multi-upload-custom-typography {
+    color: #918f8f;
+}
+
+.multi-upload-custom-img{
+    height: 50vh;
+    width: 100vw;
+    max-width: 100%;
+}
+
+.multi-upload-file-text {
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.multi-upload-red {
+    color: #d32f2f;
+}

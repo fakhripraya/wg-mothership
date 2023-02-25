@@ -1,3 +1,41 @@
+// MODAL STYLES //
+.add-catalogue-upload-container{
+    z-index: 1001;
+}
+
+.add-catalogue-upload-wrapper{
+    margin: 0px auto;
+    padding: 1em;
+    position: relative;
+    align-items: flex-start;
+    -webkit-box-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-catalogue-picture-box{
+    width: 100%;
+    padding: 12px;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-self: center;
+    align-self: center;
+
+    @media screen and (max-width: 1028px){
+        flex-direction: column;
+    }
+}
+
+.add-catalogue-picture-field{
+    flex: 1;
+}
+
+.add-catalogue-picture-list{
+    flex: 1;
+    padding: 12px;
+}
+
 // MAIN STYLES //
 .add-catalogue-container{
     min-height: 100vh;
@@ -75,4 +113,8 @@
 
 .add-catalogue-button-text{
     margin: 6px !important;
+}
+
+.add-catalogue-button-back-text{
+    margin: 0px !important;
 }
