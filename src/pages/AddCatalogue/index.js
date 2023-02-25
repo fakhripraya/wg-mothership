@@ -31,6 +31,7 @@ export default function AddCatalogue() {
                 <Button onClick={() => handleOpenModal()} className="align-self-end add-catalogue-button red-bg-color">
                     <h4 className="add-catalogue-button-text">X</h4>
                 </Button>
+                <br />
                 <h2 className="margin-top-0 margin-bottom-12-18">Upload the <span className="main-color">pictures</span> for the product here</h2>
                 <div className="add-catalogue-picture-box darker-bg-color">
                     <div className="add-catalogue-picture-field">
