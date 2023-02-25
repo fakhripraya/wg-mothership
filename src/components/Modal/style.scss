@@ -30,23 +30,23 @@
 /* width */
 .modal-container::-webkit-scrollbar {
     width: 10px;
-  }
+}
   
-  /* Track */
+/* Track */
 .modal-container::-webkit-scrollbar-track {
     background: transparent !important;
-  }
+}
   
-  /* Handle */
+/* Handle */
 .modal-container::-webkit-scrollbar-thumb {
     background: #151515 !important;
     border-radius: 10px !important;
-  }
+}
   
-  /* Handle on hover */
+/* Handle on hover */
 .modal-container::-webkit-scrollbar-thumb:hover {
     background: #fff !important;
-  }
+}
 
 .modal-background{
     position: fixed;
