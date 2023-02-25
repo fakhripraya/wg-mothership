@@ -33,6 +33,7 @@ export default function AddCatalogue() {
                 </Button>
                 <br />
                 <h2 className="margin-top-0 margin-bottom-12-18">Upload the <span className="main-color">pictures</span> for the product here</h2>
+                <br />
                 <div className="add-catalogue-picture-box darker-bg-color">
                     <div className="add-catalogue-picture-field">
                         <MultiUpload helperText="Input gambar-gambar kosan !" extensions="image/jpeg, image/png" label="Geser file dan masukkan file ke box ini atau klik untuk pilih file" subLabel="Mohon hanya upload extension .jpeg atau .png saja" />
