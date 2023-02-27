@@ -21,6 +21,7 @@
     flex-direction: row;
     justify-self: center;
     align-self: center;
+    margin: 12px;
 
     @media screen and (max-width: 1028px){
         flex-direction: column;

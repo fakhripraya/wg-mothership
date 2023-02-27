@@ -29,6 +29,46 @@ export default function MultiUpload(props) {
         return null
     }
 
+    function clearFiles(storage_key, callback) {
+
+        db.transaction('rw', db[storage_key], function* () {
+            yield db[storage_key].clear();
+        }).catch(e => {
+            // TODO: Handle error disini, callback
+            console.error(e);
+        });
+
+        callback();
+    }
+
+    function setFiles(files, storage_key, callback) {
+
+        // validate the files parameter
+        if (files === null) return;
+        if (files.length === 0) return;
+
+        // loop the files
+        files.forEach((file) => {
+            // read the file with file reader
+            getBase64(file).then((base64) => {
+
+                // do the database transaction to add data to the database
+                db.transaction('rw', db[storage_key], function* () {
+                    // add the temporary uploaded data files
+                    yield db[storage_key].add({
+                        base64_string: base64,
+                    });
+                }).catch(e => {
+                    // TODO: Handle error disini
+                    console.error(e);
+                });
+
+            });
+        });
+
+        callback();
+    }
+
     React.useEffect(() => {
         // clear indexed db datas first
         // clearTableDatas(props.storage_key, () => {
