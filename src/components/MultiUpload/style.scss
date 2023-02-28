@@ -1,3 +1,32 @@
+.multi-upload-upload-container{
+    z-index: 1001;
+}
+
+.multi-upload-upload-wrapper{
+    margin: 0px auto;
+    padding: 1em;
+    position: relative;
+    align-items: flex-start;
+    -webkit-box-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.multi-upload-picture-box{
+    width: 100%;
+    padding: 12px;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-self: center;
+    align-self: center;
+    margin: 12px;
+
+    @media screen and (max-width: 1028px){
+        flex-direction: column;
+    }
+}
+
 .multi-upload-dropzone-box {
     padding: 12px 15px;
     box-sizing: border-box;

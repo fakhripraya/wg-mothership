@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,10 @@ import Dropdown from '../../components/Dropdown';
 import Modal from '../../components/Modal';
 import MultiUpload from '../../components/MultiUpload';
 import TextInput from '../../components/TextInput';
+import db from '../../config/indexeddb';
+import { getFirstTableValue } from '../../utils/functions/global';
+import { initialValue } from '../../variables/dummy/addCatalogue';
+import { ADD_CATALOGUE_FORM } from '../../variables/global';
 import './style.scss';
 
 export default function AddCatalogue() {
@@ -14,6 +18,7 @@ export default function AddCatalogue() {
     // HOOK
     const navigate = useNavigate();
     const [modalToggle, setModalToggle] = useState(false);
+    const [data, setData] = useState(null);
 
     // FUNCTIONS SPECIFIC //
     function handleGoBackDashboard(navigate) {
@@ -34,17 +39,27 @@ export default function AddCatalogue() {
                 <br />
                 <h2 className="margin-top-0 margin-bottom-12-18">Upload the <span className="main-color">pictures</span> for the product here</h2>
                 <br />
-                <div className="add-catalogue-picture-box darker-bg-color">
-                    <div className="add-catalogue-picture-field">
-                        <MultiUpload helperText="Input gambar-gambar kosan !" extensions="image/jpeg, image/png" label="Geser file dan masukkan file ke box ini atau klik untuk pilih file" subLabel="Mohon hanya upload extension .jpeg atau .png saja" />
-                    </div>
-                    <div className="add-catalogue-picture-list">
-                        a
-                    </div>
-                </div>
+                <MultiUpload 
+                    objectId={data ? data.id : 1} 
+                    storageKey={ADD_CATALOGUE_FORM} 
+                    fieldKey="images" 
+                    extensions="image/jpeg, image/png" 
+                    label="Geser file dan masukkan file ke box ini atau klik untuk pilih file" 
+                    subLabel="Mohon hanya upload extension .jpeg atau .png saja" />
             </div>
         </div>
     }
+
+    useEffect(()=>{
+        async function init(){
+            const existing = await getFirstTableValue(ADD_CATALOGUE_FORM);
+            if(existing) setData(existing);
+            else await db[ADD_CATALOGUE_FORM].add(initialValue).then(async (data) => {
+                setData(data);
+            })
+        }
+        init();
+    },[]);
 
     return (
         <Fragment>
