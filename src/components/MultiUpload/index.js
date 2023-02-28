@@ -2,6 +2,8 @@ import './style.scss';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import UploadIcon from "../../assets/svg/upload-image.svg";
+import db from '../../config/indexeddb';
+import { getBase64 } from '../../utils/functions/global';
 
 //TODO: can't upload multiple images to local storage, too large, use indexedDB or FileSystem instead
 

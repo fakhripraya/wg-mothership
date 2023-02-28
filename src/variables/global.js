@@ -44,3 +44,9 @@ export const URL_ROOM_CREATE = '/v1/room/create';
 // USER RDP ROLE
 export const HOST = "HOST";
 export const PEER = "PEER";
+
+// DEXIE
+
+export const DEVELOPMENT = "DEVELOPMENT";
+export const PRODUCTION = "PRODUCTION";
+export const ADD_CATALOGUE_FORM = "ADD_CATALOGUE_FORM";
