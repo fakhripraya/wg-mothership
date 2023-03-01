@@ -128,6 +128,7 @@ export default function AddCatalogue() {
                                 <TextInput value={data.productName} onChange={(e) => handleTextChange("productName", e)} type="text" className="add-catalogue-textinput" />
                             </div>
                             <br />
+                            <br />
                             <h3 className="margin-top-0 margin-bottom-12-18">What is the <span className="main-color">type</span> of your rental ?</h3>
                             <Dropdown onChange={(value) => handleTypeChange(value)} style={{ width: "150px", maxWidth: "150px" }} showTitle={false} toggle={true} values={typeValues} />
                             <br />
