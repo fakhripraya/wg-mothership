@@ -1,5 +1,3 @@
-import db from "../../config/indexeddb";
-
 // Whatsapp sender
 export function sendWACS() {
     // Send static Whatsapp messages to Customer Service
@@ -59,66 +57,4 @@ export const getBase64 = (file) => {
         reader.onerror = error => reject(error);
         reader.readAsDataURL(file);
     });
-}
-
-export const clearForm = (storageKey) => {
-    if (!storageKey) return;
-    db.transaction('rw', db[storageKey], function* () {
-        yield db[storageKey].clear();
-    }).catch(e => {
-        console.error(e);
-    });
-}
-
-export const setFiles = async (files, objectId, storageKey, fieldKey) => {
-    if (!files) return;
-    if (!objectId) return;
-    files.forEach((file) => {
-        getBase64(file).then(async (base64) => {
-            await db.transaction('rw', db[storageKey],async function () {
-                await db[storageKey].count().then(async (count)=>{
-                    if(count > 0) await db[storageKey].update(objectId, {[fieldKey]: base64}).resolve();
-                });
-            }).catch(e => {
-                console.error(e);
-            });
-        });
-    });
-}
-
-export const getFilesById = (objectId, storageKey, fieldKey) => {
-    if (!objectId) return;
-    db.transaction('rw', db[storageKey], function* () {
-        const existing = db[storageKey].get({id: objectId});
-        if(existing) yield existing[fieldKey];
-        else yield null;
-    }).catch(e => {
-        console.error(e);
-    });
-}
-
-export const getFirstTableValue = async (storageKey) => {
-    let result = undefined;
-    await db.transaction('rw', db[storageKey], async function () {
-        result = await db[storageKey].toCollection().first().then((exist)=>{
-            if(exist) return exist;
-            else return null;
-        });
-    }).catch(e => {
-        console.error(e);
-    });
-    return result;
-}
-
-export const getFirstValueByField = async ( storageKey, fieldKey) => {
-    let result = undefined;
-    await db.transaction('rw', db[storageKey], async function () {
-        result = await db[storageKey].toCollection().first().then((exist)=>{
-            if(exist) return exist[fieldKey];
-            else return null;
-        });
-    }).catch(e => {
-        console.error(e);
-    });
-    return result;
 }

@@ -2,7 +2,6 @@ import './style.scss';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import UploadIcon from "../../assets/svg/upload-image.svg";
-import {setFiles} from "../../utils/functions/global"
 
 export default function MultiUpload(props) {
 
@@ -25,19 +24,20 @@ export default function MultiUpload(props) {
     }
 
     React.useEffect(() => {
-        // add datas to the indexed db
-        setFiles(acceptedFiles, props.objectId, props.storageKey, props.fieldKey);
+        const formData = new FormData();
+        acceptedFiles.forEach((val, index) => formData.append(props.formName, val, val.name));
+        if (acceptedFiles.length > 0) props.setFiles(formData.getAll(props.formName));
     }, [acceptedFiles])
 
-    const AcceptedFileItems = () =>{
+    const AcceptedFileItems = () => {
         acceptedFiles.map(file => {
-           return <li key={file.path}>
+            return <li key={file.path}>
                 <label className='multi-upload-file-text'>
                     {file.path} - {file.size} bytes
                 </label>
             </li>
         });
-    } 
+    }
 
     const FileRejectionItems = () => {
         return fileRejections.map(({ file, errors }) => {
@@ -52,7 +52,7 @@ export default function MultiUpload(props) {
                 </ul>
             </li>
         });
-    } 
+    }
 
     return (
         <div className="multi-upload-picture-box darker-bg-color">
@@ -69,8 +69,8 @@ export default function MultiUpload(props) {
                 </section>
             </div>
             <div className="multi-upload-picture-list">
-                <AcceptedFileItems/>
-                <FileRejectionItems/>
+                <AcceptedFileItems />
+                <FileRejectionItems />
             </div>
         </div>
     );

@@ -45,8 +45,5 @@ export const URL_ROOM_CREATE = '/v1/room/create';
 export const HOST = "HOST";
 export const PEER = "PEER";
 
-// DEXIE
-
-export const DEVELOPMENT = "DEVELOPMENT";
-export const PRODUCTION = "PRODUCTION";
+// FORM NAME
 export const ADD_CATALOGUE_FORM = "ADD_CATALOGUE_FORM";
