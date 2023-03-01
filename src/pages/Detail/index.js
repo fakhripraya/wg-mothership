@@ -133,6 +133,7 @@ export default function Detail() {
                     </div>
                     <div className="detail-flexbox detail-flexbox-pricing">
                         <h1 className="detail-title margin-top-bottom-0">Pesan</h1>
+                        <br />
                         <h3 className="detail-title margin-top-bottom-0">Jumlah Peminjaman</h3>
                         <div style={{ marginBottom: "8px" }} className="detail-flexbox-pricing-rowbox">
                             <TextInput className="detail-flexbox-pricing-count-area"></TextInput>
@@ -145,19 +146,19 @@ export default function Detail() {
                             <h2 className="detail-title margin-top-0">Subtotal</h2>
                             <h2 className="detail-title margin-top-0">Rp.88.000</h2>
                         </div>
-                        <Button>
+                        <Button className="darker-bg-color">
                             Masukkan Keranjang
                         </Button>
                         <br />
-                        <Button>
+                        <Button className="darker-bg-color">
                             Langsung Pesan
                         </Button>
                         <br />
                         <div className="detail-flexbox-pricing-other">
-                            <Button style={{ marginRight: "8px" }} className="detail-button-outlined full-width">
+                            <Button style={{ marginRight: "8px" }} className="darker-bg-color full-width">
                                 Chat
                             </Button>
-                            <Button className="detail-button-outlined full-width">
+                            <Button className="darker-bg-color full-width">
                                 Share
                             </Button>
                         </div>
