@@ -96,9 +96,9 @@ export default function Navbar(props) {
                 <Button >Search</Button>
             </li>
             <li className="navbar-menu-item-wrapper">
-                <Dropdown showTitle={false} toggle={true} values={["Fittest", "Jancokest"]} />
-                <Dropdown showTitle={false} toggle={true} values={["Fittest", "Jancokest"]} />
-                <Dropdown showTitle={false} toggle={true} values={["Fittest", "Jancokest"]} />
+                <Dropdown onChange={(value) => { }} showTitle={false} toggle={true} values={["Fittest", "Jancokest"]} />
+                <Dropdown onChange={(value) => { }} showTitle={false} toggle={true} values={["Fittest", "Jancokest"]} />
+                <Dropdown onChange={(value) => { }} showTitle={false} toggle={true} values={["Fittest", "Jancokest"]} />
             </li>
         </Fragment>
     }

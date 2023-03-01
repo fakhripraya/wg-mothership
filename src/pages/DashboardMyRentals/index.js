@@ -31,7 +31,7 @@ export default function DashboardMyRentals(props) {
 
     const ShowDropdowns = () => {
         return filterDropdowns.map((item, index) => {
-            return <Dropdown key={`my-rentals-filter-dropdown-${index}`} className="my-rentals-dropdown-item" style={{ width: "100px", maxWidth: "100px" }} showTitle={item.showTitle} toggle={item.toggle} values={item.values} />
+            return <Dropdown onChange={(value) => { }} key={`my-rentals-filter-dropdown-${index}`} className="my-rentals-dropdown-item" style={{ width: "100px", maxWidth: "100px" }} showTitle={item.showTitle} toggle={item.toggle} values={item.values} />
         })
     }
 

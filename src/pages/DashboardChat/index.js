@@ -27,7 +27,7 @@ export default function DashboardChat(props) {
 
     const ShowDropdowns = () => {
         return filterDropdowns.map((item, index) => {
-            return <Dropdown key={`dashboard-chat-filter-dropdown-${index}`} className="dashboard-chat-dropdown-item" style={{ width: "100px", maxWidth: "100px" }} showTitle={item.showTitle} toggle={item.toggle} values={item.values} />
+            return <Dropdown onChange={(value) => { }} key={`dashboard-chat-filter-dropdown-${index}`} className="dashboard-chat-dropdown-item" style={{ width: "100px", maxWidth: "100px" }} showTitle={item.showTitle} toggle={item.toggle} values={item.values} />
         })
     }
 

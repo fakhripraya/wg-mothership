@@ -64,7 +64,7 @@ export default function MultiUpload(props) {
                         <input {...getInputProps()} />
                         <label className='multi-upload-custom-typography'>{props.label}</label>
                         <br />
-                        <img className='multi-upload-icon-img' src={UploadIcon} alt={`${ADD_CATALOGUE_FORM}-icon-image`}></img>
+                        <img className='multi-upload-icon-img' src={props.customIcon ? props.customIcon : UploadIcon} alt={`${ADD_CATALOGUE_FORM}-icon-image`}></img>
                         <br />
                         <label className='multi-upload-custom-typography'>{props.subLabel}</label>
                     </div>

@@ -27,7 +27,7 @@ export default function DashboardMyOrders(props) {
 
     const ShowDropdowns = () => {
         return filterDropdowns.map((item, index) => {
-            return <Dropdown key={`my-orders-filter-dropdown-${index}`} className="my-orders-dropdown-item" style={{ width: "100px", maxWidth: "100px" }} showTitle={item.showTitle} toggle={item.toggle} values={item.values} />
+            return <Dropdown onChange={(value) => { }} key={`my-orders-filter-dropdown-${index}`} className="my-orders-dropdown-item" style={{ width: "100px", maxWidth: "100px" }} showTitle={item.showTitle} toggle={item.toggle} values={item.values} />
         })
     }
 

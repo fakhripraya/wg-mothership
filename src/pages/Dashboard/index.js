@@ -60,7 +60,7 @@ export default function Dashboard() {
                                 <div className="dashboard-cards-tool-items">
                                     <FloatButton className="dashboard-menu-button dashboard-menu-button-no-complaint" />
                                     <FloatButton className="dashboard-menu-button dashboard-menu-button-bell" />
-                                    <Dropdown style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={["Toko 1", "Toko 2"]} />
+                                    <Dropdown onChange={(value) => { }} style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={["Toko 1", "Toko 2"]} />
                                     <FloatButton className="dashboard-menu-button dashboard-menu-button-plus" />
                                 </div>
                             </div>
