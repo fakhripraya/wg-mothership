@@ -18,6 +18,7 @@ export default function AddCatalogue() {
     const [modalToggle, setModalToggle] = useState(false);
     const [data, setData] = useState(initialValue);
     const [files, setFiles] = useState(null);
+    const [base64s, setBase64s] = useState([]);
 
     // FUNCTIONS SPECIFIC //
     function handleGoBackDashboard(navigate) {
@@ -44,6 +45,8 @@ export default function AddCatalogue() {
                 <br />
                 <MultiUpload
                     formName={ADD_CATALOGUE_FORM}
+                    base64s={base64s}
+                    setBase64s={setBase64s}
                     files={files}
                     setFiles={setFiles}
                     extensions="image/jpeg, image/png"

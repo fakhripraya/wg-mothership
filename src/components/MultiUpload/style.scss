@@ -1,17 +1,3 @@
-.multi-upload-upload-container{
-    z-index: 1001;
-}
-
-.multi-upload-upload-wrapper{
-    margin: 0px auto;
-    padding: 1em;
-    position: relative;
-    align-items: flex-start;
-    -webkit-box-align: center;
-    display: flex;
-    flex-direction: column;
-}
-
 .multi-upload-picture-box{
     width: 100%;
     padding: 12px;
@@ -21,10 +7,23 @@
     justify-self: center;
     align-self: center;
     margin: 12px;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    white-space: break-spaces;
+    overflow: hidden;
 
     @media screen and (max-width: 1028px){
         flex-direction: column;
     }
+}
+
+.multi-upload-picture-field{
+    flex: 1;
+}
+
+.multi-upload-picture-list{
+    flex: 1;
+    padding: 12px;
 }
 
 .multi-upload-dropzone-box {
@@ -41,15 +40,28 @@
     color: #918f8f;
 }
 
-.multi-upload-custom-img{
+.multi-upload-icon-img{
     height: 50vh;
     width: 100vw;
     max-width: 100%;
 }
 
 .multi-upload-file-text {
-    margin-bottom: 12px;
+    margin-left: 12px;
     font-weight: bold;
+}
+
+.multi-upload-file-list {
+    margin-bottom: 12px;
+    list-style: none;
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
+    width: 100%;
+}
+
+.multi-upload-file-img {
+    height: 50px;
 }
 
 .multi-upload-red {

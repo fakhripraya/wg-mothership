@@ -1,7 +1,9 @@
 import './style.scss';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import UploadIcon from "../../assets/svg/upload-image.svg";
+import { getBase64 } from '../../utils/functions/global';
+import { ADD_CATALOGUE_FORM } from '../../variables/global';
 
 export default function MultiUpload(props) {
 
@@ -24,32 +26,32 @@ export default function MultiUpload(props) {
     }
 
     React.useEffect(() => {
-        const formData = new FormData();
-        acceptedFiles.forEach((val, index) => formData.append(props.formName, val, val.name));
-        if (acceptedFiles.length > 0) props.setFiles(formData.getAll(props.formName));
+        async function init() {
+            const formData = new FormData();
+            const temp = [...props.base64s];
+            for (var i = 0; acceptedFiles.length > i; i++) {
+                formData.append(props.formName, acceptedFiles[i], acceptedFiles[i].name);
+                const converted = await getBase64(acceptedFiles[i]);
+                temp.push({
+                    name: acceptedFiles[i].name,
+                    size: acceptedFiles[i].size,
+                    base64: converted
+                })
+                props.setBase64s(temp);
+            }
+            if (acceptedFiles.length > 0) props.setFiles(formData.getAll(props.formName));
+        }
+        if (acceptedFiles.length <= 5) init();
     }, [acceptedFiles])
 
     const AcceptedFileItems = () => {
-        acceptedFiles.map(file => {
-            return <li key={file.path}>
+        if (!props.base64s) return;
+        return props.base64s.map((file, index) => {
+            return <li className='multi-upload-file-list' key={`${file.name} ${index}`}>
+                <img className='multi-upload-file-img' src={file.base64} alt={file.name} ></img>
                 <label className='multi-upload-file-text'>
-                    {file.path} - {file.size} bytes
+                    {file.name} - {file.size} bytes
                 </label>
-            </li>
-        });
-    }
-
-    const FileRejectionItems = () => {
-        return fileRejections.map(({ file, errors }) => {
-            return <li key={file.path}>
-                <label className='multi-upload-file-text'>
-                    {file.path} - {file.size} bytes
-                </label>
-                <ul>
-                    {errors.map(e => (
-                        <li key={e.code}><label className='multi-upload-file-text'>{e.message}</label></li>
-                    ))}
-                </ul>
             </li>
         });
     }
@@ -62,7 +64,7 @@ export default function MultiUpload(props) {
                         <input {...getInputProps()} />
                         <label className='multi-upload-custom-typography'>{props.label}</label>
                         <br />
-                        <img className='multi-upload-custom-img' src={UploadIcon} alt={"asdasdasda"}></img>
+                        <img className='multi-upload-icon-img' src={UploadIcon} alt={`${ADD_CATALOGUE_FORM}-icon-image`}></img>
                         <br />
                         <label className='multi-upload-custom-typography'>{props.subLabel}</label>
                     </div>
@@ -70,7 +72,6 @@ export default function MultiUpload(props) {
             </div>
             <div className="multi-upload-picture-list">
                 <AcceptedFileItems />
-                <FileRejectionItems />
             </div>
         </div>
     );
