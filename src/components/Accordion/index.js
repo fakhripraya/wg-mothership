@@ -34,7 +34,7 @@ export default function Accordion(props) {
     }, [toggle])
 
     return (
-        <div className="accordion-wrapper">
+        <div className={"accordion-wrapper " + props.className}>
             <button onClick={() => handleAccordionClick()} className="accordion-button">
                 <h3 className="accordion-title light-color">{props.title}</h3>
                 <span className="accordion-button-label-after" ref={iconRef} />

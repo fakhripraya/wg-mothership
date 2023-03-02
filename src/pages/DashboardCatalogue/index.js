@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { smoothScrollTop } from '../../utils/functions/global';
 import { useNavigate } from 'react-router-dom';
 import { DASHBOARD_CATALOG } from '../../variables/global';
+import Accordion from '../../components/Accordion';
 
 export default function DashboardCatalogue(props) {
 
@@ -59,28 +60,23 @@ export default function DashboardCatalogue(props) {
                         <img className="dashboard-catalogue-identifier-img" src={item.img.src} alt={item.img.alt} />
                     </div>
                 </div>
-                <div className="dashboard-catalogue-items dashboard-catalogue-body-cpu-spec">
+                <div className="dashboard-catalogue-items dashboard-catalogue-body-statistic">
                     <h3 className="margin-top-0 margin-bottom-0" ><span className="main-color">Statistik</span></h3>
                     <h4 className="margin-bottom-0" >Views: 1203</h4>
                     <h4 className="margin-top-0" >Tersewa: 12</h4>
                 </div>
-                <div className="dashboard-catalogue-items dashboard-catalogue-body-graphical-spec">
+                <div className="dashboard-catalogue-items dashboard-catalogue-body-stock">
                     <h3 className="margin-top-0 margin-bottom-0" ><span className="main-color">Stok</span></h3>
                     <h4 className="margin-bottom-0" >Tersedia: 12</h4>
                     <h4 className="margin-top-0 margin-bottom-0" >Tersewa: 12</h4>
-                    <h4 >Total: 24</h4>
+                    <div className="dashboard-catalogue-textinput-box">
+                        <TextInput className="dashboard-catalogue-textinput"></TextInput>
+                        <h4 >&nbsp;&nbsp;In Total</h4>
+                    </div>
                 </div>
-                <div className="dashboard-catalogue-items dashboard-catalogue-body-storage-spec">
-                    <h3 className="margin-top-0 margin-bottom-0" ><span className="main-color">Harga</span></h3>
-                    <h4 className="margin-bottom-0" >Rp.1.200.000,00 / day</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Rp.1.200.000,00 / 3 day</h4>
-                    <h4 className="margin-top-0" >Rp.1.200.000,00 / 7 day</h4>
-                </div>
+                <ShowAccordion />
                 <div className="dashboard-catalogue-items dashboard-catalogue-body-rent-detail">
                     <h3 className="margin-top-0 margin-bottom-0" ><span className="main-color">Penyewaan</span></h3>
-                    <h4 className="margin-bottom-0" >Durasi : {item.rentDetail.duration} {item.rentDetail.durationUnit}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Berakhir : {item.rentDetail.endAt}</h4>
-                    <h5 className="margin-top-0 margin-bottom-0" >{item.rentDetail.price}{item.rentDetail.priceUnit}</h5>
                     <h5 onClick={() => handleOpenDetail(item, navigate)} className="margin-bottom-0 dark-color light-bg-color dashboard-catalogue-body-rent-button" >Details</h5>
                     <h5 className="main-bg-color dashboard-catalogue-body-rent-detail-status" >Status : {item.rentDetail.status}</h5>
                     <h5 className="margin-top-0 margin-bottom-0 red-bg-color dashboard-catalogue-body-rent-button" >Cancel</h5>
@@ -88,6 +84,31 @@ export default function DashboardCatalogue(props) {
             </div>
         })
     }
+
+    const ShowAccordion = () => {
+        return <Accordion
+            isButton={false}
+            title="Harga"
+            className="dashboard-catalogue-accordion"
+            toggle={true}
+        >
+            <div className="dashboard-catalogue-items dashboard-catalogue-body-pricing">
+                <div className="margin-top-bottom-0 dashboard-catalogue-textinput-box">
+                    <TextInput className="dashboard-catalogue-textinput"></TextInput>
+                    <h4 >&nbsp;&nbsp;per <span className="main-color">hari</span></h4>
+                </div>
+                <div className="margin-bottom-0 dashboard-catalogue-textinput-box">
+                    <TextInput className="dashboard-catalogue-textinput"></TextInput>
+                    <h4 >&nbsp;&nbsp;per <span className="main-color">3 hari</span></h4>
+                </div>
+                <div className="margin-bottom-0 dashboard-catalogue-textinput-box">
+                    <TextInput className="dashboard-catalogue-textinput"></TextInput>
+                    <h4 >&nbsp;&nbsp;per <span className="main-color">7 hari</span></h4>
+                </div>
+            </div>
+        </Accordion>
+    }
+
 
     // INITIAL RENDER
     useEffect(() => {

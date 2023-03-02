@@ -168,6 +168,7 @@ export default function AddCatalogue() {
                                 <TextInput value={data.productWeight} onChange={(e) => handleTextChange("productWeight", e)} type="text" className="add-catalogue-textinput" />
                             </div>
                             <br />
+                            <br />
                             <h2 className="margin-bottom-12-18">Set the rental <span className="main-color">pricing</span></h2>
                             {
                                 data.productPrices.map((val, index) => {
@@ -181,6 +182,14 @@ export default function AddCatalogue() {
                             <Button onClick={() => handleAddComponent("productPrices", { ...defaultPrice })} className="align-self-end add-catalogue-button main-bg-color">
                                 <h4 className="add-catalogue-button-text">+</h4>
                             </Button>
+                            <br />
+                            <br />
+                            <h2 className="margin-bottom-12-18">Set the <span className="main-color">stocks</span></h2>
+                            <h3 className="margin-top-0 margin-bottom-12-18">You need to set the <span className="main-color">stocks</span> of your product so your customer know when it is available</h3>
+                            <div className="add-catalogue-textinput-box">
+                                <label className="add-catalogue-input-title">Stocks</label>
+                                <TextInput value={data.productStocks} onChange={(e) => handleTextChange("productStocks", e)} type="text" className="add-catalogue-textinput" />
+                            </div>
                             <br />
                             <br />
                             <h2 className="margin-bottom-12-18">Set the <span className="main-color">pickup plan</span></h2>

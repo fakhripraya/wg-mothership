@@ -138,6 +138,38 @@
     padding: 6px;
 }
 
+.dashboard-catalogue-textinput-box{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: fit-content;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.dashboard-catalogue-textinput{
+    max-width: 50%;
+    min-width: 40px;
+    height: 36px;
+    list-style: none;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.dashboard-catalogue-accordion .accordion-button{
+    padding: 0px 12px 0px 0px;
+}
+
+.dashboard-catalogue-accordion .accordion-title{
+    font-size: 1.37em;
+    color: #0DA34D;
+}
+
+.dashboard-catalogue-accordion{
+    justify-content: flex-start;
+}
+
 .dashboard-catalogue-body-identifier{
     flex: 20%;
     flex-wrap: wrap;
@@ -171,58 +203,36 @@
     }
 }
 
-.dashboard-catalogue-body-cpu-spec{
+.dashboard-catalogue-body-statistic{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.dashboard-catalogue-body-cpu-spec *{
+.dashboard-catalogue-body-statistic *{
     @include text-ellipsis();
 }
 
-.dashboard-catalogue-body-graphical-spec{
+.dashboard-catalogue-body-stock{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.dashboard-catalogue-body-graphical-spec *{
+.dashboard-catalogue-body-stock *{
     @include text-ellipsis();
 }
 
-.dashboard-catalogue-body-storage-spec{
+.dashboard-catalogue-body-pricing{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.dashboard-catalogue-body-storage-spec *{
-    @include text-ellipsis();
-}
-
-.dashboard-catalogue-body-storage-spec .accordion-wrapper .accordion-button{
-    padding: 0px 8px 9px 0px !important;
-}
-
-.dashboard-catalogue-body-storage-spec .accordion-wrapper .accordion-button h3{
-   line-height: 1em;
-}
-
-.dashboard-catalogue-body-storage-spec-items{
-    flex-wrap: wrap;
-    height: auto;
-    width: 100%;
-    text-align: left;
-    align-items: center;
-    justify-content: center;
-    @include text-ellipsis();
-}
-
-.dashboard-catalogue-body-storage-spec-items{
+.dashboard-catalogue-body-pricing *{
     @include text-ellipsis();
 }
 

@@ -13,6 +13,7 @@ export const initialValue = {
             period: "/ Day",
         }
     ],
+    productStocks: "",
     pickupCity: "",
     pickupSubdistrict: "",
     pickupWard: "",
