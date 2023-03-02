@@ -66,39 +66,39 @@ export default function DashboardHome(props) {
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-1 dashboard-home-grid-item-small main-bg-color">
                         <img src={ProductIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h3>Katalog</h3>
+                        <h4>Katalog</h4>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-2 dashboard-home-grid-item-small main-bg-color">
                         <img src={ChatIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h3>Broadcast</h3>
+                        <h4>Broadcast</h4>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-3 dashboard-home-grid-item-small main-bg-color">
                         <img src={RentalIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h3>Lihat Sewaan</h3>
+                        <h4>Lihat Sewaan</h4>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-item-4 dashboard-home-grid-item-small main-bg-color">
                         <img src={BellIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h3>Reminder</h3>
+                        <h4>Reminder</h4>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-small-1 dashboard-home-grid-item-big dark-bg-color">
-                        <h2>Pesanan</h2>
-                        <h1 className="margin-bottom-0">
+                        <h3>Pesanan</h3>
+                        <h2 className="margin-bottom-0">
                             6
-                        </h1>
+                        </h2>
                         <p className="margin-top-0">4 belum terkonfirmasi</p>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-small-2 dashboard-home-grid-item-big dark-bg-color">
-                        <h2>Chat</h2>
-                        <h1 className="margin-bottom-0">
+                        <h3>Chat</h3>
+                        <h2 className="margin-bottom-0">
                             12
-                        </h1>
+                        </h2>
                         <p className="margin-top-0">6 Belum Terbaca</p>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-big-1 dashboard-home-grid-item-big dark-bg-color">
-                        <h2>Saldo</h2>
-                        <h1 className="margin-bottom-0">
+                        <h3>Saldo</h3>
+                        <h2 className="margin-bottom-0">
                             Rp.1.232.032.091
-                        </h1>
+                        </h2>
                         <p className="margin-top-0">2 Rental Berjalan</p>
                     </div>
                 </div>

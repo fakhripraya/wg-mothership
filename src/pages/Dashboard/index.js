@@ -10,7 +10,7 @@ import { smoothScrollTop } from '../../utils/functions/global';
 import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import DashboardHome from '../DashboardHome';
-import DashboardMyRentals from '../DashboardMyRentals';
+import DashboardCatalogue from '../DashboardCatalogue';
 import { DASHBOARD_CATALOG, DASHBOARD_CHATS, DASHBOARD_HOME, DASHBOARD_ORDERS } from '../../variables/global';
 import DashboardMyOrders from '../DashboardMyOrders';
 import DashboardChat from '../DashboardChat';
@@ -65,7 +65,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                             <DashboardHome toggleOpen={toggleOpenBody} />
-                            <DashboardMyRentals toggleOpen={toggleOpenBody} />
+                            <DashboardCatalogue toggleOpen={toggleOpenBody} />
                             <DashboardMyOrders toggleOpen={toggleOpenBody} />
                             <DashboardChat toggleOpen={toggleOpenBody} />
                         </div>

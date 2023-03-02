@@ -1,9 +1,9 @@
 export const filterCheckboxes = [
     {
-        title: "Instant P2P",
+        title: "Digital Rentals",
     },
     {
-        title: "Batch Rental",
+        title: "Physical Rentals",
     },
 ]
 
@@ -11,7 +11,7 @@ export const filterDropdowns = [
     {
         showTitle: true,
         toggle: true,
-        values:[
+        values: [
             "Fittest",
             "Jancok"
         ]
@@ -19,7 +19,7 @@ export const filterDropdowns = [
     {
         showTitle: false,
         toggle: true,
-        values:[
+        values: [
             "Fittest",
             "Jancok"
         ]
@@ -27,7 +27,7 @@ export const filterDropdowns = [
     {
         showTitle: false,
         toggle: true,
-        values:[
+        values: [
             "Fittest",
             "Jancok"
         ]
@@ -39,17 +39,17 @@ export const itemListDummy = [
         title: "Pc kuwat RTX 3080 Cocok untuk render",
         ID: "1234567890",
         date: "12-02-2022",
-        img:{
+        img: {
             src: "https://www.shutterstock.com/image-photo/gaming-pc-rgb-led-lights-600w-1621672105.jpg",
             alt: "img-1"
         },
-        cpu:{
+        cpu: {
             title: "Intel I5 6600K",
             core: 4,
             thread: 4,
             clockSpeed: 3.9,
         },
-        graphical:{
+        graphical: {
             title: "Nvidia RTX 3080",
             cudeCore: 10240,
             clockSpeed: 3.9,
@@ -57,7 +57,7 @@ export const itemListDummy = [
             memoryUnit: "GB",
             memoryType: "GDDR6X",
         },
-        storageList:[
+        storageList: [
             {
                 title: "Main Disk C",
                 storageSpace: "512",
@@ -97,17 +97,17 @@ export const itemListDummy = [
         title: "Pc kuwat RTX 3080 Cocok untuk render",
         ID: "1234567890",
         date: "12-02-2022",
-        img:{
+        img: {
             src: "https://www.shutterstock.com/image-photo/gaming-pc-rgb-led-lights-600w-1621672105.jpg",
             alt: "img-1"
         },
-        cpu:{
+        cpu: {
             title: "Intel I5 6600K",
             core: 4,
             thread: 4,
             clockSpeed: 3.9,
         },
-        graphical:{
+        graphical: {
             title: "Nvidia RTX 3080",
             cudeCore: 10240,
             clockSpeed: 3.9,
@@ -115,7 +115,7 @@ export const itemListDummy = [
             memoryUnit: "GB",
             memoryType: "GDDR6X",
         },
-        storageList:[
+        storageList: [
             {
                 title: "Main Disk C",
                 storageSpace: "512",
@@ -155,17 +155,17 @@ export const itemListDummy = [
         title: "Pc kuwat RTX 3080 Cocok untuk render",
         ID: "1234567890",
         date: "12-02-2022",
-        img:{
+        img: {
             src: "https://www.shutterstock.com/image-photo/gaming-pc-rgb-led-lights-600w-1621672105.jpg",
             alt: "img-1"
         },
-        cpu:{
+        cpu: {
             title: "Intel I5 6600K",
             core: 4,
             thread: 4,
             clockSpeed: 3.9,
         },
-        graphical:{
+        graphical: {
             title: "Nvidia RTX 3080",
             cudeCore: 10240,
             clockSpeed: 3.9,
@@ -173,7 +173,7 @@ export const itemListDummy = [
             memoryUnit: "GB",
             memoryType: "GDDR6X",
         },
-        storageList:[
+        storageList: [
             {
                 title: "Main Disk C",
                 storageSpace: "512",
@@ -213,17 +213,17 @@ export const itemListDummy = [
         title: "Pc kuwat RTX 3080 Cocok untuk render",
         ID: "1234567890",
         date: "12-02-2022",
-        img:{
+        img: {
             src: "https://www.shutterstock.com/image-photo/gaming-pc-rgb-led-lights-600w-1621672105.jpg",
             alt: "img-1"
         },
-        cpu:{
+        cpu: {
             title: "Intel I5 6600K",
             core: 4,
             thread: 4,
             clockSpeed: 3.9,
         },
-        graphical:{
+        graphical: {
             title: "Nvidia RTX 3080",
             cudeCore: 10240,
             clockSpeed: 3.9,
@@ -231,7 +231,7 @@ export const itemListDummy = [
             memoryUnit: "GB",
             memoryType: "GDDR6X",
         },
-        storageList:[
+        storageList: [
             {
                 title: "Main Disk C",
                 storageSpace: "512",
@@ -271,17 +271,17 @@ export const itemListDummy = [
         title: "Pc kuwat RTX 3080 Cocok untuk render",
         ID: "1234567890",
         date: "12-02-2022",
-        img:{
+        img: {
             src: "https://www.shutterstock.com/image-photo/gaming-pc-rgb-led-lights-600w-1621672105.jpg",
             alt: "img-1"
         },
-        cpu:{
+        cpu: {
             title: "Intel I5 6600K",
             core: 4,
             thread: 4,
             clockSpeed: 3.9,
         },
-        graphical:{
+        graphical: {
             title: "Nvidia RTX 3080",
             cudeCore: 10240,
             clockSpeed: 3.9,
@@ -289,7 +289,7 @@ export const itemListDummy = [
             memoryUnit: "GB",
             memoryType: "GDDR6X",
         },
-        storageList:[
+        storageList: [
             {
                 title: "Main Disk C",
                 storageSpace: "512",
@@ -329,17 +329,17 @@ export const itemListDummy = [
         title: "Pc kuwat RTX 3080 Cocok untuk render",
         ID: "1234567890",
         date: "12-02-2022",
-        img:{
+        img: {
             src: "https://www.shutterstock.com/image-photo/gaming-pc-rgb-led-lights-600w-1621672105.jpg",
             alt: "img-1"
         },
-        cpu:{
+        cpu: {
             title: "Intel I5 6600K",
             core: 4,
             thread: 4,
             clockSpeed: 3.9,
         },
-        graphical:{
+        graphical: {
             title: "Nvidia RTX 3080",
             cudeCore: 10240,
             clockSpeed: 3.9,
@@ -347,7 +347,7 @@ export const itemListDummy = [
             memoryUnit: "GB",
             memoryType: "GDDR6X",
         },
-        storageList:[
+        storageList: [
             {
                 title: "Main Disk C",
                 storageSpace: "512",

@@ -146,19 +146,19 @@ export default function Detail() {
                             <h2 className="detail-title margin-top-0">Subtotal</h2>
                             <h2 className="detail-title margin-top-0">Rp.88.000</h2>
                         </div>
-                        <Button className="darker-bg-color">
+                        <Button className="dark-bg-color">
                             Masukkan Keranjang
                         </Button>
                         <br />
-                        <Button className="darker-bg-color">
+                        <Button className="dark-bg-color">
                             Langsung Pesan
                         </Button>
                         <br />
                         <div className="detail-flexbox-pricing-other">
-                            <Button style={{ marginRight: "8px" }} className="darker-bg-color full-width">
+                            <Button style={{ marginRight: "8px" }} className="dark-bg-color full-width">
                                 Chat
                             </Button>
-                            <Button className="darker-bg-color full-width">
+                            <Button className="dark-bg-color full-width">
                                 Share
                             </Button>
                         </div>

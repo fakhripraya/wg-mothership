@@ -5,7 +5,7 @@
 }
 
 // MAIN STYLES //
-.my-rentals-container{
+.dashboard-catalogue-container{
     height: fit-content;
     width: 100%;
     padding: 1em 0em;
@@ -13,7 +13,7 @@
     margin-right: 1em;
 }
 
-.my-rentals-wrapper{
+.dashboard-catalogue-wrapper{
     margin: 0px auto;
     align-items: center;
     -webkit-box-align: center;
@@ -23,12 +23,12 @@
     align-items: center;
 }
 
-.my-rentals-wrapper *{
+.dashboard-catalogue-wrapper *{
     box-sizing: border-box;
 }
 
 
-.my-rentals-title{
+.dashboard-catalogue-title{
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -37,7 +37,7 @@
 }
 
 // HEADER //
-.my-rentals-header{
+.dashboard-catalogue-header{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -46,35 +46,35 @@
     border-radius: 1em;
 }
 
-.my-rentals-searchbar-container{
+.dashboard-catalogue-searchbar-container{
     flex: 0 0 100%;
     margin-bottom: 12px;
 }
 
-.my-rentals-searchbar-wrapper{
+.dashboard-catalogue-searchbar-wrapper{
     display: flex;
     flex-direction: row;
     border-right: 6px solid transparent;
 }
 
-.my-rentals-searchbar-input{
+.dashboard-catalogue-searchbar-input{
     margin-right: 6px;
 }
 
-.my-rentals-tools-container{
+.dashboard-catalogue-tools-container{
     flex: 100%;
 }
 
-.my-rentals-tools-wrapper{
+.dashboard-catalogue-tools-wrapper{
     display: flex;
     flex-direction: row;
 }
 
-.my-rentals-checkbox{
+.dashboard-catalogue-checkbox{
     flex: 50%;
 }
 
-.my-rentals-checkbox-wrapper{
+.dashboard-catalogue-checkbox-wrapper{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -82,12 +82,12 @@
     align-items: center;
 }
 
-.my-rentals-checkbox-item{
+.dashboard-catalogue-checkbox-item{
     border-right: 6px solid transparent;
     border-bottom: 6px solid transparent;
 }
 
-.my-rentals-dropdown-wrapper{
+.dashboard-catalogue-dropdown-wrapper{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -96,12 +96,12 @@
     align-items: center;
 }
 
-.my-rentals-dropdown-item{
+.dashboard-catalogue-dropdown-item{
     border-right: 6px solid transparent;
     border-bottom: 6px solid transparent;
 }
 
-.my-rentals-add-button{
+.dashboard-catalogue-add-button{
     width: 100%;
     display: flex;
     height: auto;
@@ -111,41 +111,45 @@
     transition: all 0.25s ease-in-out;
 }
 
-.my-rentals-add-button:hover{
+.dashboard-catalogue-add-button:hover{
     background-color: #0DA34D;
 }
 
-.my-rentals-add-button:hover span{
+.dashboard-catalogue-add-button:hover span{
     color: #fff !important;
     transition: all 0.25s ease-in-out;
 }
 
 // BODY //
-.my-rentals-body{
+.dashboard-catalogue-body{
     width: 100%;
     display: flex;
     flex-direction: row;
     height: auto;
     padding: 12px;
     border-radius: 1em;
+
+    @media screen and (max-width: 768px){
+        flex-direction: column;
+    }
 }
 
-.my-rentals-body-items{
+.dashboard-catalogue-body-items{
     padding: 6px;
 }
 
-.my-rentals-body-identifier{
+.dashboard-catalogue-body-identifier{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.my-rentals-body-identifier *{
+.dashboard-catalogue-body-identifier *{
     @include text-ellipsis();
 }
 
-.my-rentals-identifier-img-wrapper{
+.dashboard-catalogue-identifier-img-wrapper{
     height: auto;
     width: auto;
     margin-top: 18px;
@@ -155,7 +159,7 @@
     }
 }
 
-.my-rentals-identifier-img{
+.dashboard-catalogue-identifier-img{
     height: 75%;
     width: 75%;
     border-radius: 8px;
@@ -163,51 +167,52 @@
     @media screen and (max-width: 768px){
         height: 100%;
         width: 100%;
+        margin-bottom: 12px;
     }
 }
 
-.my-rentals-body-cpu-spec{
+.dashboard-catalogue-body-cpu-spec{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.my-rentals-body-cpu-spec *{
+.dashboard-catalogue-body-cpu-spec *{
     @include text-ellipsis();
 }
 
-.my-rentals-body-graphical-spec{
+.dashboard-catalogue-body-graphical-spec{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.my-rentals-body-graphical-spec *{
+.dashboard-catalogue-body-graphical-spec *{
     @include text-ellipsis();
 }
 
-.my-rentals-body-storage-spec{
+.dashboard-catalogue-body-storage-spec{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.my-rentals-body-storage-spec *{
+.dashboard-catalogue-body-storage-spec *{
     @include text-ellipsis();
 }
 
-.my-rentals-body-storage-spec .accordion-wrapper .accordion-button{
+.dashboard-catalogue-body-storage-spec .accordion-wrapper .accordion-button{
     padding: 0px 8px 9px 0px !important;
 }
 
-.my-rentals-body-storage-spec .accordion-wrapper .accordion-button h3{
+.dashboard-catalogue-body-storage-spec .accordion-wrapper .accordion-button h3{
    line-height: 1em;
 }
 
-.my-rentals-body-storage-spec-items{
+.dashboard-catalogue-body-storage-spec-items{
     flex-wrap: wrap;
     height: auto;
     width: 100%;
@@ -217,22 +222,22 @@
     @include text-ellipsis();
 }
 
-.my-rentals-body-storage-spec-items{
+.dashboard-catalogue-body-storage-spec-items{
     @include text-ellipsis();
 }
 
-.my-rentals-body-rent-detail{
+.dashboard-catalogue-body-rent-detail{
     flex: 20%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
 }
 
-.my-rentals-body-rent-detail *{
+.dashboard-catalogue-body-rent-detail *{
     @include text-ellipsis();
 }
 
-.my-rentals-body-rent-detail-status{
+.dashboard-catalogue-body-rent-detail-status{
     padding: 6px;
     text-align: center;
     margin-bottom: 18px;
@@ -243,7 +248,7 @@
     }
 }
 
-.my-rentals-body-rent-button{
+.dashboard-catalogue-body-rent-button{
     border-radius: 8px;
     cursor: pointer;
     text-align: center;
@@ -251,11 +256,11 @@
     transition: all 0.3s ease-in-out;
 }
 
-.my-rentals-body-rent-button:hover{
+.dashboard-catalogue-body-rent-button:hover{
     opacity: 0.65;
 }
 
-.my-rentals-paging{
+.dashboard-catalogue-paging{
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -264,7 +269,7 @@
     transition: all 0.25s ease-in-out;
 }
 
-.my-rentals-paging-button{
+.dashboard-catalogue-paging-button{
     cursor: pointer;
     padding: 6px;
     border-radius: 8px;
@@ -272,10 +277,10 @@
     transition: all 0.25s ease-in-out;
 }
 
-.my-rentals-paging-button:last-child{
+.dashboard-catalogue-paging-button:last-child{
     margin-right: 0px !important;
 }
 
-.my-rentals-paging-button:hover{
+.dashboard-catalogue-paging-button:hover{
     background-color: #0DA34D;
 }

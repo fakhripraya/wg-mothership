@@ -31,7 +31,7 @@ export default function DashboardMyOrders(props) {
         })
     }
 
-    const ShowBody = () => {
+    const ShowBodyDigitalRental = () => {
         // HOOK
         const navigate = useNavigate();
         // Render list
@@ -59,7 +59,7 @@ export default function DashboardMyOrders(props) {
                     <h4 className="margin-top-0 margin-bottom-0" >Memory Type: {item.graphical.memoryType}</h4>
                 </div>
                 <div className="my-orders-body-items my-orders-body-storage-spec">
-                    <ShowAccordion datas={item.storageList} />
+                    <ShowAccordionDigitalRentals datas={item.storageList} />
                 </div>
                 <div className="my-orders-body-items my-orders-body-rent-detail">
                     <h4 className="margin-top-0 margin-bottom-0" >Durations : {item.rentDetail.duration} {item.rentDetail.durationUnit}</h4>
@@ -73,7 +73,67 @@ export default function DashboardMyOrders(props) {
         })
     }
 
-    const ShowAccordion = (props) => {
+    const ShowBodyPhysicalRental = () => {
+        // HOOK
+        const navigate = useNavigate();
+        // Render list
+        return itemListDummy.map((item, index) => {
+            return <div key={`my-orders-items-${index}`} className="my-orders-body margin-top-12-18 dark-bg-color">
+                <div className="my-orders-body-items my-orders-body-identifier">
+                    <h3 className="margin-top-0" >{item.title}</h3>
+                    <h4 className="margin-top-0 margin-bottom-0" >ID: {item.ID}</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >List date: {item.date}</h4>
+                    <div className="my-orders-identifier-img-wrapper">
+                        <img className="my-orders-identifier-img" src={item.img.src} alt={item.img.alt} />
+                    </div>
+                </div>
+                <div className="my-orders-body-items my-orders-body-cpu-spec">
+                    <h3 className="margin-top-0 margin-bottom-0" >{item.cpu.title}</h3>
+                    <h4 className="margin-bottom-0" >Core: {item.cpu.core} Cores</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >Thread: {item.cpu.thread} Threads</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >Clock Speed: {item.cpu.clockSpeed} Ghz</h4>
+                </div>
+                <div className="my-orders-body-items my-orders-body-graphical-spec">
+                    <h3 className="margin-top-0 margin-bottom-0" >{item.graphical.title}</h3>
+                    <h4 className="margin-bottom-0" >Core: {item.graphical.cudaCore} Cuda Core</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >Clock Speed: {item.graphical.clockSpeed}  Ghz</h4>
+                    <h4 className="margin-bottom-0" >Memory: {item.graphical.memory} {item.graphical.memoryUnit} Memory</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >Memory Type: {item.graphical.memoryType}</h4>
+                </div>
+                <div className="my-orders-body-items my-orders-body-storage-spec">
+                    <ShowAccordionPhysicalRentals datas={item.storageList} />
+                </div>
+                <div className="my-orders-body-items my-orders-body-rent-detail">
+                    <h4 className="margin-top-0 margin-bottom-0" >Durations : {item.rentDetail.duration} {item.rentDetail.durationUnit}</h4>
+                    <h4 className="margin-top-0 margin-bottom-0" >End at : {item.rentDetail.endAt}</h4>
+                    <h5 className="margin-top-0 margin-bottom-0" >{item.rentDetail.price}{item.rentDetail.priceUnit}</h5>
+                    <h5 onClick={() => handleOpenDetail(item, navigate)} className="margin-bottom-0 dark-color light-bg-color my-orders-body-rent-button" >Details</h5>
+                    <h5 className="main-bg-color my-orders-body-rent-detail-status" >Status : {item.rentDetail.status}</h5>
+                    <h5 className="margin-top-0 margin-bottom-0 red-bg-color my-orders-body-rent-button" >Cancel</h5>
+                </div>
+            </div>
+        })
+    }
+
+    const ShowAccordionDigitalRentals = (props) => {
+        return props.datas.map((item, index) => {
+            return <Accordion
+                key={`my-orders-item-accordion-${index}`}
+                isButton={false}
+                title={item.title}
+                toggle={false}
+            >
+                <div className="my-orders-body-storage-spec-items">
+                    <h4 className="margin-bottom-0 text-ellipsis" >{item.installedOs && "OS Installed"}</h4>
+                    <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >{item.isNVME && "NVME"}</h4>
+                    <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >{`Storage Space : ${item.storageSpace} ${item.storageSpaceUnit}`}</h4>
+                    <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >{`Transfer Speed : ${item.transferSpeed} ${item.transferSpeedUnit}`}</h4>
+                </div>
+            </Accordion>
+        })
+    }
+
+    const ShowAccordionPhysicalRentals = (props) => {
         return props.datas.map((item, index) => {
             return <Accordion
                 key={`my-orders-item-accordion-${index}`}
@@ -119,7 +179,7 @@ export default function DashboardMyOrders(props) {
                         </div>
                     </div>
                 </div>
-                <ShowBody />
+                <ShowBodyPhysicalRental />
                 <div className="my-orders-paging margin-top-12-18 justify-center">
                     <div className="dark-bg-color my-orders-paging-button">Prev</div>
                     <div className="dark-bg-color my-orders-paging-button">1</div>
