@@ -68,6 +68,7 @@ export default function DashboardCatalogue(props) {
                     <br />
                     <label className="margin-top-0" >Tersewa: 12</label>
                     <br />
+                    <br />
                 </div>
                 <div className="dashboard-catalogue-items dashboard-catalogue-body-stock">
                     <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title" ><span className="main-color">Stok</span></h3>
@@ -117,7 +118,6 @@ export default function DashboardCatalogue(props) {
                     <TextInput className="dashboard-catalogue-textinput"></TextInput>
                     <label >&nbsp;&nbsp;per <span className="main-color">7 hari</span></label>
                 </div>
-                <br />
             </div>
         </Accordion>
     }
