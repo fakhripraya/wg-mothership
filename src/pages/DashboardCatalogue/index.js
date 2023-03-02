@@ -54,24 +54,31 @@ export default function DashboardCatalogue(props) {
             return <div key={`dashboard-catalogue-items-${index}`} className="dashboard-catalogue-body margin-top-12-18 dark-bg-color">
                 <div className="dashboard-catalogue-items dashboard-catalogue-body-identifier">
                     <h3 className="margin-top-0" >{item.title}</h3>
-                    <h4 className="margin-top-0 margin-bottom-0" >ID: {item.ID}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Tanggal List: {item.date}</h4>
+                    <label className="margin-top-0 margin-bottom-0" >ID: {item.ID}</label>
+                    <br />
+                    <label className="margin-top-0 margin-bottom-0" >Tanggal List: {item.date}</label>
                     <div className="dashboard-catalogue-identifier-img-wrapper">
                         <img className="dashboard-catalogue-identifier-img" src={item.img.src} alt={item.img.alt} />
                     </div>
                 </div>
                 <div className="dashboard-catalogue-items dashboard-catalogue-body-statistic">
                     <h3 className="margin-top-0 margin-bottom-0" ><span className="main-color">Statistik</span></h3>
-                    <h4 className="margin-bottom-0" >Views: 1203</h4>
-                    <h4 className="margin-top-0" >Tersewa: 12</h4>
+                    <br />
+                    <label className="margin-bottom-0" >Views: 1203</label>
+                    <br />
+                    <label className="margin-top-0" >Tersewa: 12</label>
                 </div>
                 <div className="dashboard-catalogue-items dashboard-catalogue-body-stock">
                     <h3 className="margin-top-0 margin-bottom-0" ><span className="main-color">Stok</span></h3>
-                    <h4 className="margin-bottom-0" >Tersedia: 12</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Tersewa: 12</h4>
+                    <br />
+                    <label className="margin-bottom-0" >Tersedia: 12</label>
+                    <br />
+                    <label className="margin-top-0 margin-bottom-0" >Tersewa: 12</label>
+                    <br />
+                    <br />
                     <div className="dashboard-catalogue-textinput-box">
                         <TextInput className="dashboard-catalogue-textinput"></TextInput>
-                        <h4 >&nbsp;&nbsp;In Total</h4>
+                        <label >&nbsp;&nbsp;In Total</label>
                     </div>
                 </div>
                 <ShowAccordion />
@@ -93,17 +100,20 @@ export default function DashboardCatalogue(props) {
             toggle={true}
         >
             <div className="dashboard-catalogue-items dashboard-catalogue-body-pricing">
+                <br />
                 <div className="margin-top-bottom-0 dashboard-catalogue-textinput-box">
                     <TextInput className="dashboard-catalogue-textinput"></TextInput>
-                    <h4 >&nbsp;&nbsp;per <span className="main-color">hari</span></h4>
+                    <label >&nbsp;&nbsp;per <span className="main-color">hari</span></label>
                 </div>
+                <br />
                 <div className="margin-bottom-0 dashboard-catalogue-textinput-box">
                     <TextInput className="dashboard-catalogue-textinput"></TextInput>
-                    <h4 >&nbsp;&nbsp;per <span className="main-color">3 hari</span></h4>
+                    <label >&nbsp;&nbsp;per <span className="main-color">3 hari</span></label>
                 </div>
+                <br />
                 <div className="margin-bottom-0 dashboard-catalogue-textinput-box">
                     <TextInput className="dashboard-catalogue-textinput"></TextInput>
-                    <h4 >&nbsp;&nbsp;per <span className="main-color">7 hari</span></h4>
+                    <label >&nbsp;&nbsp;per <span className="main-color">7 hari</span></label>
                 </div>
             </div>
         </Accordion>

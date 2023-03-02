@@ -12,7 +12,7 @@ import {
     defaultCourier,
     defaultPrice,
     initialValue,
-    periodValues,
+    waitTimeValues,
     pricePeriodValues,
     typeValues
 } from '../../variables/dummy/addCatalogue';
@@ -220,7 +220,7 @@ export default function AddCatalogue() {
                             <h3 className="margin-top-0 margin-bottom-12-18">Maximum <span className="main-color">wait time</span> to pick up before <span className="red-color">cancel</span> ?</h3>
                             <div className="add-catalogue-textinput-box">
                                 <TextInput value={data.productMaxWaitTime} onChange={(e) => handleTextChange("productMaxWaitTime", e)} type="text" className="add-catalogue-textinput" />
-                                <Dropdown onChange={(value) => { }} style={{ marginLeft: "8px", width: "75px", maxWidth: "75px" }} showTitle={false} toggle={true} values={periodValues} />
+                                <Dropdown onChange={(value) => { }} style={{ marginLeft: "8px", width: "75px", maxWidth: "75px" }} showTitle={false} toggle={true} values={waitTimeValues} />
                             </div>
                             <br />
                             <h2 className="margin-bottom-12-18">Set the <span className="main-color">courier</span></h2>
