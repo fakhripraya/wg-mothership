@@ -53,7 +53,7 @@ export default function DashboardCatalogue(props) {
         return itemListDummy.map((item, index) => {
             return <div key={`dashboard-catalogue-items-${index}`} className="dashboard-catalogue-body margin-top-12-18 dark-bg-color">
                 <div className="dashboard-catalogue-items dashboard-catalogue-body-identifier">
-                    <h3 className="margin-top-0 dashboard-catalogue-body-title" >{item.title}</h3>
+                    <h3 className="margin-top-0 dashboard-catalogue-body-title" ><span className="light-color">{item.title}</span></h3>
                     <label className="margin-top-0 margin-bottom-0" >ID: {item.ID}</label>
                     <br />
                     <label className="margin-top-0 margin-bottom-0" >Tanggal List: {item.date}</label>
@@ -62,31 +62,31 @@ export default function DashboardCatalogue(props) {
                     </div>
                 </div>
                 <div className="dashboard-catalogue-items dashboard-catalogue-body-statistic">
-                    <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title" ><span className="main-color">Statistik</span></h3>
+                    <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title" ><span className="light-color">Statistik</span></h3>
                     <br />
-                    <label className="margin-bottom-0" >Views: 1203</label>
+                    <label className="margin-bottom-0" >Views: <span className="main-color">1203</span></label>
                     <br />
-                    <label className="margin-top-0" >Tersewa: 12</label>
+                    <label className="margin-top-0" >Tersewa: <span className="main-color">12</span></label>
                     <br />
                     <br />
                 </div>
                 <div className="dashboard-catalogue-items dashboard-catalogue-body-stock">
-                    <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title" ><span className="main-color">Stok</span></h3>
+                    <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title" ><span className="light-color">Stok</span></h3>
                     <br />
-                    <label className="margin-bottom-0" >Tersedia: 12</label>
+                    <label className="margin-bottom-0" >Tersedia: <span className="main-color">12</span></label>
                     <br />
-                    <label className="margin-top-0 margin-bottom-0" >Tersewa: 12</label>
+                    <label className="margin-top-0 margin-bottom-0" >Tersewa: <span className="main-color">12</span></label>
                     <br />
                     <br />
                     <div className="dashboard-catalogue-textinput-box">
                         <TextInput className="dashboard-catalogue-textinput"></TextInput>
-                        <label >&nbsp;&nbsp;In Total</label>
+                        <label >&nbsp;&nbsp;In <span className="main-color">Total</span></label>
                     </div>
                     <br />
                 </div>
                 <ShowAccordion />
                 <div className="dashboard-catalogue-items dashboard-catalogue-body-rent-detail">
-                    <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title" ><span className="main-color">Penyewaan</span></h3>
+                    <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title" ><span className="light-color">Opsi</span></h3>
                     <h5 onClick={() => handleOpenDetail(item, navigate)} className="margin-bottom-0 dark-color light-bg-color dashboard-catalogue-body-rent-button" >Details</h5>
                     <h5 className="main-bg-color dashboard-catalogue-body-rent-detail-status" >Status : {item.rentDetail.status}</h5>
                     <h5 className="margin-top-0 margin-bottom-0 red-bg-color dashboard-catalogue-body-rent-button" >Cancel</h5>
