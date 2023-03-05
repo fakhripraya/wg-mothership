@@ -37,6 +37,11 @@ export const filterDropdowns = [
 export const dumnmyValue = [
     {
         productName: "Pc kuwat RTX 3080 Cocok untuk render",
+        productCode: "1234567890",
+        productImg: {
+            alt: "pict-1",
+            src: "https://www.shutterstock.com/image-photo/gaming-pc-rgb-led-lights-600w-1621672105.jpg"
+        },
         productType: "Physical Rental",
         productDescription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nam iste debitis aut eligendi error pariatur necessitatibus tenetur, ipsa, facere, reiciendis quasi sit voluptatibus atque placeat in consequatur exercitationem corrupti. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab a laudantium consequuntur. Magni accusantium totam est corrupti nemo eius, doloribus asperiores rem quas fugit quasi pariatur aperiam ad neque incidunt. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat cupiditate deserunt natus deleniti nemo sunt nobis doloremque nesciunt rerum. Cum explicabo ea natus inventore esse numquam ad placeat facere modi!",
         productCategory: "Elektronik",
@@ -58,7 +63,7 @@ export const dumnmyValue = [
                 period: "/ 7 Hari",
             }
         ],
-        productStocks: "20",
+        productStocks: 20,
         pickupCity: "Jakarta Selatan",
         pickupSubdistrict: "Kebayoran Lama",
         pickupWard: "Kebayoran Lama Utara",
@@ -69,11 +74,22 @@ export const dumnmyValue = [
         courierChoosen: [
             "JNE"
         ],
+        rentDetail: {
+            views: 43,
+            rented: 5,
+            totalRentedCounts: 15,
+            status: "ACTIVE",
+        },
         CreatedAt: "12-02-2022",
         CreatedBy: "SYSTEM",
     },
     {
         productName: "Pc kuwat RTX 4080 Mantap banget pokonya cok",
+        productCode: "1234567890",
+        productImg: {
+            alt: "pict-1",
+            src: "https://www.shutterstock.com/image-photo/gaming-pc-rgb-led-lights-600w-1621672105.jpg"
+        },
         productType: "Physical Rental",
         productDescription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nam iste debitis aut eligendi error pariatur necessitatibus tenetur, ipsa, facere, reiciendis quasi sit voluptatibus atque placeat in consequatur exercitationem corrupti. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab a laudantium consequuntur. Magni accusantium totam est corrupti nemo eius, doloribus asperiores rem quas fugit quasi pariatur aperiam ad neque incidunt. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat cupiditate deserunt natus deleniti nemo sunt nobis doloremque nesciunt rerum. Cum explicabo ea natus inventore esse numquam ad placeat facere modi!",
         productCategory: "Elektronik",
@@ -91,7 +107,7 @@ export const dumnmyValue = [
                 period: "/ 3 Hari",
             },
         ],
-        productStocks: "32",
+        productStocks: 32,
         pickupCity: "Jakarta Selatan",
         pickupSubdistrict: "Kebayoran Lama",
         pickupWard: "Kebayoran Lama Utara",
@@ -103,6 +119,12 @@ export const dumnmyValue = [
             "JNE",
             "SiCepat"
         ],
+        rentDetail: {
+            views: 5,
+            rented: 12,
+            totalRentedCounts: 23,
+            status: "ACTIVE",
+        },
         CreatedAt: "12-02-2022",
         CreatedBy: "SYSTEM",
     },

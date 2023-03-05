@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./styles.scss";
 
 export default function Dropdown(props) {
-    const [value, setValue] = useState(props.values[0]);
+    const [value, setValue] = useState(props.value ? props.value : props.values[0]);
     const [toggle, setToggle] = useState(props.toggle);
 
     function handleOpenFilter() {
