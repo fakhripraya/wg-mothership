@@ -8,6 +8,7 @@ import RDPRoom from "../../pages/RDPRoom";
 import RDPRoomError from "../../pages/RDPRoomError";
 import Dashboard from "../../pages/Dashboard";
 import AddCatalogue from "../../pages/AddCatalogue";
+import AddToko from "../../pages/AddToko";
 
 export const routes = [
     {
@@ -37,6 +38,10 @@ export const routes = [
     {
         path: '/dashboard/add/catalogue',
         component: <AddCatalogue />,
+    },
+    {
+        path: '/dashboard/add/toko',
+        component: <AddToko />,
     },
     {
         path: '/dashboard',
