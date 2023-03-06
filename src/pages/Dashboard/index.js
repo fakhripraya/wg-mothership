@@ -1,7 +1,6 @@
 import React, {
     Fragment,
     useEffect,
-    useRef,
     useState
 } from 'react';
 import Dropdown from '../../components/Dropdown';
@@ -11,16 +10,17 @@ import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import DashboardHome from '../DashboardHome';
 import DashboardCatalogue from '../DashboardCatalogue';
-import { DASHBOARD_CATALOG, DASHBOARD_CHATS, DASHBOARD_HOME, DASHBOARD_ORDERS } from '../../variables/global';
+import {
+    DASHBOARD_CATALOG,
+    DASHBOARD_CHATS,
+    DASHBOARD_HOME,
+    DASHBOARD_ORDERS
+} from '../../variables/global';
 import DashboardMyOrders from '../DashboardMyOrders';
 import DashboardChat from '../DashboardChat';
-import { useNavigate } from 'react-router-dom';
 import Avatar from 'react-avatar';
 
 export default function Dashboard() {
-
-    // HOOK
-    const navigate = useNavigate();
 
     // STATES //
     const [toggle, setToggle] = useState(false);
@@ -40,8 +40,8 @@ export default function Dashboard() {
         handleBottomSheet();
     }
 
-    function handleGoToAddToko(navigate) {
-        navigate(`/dashboard/add/toko`);
+    function handleGoToAddToko() {
+        window.location.href = `/dashboard/add/toko`;
     }
 
     // INITIAL RENDER
@@ -55,7 +55,7 @@ export default function Dashboard() {
                 <div className="dashboard-wrapper">
                     <div className="dashboard-flex-container">
                         <div className="dashboard-tools-container">
-                            <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko(navigate)} size={"60px"} round={true} title="Wim Mostmans" name="Wim Mostmans" />
+                            <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko()} size={"60px"} round={true} title="Wim Mostmans" name="Wim Mostmans" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_CHATS)} className="dashboard-menu-button dashboard-menu-button-chat" />
@@ -71,7 +71,7 @@ export default function Dashboard() {
                                     <FloatButton className="dashboard-menu-button dashboard-menu-button-no-complaint" />
                                     <FloatButton className="dashboard-menu-button dashboard-menu-button-bell" />
                                     <Dropdown onChange={(value) => { }} style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={["Toko 1", "Toko 2"]} />
-                                    <FloatButton onClick={() => handleGoToAddToko(navigate)} className="dashboard-menu-button dashboard-menu-button-plus" />
+                                    <FloatButton onClick={() => handleGoToAddToko()} className="dashboard-menu-button dashboard-menu-button-plus" />
                                 </div>
                             </div>
                             <DashboardHome toggleOpen={toggleOpenBody} />
@@ -84,7 +84,7 @@ export default function Dashboard() {
             </div>
             <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
                 <div className="dashboard-mobile-menu-container">
-                    <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko(navigate)} size={"60px"} round={true} title="Wim Mostmans" name="Wim Mostmans" />
+                    <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko()} size={"60px"} round={true} title="Wim Mostmans" name="Wim Mostmans" />
                     <br />
                     <br />
                     <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" >

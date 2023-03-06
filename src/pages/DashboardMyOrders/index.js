@@ -56,7 +56,7 @@ export default function DashboardMyOrders(props) {
                 </div>
                 <div className="my-orders-body-items my-orders-body-note-box">
                     <h3 className="margin-top-0" >Note</h3>
-                    <TextArea value={item.transactionNote} className="my-orders-body-longtext-area"></TextArea>
+                    <TextArea readOnly={true} value={item.transactionNote} className="my-orders-body-longtext-area"></TextArea>
                 </div>
                 <div className="my-orders-body-items my-orders-body-rent-detail">
                     <label className="margin-top-0 margin-bottom-0" >Kurir: <span className="main-color">{item.transactionCourier}</span></label>
