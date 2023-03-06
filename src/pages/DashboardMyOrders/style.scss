@@ -128,6 +128,9 @@
     height: auto;
     padding: 12px;
     border-radius: 1em;
+    @media screen and (max-width: 768px){
+        flex-direction: column;
+    }
 }
 
 .my-orders-body-items{
@@ -166,59 +169,28 @@
     }
 }
 
-.my-orders-body-cpu-spec{
-    flex: 20%;
+.my-orders-body-note-box{
+    flex: 60%;
     flex-wrap: wrap;
     height: auto;
     @include text-ellipsis();
+
+    @media screen and (min-width: 768px){
+        padding-right: 2em !important;
+    }
 }
 
-.my-orders-body-cpu-spec *{
-    @include text-ellipsis();
-}
+.my-orders-body-longtext-area{
+    border-radius: 6px !important;
+    margin: 8px 0px;
+    height: 100%;
+    background-color: #151515 !important;
+    color: white;
+    text-align: start;
 
-.my-orders-body-graphical-spec{
-    flex: 20%;
-    flex-wrap: wrap;
-    height: auto;
-    @include text-ellipsis();
-}
-
-.my-orders-body-graphical-spec *{
-    @include text-ellipsis();
-}
-
-.my-orders-body-storage-spec{
-    flex: 20%;
-    flex-wrap: wrap;
-    height: auto;
-    @include text-ellipsis();
-}
-
-.my-orders-body-storage-spec *{
-    @include text-ellipsis();
-}
-
-.my-orders-body-storage-spec .accordion-wrapper .accordion-button{
-    padding: 0px 8px 9px 0px !important;
-}
-
-.my-orders-body-storage-spec .accordion-wrapper .accordion-button h3{
-   line-height: 1em;
-}
-
-.my-orders-body-storage-spec-items{
-    flex-wrap: wrap;
-    height: auto;
-    width: 100%;
-    text-align: left;
-    align-items: center;
-    justify-content: center;
-    @include text-ellipsis();
-}
-
-.my-orders-body-storage-spec-items{
-    @include text-ellipsis();
+    @media screen and (max-width: 768px){
+        min-height: 200px;
+    }
 }
 
 .my-orders-body-rent-detail{

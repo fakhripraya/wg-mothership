@@ -4,7 +4,8 @@ import Dropdown from '../../components/Dropdown';
 import Checkbox from '../../components/Checkbox';
 import TextInput from '../../components/TextInput';
 import './style.scss';
-import { filterCheckboxes, filterDropdowns, itemListDummy } from '../../variables/dummy/catalogue';
+import { filterCheckboxes, filterDropdowns } from '../../variables/dummy/catalogue';
+import { itemListDummy } from '../../variables/dummy/MyRDPList';
 import Accordion from '../../components/Accordion';
 import { useEffect } from 'react';
 import { smoothScrollTop } from '../../utils/functions/global';
@@ -19,12 +20,6 @@ export default function DashboardChat(props) {
     }
 
     // COMPONENTS SPECIFIC //
-    const ShowCheckboxes = () => {
-        return filterCheckboxes.map((item, index) => {
-            return <Checkbox key={`checkbox-${item.title}-${index}`} className="dashboard-chat-checkbox-item" title={item.title} />
-        })
-    }
-
     const ShowDropdowns = () => {
         return filterDropdowns.map((item, index) => {
             return <Dropdown onChange={(value) => { }} key={`dashboard-chat-filter-dropdown-${index}`} className="dashboard-chat-dropdown-item" style={{ width: "100px", maxWidth: "100px" }} showTitle={item.showTitle} toggle={item.toggle} values={item.values} />
@@ -110,7 +105,6 @@ export default function DashboardChat(props) {
                         <div className="dashboard-chat-tools-wrapper">
                             <div className="dashboard-chat-checkbox">
                                 <div className="dashboard-chat-checkbox-wrapper">
-                                    <ShowCheckboxes />
                                 </div>
                             </div>
                             <div className="dashboard-chat-dropdown-wrapper">

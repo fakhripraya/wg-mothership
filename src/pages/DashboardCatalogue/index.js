@@ -9,7 +9,6 @@ import { useEffect } from 'react';
 import { smoothScrollTop } from '../../utils/functions/global';
 import { useNavigate } from 'react-router-dom';
 import { DASHBOARD_CATALOG } from '../../variables/global';
-import Accordion from '../../components/Accordion';
 import { defaultPrice, pricePeriodValues } from '../../variables/dummy/addCatalogue';
 
 export default function DashboardCatalogue(props) {

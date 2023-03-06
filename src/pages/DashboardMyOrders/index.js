@@ -4,12 +4,16 @@ import Dropdown from '../../components/Dropdown';
 import Checkbox from '../../components/Checkbox';
 import TextInput from '../../components/TextInput';
 import './style.scss';
-import { filterCheckboxes, filterDropdowns, itemListDummy } from '../../variables/dummy/catalogue';
-import Accordion from '../../components/Accordion';
+import {
+    filterCheckboxes,
+    filterDropdowns,
+    dummyValue
+} from '../../variables/dummy/myOrders';
 import { useEffect } from 'react';
 import { smoothScrollTop } from '../../utils/functions/global';
 import { useNavigate } from 'react-router-dom';
 import { DASHBOARD_ORDERS } from '../../variables/global';
+import TextArea from '../../components/TextArea';
 
 export default function DashboardMyOrders(props) {
 
@@ -31,123 +35,41 @@ export default function DashboardMyOrders(props) {
         })
     }
 
-    const ShowBodyDigitalRental = () => {
+    const ShowBody = () => {
         // HOOK
         const navigate = useNavigate();
         // Render list
-        return itemListDummy.map((item, index) => {
+        return dummyValue.map((item, index) => {
             return <div key={`my-orders-items-${index}`} className="my-orders-body margin-top-12-18 dark-bg-color">
                 <div className="my-orders-body-items my-orders-body-identifier">
-                    <h3 className="margin-top-0" >{item.title}</h3>
-                    <h4 className="margin-top-0 margin-bottom-0" >ID: {item.ID}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >List date: {item.date}</h4>
+                    <h3 className="margin-top-0" >{item.productName}</h3>
+                    <label className="margin-top-0 margin-bottom-0" >Transaksi: {item.transactionCode}</label>
+                    <br />
+                    <label className="margin-top-0 margin-bottom-0" >Kode Barang: {item.productCode}</label>
+                    <br />
+                    <label className="margin-top-0 margin-bottom-0" >List date: {item.CreatedAt}</label>
+                    <br />
                     <div className="my-orders-identifier-img-wrapper">
-                        <img className="my-orders-identifier-img" src={item.img.src} alt={item.img.alt} />
+                        <img className="my-orders-identifier-img" src={item.productImg.src} alt={item.productImg.alt} />
                     </div>
                 </div>
-                <div className="my-orders-body-items my-orders-body-cpu-spec">
-                    <h3 className="margin-top-0 margin-bottom-0" >{item.cpu.title}</h3>
-                    <h4 className="margin-bottom-0" >Core: {item.cpu.core} Cores</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Thread: {item.cpu.thread} Threads</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Clock Speed: {item.cpu.clockSpeed} Ghz</h4>
-                </div>
-                <div className="my-orders-body-items my-orders-body-graphical-spec">
-                    <h3 className="margin-top-0 margin-bottom-0" >{item.graphical.title}</h3>
-                    <h4 className="margin-bottom-0" >Core: {item.graphical.cudaCore} Cuda Core</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Clock Speed: {item.graphical.clockSpeed}  Ghz</h4>
-                    <h4 className="margin-bottom-0" >Memory: {item.graphical.memory} {item.graphical.memoryUnit} Memory</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Memory Type: {item.graphical.memoryType}</h4>
-                </div>
-                <div className="my-orders-body-items my-orders-body-storage-spec">
-                    <ShowAccordionDigitalRentals datas={item.storageList} />
+                <div className="my-orders-body-items my-orders-body-note-box">
+                    <h3 className="margin-top-0" >Note</h3>
+                    <TextArea value={item.transactionNote} className="my-orders-body-longtext-area"></TextArea>
                 </div>
                 <div className="my-orders-body-items my-orders-body-rent-detail">
-                    <h4 className="margin-top-0 margin-bottom-0" >Durations : {item.rentDetail.duration} {item.rentDetail.durationUnit}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >End at : {item.rentDetail.endAt}</h4>
-                    <h5 className="margin-top-0 margin-bottom-0" >{item.rentDetail.price}{item.rentDetail.priceUnit}</h5>
-                    <h5 onClick={() => handleOpenDetail(item, navigate)} className="margin-bottom-0 dark-color light-bg-color my-orders-body-rent-button" >Details</h5>
-                    <h5 className="main-bg-color my-orders-body-rent-detail-status" >Status : {item.rentDetail.status}</h5>
-                    <h5 className="margin-top-0 margin-bottom-0 red-bg-color my-orders-body-rent-button" >Cancel</h5>
+                    <label className="margin-top-0 margin-bottom-0" >Kurir: <span className="main-color">{item.transactionCourier}</span></label>
+                    <br />
+                    <br />
+                    <label className="margin-top-0 margin-bottom-0" >Durasi Rental : <span className="main-color">{item.transactionRentalDuration}</span></label>
+                    <br />
+                    <label className="margin-top-0 margin-bottom-0" >Charging: <span className="main-color">{item.transactionRentalPricing.price} {item.transactionRentalPricing.period}</span></label>
+                    <h5 className="main-bg-color my-orders-body-rent-detail-status" >Status : {item.status}</h5>
+                    <h5 onClick={() => handleOpenDetail(item, navigate)} className="margin-bottom-0 dark-color light-bg-color my-orders-body-rent-button" >Detail Transaksi</h5>
+                    <br />
+                    <h5 className="margin-top-0 margin-bottom-0 red-bg-color my-orders-body-rent-button" >Batalkan Pesanan</h5>
                 </div>
             </div>
-        })
-    }
-
-    const ShowBodyPhysicalRental = () => {
-        // HOOK
-        const navigate = useNavigate();
-        // Render list
-        return itemListDummy.map((item, index) => {
-            return <div key={`my-orders-items-${index}`} className="my-orders-body margin-top-12-18 dark-bg-color">
-                <div className="my-orders-body-items my-orders-body-identifier">
-                    <h3 className="margin-top-0" >{item.title}</h3>
-                    <h4 className="margin-top-0 margin-bottom-0" >ID: {item.ID}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >List date: {item.date}</h4>
-                    <div className="my-orders-identifier-img-wrapper">
-                        <img className="my-orders-identifier-img" src={item.img.src} alt={item.img.alt} />
-                    </div>
-                </div>
-                <div className="my-orders-body-items my-orders-body-cpu-spec">
-                    <h3 className="margin-top-0 margin-bottom-0" >{item.cpu.title}</h3>
-                    <h4 className="margin-bottom-0" >Core: {item.cpu.core} Cores</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Thread: {item.cpu.thread} Threads</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Clock Speed: {item.cpu.clockSpeed} Ghz</h4>
-                </div>
-                <div className="my-orders-body-items my-orders-body-graphical-spec">
-                    <h3 className="margin-top-0 margin-bottom-0" >{item.graphical.title}</h3>
-                    <h4 className="margin-bottom-0" >Core: {item.graphical.cudaCore} Cuda Core</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Clock Speed: {item.graphical.clockSpeed}  Ghz</h4>
-                    <h4 className="margin-bottom-0" >Memory: {item.graphical.memory} {item.graphical.memoryUnit} Memory</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >Memory Type: {item.graphical.memoryType}</h4>
-                </div>
-                <div className="my-orders-body-items my-orders-body-storage-spec">
-                    <ShowAccordionPhysicalRentals datas={item.storageList} />
-                </div>
-                <div className="my-orders-body-items my-orders-body-rent-detail">
-                    <h4 className="margin-top-0 margin-bottom-0" >Durations : {item.rentDetail.duration} {item.rentDetail.durationUnit}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0" >End at : {item.rentDetail.endAt}</h4>
-                    <h5 className="margin-top-0 margin-bottom-0" >{item.rentDetail.price}{item.rentDetail.priceUnit}</h5>
-                    <h5 onClick={() => handleOpenDetail(item, navigate)} className="margin-bottom-0 dark-color light-bg-color my-orders-body-rent-button" >Details</h5>
-                    <h5 className="main-bg-color my-orders-body-rent-detail-status" >Status : {item.rentDetail.status}</h5>
-                    <h5 className="margin-top-0 margin-bottom-0 red-bg-color my-orders-body-rent-button" >Cancel</h5>
-                </div>
-            </div>
-        })
-    }
-
-    const ShowAccordionDigitalRentals = (props) => {
-        return props.datas.map((item, index) => {
-            return <Accordion
-                key={`my-orders-item-accordion-${index}`}
-                isButton={false}
-                title={item.title}
-                toggle={false}
-            >
-                <div className="my-orders-body-storage-spec-items">
-                    <h4 className="margin-bottom-0 text-ellipsis" >{item.installedOs && "OS Installed"}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >{item.isNVME && "NVME"}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >{`Storage Space : ${item.storageSpace} ${item.storageSpaceUnit}`}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >{`Transfer Speed : ${item.transferSpeed} ${item.transferSpeedUnit}`}</h4>
-                </div>
-            </Accordion>
-        })
-    }
-
-    const ShowAccordionPhysicalRentals = (props) => {
-        return props.datas.map((item, index) => {
-            return <Accordion
-                key={`my-orders-item-accordion-${index}`}
-                isButton={false}
-                title={item.title}
-                toggle={false}
-            >
-                <div className="my-orders-body-storage-spec-items">
-                    <h4 className="margin-bottom-0 text-ellipsis" >{item.installedOs && "OS Installed"}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >{item.isNVME && "NVME"}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >{`Storage Space : ${item.storageSpace} ${item.storageSpaceUnit}`}</h4>
-                    <h4 className="margin-top-0 margin-bottom-0 text-ellipsis" >{`Transfer Speed : ${item.transferSpeed} ${item.transferSpeedUnit}`}</h4>
-                </div>
-            </Accordion>
         })
     }
 
@@ -179,7 +101,7 @@ export default function DashboardMyOrders(props) {
                         </div>
                     </div>
                 </div>
-                <ShowBodyPhysicalRental />
+                <ShowBody />
                 <div className="my-orders-paging margin-top-12-18 justify-center">
                     <div className="dark-bg-color my-orders-paging-button">Prev</div>
                     <div className="dark-bg-color my-orders-paging-button">1</div>

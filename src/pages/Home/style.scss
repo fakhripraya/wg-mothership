@@ -176,10 +176,7 @@
     -webkit-box-align: center;
     background-color: #1c1d1d;
     cursor: pointer;
-
-    @media screen and (max-width: 768px){
-        transform: scale(0.75);
-    }
+    transform: scale(0.75);
 }
 
 .hero-round-button:hover{

@@ -15,6 +15,7 @@ import { DASHBOARD_CATALOG, DASHBOARD_CHATS, DASHBOARD_HOME, DASHBOARD_ORDERS } 
 import DashboardMyOrders from '../DashboardMyOrders';
 import DashboardChat from '../DashboardChat';
 import { useNavigate } from 'react-router-dom';
+import Avatar from 'react-avatar';
 
 export default function Dashboard() {
 
@@ -54,6 +55,7 @@ export default function Dashboard() {
                 <div className="dashboard-wrapper">
                     <div className="dashboard-flex-container">
                         <div className="dashboard-tools-container">
+                            <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko(navigate)} size={"60px"} round={true} title="Wim Mostmans" name="Wim Mostmans" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_CHATS)} className="dashboard-menu-button dashboard-menu-button-chat" />
@@ -82,14 +84,20 @@ export default function Dashboard() {
             </div>
             <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
                 <div className="dashboard-mobile-menu-container">
+                    <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko(navigate)} size={"60px"} round={true} title="Wim Mostmans" name="Wim Mostmans" />
+                    <br />
+                    <br />
                     <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" >
                     </FloatButton>
+                    <br />
                     <br />
                     <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" >
                     </FloatButton>
                     <br />
+                    <br />
                     <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_CHATS)} className="dashboard-menu-button dashboard-menu-button-chat" >
                     </FloatButton>
+                    <br />
                     <br />
                     <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_CATALOG)} className="dashboard-menu-button dashboard-menu-button-product" >
                     </FloatButton>

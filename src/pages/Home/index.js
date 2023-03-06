@@ -18,8 +18,12 @@ import {
 } from '../../variables/dummy/home';
 import Tag from '../../components/Tag';
 import Card from '../../components/Card';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+
+    // HOOK
+    const navigate = useNavigate();
 
     // REFS //
     const heroRef = useRef();
@@ -33,6 +37,10 @@ export default function Home() {
     // FUNCTIONS SPECIFIC //
     function handleScrollToFirstSection() {
         window.scrollTo({ top: heroRef.current.offsetHeight, behavior: "smooth" });
+    }
+
+    function handleGoToDetail(navigate) {
+        navigate(`/detail`);
     }
 
     // COMPONENTS SPECIFIC //
@@ -58,6 +66,7 @@ export default function Home() {
     const ShowGrabableCardCarousel = (props) => {
         return props.arrayFunc().map((item, index) => {
             return <Card
+                onClick={() => handleGoToDetail(navigate)}
                 key={`carousel-${props.uniqueKey}-${index}`}
                 imgUrl={item.url}
                 title={item.name}
