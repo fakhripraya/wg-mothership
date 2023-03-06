@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '../../components/Button';
 import TextInput from '../../components/TextInput';
 import './style.scss';
-import { itemListDummy } from '../../variables/dummy/MyRDPList';
+import { dummyValue } from '../../variables/dummy/chat';
 import { useEffect } from 'react';
 import { smoothScrollTop } from '../../utils/functions/global';
 import { useNavigate } from 'react-router-dom';
@@ -22,16 +22,16 @@ export default function DashboardChat(props) {
         // HOOK
         const navigate = useNavigate();
         // Render list
-        return itemListDummy.map((item, index) => {
+        return dummyValue.map((item, index) => {
             return <div onClick={() => handleOpenChat(navigate)} key={`dashboard-chat-items-${index}`} className="dashboard-chat-body margin-top-12-18 dark-bg-color">
                 <div className="dashboard-chat-body-items dashboard-chat-body-identifier">
                     <div className="dashboard-chat-identifier-img-wrapper">
-                        <Avatar style={{ cursor: "pointer" }} src={item.img.src} round={true} title={item.img.alt} name={item.img.alt} />
+                        <Avatar style={{ cursor: "pointer" }} src={item.displayImg.src} round={true} title={item.displayImg.alt ? item.displayImg.alt : item.displayName} name={item.displayImg.alt ? item.displayImg.alt : item.displayName} />
                     </div>
                 </div>
                 <div className="dashboard-chat-body-items dashboard-chat-body-textarea">
-                    <h3 className="margin-top-0 margin-bottom-0" ><span className="main-color">{item.cpu.title}</span></h3>
-                    <p className="margin-bottom-0" >Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod natus ipsum nihil consequuntur? Nostrum perspiciatis excepturi, incidunt dolorem similique tenetur iure possimus fuga sequi accusantium aspernatur saepe accusamus delectus corrupti!</p>
+                    <h3 className="margin-top-0 margin-bottom-0" ><span className="main-color">{item.displayName}</span></h3>
+                    <p className="margin-bottom-0" >{item.lastChat}</p>
                 </div>
                 <div className="dashboard-chat-body-items dashboard-chat-body-options">
                     {/* <h5 onClick={() => handleOpenDetail(item, navigate)} className="margin-top-bottom-0 light-color main-bg-color dashboard-chat-body-rent-button" >Pin</h5>
