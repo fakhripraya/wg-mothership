@@ -193,6 +193,10 @@
     }
 }
 
+.my-orders-body-longtext-area::-webkit-scrollbar {
+    display: none;
+}
+
 .my-orders-body-rent-detail{
     flex: 20%;
     flex-wrap: wrap;

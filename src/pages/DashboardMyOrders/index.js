@@ -45,6 +45,7 @@ export default function DashboardMyOrders(props) {
                     <h3 className="margin-top-0" >{item.productName}</h3>
                     <label className="margin-top-0 margin-bottom-0" >Transaksi: {item.transactionCode}</label>
                     <br />
+                    <br />
                     <label className="margin-top-0 margin-bottom-0" >Kode Barang: {item.productCode}</label>
                     <br />
                     <label className="margin-top-0 margin-bottom-0" >List date: {item.CreatedAt}</label>
