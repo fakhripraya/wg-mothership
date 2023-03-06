@@ -27,24 +27,27 @@ export const filterDropdowns = [
         showTitle: true,
         toggle: true,
         values: [
-            "Fittest",
-            "Jancok"
+            "Semua",
+            "SiCepat",
+            "JNE"
         ]
     },
     {
         showTitle: false,
         toggle: true,
         values: [
-            "Fittest",
-            "Jancok"
+            "Semua",
+            "Terbaru",
+            "Terlama"
         ]
     },
     {
         showTitle: false,
         toggle: true,
         values: [
-            "Fittest",
-            "Jancok"
+            "Semua",
+            "Termahal",
+            "Termurah"
         ]
     },
 ]
