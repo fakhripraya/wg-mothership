@@ -140,6 +140,7 @@ export default function Detail() {
                             <img className="detail-flexbox-pricing-count-button" src={PlusIcon} alt={"plus-icon"} />
                             <img className="detail-flexbox-pricing-count-button" src={MinusIcon} alt={"minus-icon"} />
                         </div>
+                        <br />
                         <h3 className="detail-title margin-top-bottom-0">Masukan Catatan Bila Ada</h3>
                         <TextArea className="detail-flexbox-pricing-longtext-area"></TextArea>
                         <div className="detail-flexbox-pricing-rowbox">
