@@ -1,29 +1,17 @@
 .modal-container{
-    position: fixed;
-    width: 50vw;
-    left: 25%;
-    top: 10%;
-    height: 80vh;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    z-index: 1001;
+    position:fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: fit-content;
+    margin: auto;
+    height: fit-content;
+    z-index: 9999;
     overflow-y: scroll;
     overflow-x: hidden;
     transition: transform 0.4s ease-out;
     border-radius: 8px;
-
-    @media screen and (max-width: 1280px){
-        width: 60vw;
-        left: 20%;
-        height: 50vh;
-        top: 25%;
-    }
-    @media screen and (max-width: 768px){
-        width: 100vw;
-        left: 0%;
-        top: 0%;
-        height: 100vh;
-        border-radius: 0px;
-    }
 }
 
 /* Scrollbar */
@@ -55,5 +43,5 @@
     width: 100vw;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: 9998;
 }

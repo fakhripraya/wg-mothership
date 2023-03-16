@@ -69,6 +69,10 @@
   color: #fff  !important;
 }
 
+.transparent-bg-color{
+  background-color: transparent !important;
+}
+
 /* Global Class Properties */
 .sticky-top{
   position: sticky !important;
@@ -88,6 +92,10 @@
 
 .break-word{
  overflow-wrap: break-word !important; 
+}
+
+.white-space-pre-line{
+  white-space: pre-line !important;
 }
 
 .text-ellipsis{

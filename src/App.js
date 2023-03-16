@@ -19,6 +19,7 @@ import FloatButton from './components/FloatButton';
 import { sendWACS, smoothScrollTop } from './utils/functions/global';
 import { styleInitialState } from './variables/styles/app';
 import { Cache, ConfigProvider } from 'react-avatar';
+import Spinner from './components/Spinner';
 
 function App() {
 
@@ -82,6 +83,7 @@ function App() {
             Help
           </h3>
         </FloatButton>
+        <Spinner />
       </Router>
     </ConfigProvider>
   );

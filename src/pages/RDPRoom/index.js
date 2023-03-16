@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { iceConfig } from '../../config/rtc/ice';
 import { connectWebsocket } from '../../config/websocket/websocket';
-import { useAxiosGet } from '../../utils/hooks/useAxios';
+import { useAxios } from '../../utils/hooks/useAxios';
 import {
     HOST,
     LOGIN_REQUIRED,
@@ -30,7 +30,7 @@ export default function RDPRoom() {
 
     // HOOKS //
     const navigate = useNavigate();
-    const getCheckRoomReq = useAxiosGet();
+    const getCheckRoomReq = useAxios();
     // eslint-disable-next-line no-unused-vars
     const [searchParams, setSearchParams] = useSearchParams();
     // eslint-disable-next-line no-unused-vars
@@ -87,8 +87,6 @@ export default function RDPRoom() {
             if (getCheckRoomReq.responseData.code === ROOM_AVAILABLE) {
 
                 const userRDPRole = getCheckRoomReq.responseData.created_by === userJoin.id ? HOST : PEER;
-                console.log(getCheckRoomReq.responseData.created_by)
-                console.log(userRDPRole)
                 setUser({
                     ...userJoin,
                     rdp_role: userRDPRole,
@@ -121,9 +119,7 @@ export default function RDPRoom() {
 
     function callUser(userSocketID) {
         peerRef.current = createPeer(userSocketID);
-        console.log(userStream.current)
         userStream.current.getTracks().forEach(track => {
-            console.log(track)
             peerRef.current.addTrack(track, userStream.current)
         });
     }
@@ -234,8 +230,6 @@ export default function RDPRoom() {
 
     const ShowRDPVideoDisplay = () => {
         if (!user) return;
-
-        console.log(user)
 
         // if the user is HOST return host video as own video
         if (user.rdp_role === HOST) return <video className="rdp-room-user-video" autoPlay ref={userVideo} />

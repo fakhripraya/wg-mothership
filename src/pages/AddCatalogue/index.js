@@ -78,8 +78,6 @@ export default function AddCatalogue() {
     }
 
     function handleSubmit() {
-        console.log(data)
-        console.log(files)
     }
 
     // COMPONENTS SPECIFIC //
@@ -111,7 +109,7 @@ export default function AddCatalogue() {
 
     return (
         <Fragment>
-            <Modal clicked={() => handleOpenModal()} toggle={modalToggle} >
+            <Modal className="dark-bg-color" clicked={() => handleOpenModal()} toggle={modalToggle} >
                 <ShowUploadModal />
             </Modal>
             <div className="add-catalogue-container">

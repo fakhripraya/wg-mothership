@@ -3,7 +3,7 @@ import React, { Fragment, useRef, useEffect } from 'react';
 
 export default function Modal(props) {
 
-    const { classname, children, toggle, clicked } = props;
+    const { className, bgClassName, children, toggle, clicked } = props;
     const ref = useRef();
 
     function handleOnClick() {
@@ -15,8 +15,8 @@ export default function Modal(props) {
 
     return (
         <Fragment>
-            <div onClick={() => handleOnClick()} className={toggle === true ? 'modal-background' : ''} />
-            <div style={{ display: toggle === true ? 'block' : 'none' }} className="modal-container dark-bg-color">
+            <div onClick={() => handleOnClick()} className={toggle === true ? `modal-background ${bgClassName}` : ''} />
+            <div style={{ display: toggle === true ? 'block' : 'none' }} className={"modal-container " + className}>
                 {children}
             </div>
         </Fragment>

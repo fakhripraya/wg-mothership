@@ -37,9 +37,12 @@ export const PUT = "PUT";
 export const PATCH = "PATCH";
 export const DELETE = "DELETE";
 
-// SERVICE ROUTE
+// SIGNALER SERVICE ROUTE
 export const URL_ROOM_CHECK = '/v1/room/check';
 export const URL_ROOM_CREATE = '/v1/room/create';
+
+// OLYMPUS SERVICE ROUTE
+export const URL_POST_REGISTER = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/signup`;
 
 // USER RDP ROLE
 export const HOST = "HOST";
