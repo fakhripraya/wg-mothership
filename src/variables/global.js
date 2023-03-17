@@ -43,6 +43,8 @@ export const URL_ROOM_CREATE = '/v1/room/create';
 
 // OLYMPUS SERVICE ROUTE
 export const URL_POST_REGISTER = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/signup`;
+export const URL_POST_LOGIN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/login`;
+export const URL_POST_OTP = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/verify/otp`;
 
 // USER RDP ROLE
 export const HOST = "HOST";
@@ -50,3 +52,6 @@ export const PEER = "PEER";
 
 // FORM NAME
 export const ADD_CATALOGUE_FORM = "ADD_CATALOGUE_FORM";
+
+// COOKIES NAME
+export const CLIENT_USER_INFO = "CLIENT_USER_INFO";

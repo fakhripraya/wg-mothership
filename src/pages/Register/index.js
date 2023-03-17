@@ -13,15 +13,22 @@ import {
     FORGOT_PASSWORD,
     LOGIN,
     REGISTER,
-    URL_POST_REGISTER
+    URL_POST_REGISTER,
+    URL_POST_LOGIN,
+    OTP_PAGE,
+    CLIENT_USER_INFO
 } from '../../variables/global';
 import { useAxios } from '../../utils/hooks/useAxios';
 import { postRegisterDataInitialValue } from '../../variables/dummy/register';
 import { trackPromise } from 'react-promise-tracker';
 import Modal from '../../components/Modal';
 import { ERROR_CONFIRM_PASSWORD } from '../../variables/errorMessages/register';
+import Cookies from 'universal-cookie';
 
 export default function Register(props) {
+
+    // OBJECT CLASSES
+    const cookies = new Cookies();
 
     // HOOKS //
     const postRegisterService = useAxios();
@@ -49,17 +56,36 @@ export default function Register(props) {
         return result;
     }
 
+    function handleAfterRegister(data, callback) {
+        trackPromise(
+            postRegisterService.postData({
+                endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
+                url: URL_POST_LOGIN,
+                data: data
+            }).then((result) => {
+                cookies.set(CLIENT_USER_INFO, result.responseData, { path: '/' });
+                callback();
+            }).catch((error) => {
+                return handleErrorMessage(error);
+            })
+        );
+    }
+
     function handlePostRegister() {
         var result = handleLocalFilter();
         if (result.error) return result.cb();
-
         trackPromise(
             postRegisterService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 url: URL_POST_REGISTER,
                 data: postRegisterData
-            }).then((result) => {
-                console.log(result)
+            }).then(() => {
+                return handleAfterRegister({
+                    username: postRegisterData.username,
+                    password: postRegisterData.password,
+                }, () => {
+                    props.handleOpen(OTP_PAGE);
+                });
             }).catch((error) => {
                 return handleErrorMessage(error);
             })
@@ -71,7 +97,7 @@ export default function Register(props) {
     }
 
     function handleErrorMessage(error) {
-        setErrorMessage(error.errorContent)
+        setErrorMessage(JSON.stringify(error.errorContent))
         handleOpenModal();
     }
 

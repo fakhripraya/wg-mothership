@@ -16,6 +16,7 @@ export const useAxios = () => {
             var result = { ...initialValue };
             await createAxios(reqConfig.endpoint)({
                 method: GET,
+                headers: reqConfig.headers,
                 url: reqConfig.url,
                 cancelToken: cancelSource.token
             }).then(response => {
@@ -25,7 +26,7 @@ export const useAxios = () => {
             }).catch(error => {
                 result.responseError = true;
                 if (error.response) {
-                    if (axios.isCancel(error)) cancelSource.cancel();
+                    if (axios.isCancel(error)) return cancelSource.cancel();
                     result.errorContent = error.response.data;
                     result.responseStatus = error.response.status;
                 } else result.responseStatus = 500;
@@ -44,6 +45,7 @@ export const useAxios = () => {
             var result = { ...initialValue };
             await createAxios(reqConfig.endpoint)({
                 method: POST,
+                headers: reqConfig.headers,
                 url: reqConfig.url,
                 data: reqConfig.data,
                 cancelToken: cancelSource.token
@@ -54,7 +56,7 @@ export const useAxios = () => {
             }).catch(error => {
                 result.responseError = true;
                 if (error.response) {
-                    if (axios.isCancel(error)) cancelSource.cancel();
+                    if (axios.isCancel(error)) return cancelSource.cancel();
                     result.errorContent = error.response.data;
                     result.responseStatus = error.response.status;
                 } else result.responseStatus = 500;
