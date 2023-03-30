@@ -110,7 +110,7 @@ export default function Register(props) {
     }
 
     // COMPONENTS SPECIFIC //
-    const ShowUploadModal = () => {
+    const ShowModal = () => {
         return <div className="register-upload-container dark-bg-color">
             <div className="register-upload-wrapper">
                 <Button onClick={() => handleOpenModal()} className="align-self-end register-button red-bg-color">
@@ -131,7 +131,7 @@ export default function Register(props) {
     return (
         <Fragment>
             <Modal className="dark-bg-color" toggle={modalToggle} >
-                <ShowUploadModal />
+                <ShowModal />
             </Modal>
             <OverridingContainer toggle={props.toggle === REGISTER}>
                 <div className="sticky-top">

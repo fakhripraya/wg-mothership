@@ -74,7 +74,7 @@ export default function Login(props) {
     }
 
     // COMPONENTS SPECIFIC //
-    const ShowUploadModal = () => {
+    const ShowModal = () => {
         return <div className="login-upload-container dark-bg-color">
             <div className="login-upload-wrapper">
                 <Button onClick={() => handleOpenModal()} className="align-self-end login-button red-bg-color">
@@ -95,7 +95,7 @@ export default function Login(props) {
     return (
         <Fragment>
             <Modal className="dark-bg-color" toggle={modalToggle} >
-                <ShowUploadModal />
+                <ShowModal />
             </Modal>
             <OverridingContainer toggle={props.toggle === LOGIN}>
                 <div className="sticky-top">
