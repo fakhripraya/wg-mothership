@@ -26,12 +26,28 @@ import OTP from '../../pages/OTP';
 import {
     NO_STRING,
     LOGIN,
-    MENU_MOBILE
+    MENU_MOBILE,
+    CLIENT_USER_INFO,
+    LOGOUT_MODAL,
+    URL_POST_LOGOUT,
+    ERROR_MODAL
 } from '../../variables/global';
 import { ShowNavbar } from '../Global';
 import { navbarInitialStyle } from '../../variables/styles/navbar';
+import Cookies from 'universal-cookie';
+import Avatar from 'react-avatar';
+import FloatButton from '../FloatButton';
+import Modal from '../Modal';
+import { trackPromise } from 'react-promise-tracker';
+import { useAxios } from '../../utils/hooks/useAxios';
 
-export default function Navbar(props) {
+export default function Navbar() {
+
+    // OBJECT CLASSES
+    const cookies = new Cookies();
+
+    // HOOKS //
+    const postCredentialService = useAxios();
 
     // VARIABLE
     const ref = useRef();
@@ -40,9 +56,22 @@ export default function Navbar(props) {
 
     // STATES
     const [toggleOverride, setToggleOverride] = useState(NO_STRING);
+    const [modalToggle, setModalToggle] = useState(false);
+    const [modalName, setModalName] = useState(NO_STRING);
     const [navbarStyle, setNavbarStyle] = useState(navbarInitialStyle);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     // FUNCTIONS SPECIFIC //
+    function handleOpenModal(modalName) {
+        setModalName(modalName);
+        setModalToggle(!modalToggle);
+    }
+
+    function handleErrorMessage(error) {
+        if (typeof error.errorContent !== 'string') setErrorMessage(JSON.stringify(error.errorContent));
+        else setErrorMessage(error.errorContent);
+        handleOpenModal(ERROR_MODAL);
+    }
 
     function handleNavbarDisplay(overridingToggle) {
         function displayChange(opacity, visibility) {
@@ -73,6 +102,20 @@ export default function Navbar(props) {
         navigate(navMenu);
     }
 
+    function handleLogout() {
+        trackPromise(
+            postCredentialService.postData({
+                endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
+                url: URL_POST_LOGOUT,
+                headers: { "authorization": `Bearer ${cookies.get(CLIENT_USER_INFO, { path: '/' }).credentialToken.accessToken}` },
+            }).then(() => {
+                cookies.remove(CLIENT_USER_INFO, { path: '/' });
+            }).catch((error) => {
+                return handleErrorMessage(error);
+            })
+        );
+    }
+
     // WINDOW FUNCTIONS //
     window.handleOpenOverriding = function (overridingToggle) {
         handleWindowScroll(overridingToggle);
@@ -82,11 +125,14 @@ export default function Navbar(props) {
 
     // COMPONENTS SPECIFIC //
     const ShowProfile = () => {
-        if (!props.login) return <Button onClick={() => window.handleOpenOverriding(LOGIN)}>Login</Button>
-        return <Fragment>
-            <Button >Notification</Button>
-            <Button >Profile</Button>
+        const login = cookies.get(CLIENT_USER_INFO);
+        if (!login) return <Button onClick={() => window.handleOpenOverriding(LOGIN)}>Login</Button>
+        else if (login.user && login.credentialToken) return <Fragment>
+            <FloatButton className="navbar-icon-button navbar-icon-button-bell" />
+            <FloatButton onClick={() => handleOpenModal(LOGOUT_MODAL)} className="navbar-icon-button navbar-icon-button-logout" />
+            <Avatar style={{ cursor: "pointer" }} onClick={() => { }} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
         </Fragment>
+        else return <Button onClick={() => window.handleOpenOverriding(LOGIN)}>Login</Button>
     }
 
     const ShowSearchBar = () => {
@@ -120,6 +166,22 @@ export default function Navbar(props) {
         })
     }
 
+    const ShowLogoutModal = () => {
+        return <div className="navbar-modal-container dark-bg-color">
+            <div className="navbar-modal-wrapper">
+                <Button onClick={() => handleOpenModal(NO_STRING)} className="align-self-end add-catalogue-button red-bg-color">
+                    <h4 className="add-catalogue-button-text">X</h4>
+                </Button>
+                <br />
+                <h2 className="margin-top-0 margin-bottom-12-18">Are you sure to logout your account ?</h2>
+                <div style={{ padding: "0px" }} className="navbar-mobile-menu-row-wrapper">
+                    <Button onClick={() => handleLogout()} style={{ marginRight: "8px" }} >Yes</Button>
+                    <Button className="red-bg-color" onClick={() => handleOpenModal(NO_STRING)}>No</Button>
+                </div>
+            </div>
+        </div>
+    }
+
     // RENDERS SPECIFIC //
     useEffect(() => {
         window.addEventListener("scroll", handleNavbarHide);
@@ -128,6 +190,9 @@ export default function Navbar(props) {
 
     return (
         <Fragment>
+            <Modal className="dark-bg-color" clicked={() => handleOpenModal(NO_STRING)} toggle={modalToggle} >
+                <ShowLogoutModal />
+            </Modal>
             <div style={navbarStyle} ref={ref} className="fixed-top navbar">
                 <div className="navbar-container">
                     <div className="navbar-wrapper">

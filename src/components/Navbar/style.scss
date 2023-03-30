@@ -1,3 +1,29 @@
+// MODAL STYLES //
+.navbar-modal-container{
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    max-width: 50vw;
+    max-height: 80vw;
+
+    @media screen and (max-width: 768px){
+        max-width: 100vw;
+        width: 100vw;
+        max-height: 100vh;
+        height: 100vh;
+    }
+}
+
+.navbar-modal-wrapper{
+    margin: 0px auto;
+    padding: 1em;
+    position: relative;
+    align-items: flex-start;
+    -webkit-box-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
 // NAVBAR MAIN
 .navbar{
     width: 100vw;
@@ -91,7 +117,6 @@
 .navbar-submenu-section :nth-child(n){
     position: relative;
     display: block;
-    margin-right: 12px;
 }
 
 // MOBILE VIEW //
@@ -132,4 +157,29 @@
     flex-direction: row;
     display: flex;
     transition: all 0.5s ease-in-out;
+}
+
+.navbar-icon-button{
+    border-style: none;
+    cursor: pointer;
+    height: 24px !important;
+    width:  24px !important;
+    transition: all 0.3s ease-in-out;
+    background-repeat: no-repeat;
+    background-position: center center;
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    box-shadow: none !important;
+    border-radius: 0px !important;
+}
+
+.navbar-icon-button-bell{
+    background-image: url("../../assets/svg/bell-solid.svg");
+    margin-right: 12px;
+}
+
+.navbar-icon-button-logout{
+    background-image: url("../../assets/svg/logout.svg");
+    margin-right: 12px;
 }

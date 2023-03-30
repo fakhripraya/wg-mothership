@@ -23,7 +23,6 @@ import Spinner from './components/Spinner';
 
 function App() {
 
-  const [loginInfo, setLoginInfo] = useState(null);
   const [style, setStyle] = useState(styleInitialState);
 
   const history = createBrowserHistory({ forceRefresh: true });
@@ -60,7 +59,7 @@ function App() {
   return (
     <ConfigProvider cache={cache}>
       <Router history={history} basename="/">
-        <NavBar loginInfo={loginInfo} setLoginInfo={setLoginInfo} />
+        <NavBar />
         <Routes>
           {routes.map((item, index) => {
             return <Route

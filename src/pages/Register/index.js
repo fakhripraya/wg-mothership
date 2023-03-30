@@ -31,7 +31,7 @@ export default function Register(props) {
     const cookies = new Cookies();
 
     // HOOKS //
-    const postRegisterService = useAxios();
+    const postCredentialService = useAxios();
     const [modalToggle, setModalToggle] = useState(false);
     const [postRegisterData, setPostRegisterData] = useState(postRegisterDataInitialValue);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -58,7 +58,7 @@ export default function Register(props) {
 
     function handleAfterRegister(data, callback) {
         trackPromise(
-            postRegisterService.postData({
+            postCredentialService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 url: URL_POST_LOGIN,
                 data: data
@@ -75,7 +75,7 @@ export default function Register(props) {
         var result = handleLocalFilter();
         if (result.error) return result.cb();
         trackPromise(
-            postRegisterService.postData({
+            postCredentialService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 url: URL_POST_REGISTER,
                 data: postRegisterData
@@ -97,7 +97,8 @@ export default function Register(props) {
     }
 
     function handleErrorMessage(error) {
-        setErrorMessage(JSON.stringify(error.errorContent))
+        if (typeof error.errorContent !== 'string') setErrorMessage(JSON.stringify(error.errorContent));
+        else setErrorMessage(error.errorContent);
         handleOpenModal();
     }
 
@@ -110,9 +111,9 @@ export default function Register(props) {
     }
 
     // COMPONENTS SPECIFIC //
-    const ShowModal = () => {
-        return <div className="register-upload-container dark-bg-color">
-            <div className="register-upload-wrapper">
+    const ShowUploadModal = () => {
+        return <div className="register-modal-container dark-bg-color">
+            <div className="register-modal-wrapper">
                 <Button onClick={() => handleOpenModal()} className="align-self-end register-button red-bg-color">
                     <h4 className="register-button-text">X</h4>
                 </Button>
