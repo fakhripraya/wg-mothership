@@ -75,7 +75,7 @@ export default function Login(props) {
     }
 
     // COMPONENTS SPECIFIC //
-    const ShowUploadModal = () => {
+    const ShowModal = () => {
         return <div className="login-modal-container dark-bg-color">
             <div className="login-modal-wrapper">
                 <Button onClick={() => handleOpenModal()} className="align-self-end login-button red-bg-color">

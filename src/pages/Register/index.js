@@ -111,7 +111,7 @@ export default function Register(props) {
     }
 
     // COMPONENTS SPECIFIC //
-    const ShowUploadModal = () => {
+    const ShowModal = () => {
         return <div className="register-modal-container dark-bg-color">
             <div className="register-modal-wrapper">
                 <Button onClick={() => handleOpenModal()} className="align-self-end register-button red-bg-color">

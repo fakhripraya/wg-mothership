@@ -67,7 +67,7 @@ export default function OTP(props) {
     }
 
     // COMPONENTS SPECIFIC //
-    const ShowUploadModal = () => {
+    const ShowModal = () => {
         return <div className="otp-modal-container dark-bg-color">
             <div className="otp-modal-wrapper">
                 <Button onClick={() => handleOpenModal()} className="align-self-end login-button red-bg-color">
