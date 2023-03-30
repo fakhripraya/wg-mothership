@@ -22,10 +22,11 @@ export default function OTP(props) {
 
     // OBJECT CLASSES
     const cookies = new Cookies();
-    postOTPDataInitialValue.credentialToken = cookies.get(CLIENT_USER_INFO).credentialToken;
+    const userInfo = cookies.get(CLIENT_USER_INFO);
+    if (userInfo) postOTPDataInitialValue.credentialToken = cookies.get(CLIENT_USER_INFO).credentialToken;
 
     // HOOKS //
-    const postOTPService = useAxios();
+    const postCredentialService = useAxios();
     const [modalToggle, setModalToggle] = useState(false);
     const [postOTPData, setPostOTPData] = useState(postOTPDataInitialValue);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -38,14 +39,17 @@ export default function OTP(props) {
     }
 
     function handleSubmitOTP() {
+        if (!userInfo) return;
+        if (!postOTPDataInitialValue.credentialToken) return;
         trackPromise(
-            postOTPService.postData({
+            postCredentialService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
-                headers: { "authorization": `Bearer ${cookies.get(CLIENT_USER_INFO).credentialToken.accessToken}` },
+                headers: { "authorization": `Bearer ${postOTPDataInitialValue.credentialToken.accessToken}` },
                 url: URL_POST_OTP,
                 data: postOTPData,
             }).then((result) => {
-                console.log(result)
+                cookies.set(CLIENT_USER_INFO, result.responseData, { path: '/' });
+                props.handleOpen(NO_STRING);
             }).catch((error) => {
                 return handleErrorMessage(error);
             })
@@ -57,14 +61,15 @@ export default function OTP(props) {
     }
 
     function handleErrorMessage(error) {
-        setErrorMessage(JSON.stringify(error.errorContent))
+        if (typeof error.errorContent !== 'string') setErrorMessage(JSON.stringify(error.errorContent));
+        else setErrorMessage(error.errorContent);
         handleOpenModal();
     }
 
     // COMPONENTS SPECIFIC //
     const ShowUploadModal = () => {
-        return <div className="login-upload-container dark-bg-color">
-            <div className="login-upload-wrapper">
+        return <div className="otp-modal-container dark-bg-color">
+            <div className="otp-modal-wrapper">
                 <Button onClick={() => handleOpenModal()} className="align-self-end login-button red-bg-color">
                     <h4 className="login-button-text">X</h4>
                 </Button>
@@ -88,7 +93,7 @@ export default function OTP(props) {
             <OverridingContainer toggle={props.toggle === OTP_PAGE}>
                 <div className="sticky-top">
                     <ShowNavbar>
-                        <img onClick={() => { props.handleOpen(NO_STRING) }} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
+                        <img onClick={() => props.handleOpen(NO_STRING)} className='navbar-mobile-hamburger-image' src={XMark} alt="ic_hamburger" />
                     </ShowNavbar>
                     <div className="otp-container">
                         <div className="otp-wrapper">

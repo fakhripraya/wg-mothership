@@ -4,6 +4,10 @@ export const NO_STRING = "";
 // MENU
 export const MENU_MOBILE = "MENU_MOBILE";
 
+// NAVBAR MODALS
+export const LOGOUT_MODAL = "LOGOUT_MODAL";
+export const ERROR_MODAL = "ERROR_MODAL";
+
 // CREDENTIAL PAGES
 export const LOGIN = "LOGIN";
 export const REGISTER = "REGISTER";
@@ -30,6 +34,9 @@ export const RTC_PEER_UNTRUSTED_CONNECTION = "RTC_PEER_UNTRUSTED_CONNECTION";
 //RTC CONNECTION STATE //
 export const FAILED = "FAILED";
 
+//AXIOS DEFAULTS //
+export const AXIOS_DEFAULT_ERROR_CONTENT = "Something went wrong, please report via our whatsapp number on the bottom right corner";
+
 // XHR METHOD //
 export const GET = "GET";
 export const POST = "POST";
@@ -44,6 +51,7 @@ export const URL_ROOM_CREATE = '/v1/room/create';
 // OLYMPUS SERVICE ROUTE
 export const URL_POST_REGISTER = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/signup`;
 export const URL_POST_LOGIN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/login`;
+export const URL_POST_LOGOUT = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/logout`;
 export const URL_POST_OTP = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/verify/otp`;
 
 // USER RDP ROLE

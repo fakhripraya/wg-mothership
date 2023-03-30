@@ -29,7 +29,7 @@ export default function Login(props) {
     const cookies = new Cookies();
 
     // HOOKS //
-    const postLoginService = useAxios();
+    const postCredentialService = useAxios();
     const [modalToggle, setModalToggle] = useState(false);
     const [postLoginData, setPostLoginData] = useState(postLoginDataInitialValue);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -43,7 +43,7 @@ export default function Login(props) {
 
     function handleLoginRequest(callback) {
         trackPromise(
-            postLoginService.postData({
+            postCredentialService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 url: URL_POST_LOGIN,
                 data: postLoginData
@@ -61,7 +61,8 @@ export default function Login(props) {
     }
 
     function handleErrorMessage(error) {
-        setErrorMessage(JSON.stringify(error.errorContent))
+        if (typeof error.errorContent !== 'string') setErrorMessage(JSON.stringify(error.errorContent));
+        else setErrorMessage(error.errorContent);
         handleOpenModal();
     }
 
@@ -75,8 +76,8 @@ export default function Login(props) {
 
     // COMPONENTS SPECIFIC //
     const ShowUploadModal = () => {
-        return <div className="login-upload-container dark-bg-color">
-            <div className="login-upload-wrapper">
+        return <div className="login-modal-container dark-bg-color">
+            <div className="login-modal-wrapper">
                 <Button onClick={() => handleOpenModal()} className="align-self-end login-button red-bg-color">
                     <h4 className="login-button-text">X</h4>
                 </Button>
