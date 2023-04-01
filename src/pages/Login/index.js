@@ -22,6 +22,7 @@ import { trackPromise } from 'react-promise-tracker';
 import { useAxios } from '../../utils/hooks/useAxios';
 import { postLoginDataInitialValue } from '../../variables/dummy/login';
 import Modal from '../../components/Modal';
+import { handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
 
 export default function Login(props) {
 
@@ -51,19 +52,9 @@ export default function Login(props) {
                 cookies.set(CLIENT_USER_INFO, result.responseData, { path: '/' });
                 callback();
             }).catch((error) => {
-                return handleErrorMessage(error);
+                return handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
             })
         );
-    }
-
-    function handleOpenModal() {
-        setModalToggle(!modalToggle);
-    }
-
-    function handleErrorMessage(error) {
-        if (typeof error.errorContent !== 'string') setErrorMessage(JSON.stringify(error.errorContent));
-        else setErrorMessage(error.errorContent);
-        handleOpenModal();
     }
 
     function handleOpenForgotPassword() {
@@ -78,7 +69,7 @@ export default function Login(props) {
     const ShowModal = () => {
         return <div className="login-modal-container dark-bg-color">
             <div className="login-modal-wrapper">
-                <Button onClick={() => handleOpenModal()} className="align-self-end login-button red-bg-color">
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end login-button red-bg-color">
                     <h4 className="login-button-text">X</h4>
                 </Button>
                 <br />

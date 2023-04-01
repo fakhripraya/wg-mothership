@@ -24,6 +24,7 @@ import { trackPromise } from 'react-promise-tracker';
 import Modal from '../../components/Modal';
 import { ERROR_CONFIRM_PASSWORD } from '../../variables/errorMessages/register';
 import Cookies from 'universal-cookie';
+import { handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
 
 export default function Register(props) {
 
@@ -87,19 +88,9 @@ export default function Register(props) {
                     props.handleOpen(OTP_PAGE);
                 });
             }).catch((error) => {
-                return handleErrorMessage(error);
+                return handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
             })
         );
-    }
-
-    function handleOpenModal() {
-        setModalToggle(!modalToggle);
-    }
-
-    function handleErrorMessage(error) {
-        if (typeof error.errorContent !== 'string') setErrorMessage(JSON.stringify(error.errorContent));
-        else setErrorMessage(error.errorContent);
-        handleOpenModal();
     }
 
     function handleOpenForgotPassword() {
@@ -114,7 +105,7 @@ export default function Register(props) {
     const ShowModal = () => {
         return <div className="register-modal-container dark-bg-color">
             <div className="register-modal-wrapper">
-                <Button onClick={() => handleOpenModal()} className="align-self-end register-button red-bg-color">
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end register-button red-bg-color">
                     <h4 className="register-button-text">X</h4>
                 </Button>
                 <br />

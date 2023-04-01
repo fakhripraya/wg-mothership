@@ -16,6 +16,7 @@ import { useAxios } from '../../utils/hooks/useAxios';
 import { trackPromise } from 'react-promise-tracker';
 import { postNewPWInitialValue } from '../../variables/dummy/newpassword';
 import Modal from '../../components/Modal';
+import { handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
 
 export default function NewPassword(props) {
 
@@ -41,18 +42,9 @@ export default function NewPassword(props) {
             }).then(() => {
                 callback();
             }).catch((error) => {
-                return handleErrorMessage(error);
+                return handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
             })
         );
-    }
-
-    function handleOpenModal() {
-        setModalToggle(!modalToggle);
-    }
-
-    function handleErrorMessage(error) {
-        setErrorMessage(JSON.stringify(error.errorContent))
-        handleOpenModal();
     }
 
     function handleOpenLogin() {
@@ -66,7 +58,7 @@ export default function NewPassword(props) {
     const ShowModal = () => {
         return <div className="login-upload-container dark-bg-color">
             <div className="login-upload-wrapper">
-                <Button onClick={() => handleOpenModal()} className="align-self-end login-button red-bg-color">
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end login-button red-bg-color">
                     <h4 className="login-button-text">X</h4>
                 </Button>
                 <br />
@@ -97,14 +89,14 @@ export default function NewPassword(props) {
                             <h3 className="margin-top-0 margin-bottom-12-18">Alright, Nicely Done Pal, Now Just Input Your New Pass</h3>
                             <div className="new-password-textinput-box">
                                 <label className="new-password-input-title">New Pass</label>
-                                <TextInput  value={postNewPWData.newPassword} onChange={(e) => handleTextChange("newPassword", e)} type="password" className="new-password-textinput text-align-center" />
+                                <TextInput value={postNewPWData.newPassword} onChange={(e) => handleTextChange("newPassword", e)} type="password" className="new-password-textinput text-align-center" />
                             </div>
                             <div className="new-password-textinput-box">
                                 <label className="new-password-input-title">Confirm</label>
-                                <TextInput  value={postNewPWData.confirmPassword} onChange={(e) => handleTextChange("confirmPassword", e)} type="password" className="new-password-textinput text-align-center" />
+                                <TextInput value={postNewPWData.confirmPassword} onChange={(e) => handleTextChange("confirmPassword", e)} type="password" className="new-password-textinput text-align-center" />
                             </div>
                             <h3 onClick={() => handleOpenLogin()} className="new-password-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
-                            <Button onClick={() => handleNewPWRequest(()=> handleAfterSubmitNewPassword())} className="new-password-button dark-bg-color">
+                            <Button onClick={() => handleNewPWRequest(() => handleAfterSubmitNewPassword())} className="new-password-button dark-bg-color">
                                 <h3 className="new-password-button-text">Submit</h3>
                             </Button>
                         </div>

@@ -40,6 +40,7 @@ import FloatButton from '../FloatButton';
 import Modal from '../Modal';
 import { trackPromise } from 'react-promise-tracker';
 import { useAxios } from '../../utils/hooks/useAxios';
+import { handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
 
 export default function Navbar() {
 
@@ -57,22 +58,10 @@ export default function Navbar() {
     // STATES
     const [toggleOverride, setToggleOverride] = useState(NO_STRING);
     const [modalToggle, setModalToggle] = useState(false);
-    const [modalName, setModalName] = useState(NO_STRING);
     const [navbarStyle, setNavbarStyle] = useState(navbarInitialStyle);
     const [errorMessage, setErrorMessage] = useState(null);
 
     // FUNCTIONS SPECIFIC //
-    function handleOpenModal(modalName) {
-        setModalName(modalName);
-        setModalToggle(!modalToggle);
-    }
-
-    function handleErrorMessage(error) {
-        if (typeof error.errorContent !== 'string') setErrorMessage(JSON.stringify(error.errorContent));
-        else setErrorMessage(error.errorContent);
-        handleOpenModal(ERROR_MODAL);
-    }
-
     function handleNavbarDisplay(overridingToggle) {
         function displayChange(opacity, visibility) {
             ref.current.style.opacity = opacity;
@@ -110,8 +99,11 @@ export default function Navbar() {
                 headers: { "authorization": `Bearer ${cookies.get(CLIENT_USER_INFO, { path: '/' }).credentialToken.accessToken}` },
             }).then(() => {
                 cookies.remove(CLIENT_USER_INFO, { path: '/' });
+                window.handleOpenOverriding(NO_STRING);
+                handleOpenModal(setModalToggle, modalToggle);
+                navigate('/');
             }).catch((error) => {
-                return handleErrorMessage(error);
+                return handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
             })
         );
     }
@@ -129,7 +121,7 @@ export default function Navbar() {
         if (!login) return <Button onClick={() => window.handleOpenOverriding(LOGIN)}>Login</Button>
         else if (login.user && login.credentialToken) return <Fragment>
             <FloatButton className="navbar-icon-button navbar-icon-button-bell" />
-            <FloatButton onClick={() => handleOpenModal(LOGOUT_MODAL)} className="navbar-icon-button navbar-icon-button-logout" />
+            <FloatButton onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="navbar-icon-button navbar-icon-button-logout" />
             <Avatar style={{ cursor: "pointer" }} onClick={() => { }} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
         </Fragment>
         else return <Button onClick={() => window.handleOpenOverriding(LOGIN)}>Login</Button>
@@ -169,14 +161,14 @@ export default function Navbar() {
     const ShowLogoutModal = () => {
         return <div className="navbar-modal-container dark-bg-color">
             <div className="navbar-modal-wrapper">
-                <Button onClick={() => handleOpenModal(NO_STRING)} className="align-self-end add-catalogue-button red-bg-color">
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end add-catalogue-button red-bg-color">
                     <h4 className="add-catalogue-button-text">X</h4>
                 </Button>
                 <br />
                 <h2 className="margin-top-0 margin-bottom-12-18">Are you sure to logout your account ?</h2>
                 <div style={{ padding: "0px" }} className="navbar-mobile-menu-row-wrapper">
                     <Button onClick={() => handleLogout()} style={{ marginRight: "8px" }} >Yes</Button>
-                    <Button className="red-bg-color" onClick={() => handleOpenModal(NO_STRING)}>No</Button>
+                    <Button className="red-bg-color" onClick={() => handleOpenModal(setModalToggle, modalToggle)}>No</Button>
                 </div>
             </div>
         </div>
@@ -190,7 +182,7 @@ export default function Navbar() {
 
     return (
         <Fragment>
-            <Modal className="dark-bg-color" clicked={() => handleOpenModal(NO_STRING)} toggle={modalToggle} >
+            <Modal className="dark-bg-color" clicked={() => handleOpenModal(setModalToggle, modalToggle)} toggle={modalToggle} >
                 <ShowLogoutModal />
             </Modal>
             <div style={navbarStyle} ref={ref} className="fixed-top navbar">

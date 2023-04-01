@@ -17,6 +17,7 @@ import { useAxios } from '../../utils/hooks/useAxios';
 import Modal from '../../components/Modal';
 import { postOTPDataInitialValue } from '../../variables/dummy/otp';
 import { trackPromise } from 'react-promise-tracker';
+import { handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
 
 export default function OTP(props) {
 
@@ -51,26 +52,16 @@ export default function OTP(props) {
                 cookies.set(CLIENT_USER_INFO, result.responseData, { path: '/' });
                 props.handleOpen(NO_STRING);
             }).catch((error) => {
-                return handleErrorMessage(error);
+                return handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
             })
         );
-    }
-
-    function handleOpenModal() {
-        setModalToggle(!modalToggle);
-    }
-
-    function handleErrorMessage(error) {
-        if (typeof error.errorContent !== 'string') setErrorMessage(JSON.stringify(error.errorContent));
-        else setErrorMessage(error.errorContent);
-        handleOpenModal();
     }
 
     // COMPONENTS SPECIFIC //
     const ShowModal = () => {
         return <div className="otp-modal-container dark-bg-color">
             <div className="otp-modal-wrapper">
-                <Button onClick={() => handleOpenModal()} className="align-self-end login-button red-bg-color">
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end login-button red-bg-color">
                     <h4 className="login-button-text">X</h4>
                 </Button>
                 <br />

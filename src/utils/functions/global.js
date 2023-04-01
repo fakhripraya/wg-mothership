@@ -58,3 +58,15 @@ export const getBase64 = (file) => {
         reader.readAsDataURL(file);
     });
 }
+
+export function handleOpenModal(setModalToggle, modalToggle) {
+    setModalToggle(!modalToggle);
+}
+
+export function handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle) {
+    if (!error) return;
+    if (!error.errorContent) return;
+    if (typeof error.errorContent !== 'string') setErrorMessage(JSON.stringify(error.errorContent));
+    else setErrorMessage(error.errorContent);
+    handleOpenModal(setModalToggle, modalToggle);
+}
