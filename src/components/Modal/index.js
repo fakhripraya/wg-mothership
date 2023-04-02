@@ -1,10 +1,10 @@
 import './style.scss';
-import React, { Fragment, useRef, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
 export default function Modal(props) {
 
-    const { className, bgClassName, children, toggle, clicked } = props;
-    const ref = useRef();
+    let { className, bgClassName, children, toggle, clicked } = props;
+    if (!clicked) clicked = () => null;
 
     function handleOnClick() {
         clicked();

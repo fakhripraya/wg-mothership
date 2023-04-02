@@ -86,7 +86,7 @@ export default function Login(props) {
 
     return (
         <Fragment>
-            <Modal className="dark-bg-color" toggle={modalToggle} >
+            <Modal className="dark-bg-color" clicked={() => handleOpenModal(setModalToggle, modalToggle)} toggle={modalToggle} >
                 <ShowModal />
             </Modal>
             <OverridingContainer toggle={props.toggle === LOGIN}>

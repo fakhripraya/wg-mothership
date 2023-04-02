@@ -51,7 +51,7 @@ export default function Register(props) {
         }
         if (postRegisterData.confirmPassword !== postRegisterData.password) {
             result.error = true;
-            result.cb = () => handleErrorMessage(ERROR_CONFIRM_PASSWORD);
+            result.cb = () => handleErrorMessage(ERROR_CONFIRM_PASSWORD, setErrorMessage, setModalToggle, modalToggle);
             return result;
         }
         return result;
@@ -67,7 +67,7 @@ export default function Register(props) {
                 cookies.set(CLIENT_USER_INFO, result.responseData, { path: '/' });
                 callback();
             }).catch((error) => {
-                return handleErrorMessage(error);
+                return handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
             })
         );
     }
@@ -122,7 +122,7 @@ export default function Register(props) {
 
     return (
         <Fragment>
-            <Modal className="dark-bg-color" toggle={modalToggle} >
+            <Modal className="dark-bg-color" clicked={() => handleOpenModal(setModalToggle, modalToggle)} toggle={modalToggle} >
                 <ShowModal />
             </Modal>
             <OverridingContainer toggle={props.toggle === REGISTER}>

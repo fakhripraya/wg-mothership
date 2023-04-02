@@ -1,3 +1,20 @@
+// MODAL STYLES //
+.forgot-password-modal-container{
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+}
+
+.forgot-password-modal-wrapper{
+    margin: 0px auto;
+    padding: 1em;
+    position: relative;
+    align-items: flex-start;
+    -webkit-box-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
 // MAIN STYLES //
 .forgot-password-container{
     min-height: 100vh;

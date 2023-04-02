@@ -56,10 +56,10 @@ export default function NewPassword(props) {
 
     // COMPONENTS SPECIFIC //
     const ShowModal = () => {
-        return <div className="login-upload-container dark-bg-color">
-            <div className="login-upload-wrapper">
-                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end login-button red-bg-color">
-                    <h4 className="login-button-text">X</h4>
+        return <div className="new-password-modal-container dark-bg-color">
+            <div className="new-password-modal-wrapper">
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end new-password-button red-bg-color">
+                    <h4 className="new-password-button-text">X</h4>
                 </Button>
                 <br />
                 <h3 className="margin-top-0 margin-bottom-12-18">
@@ -75,7 +75,7 @@ export default function NewPassword(props) {
 
     return (
         <Fragment>
-            <Modal className="dark-bg-color" toggle={modalToggle} >
+            <Modal className="dark-bg-color" clicked={() => handleOpenModal(setModalToggle, modalToggle)} toggle={modalToggle} >
                 <ShowModal />
             </Modal>
             <OverridingContainer toggle={props.toggle === NEW_PASSWORD}>
@@ -86,7 +86,7 @@ export default function NewPassword(props) {
                     <div className="new-password-container">
                         <div className="new-password-wrapper">
                             <h2 className="margin-bottom-12-18">It Is You ! Nice !!</h2>
-                            <h3 className="margin-top-0 margin-bottom-12-18">Alright, Nicely Done Pal, Now Just Input Your New Pass</h3>
+                            <h3 className="margin-top-0 margin-bottom-12-18">Alright, nicely done pal, now just input your new pass</h3>
                             <div className="new-password-textinput-box">
                                 <label className="new-password-input-title">New Pass</label>
                                 <TextInput value={postNewPWData.newPassword} onChange={(e) => handleTextChange("newPassword", e)} type="password" className="new-password-textinput text-align-center" />

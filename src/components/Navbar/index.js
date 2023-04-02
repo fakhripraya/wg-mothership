@@ -9,7 +9,7 @@ import Button from '../Button';
 import Footer from '../Footer';
 import TextInput from '../TextInput';
 import {
-    useNavigate
+    useNavigate, useSearchParams
 } from 'react-router-dom';
 import OverridingContainer from '../OveriddingContainer';
 import WGLogo from '../../assets/images/ic_new_wg_logo.png';
@@ -30,7 +30,9 @@ import {
     CLIENT_USER_INFO,
     LOGOUT_MODAL,
     URL_POST_LOGOUT,
-    ERROR_MODAL
+    ERROR_MODAL,
+    NEW_PASSWORD,
+    URL_POST_NEW_PW
 } from '../../variables/global';
 import { ShowNavbar } from '../Global';
 import { navbarInitialStyle } from '../../variables/styles/navbar';
@@ -60,6 +62,9 @@ export default function Navbar() {
     const [modalToggle, setModalToggle] = useState(false);
     const [navbarStyle, setNavbarStyle] = useState(navbarInitialStyle);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [error, setError] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const [searchParams, setSearchParams] = useSearchParams();
 
     // FUNCTIONS SPECIFIC //
     function handleNavbarDisplay(overridingToggle) {
@@ -97,13 +102,17 @@ export default function Navbar() {
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 url: URL_POST_LOGOUT,
                 headers: { "authorization": `Bearer ${cookies.get(CLIENT_USER_INFO, { path: '/' }).credentialToken.accessToken}` },
+                data: cookies.get(CLIENT_USER_INFO, { path: '/' })
             }).then(() => {
-                cookies.remove(CLIENT_USER_INFO, { path: '/' });
                 window.handleOpenOverriding(NO_STRING);
                 handleOpenModal(setModalToggle, modalToggle);
+                setError(false);
                 navigate('/');
             }).catch((error) => {
+                setError(true);
                 return handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
+            }).finally(() => {
+                cookies.remove(CLIENT_USER_INFO, { path: '/' });
             })
         );
     }
@@ -158,6 +167,24 @@ export default function Navbar() {
         })
     }
 
+    const ShowErrorModal = () => {
+        return <div className="navbar-modal-container dark-bg-color">
+            <div className="navbar-modal-wrapper">
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end otp-button red-bg-color">
+                    <h4 className="otp-button-text">X</h4>
+                </Button>
+                <br />
+                <h3 className="margin-top-0 margin-bottom-12-18">
+                    There is an <span className="red-color">ERROR</span>
+                </h3>
+                <br />
+                <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
+                    {errorMessage}
+                </label>
+            </div>
+        </div>
+    }
+
     const ShowLogoutModal = () => {
         return <div className="navbar-modal-container dark-bg-color">
             <div className="navbar-modal-wrapper">
@@ -174,16 +201,40 @@ export default function Navbar() {
         </div>
     }
 
+    const ShowModal = () => {
+        if (error) return <ShowErrorModal />
+        else return <ShowLogoutModal />
+    }
+
     // RENDERS SPECIFIC //
     useEffect(() => {
         window.addEventListener("scroll", handleNavbarHide);
+        const recoveryToken = searchParams.get("recoveryToken");
+        if (recoveryToken) {
+            trackPromise(
+                postCredentialService.postData({
+                    endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
+                    url: URL_POST_NEW_PW,
+                    data: {
+                        recoveryToken: recoveryToken
+                    }
+                }).then(() => {
+                    window.handleOpenOverriding(NEW_PASSWORD)
+                }).catch((error) => {
+                    setError(true);
+                    handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
+                    navigate('/');
+                })
+            );
+        }
+
         return () => window.removeEventListener("scroll", handleNavbarHide);
     }, []);
 
     return (
         <Fragment>
             <Modal className="dark-bg-color" clicked={() => handleOpenModal(setModalToggle, modalToggle)} toggle={modalToggle} >
-                <ShowLogoutModal />
+                <ShowModal />
             </Modal>
             <div style={navbarStyle} ref={ref} className="fixed-top navbar">
                 <div className="navbar-container">
@@ -191,14 +242,14 @@ export default function Navbar() {
                         <div className="navbar-logo-wrapper">
                             <img onClick={() => handlePageNavigation('/')} className="navbar-logo-img" src={WGLogo} alt="WG_LOGO"></img>
                         </div>
-                        <img onClick={() => { window.handleOpenOverriding(MENU_MOBILE) }} className='navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view' src={ICHamburger} alt="ic_hamburger" />
+                        <img onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view' src={ICHamburger} alt="ic_hamburger" />
                     </div>
                 </div>
             </div>
             <OverridingContainer toggle={toggleOverride === MENU_MOBILE}>
                 <div className="sticky-top">
                     <ShowNavbar>
-                        <img onClick={() => { window.handleOpenOverriding(NO_STRING) }} className='navbar-mobile-hamburger-image' src={ICHamburger} alt="ic_hamburger" />
+                        <img onClick={() => window.handleOpenOverriding(NO_STRING)} className='navbar-mobile-hamburger-image' src={ICHamburger} alt="ic_hamburger" />
                     </ShowNavbar>
                     <ul className="navbar-mobile-menu-wrapper">
                         <ShowSearchBar />

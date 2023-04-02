@@ -27,7 +27,6 @@ export default function ForgotPassword(props) {
     const [postForgotPWData, setPostForgotPWData] = useState(postForgotPWInitialValue);
     const [success, setSuccess] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
-    const [successMessage, setSuccessMessage] = useState(null);
 
     // FUNCTIONS SPECIFIC //
     function handleTextChange(field, event) {
@@ -45,6 +44,7 @@ export default function ForgotPassword(props) {
             }).then((result) => {
                 callback(result);
             }).catch((error) => {
+                setSuccess(false);
                 return handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
             })
         );
@@ -55,7 +55,6 @@ export default function ForgotPassword(props) {
     }
 
     function handleAfterSubmitEmail(result) {
-        setSuccessMessage(JSON.stringify(result.responseData));
         setSuccess(true);
         handleOpenModal(setModalToggle, modalToggle);
     }
@@ -75,16 +74,22 @@ export default function ForgotPassword(props) {
     }
 
     const ShowModal = () => {
-        return <div className="login-upload-container dark-bg-color">
-            <div className="login-upload-wrapper">
-                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end login-button red-bg-color">
-                    <h4 className="login-button-text">X</h4>
+
+        const ShowTitle = () => {
+            if (success) return <ShowSuccessTitle />
+            else return <ShowErrorTitle />
+        }
+
+        return <div className="forgot-password-modal-container dark-bg-color">
+            <div className="forgot-password-modal-wrapper">
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end forgot-password-button red-bg-color">
+                    <h4 className="forgot-password-button-text">X</h4>
                 </Button>
                 <br />
-                {success ? <ShowSuccessTitle /> : <ShowErrorTitle />}
+                <ShowTitle />
                 <br />
                 <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
-                    {success ? successMessage : errorMessage}
+                    {success ? "Password recovery email has been sent" : errorMessage}
                 </label>
             </div>
         </div>
@@ -92,7 +97,7 @@ export default function ForgotPassword(props) {
 
     return (
         <Fragment>
-            <Modal className="dark-bg-color" toggle={modalToggle} >
+            <Modal className="dark-bg-color" clicked={() => handleOpenModal(setModalToggle, modalToggle)} toggle={modalToggle} >
                 <ShowModal />
             </Modal>
             <OverridingContainer toggle={props.toggle === FORGOT_PASSWORD}>
@@ -103,7 +108,7 @@ export default function ForgotPassword(props) {
                     <div className="forgot-password-container">
                         <div className="forgot-password-wrapper">
                             <h2 className="margin-bottom-12-18">Lose Your Password ?</h2>
-                            <h3 className="margin-top-0 margin-bottom-12-18">Don't Worry We Got You, Just Send Us A Recovery Email</h3>
+                            <h3 className="margin-top-0 margin-bottom-12-18">Don't worry we got you, we will send you a password recovery email</h3>
                             <div className="forgot-password-textinput-box">
                                 <label className="forgot-password-input-title">Email</label>
                                 <TextInput value={postForgotPWData.email} onChange={(e) => handleTextChange("email", e)} type="text" className="forgot-password-textinput text-align-center" />

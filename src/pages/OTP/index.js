@@ -61,8 +61,8 @@ export default function OTP(props) {
     const ShowModal = () => {
         return <div className="otp-modal-container dark-bg-color">
             <div className="otp-modal-wrapper">
-                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end login-button red-bg-color">
-                    <h4 className="login-button-text">X</h4>
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end otp-button red-bg-color">
+                    <h4 className="otp-button-text">X</h4>
                 </Button>
                 <br />
                 <h3 className="margin-top-0 margin-bottom-12-18">
@@ -78,7 +78,7 @@ export default function OTP(props) {
 
     return (
         <Fragment>
-            <Modal className="dark-bg-color" toggle={modalToggle} >
+            <Modal className="dark-bg-color" clicked={() => handleOpenModal(setModalToggle, modalToggle)} toggle={modalToggle} >
                 <ShowModal />
             </Modal>
             <OverridingContainer toggle={props.toggle === OTP_PAGE}>
