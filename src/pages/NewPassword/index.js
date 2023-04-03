@@ -17,14 +17,17 @@ import { trackPromise } from 'react-promise-tracker';
 import { postNewPWInitialValue } from '../../variables/dummy/newpassword';
 import Modal from '../../components/Modal';
 import { handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
+import { useSearchParams } from 'react-router-dom';
 
 export default function NewPassword(props) {
 
     // HOOKS //
-    const postLoginService = useAxios();
+    const postCredentialService = useAxios();
     const [modalToggle, setModalToggle] = useState(false);
     const [postNewPWData, setPostNewPWData] = useState(postNewPWInitialValue);
     const [errorMessage, setErrorMessage] = useState(null);
+    // eslint-disable-next-line no-unused-vars
+    const [searchParams, setSearchParams] = useSearchParams();
 
     // FUNCTIONS SPECIFIC //
     function handleTextChange(field, event) {
@@ -34,24 +37,27 @@ export default function NewPassword(props) {
     }
 
     function handleNewPWRequest(callback) {
-        trackPromise(
-            postLoginService.postData({
-                endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
-                url: URL_POST_NEW_PW,
-                data: postNewPWData
-            }).then(() => {
-                callback();
-            }).catch((error) => {
-                return handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
-            })
-        );
+        const recoveryToken = searchParams.get("recoveryToken");
+        if (recoveryToken) {
+            trackPromise(
+                postCredentialService.postData({
+                    endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
+                    url: URL_POST_NEW_PW,
+                    data: {
+                        recoveryToken: recoveryToken,
+                        ...postNewPWData
+                    }
+                }).then(() => {
+                    callback();
+                }).catch((error) => {
+                    handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
+                })
+            );
+        }
     }
 
     function handleOpenLogin() {
         props.handleOpen(LOGIN);
-    }
-
-    function handleAfterSubmitNewPassword() {
     }
 
     // COMPONENTS SPECIFIC //
@@ -86,7 +92,7 @@ export default function NewPassword(props) {
                     <div className="new-password-container">
                         <div className="new-password-wrapper">
                             <h2 className="margin-bottom-12-18">It Is You ! Nice !!</h2>
-                            <h3 className="margin-top-0 margin-bottom-12-18">Alright, nicely done pal, now just input your new pass</h3>
+                            <h3 className="margin-top-0 margin-bottom-12-18">Nicely done pal, now just input your new pass</h3>
                             <div className="new-password-textinput-box">
                                 <label className="new-password-input-title">New Pass</label>
                                 <TextInput value={postNewPWData.newPassword} onChange={(e) => handleTextChange("newPassword", e)} type="password" className="new-password-textinput text-align-center" />
@@ -96,7 +102,7 @@ export default function NewPassword(props) {
                                 <TextInput value={postNewPWData.confirmPassword} onChange={(e) => handleTextChange("confirmPassword", e)} type="password" className="new-password-textinput text-align-center" />
                             </div>
                             <h3 onClick={() => handleOpenLogin()} className="new-password-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
-                            <Button onClick={() => handleNewPWRequest(() => handleAfterSubmitNewPassword())} className="new-password-button dark-bg-color">
+                            <Button onClick={() => handleNewPWRequest(() => handleOpenLogin())} className="new-password-button dark-bg-color">
                                 <h3 className="new-password-button-text">Submit</h3>
                             </Button>
                         </div>

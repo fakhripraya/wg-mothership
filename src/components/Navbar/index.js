@@ -28,11 +28,9 @@ import {
     LOGIN,
     MENU_MOBILE,
     CLIENT_USER_INFO,
-    LOGOUT_MODAL,
     URL_POST_LOGOUT,
-    ERROR_MODAL,
     NEW_PASSWORD,
-    URL_POST_NEW_PW
+    URL_POST_RECOVERY_TOKEN_CHECK
 } from '../../variables/global';
 import { ShowNavbar } from '../Global';
 import { navbarInitialStyle } from '../../variables/styles/navbar';
@@ -130,7 +128,10 @@ export default function Navbar() {
         if (!login) return <Button onClick={() => window.handleOpenOverriding(LOGIN)}>Login</Button>
         else if (login.user && login.credentialToken) return <Fragment>
             <FloatButton className="navbar-icon-button navbar-icon-button-bell" />
-            <FloatButton onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="navbar-icon-button navbar-icon-button-logout" />
+            <FloatButton onClick={() => {
+                setError(false);
+                handleOpenModal(setModalToggle, modalToggle);
+            }} className="navbar-icon-button navbar-icon-button-logout" />
             <Avatar style={{ cursor: "pointer" }} onClick={() => { }} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
         </Fragment>
         else return <Button onClick={() => window.handleOpenOverriding(LOGIN)}>Login</Button>
@@ -214,16 +215,17 @@ export default function Navbar() {
             trackPromise(
                 postCredentialService.postData({
                     endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
-                    url: URL_POST_NEW_PW,
+                    url: URL_POST_RECOVERY_TOKEN_CHECK,
                     data: {
                         recoveryToken: recoveryToken
                     }
                 }).then(() => {
-                    window.handleOpenOverriding(NEW_PASSWORD)
+                    setError(false);
+                    window.handleOpenOverriding(NEW_PASSWORD);
                 }).catch((error) => {
                     setError(true);
-                    handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
                     navigate('/');
+                    handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
                 })
             );
         }
