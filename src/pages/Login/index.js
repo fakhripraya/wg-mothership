@@ -43,6 +43,7 @@ export default function Login(props) {
     }
 
     function handleLoginRequest(callback) {
+        console.log(process.env.REACT_APP_OLYMPUS_SERVICE)
         trackPromise(
             postCredentialService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
