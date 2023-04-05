@@ -99,7 +99,6 @@ export default function Navbar() {
             postCredentialService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 url: URL_POST_LOGOUT,
-                headers: { "authorization": `Bearer ${cookies.get(CLIENT_USER_INFO, { path: '/' }).credentialToken.accessToken}` },
                 data: cookies.get(CLIENT_USER_INFO, { path: '/' })
             }).then(() => {
                 window.handleOpenOverriding(NO_STRING);
