@@ -35,7 +35,7 @@ export const RTC_PEER_UNTRUSTED_CONNECTION = "RTC_PEER_UNTRUSTED_CONNECTION";
 export const FAILED = "FAILED";
 
 //AXIOS DEFAULTS //
-export const AXIOS_DEFAULT_ERROR_CONTENT = "Something went wrong, please report via our whatsapp number on the bottom right corner";
+export const AXIOS_DEFAULT_ERROR_CONTENT = "Something went wrong,\nPlease try again or contact our support.";
 
 // XHR METHOD //
 export const GET = "GET";
