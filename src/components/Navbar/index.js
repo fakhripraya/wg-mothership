@@ -222,11 +222,14 @@ export default function Navbar() {
                     setError(false);
                     window.handleOpenOverriding(NEW_PASSWORD);
                 }).catch((error) => {
-                    if (!error) navigate('/');;
-                    if (!error.errorContent) navigate('/');
-
-                    throw new Error(error.errorContent);
-                    navigate('/');
+                    try {
+                        if (!error) return navigate('/');;
+                        if (!error.errorContent) return navigate('/');
+                        else throw new Error(error.errorContent);
+                    } catch (e) {
+                        console.error(e);
+                        return navigate('/');
+                    }
                 })
             );
         }
