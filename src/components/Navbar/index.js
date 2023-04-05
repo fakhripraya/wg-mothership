@@ -224,7 +224,8 @@ export default function Navbar() {
                 }).catch((error) => {
                     if (!error) navigate('/');;
                     if (!error.errorContent) navigate('/');
-                    console.log(error.errorContent);
+
+                    throw new Error(error.errorContent);
                     navigate('/');
                 })
             );
