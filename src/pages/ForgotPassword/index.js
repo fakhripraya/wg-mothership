@@ -22,7 +22,7 @@ import { handleErrorMessage, handleOpenModal } from '../../utils/functions/globa
 export default function ForgotPassword(props) {
 
     // HOOKS //
-    const postLoginService = useAxios();
+    const loginService = useAxios();
     const [modalToggle, setModalToggle] = useState(false);
     const [postForgotPWData, setPostForgotPWData] = useState(postForgotPWInitialValue);
     const [success, setSuccess] = useState(false);
@@ -37,7 +37,7 @@ export default function ForgotPassword(props) {
 
     function handleForgotPWRequest(callback) {
         trackPromise(
-            postLoginService.postData({
+            loginService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 url: URL_POST_FORGOT_PW,
                 data: postForgotPWData

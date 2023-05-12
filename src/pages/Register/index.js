@@ -32,7 +32,7 @@ export default function Register(props) {
     const cookies = new Cookies();
 
     // HOOKS //
-    const postCredentialService = useAxios();
+    const credentialService = useAxios();
     const [modalToggle, setModalToggle] = useState(false);
     const [postRegisterData, setPostRegisterData] = useState(postRegisterDataInitialValue);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -59,7 +59,7 @@ export default function Register(props) {
 
     function handleAfterRegister(data, callback) {
         trackPromise(
-            postCredentialService.postData({
+            credentialService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 url: URL_POST_LOGIN,
                 data: data
@@ -76,7 +76,7 @@ export default function Register(props) {
         var result = handleLocalFilter();
         if (result.error) return result.cb();
         trackPromise(
-            postCredentialService.postData({
+            credentialService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 url: URL_POST_REGISTER,
                 data: postRegisterData
@@ -159,9 +159,6 @@ export default function Register(props) {
                             <div className="register-open-auths">
                                 <Button className="register-open-auths-button light-bg-color">
                                     <img src={GoogleIcon} alt={"google-icon"} />
-                                </Button>
-                                <Button className="register-open-auths-button light-bg-color">
-                                    <img src={FacebookIcon} alt={"facebook-icon"} />
                                 </Button>
                             </div>
                             <br></br>

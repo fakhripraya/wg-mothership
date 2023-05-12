@@ -30,7 +30,9 @@ import {
     CLIENT_USER_INFO,
     URL_POST_LOGOUT,
     NEW_PASSWORD,
-    URL_POST_RECOVERY_TOKEN_CHECK
+    URL_POST_RECOVERY_TOKEN_CHECK,
+    URL_POST_GOOGLE_CALLBACK,
+    DASHBOARD
 } from '../../variables/global';
 import { ShowNavbar } from '../Global';
 import { navbarInitialStyle } from '../../variables/styles/navbar';
@@ -40,7 +42,7 @@ import FloatButton from '../FloatButton';
 import Modal from '../Modal';
 import { trackPromise } from 'react-promise-tracker';
 import { useAxios } from '../../utils/hooks/useAxios';
-import { handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
+import { catchPromiseErrors, handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
 
 export default function Navbar() {
 
@@ -48,7 +50,7 @@ export default function Navbar() {
     const cookies = new Cookies();
 
     // HOOKS //
-    const postCredentialService = useAxios();
+    const credentialService = useAxios();
 
     // VARIABLE
     const ref = useRef();
@@ -63,6 +65,7 @@ export default function Navbar() {
     const [error, setError] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [searchParams, setSearchParams] = useSearchParams();
+    const login = cookies.get(CLIENT_USER_INFO);
 
     // FUNCTIONS SPECIFIC //
     function handleNavbarDisplay(overridingToggle) {
@@ -96,7 +99,7 @@ export default function Navbar() {
 
     function handleLogout() {
         trackPromise(
-            postCredentialService.postData({
+            credentialService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 url: URL_POST_LOGOUT,
                 data: cookies.get(CLIENT_USER_INFO, { path: '/' })
@@ -123,7 +126,6 @@ export default function Navbar() {
 
     // COMPONENTS SPECIFIC //
     const ShowProfile = () => {
-        const login = cookies.get(CLIENT_USER_INFO);
         if (!login) return <Button onClick={() => window.handleOpenOverriding(LOGIN)}>Login</Button>
         else if (login.user && login.credentialToken) return <Fragment>
             <FloatButton className="navbar-icon-button navbar-icon-button-bell" />
@@ -160,7 +162,13 @@ export default function Navbar() {
     }
 
     const ShowMenuButtons = () => {
-        return menus.map((menu, index) => {
+        let renderMenus = menus;
+        if (!login) {
+            const dashboardButtonInfo = renderMenus.find((item) => item.key === DASHBOARD);
+            const dashboardButtonIndex = renderMenus.indexOf(dashboardButtonInfo);
+            renderMenus.splice(dashboardButtonIndex, 1);
+        }
+        return renderMenus.map((menu, index) => {
             return <ShowMenuRow key={`mobile-button-${index}`}>
                 <Button onClick={() => handlePageNavigation(menu.route)}>{menu.name}</Button>
             </ShowMenuRow>
@@ -209,10 +217,10 @@ export default function Navbar() {
     // RENDERS SPECIFIC //
     useEffect(() => {
         window.addEventListener("scroll", handleNavbarHide);
-        const recoveryToken = searchParams.get("recoveryToken");
-        if (recoveryToken) {
+
+        function recoveryTokenListener() {
             trackPromise(
-                postCredentialService.postData({
+                credentialService.postData({
                     endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                     url: URL_POST_RECOVERY_TOKEN_CHECK,
                     data: {
@@ -222,17 +230,30 @@ export default function Navbar() {
                     setError(false);
                     window.handleOpenOverriding(NEW_PASSWORD);
                 }).catch((error) => {
-                    try {
-                        if (!error) return navigate('/');;
-                        if (!error.errorContent) return navigate('/');
-                        else throw new Error(error.errorContent);
-                    } catch (e) {
-                        console.error(e);
-                        return navigate('/');
-                    }
+                    catchPromiseErrors(error, navigate);
                 })
             );
         }
+
+        function googleAuthListener() {
+            const queryString = window.location.search;
+            trackPromise(
+                credentialService.postData({
+                    endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
+                    url: `${URL_POST_GOOGLE_CALLBACK}/${queryString}`,
+                }).then((result) => {
+                    cookies.set(CLIENT_USER_INFO, result.responseData, { path: '/' });
+                }).catch((error) => {
+                    catchPromiseErrors(error, navigate);
+                })
+            );
+        }
+
+        const recoveryToken = searchParams.get("recoveryToken");
+        const searchParamScopes = searchParams.get("scope");
+
+        if (recoveryToken) recoveryTokenListener();
+        else if (searchParamScopes && searchParamScopes.includes("googleapis")) googleAuthListener();
 
         return () => window.removeEventListener("scroll", handleNavbarHide);
     }, []);

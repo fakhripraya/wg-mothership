@@ -1,0 +1,1 @@
+export const PAGE_REDIRECTING_MESSAGE = 'No login found, redirecting to home page ...';

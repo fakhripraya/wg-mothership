@@ -27,7 +27,7 @@ export default function OTP(props) {
     if (userInfo) postOTPDataInitialValue.credentialToken = cookies.get(CLIENT_USER_INFO).credentialToken;
 
     // HOOKS //
-    const postCredentialService = useAxios();
+    const credentialService = useAxios();
     const [modalToggle, setModalToggle] = useState(false);
     const [postOTPData, setPostOTPData] = useState(postOTPDataInitialValue);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -43,7 +43,7 @@ export default function OTP(props) {
         if (!userInfo) return;
         if (!postOTPDataInitialValue.credentialToken) return;
         trackPromise(
-            postCredentialService.postData({
+            credentialService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 headers: { "authorization": `Bearer ${postOTPDataInitialValue.credentialToken.accessToken}` },
                 url: URL_POST_OTP,

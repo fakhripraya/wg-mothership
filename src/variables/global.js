@@ -4,6 +4,11 @@ export const NO_STRING = "";
 // MENU
 export const MENU_MOBILE = "MENU_MOBILE";
 
+// NAVBAR MENU KEY
+export const DASHBOARD = "DASHBOARD";
+export const RENTAL_MARKET = "RENTAL_MARKET";
+export const HOME = "HOME";
+
 // NAVBAR MODALS
 export const LOGOUT_MODAL = "LOGOUT_MODAL";
 export const ERROR_MODAL = "ERROR_MODAL";
@@ -53,6 +58,8 @@ export const URL_POST_REGISTER = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERS
 export const URL_POST_LOGIN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/login`;
 export const URL_POST_FORGOT_PW = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/pw/forgot`;
 export const URL_POST_RECOVERY_TOKEN_CHECK = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/pw/check`;
+export const URL_POST_GOOGLE_URL = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/google/url`;
+export const URL_POST_GOOGLE_CALLBACK = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/google/callback`;
 export const URL_POST_NEW_PW = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/pw/new`;
 export const URL_POST_LOGOUT = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/logout`;
 export const URL_POST_OTP = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/verify/otp`;

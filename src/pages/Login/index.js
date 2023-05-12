@@ -23,6 +23,7 @@ import { useAxios } from '../../utils/hooks/useAxios';
 import { postLoginDataInitialValue } from '../../variables/dummy/login';
 import Modal from '../../components/Modal';
 import { handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
+import { handlePostGoogleAuth } from '../../utils/functions/credentials';
 
 export default function Login(props) {
 
@@ -30,7 +31,7 @@ export default function Login(props) {
     const cookies = new Cookies();
 
     // HOOKS //
-    const postCredentialService = useAxios();
+    const credentialService = useAxios();
     const [modalToggle, setModalToggle] = useState(false);
     const [postLoginData, setPostLoginData] = useState(postLoginDataInitialValue);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -44,7 +45,7 @@ export default function Login(props) {
 
     function handleLoginRequest(callback) {
         trackPromise(
-            postCredentialService.postData({
+            credentialService.postData({
                 endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                 url: URL_POST_LOGIN,
                 data: postLoginData
@@ -115,11 +116,8 @@ export default function Login(props) {
                             <br></br>
                             <h3 className="login-middle-text">Or continue with</h3>
                             <div className="login-open-auths">
-                                <Button className="login-open-auths-button light-bg-color">
+                                <Button onClick={() => handlePostGoogleAuth(credentialService)} className="login-open-auths-button light-bg-color">
                                     <img src={GoogleIcon} alt={"google-icon"} />
-                                </Button>
-                                <Button className="login-open-auths-button light-bg-color">
-                                    <img src={FacebookIcon} alt={"facebook-icon"} />
                                 </Button>
                             </div>
                             <br></br>

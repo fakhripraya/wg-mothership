@@ -11,6 +11,7 @@ import BottomSheet from '../../components/BottomSheet';
 import DashboardHome from '../DashboardHome';
 import DashboardCatalogue from '../DashboardCatalogue';
 import {
+    CLIENT_USER_INFO,
     DASHBOARD_CATALOG,
     DASHBOARD_CHATS,
     DASHBOARD_HOME,
@@ -19,14 +20,20 @@ import {
 import DashboardMyOrders from '../DashboardMyOrders';
 import DashboardChat from '../DashboardChat';
 import Avatar from 'react-avatar';
+import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router-dom';
+import { PAGE_REDIRECTING_MESSAGE } from '../../variables/errorMessages/dashboard';
 
 export default function Dashboard() {
+
+    // OBJECT CLASSES
+    const cookies = new Cookies();
 
     // STATES //
     const [toggle, setToggle] = useState(false);
     const [toggleOpenBody, setToggleOpenBody] = useState(DASHBOARD_HOME);
+    const login = cookies.get(CLIENT_USER_INFO);
 
-    // FUNCTIONS SPECIFIC //
     function handleBottomSheet() {
         setToggle(!toggle);
     }
@@ -44,18 +51,34 @@ export default function Dashboard() {
         window.location.href = `/dashboard/add/toko`;
     }
 
-    // INITIAL RENDER
+    function handleGoToHome() {
+        window.location.replace('/');
+    }
+
+    // EXECUTION AFTER RENDER
     useEffect(() => {
         smoothScrollTop();
     }, []);
 
-    return (
+    console.log()
+
+    if (!login) {
+        // Executing asynchronous call for redirecting to home page
+        handleGoToHome();
+        // Placeholder message while redirecting to home page
+        return <div className="dashboard-container dashboard-redirecting-container">
+            <div className="dashboard-wrapper">
+                {PAGE_REDIRECTING_MESSAGE}
+            </div>
+        </div>
+    }
+    else return (
         <Fragment>
             <div className="dashboard-container">
                 <div className="dashboard-wrapper">
                     <div className="dashboard-flex-container">
                         <div className="dashboard-tools-container">
-                            <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko()} size={"60px"} round={true} title="Wim Mostmans" name="Wim Mostmans" />
+                            <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko()} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_CHATS)} className="dashboard-menu-button dashboard-menu-button-chat" />
@@ -65,7 +88,7 @@ export default function Dashboard() {
                             <div className="dashboard-cards-header">
                                 <div className="dashboard-cards-tool-items">
                                     <FloatButton onClick={() => handleBottomSheet()} className="dashboard-menu-button display-mobile dashboard-menu-button-main" />
-                                    <h3>Hello, Fakhri !</h3>
+                                    <h3>Hello, {login.user.fullName} !</h3>
                                 </div>
                                 <div className="dashboard-cards-tool-items">
                                     <FloatButton className="dashboard-menu-button dashboard-menu-button-no-complaint" />
@@ -84,7 +107,7 @@ export default function Dashboard() {
             </div>
             <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
                 <div className="dashboard-mobile-menu-container">
-                    <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko()} size={"60px"} round={true} title="Wim Mostmans" name="Wim Mostmans" />
+                    <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko()} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
                     <br />
                     <br />
                     <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" >

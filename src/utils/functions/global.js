@@ -70,3 +70,16 @@ export function handleErrorMessage(error, setErrorMessage, setModalToggle, modal
     else setErrorMessage(error.errorContent);
     handleOpenModal(setModalToggle, modalToggle);
 }
+
+export function catchPromiseErrors(error, navigate) {
+    try {
+        if (!error) return navigate('/');;
+        if (!error.errorContent) return navigate('/');
+        else throw new Error(error.errorContent);
+    } catch (e) {
+        console.error(e);
+        return navigate('/');
+    }
+}
+
+export const delayInMilliSecond = (ms) => new Promise(res => setTimeout(res, ms));

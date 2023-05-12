@@ -22,7 +22,7 @@ import { useSearchParams } from 'react-router-dom';
 export default function NewPassword(props) {
 
     // HOOKS //
-    const postCredentialService = useAxios();
+    const credentialService = useAxios();
     const [modalToggle, setModalToggle] = useState(false);
     const [postNewPWData, setPostNewPWData] = useState(postNewPWInitialValue);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -40,7 +40,7 @@ export default function NewPassword(props) {
         const recoveryToken = searchParams.get("recoveryToken");
         if (recoveryToken) {
             trackPromise(
-                postCredentialService.postData({
+                credentialService.postData({
                     endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
                     url: URL_POST_NEW_PW,
                     data: {
