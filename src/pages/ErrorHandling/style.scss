@@ -1,0 +1,25 @@
+.error-handling-container{
+    display: flex;
+    padding-top: 0px;
+    min-height: 100vh;
+    width: 60vw;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+    margin: 0px auto;
+
+    @media screen and (max-width: 1280px){
+        width: 90vw;
+    }
+}
+
+.error-handling-wrapper{
+    margin: 0px auto;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    display: flex;
+    flex-direction: column;
+}

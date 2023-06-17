@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import ProductIcon from '../../assets/svg/bag-shopping-solid.svg';
-import ChatIcon from '../../assets/svg/comment-dots-regular.svg';
-import RentalIcon from '../../assets/svg/book-solid.svg';
-import BellIcon from '../../assets/svg/bell-solid.svg';
-import LineChart from "../../components/LineChart";
 import './style.scss';
+import React, { useState } from 'react'
+import LineChart from "../../components/LineChart";
+import BellIcon from '../../assets/svg/bell-solid.svg';
+import RentalIcon from '../../assets/svg/book-solid.svg';
+import ChatIcon from '../../assets/svg/comment-dots-regular.svg';
+import ProductIcon from '../../assets/svg/bag-shopping-solid.svg';
 import { DASHBOARD_HOME } from '../../variables/global';
 
 const UserData = [
@@ -42,6 +42,7 @@ const UserData = [
 
 export default function DashboardHome(props) {
 
+    // STATES //
     const [userData, setUserData] = useState({
         labels: UserData.map((data) => data.year),
         datasets: [

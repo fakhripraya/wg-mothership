@@ -1,5 +1,5 @@
 import { trackPromise } from "react-promise-tracker";
-import { URL_POST_GOOGLE_URL } from "../../variables/global";
+import { URL_GET_GOOGLE_URL } from "../../variables/global";
 import { delayInMilliSecond, handleErrorMessage } from "./global";
 
 export function handlePostGoogleAuth(
@@ -11,7 +11,7 @@ export function handlePostGoogleAuth(
     trackPromise(
         credentialService.getData({
             endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
-            url: URL_POST_GOOGLE_URL
+            url: URL_GET_GOOGLE_URL
         }).then(async (result) => {
             window.location.replace(result.responseData);
             await delayInMilliSecond(10000);

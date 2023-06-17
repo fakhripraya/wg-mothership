@@ -5,7 +5,7 @@ import Checkbox from '../../components/Checkbox';
 import TextInput from '../../components/TextInput';
 import './style.scss';
 import { filterCheckboxes, filterDropdowns } from '../../variables/dummy/catalogue';
-import { itemListDummy } from '../../variables/dummy/MyRDPList';
+import { itemListDummy } from '../../variables/dummy/myRDPList';
 import Accordion from '../../components/Accordion';
 import { useEffect } from 'react';
 import { smoothScrollTop } from '../../utils/functions/global';

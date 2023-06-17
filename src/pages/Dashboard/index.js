@@ -3,9 +3,9 @@ import React, {
     useEffect,
     useState
 } from 'react';
-import Dropdown from '../../components/Dropdown';
 import './style.scss';
-import { smoothScrollTop } from '../../utils/functions/global';
+import Dropdown from '../../components/Dropdown';
+import { handleErrorMessage, smoothScrollTop } from '../../utils/functions/global';
 import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import DashboardHome from '../DashboardHome';
@@ -15,25 +15,43 @@ import {
     DASHBOARD_CATALOG,
     DASHBOARD_CHATS,
     DASHBOARD_HOME,
-    DASHBOARD_ORDERS
+    DASHBOARD_ORDERS,
+    LOGIN,
+    URL_GET_DASHBOARD_STORES
 } from '../../variables/global';
 import DashboardMyOrders from '../DashboardMyOrders';
 import DashboardChat from '../DashboardChat';
 import Avatar from 'react-avatar';
 import Cookies from 'universal-cookie';
-import { useNavigate } from 'react-router-dom';
-import { PAGE_REDIRECTING_MESSAGE } from '../../variables/errorMessages/dashboard';
+import {
+    NO_STORE_FOUND_IN_THE_DASHBOARD,
+    PAGE_REDIRECTING_MESSAGE
+} from '../../variables/errorMessages/dashboard';
+import ErrorHandling from '../ErrorHandling';
+import Button from '../../components/Button';
+import { useAxios } from '../../utils/hooks/useAxios';
+import { trackPromise } from 'react-promise-tracker';
+import { checkAuthAndRefresh } from '../../utils/functions/middlewares';
 
 export default function Dashboard() {
 
     // OBJECT CLASSES
     const cookies = new Cookies();
 
+    // VARIABLES //
+    let login = cookies.get(CLIENT_USER_INFO);
+
+    // HOOKS //
+    const zeusService = useAxios();
+
     // STATES //
+    const [userStore, setUserStores] = useState([]);
     const [toggle, setToggle] = useState(false);
     const [toggleOpenBody, setToggleOpenBody] = useState(DASHBOARD_HOME);
-    const login = cookies.get(CLIENT_USER_INFO);
+    const [modalToggle, setModalToggle] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
+    // FUNCTIONS
     function handleBottomSheet() {
         setToggle(!toggle);
     }
@@ -47,30 +65,76 @@ export default function Dashboard() {
         handleBottomSheet();
     }
 
-    function handleGoToAddToko() {
-        window.location.href = `/dashboard/add/toko`;
+    function handleGoToAddStore() {
+        window.location.href = `/dashboard/add/store`;
     }
 
-    function handleGoToHome() {
-        window.location.replace('/');
+    function handleOpenOverridingHome(overridingName) {
+        window.location.replace(`/?openWindow=${overridingName}`);
+    }
+
+    function showUserStores(userStores) {
+        if (login && userStores <= 0) return ["Tidak ada toko"];
+        else return userStores;
+    }
+
+    // COMPONENT FUNCTIONS //
+
+    const ShowMenuTabs = () => {
+        if (login && userStore.length <= 0) {
+            // Placeholder message while redirecting to home page
+            return <ErrorHandling containerStyle={{ width: 'auto' }} errorMessage={NO_STORE_FOUND_IN_THE_DASHBOARD} >
+                <br />
+                <br />
+                <Button onClick={() => handleGoToAddStore()}>
+                    Buat toko
+                </Button>
+            </ErrorHandling>
+        }
+        else if (login && userStore.length > 0) return <Fragment>
+            <DashboardHome toggleOpen={toggleOpenBody} />
+            <DashboardCatalogue toggleOpen={toggleOpenBody} />
+            <DashboardMyOrders toggleOpen={toggleOpenBody} />
+            <DashboardChat toggleOpen={toggleOpenBody} />
+        </Fragment>
     }
 
     // EXECUTION AFTER RENDER
     useEffect(() => {
+        // scroll to top on entering
         smoothScrollTop();
-    }, []);
+        // get user store from zeus service
+        function getUserStores() {
+            trackPromise(
+                zeusService.getDataWithOnRequestInterceptors({
+                    headers: { "authorization": `Bearer ${login.credentialToken.accessToken}` },
+                    endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+                    url: URL_GET_DASHBOARD_STORES(login.user.userId),
+                }, async () => {
+                    const result = await checkAuthAndRefresh(zeusService, cookies);
+                    if (result.responseStatus === 200) login = cookies.get(CLIENT_USER_INFO);
+                    return result;
+                }).then((result) => {
+                    console.log(login)
+                }).catch((error) => {
+                    if (error.responseStatus === 401 || error.responseStatus === 403) {
+                        cookies.remove(CLIENT_USER_INFO, { path: '/' });
+                        handleOpenOverridingHome(LOGIN);
+                    }
+                    else handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle)
+                })
+            );
+        }
 
-    console.log()
+        // dashboard initialization
+        if (login) getUserStores();
+    }, []);
 
     if (!login) {
         // Executing asynchronous call for redirecting to home page
-        handleGoToHome();
+        handleOpenOverridingHome(LOGIN);
         // Placeholder message while redirecting to home page
-        return <div className="dashboard-container dashboard-redirecting-container">
-            <div className="dashboard-wrapper">
-                {PAGE_REDIRECTING_MESSAGE}
-            </div>
-        </div>
+        return <ErrorHandling errorMessage={PAGE_REDIRECTING_MESSAGE} />
     }
     else return (
         <Fragment>
@@ -78,7 +142,7 @@ export default function Dashboard() {
                 <div className="dashboard-wrapper">
                     <div className="dashboard-flex-container">
                         <div className="dashboard-tools-container">
-                            <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko()} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
+                            <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddStore()} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_CHATS)} className="dashboard-menu-button dashboard-menu-button-chat" />
@@ -93,21 +157,18 @@ export default function Dashboard() {
                                 <div className="dashboard-cards-tool-items">
                                     <FloatButton className="dashboard-menu-button dashboard-menu-button-no-complaint" />
                                     <FloatButton className="dashboard-menu-button dashboard-menu-button-bell" />
-                                    <Dropdown onChange={(value) => { }} style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={["Toko 1", "Toko 2"]} />
-                                    <FloatButton onClick={() => handleGoToAddToko()} className="dashboard-menu-button dashboard-menu-button-plus" />
+                                    <Dropdown onChange={(value) => { }} style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={showUserStores(userStore)} />
+                                    <FloatButton onClick={() => handleGoToAddStore()} className="dashboard-menu-button dashboard-menu-button-plus" />
                                 </div>
                             </div>
-                            <DashboardHome toggleOpen={toggleOpenBody} />
-                            <DashboardCatalogue toggleOpen={toggleOpenBody} />
-                            <DashboardMyOrders toggleOpen={toggleOpenBody} />
-                            <DashboardChat toggleOpen={toggleOpenBody} />
+                            <ShowMenuTabs />
                         </div>
                     </div>
                 </div>
             </div>
             <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
                 <div className="dashboard-mobile-menu-container">
-                    <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddToko()} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
+                    <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddStore()} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
                     <br />
                     <br />
                     <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" >

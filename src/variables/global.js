@@ -54,15 +54,20 @@ export const URL_ROOM_CHECK = '/v1/room/check';
 export const URL_ROOM_CREATE = '/v1/room/create';
 
 // OLYMPUS SERVICE ROUTE
+export const URL_GET_GOOGLE_URL = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/google/url`;
 export const URL_POST_REGISTER = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/signup`;
 export const URL_POST_LOGIN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/login`;
 export const URL_POST_FORGOT_PW = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/pw/forgot`;
 export const URL_POST_RECOVERY_TOKEN_CHECK = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/pw/check`;
-export const URL_POST_GOOGLE_URL = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/google/url`;
 export const URL_POST_GOOGLE_CALLBACK = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/google/callback`;
 export const URL_POST_NEW_PW = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/pw/new`;
 export const URL_POST_LOGOUT = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/logout`;
 export const URL_POST_OTP = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/verify/otp`;
+export const URL_CHECK_AUTH_AND_REFRESH_TOKEN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/token`;
+
+// ZEUS SERVICE ROUTE
+export const URL_POST_ADD_USER_STORE = (userId) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores/add`;
+export const URL_GET_DASHBOARD_STORES = (userId) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores`;
 
 // USER RDP ROLE
 export const HOST = "HOST";

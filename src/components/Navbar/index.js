@@ -52,10 +52,11 @@ export default function Navbar() {
     // HOOKS //
     const credentialService = useAxios();
 
-    // VARIABLE
+    // VARIABLES
     const ref = useRef();
     const navigate = useNavigate();
     const menus = getMenus();
+    const login = cookies.get(CLIENT_USER_INFO, { path: '/' });
 
     // STATES
     const [toggleOverride, setToggleOverride] = useState(NO_STRING);
@@ -65,7 +66,6 @@ export default function Navbar() {
     const [error, setError] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [searchParams, setSearchParams] = useSearchParams();
-    const login = cookies.get(CLIENT_USER_INFO);
 
     // FUNCTIONS SPECIFIC //
     function handleNavbarDisplay(overridingToggle) {
@@ -251,9 +251,11 @@ export default function Navbar() {
 
         const recoveryToken = searchParams.get("recoveryToken");
         const searchParamScopes = searchParams.get("scope");
+        const toggleOpenWindow = searchParams.get("openWindow");
 
         if (recoveryToken) recoveryTokenListener();
         else if (searchParamScopes && searchParamScopes.includes("googleapis")) googleAuthListener();
+        else if (toggleOpenWindow) window.handleOpenOverriding(toggleOpenWindow);
 
         return () => window.removeEventListener("scroll", handleNavbarHide);
     }, []);

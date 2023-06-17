@@ -3,7 +3,6 @@ import './style.scss';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import GoogleIcon from '../../assets/svg/google.svg';
-import FacebookIcon from '../../assets/svg/facebook-f.svg';
 import OverridingContainer from '../../components/OveriddingContainer';
 import Footer from '../../components/Footer';
 import { ShowNavbar } from '../../components/Global';

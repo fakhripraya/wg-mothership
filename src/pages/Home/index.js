@@ -19,11 +19,23 @@ import {
 import Tag from '../../components/Tag';
 import Card from '../../components/Card';
 import { useNavigate } from 'react-router-dom';
+import { useAxios } from '../../utils/hooks/useAxios';
+import Cookies from 'universal-cookie';
+import { CLIENT_USER_INFO } from '../../variables/global';
+import { checkAuthAndRefresh } from '../../utils/functions/middlewares';
+import { trackPromise } from 'react-promise-tracker';
 
 export default function Home() {
 
+    // OBJECT CLASSES
+    const cookies = new Cookies();
+
+    // VARIABLES //
+    let login = cookies.get(CLIENT_USER_INFO);
+
     // HOOK
     const navigate = useNavigate();
+    const credentialService = useAxios();
 
     // REFS //
     const heroRef = useRef();
@@ -86,7 +98,16 @@ export default function Home() {
 
     // INITIAL RENDER
     useEffect(() => {
+        // scroll to top on entering
         smoothScrollTop();
+        // check user auth
+        async function checkUserAuth() {
+            const result = await checkAuthAndRefresh(credentialService, cookies);
+            if (result.responseStatus === 401 || result.responseStatus === 403) cookies.remove(CLIENT_USER_INFO, { path: '/' });
+        }
+
+        // home page init
+        if (login) trackPromise(checkUserAuth());
     }, []);
 
     return (

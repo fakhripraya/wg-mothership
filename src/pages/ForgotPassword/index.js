@@ -10,7 +10,6 @@ import {
     NO_STRING,
     FORGOT_PASSWORD,
     LOGIN,
-    OTP_PAGE,
     URL_POST_FORGOT_PW
 } from '../../variables/global';
 import { trackPromise } from 'react-promise-tracker';
