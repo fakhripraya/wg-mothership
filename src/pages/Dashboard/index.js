@@ -4,8 +4,8 @@ import React, {
     useState
 } from 'react';
 import './style.scss';
-import Dropdown from '../../components/Dropdown';
-import { handleErrorMessage, smoothScrollTop } from '../../utils/functions/global';
+import Dropdown from '../../components/DynamicDropdown';
+import { handleErrorMessage, handleOpenOverridingHome, smoothScrollTop } from '../../utils/functions/global';
 import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import DashboardHome from '../DashboardHome';
@@ -17,6 +17,7 @@ import {
     DASHBOARD_HOME,
     DASHBOARD_ORDERS,
     LOGIN,
+    NO_DATA,
     URL_GET_DASHBOARD_STORES
 } from '../../variables/global';
 import DashboardMyOrders from '../DashboardMyOrders';
@@ -32,6 +33,7 @@ import Button from '../../components/Button';
 import { useAxios } from '../../utils/hooks/useAxios';
 import { trackPromise } from 'react-promise-tracker';
 import { checkAuthAndRefresh } from '../../utils/functions/middlewares';
+import { initialValue } from '../../variables/dummy/addStore';
 
 export default function Dashboard() {
 
@@ -46,6 +48,7 @@ export default function Dashboard() {
 
     // STATES //
     const [userStore, setUserStores] = useState([]);
+    const [selectedStore, setSelectedStore] = useState(initialValue);
     const [toggle, setToggle] = useState(false);
     const [toggleOpenBody, setToggleOpenBody] = useState(DASHBOARD_HOME);
     const [modalToggle, setModalToggle] = useState(false);
@@ -69,13 +72,15 @@ export default function Dashboard() {
         window.location.href = `/dashboard/add/store`;
     }
 
-    function handleOpenOverridingHome(overridingName) {
-        window.location.replace(`/?openWindow=${overridingName}`);
+    function showUserStores(userStores) {
+        if (login && userStores.length <= 0) return [NO_DATA];
+        else return userStores.map(obj => obj.storeName);
     }
 
-    function showUserStores(userStores) {
-        if (login && userStores <= 0) return ["Tidak ada toko"];
-        else return userStores;
+    function handleSelectedStoreChange(value) {
+        const result = userStore.find((obj) => obj.storeName === value);
+        if (!result) setSelectedStore(userStore ? userStore[0].storeName : initialValue.storeName);
+        else setSelectedStore(result);
     }
 
     // COMPONENT FUNCTIONS //
@@ -92,8 +97,10 @@ export default function Dashboard() {
             </ErrorHandling>
         }
         else if (login && userStore.length > 0) return <Fragment>
-            <DashboardHome toggleOpen={toggleOpenBody} />
-            <DashboardCatalogue toggleOpen={toggleOpenBody} />
+            <DashboardHome toggleOpen={toggleOpenBody} toggleOpenHandler={setToggleOpenBody} />
+            <DashboardCatalogue toggleOpen={toggleOpenBody} data={{
+                selectedStore: selectedStore
+            }} />
             <DashboardMyOrders toggleOpen={toggleOpenBody} />
             <DashboardChat toggleOpen={toggleOpenBody} />
         </Fragment>
@@ -115,7 +122,15 @@ export default function Dashboard() {
                     if (result.responseStatus === 200) login = cookies.get(CLIENT_USER_INFO);
                     return result;
                 }).then((result) => {
-                    console.log(login)
+                    if (result.responseStatus === 200) {
+                        setUserStores(result.responseData);
+                        if (result.responseData.length <= 0) {
+                            let temp = { ...selectedStore };
+                            temp.storeName = "Buat Toko";
+                            setSelectedStore(temp);
+                        }
+                        else setSelectedStore(result.responseData[0]);
+                    }
                 }).catch((error) => {
                     if (error.responseStatus === 401 || error.responseStatus === 403) {
                         cookies.remove(CLIENT_USER_INFO, { path: '/' });
@@ -142,7 +157,7 @@ export default function Dashboard() {
                 <div className="dashboard-wrapper">
                     <div className="dashboard-flex-container">
                         <div className="dashboard-tools-container">
-                            <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddStore()} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
+                            <Avatar style={{ cursor: "pointer" }} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_CHATS)} className="dashboard-menu-button dashboard-menu-button-chat" />
@@ -157,7 +172,7 @@ export default function Dashboard() {
                                 <div className="dashboard-cards-tool-items">
                                     <FloatButton className="dashboard-menu-button dashboard-menu-button-no-complaint" />
                                     <FloatButton className="dashboard-menu-button dashboard-menu-button-bell" />
-                                    <Dropdown onChange={(value) => { }} style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={showUserStores(userStore)} />
+                                    <Dropdown onChange={(value) => handleSelectedStoreChange(value)} style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} value={selectedStore ? selectedStore.storeName : initialValue.storeName} values={showUserStores(userStore)} />
                                     <FloatButton onClick={() => handleGoToAddStore()} className="dashboard-menu-button dashboard-menu-button-plus" />
                                 </div>
                             </div>
@@ -168,7 +183,7 @@ export default function Dashboard() {
             </div>
             <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
                 <div className="dashboard-mobile-menu-container">
-                    <Avatar style={{ cursor: "pointer" }} onClick={() => handleGoToAddStore()} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
+                    <Avatar style={{ cursor: "pointer" }} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
                     <br />
                     <br />
                     <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" >

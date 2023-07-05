@@ -178,8 +178,8 @@ export default function Navbar() {
     const ShowErrorModal = () => {
         return <div className="navbar-modal-container dark-bg-color">
             <div className="navbar-modal-wrapper">
-                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end otp-button red-bg-color">
-                    <h4 className="otp-button-text">X</h4>
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end navbar-modal-button red-bg-color">
+                    <h4 className="navbar-modal-button-text">X</h4>
                 </Button>
                 <br />
                 <h3 className="margin-top-0 margin-bottom-12-18">

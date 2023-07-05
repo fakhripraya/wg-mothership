@@ -11,6 +11,7 @@ export default function DynamicDropdown(props) {
     }
 
     function handleChangeValue(val) {
+        if (val === "No Data") return;
         setValue(val);
         props.onChange(val);
         handleOpenFilter(props.values);

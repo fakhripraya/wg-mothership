@@ -23,7 +23,7 @@ export default function DashboardCatalogue(props) {
     }
 
     function handleGoToAddCatalogue(navigate) {
-        navigate(`/dashboard/add/catalogue`);
+        navigate(`/dashboard/add/catalogue?code=${props.data.selectedStore.storeCode}`);
     }
 
     function handleTextChange(field, event) {

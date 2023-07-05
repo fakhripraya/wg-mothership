@@ -71,6 +71,10 @@ export function handleErrorMessage(error, setErrorMessage, setModalToggle, modal
     handleOpenModal(setModalToggle, modalToggle);
 }
 
+export function handleOpenOverridingHome(overridingName) {
+    window.location.replace(`/?openWindow=${overridingName}`);
+}
+
 export function catchPromiseErrors(error, navigate) {
     try {
         if (!error) return navigate('/');;

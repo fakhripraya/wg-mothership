@@ -27,21 +27,20 @@ export default function MultiUpload(props) {
 
     React.useEffect(() => {
         async function init() {
-            const formData = new FormData();
+            const proceed = acceptedFiles.length > 0 ? true : false
             const temp = [...props.base64s];
             for (var i = 0; acceptedFiles.length > i; i++) {
-                formData.append(props.formName, acceptedFiles[i], acceptedFiles[i].name);
+                if (temp.length >= 5) break;
                 const converted = await getBase64(acceptedFiles[i]);
                 temp.push({
                     name: acceptedFiles[i].name,
                     size: acceptedFiles[i].size,
                     base64: converted
                 })
-                props.setBase64s(temp);
             }
-            if (acceptedFiles.length > 0) props.setFiles(formData.getAll(props.formName));
+            if (proceed) props.setBase64s(temp);
         }
-        if (acceptedFiles.length <= 5) init();
+        init();
     }, [acceptedFiles])
 
     const AcceptedFileItems = () => {
@@ -67,6 +66,7 @@ export default function MultiUpload(props) {
                         <img className='multi-upload-icon-img' src={props.customIcon ? props.customIcon : UploadIcon} alt={`${ADD_CATALOGUE_FORM}-icon-image`}></img>
                         <br />
                         <label className='multi-upload-custom-typography'>{props.subLabel}</label>
+                        {props.additionalElement}
                     </div>
                 </section>
             </div>

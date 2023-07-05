@@ -1,5 +1,5 @@
 // MODAL STYLES //
-.add-catalogue-upload-container{
+.add-catalogue-modal-container{
     z-index: 1001;
     display: flex;
     flex-direction: column;
@@ -14,7 +14,7 @@
     }
 }
 
-.add-catalogue-upload-wrapper{
+.add-catalogue-modal-wrapper{
     margin: 0px auto;
     padding: 1em;
     position: relative;
@@ -22,6 +22,17 @@
     -webkit-box-align: center;
     display: flex;
     flex-direction: column;
+}
+
+.add-catalogue-modal-button{
+    margin-top: 12px;
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+}
+
+.add-catalogue-modal-button-text{
+    margin: 6px !important;
 }
 
 // MAIN STYLES //
@@ -69,7 +80,7 @@
 
 .add-catalogue-input-title{
     width: 120px;
-    margin: 10px 10px 0px 0px !important;
+    margin: 10px 10px 0px 0px;
 }  
 
 .add-catalogue-textinput-box{

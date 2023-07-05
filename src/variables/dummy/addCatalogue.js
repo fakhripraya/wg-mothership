@@ -1,29 +1,21 @@
 export const initialValue = {
     productName: "",
-    productType: "Physical Rental",
+    productCategory: "Pilih Kategori",
+    productCatalog: "Pilih Katalog",
     productDescription: "",
-    productCategory: "",
-    productDisplayCategory: "",
     productHashtag: "",
     productCondition: "",
     productWeight: "",
-    productPrices: [
-        {
-            price: 0,
-            period: "/ Hari",
-        }
-    ],
+    productBidPrice: "",
+    productBINPrice: "",
+    productBidMultiplication: "",
+    productBidMultiplicationPeriod: "/ Menit",
+    productBidPeriod: "/ Hari",
     productStocks: "",
-    pickupCity: "",
-    pickupSubdistrict: "",
-    pickupWard: "",
-    pickupAddress: "",
-    pickupPostalCode: "",
-    productMaxWaitTime: "",
-    productMaxWaitTimePeriod: "/ Jam",
     courierChoosen: [
         "JNE"
-    ]
+    ],
+    newCatalogues: []
 }
 
 export const defaultPrice = {
@@ -33,6 +25,6 @@ export const defaultPrice = {
 
 export const defaultCourier = "JNE"
 export const courierValues = ["JNE", "SiCepat"];
-export const waitTimeValues = ["/ Menit", "/ Jam", "/ Hari"];
+export const bidMultiplicationPeriodValues = ["/ Menit", "/ Jam", "/ Hari"];
+export const bidPeriodValues = ["/ Hari", "/ 3 Hari", "/ 7 Hari", "/ 15 Hari", "/ 30 Hari"];
 export const pricePeriodValues = ["/ Hari", "/ 3 Hari", "/ 7 Hari", "/ 15 Hari", "/ 30 Hari"];
-export const typeValues = ["Rental Fisik", "Rental Digital"];

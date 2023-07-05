@@ -35,6 +35,57 @@ export const useAxios = () => {
         })
     };
 
+    const getAllData = async (reqConfigs, spreadCallback) => {
+        // Start timing now
+        console.time("Load Time");
+        return new Promise(async (resolve, reject) => {
+            await axios.all(reqConfigs.map((reqConfig) => getData(reqConfig))).then(
+                axios.spread(spreadCallback())
+            ).finally(() => {
+                console.timeEnd("Load Time");
+            })
+        });
+    }
+
+    const getAllDataWithOnRequestInterceptors = async (reqConfigs, spreadCallback, callbackInterceptors) => {
+        // Start timing now
+        console.time("Load Time");
+        return new Promise(async (resolve, reject) => {
+            // Initial Value
+            var result = { ...initialValue };
+
+            const axiosInstance = axios;
+            axiosInstance.interceptors.request.use(async function (config) {
+                const res = await callbackInterceptors();
+                if (res.responseStatus === 200) return config;
+                else {
+                    result.responseError = true;
+                    result.errorContent = res.message;
+                    result.responseStatus = res.responseStatus;
+                    console.timeEnd("Load Time");
+                    return reject(result);
+                }
+            }, function (error) {
+                result.responseError = true;
+                result.errorContent = error.toString();
+                result.responseStatus = 500;
+                console.timeEnd("Load Time");
+                return reject(result);
+            });
+
+            await axiosInstance.all(reqConfigs.map((reqConfig) => getData(reqConfig))).then(
+                axiosInstance.spread((...datas) => {
+                    return resolve({ ...result, responseStatus: 200, responseData: datas });
+                }))
+                .catch((error) => {
+                    return reject(error);
+                })
+                .finally(() => {
+                    console.timeEnd("Load Time");
+                })
+        })
+    };
+
     const getDataWithOnRequestInterceptors = async (reqConfig, callbackInterceptors) => {
         // creates the cancel token source
         var cancelSource = axios.CancelToken.source();
@@ -52,12 +103,14 @@ export const useAxios = () => {
                     result.responseError = true;
                     result.errorContent = res.message;
                     result.responseStatus = res.responseStatus;
+                    console.timeEnd("Load Time");
                     return reject(result);
                 }
             }, function (error) {
                 result.responseError = true;
                 result.errorContent = error.toString();
                 result.responseStatus = 500;
+                console.timeEnd("Load Time");
                 return reject(result);
             });
 
@@ -162,7 +215,9 @@ export const useAxios = () => {
 
     return {
         getData,
+        getAllData,
         getDataWithOnRequestInterceptors,
+        getAllDataWithOnRequestInterceptors,
         postData,
         postDataWithOnRequestInterceptors
     };

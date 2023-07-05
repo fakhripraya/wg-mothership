@@ -9,8 +9,8 @@ import Checkbox from '../../components/Checkbox';
 import Modal from '../../components/Modal';
 import { trackPromise } from 'react-promise-tracker';
 import { useAxios } from '../../utils/hooks/useAxios';
-import { CLIENT_USER_INFO, LOGIN, NO_STRING, URL_POST_ADD_USER_STORE } from '../../variables/global';
-import { handleErrorMessage } from '../../utils/functions/global';
+import { CLIENT_USER_INFO, LOGIN, NO_DATA, NO_STRING, URL_POST_ADD_USER_STORE } from '../../variables/global';
+import { handleErrorMessage, handleOpenOverridingHome } from '../../utils/functions/global';
 import { handleOpenModal } from '../../utils/functions/global';
 import Cookies from 'universal-cookie';
 import {
@@ -48,6 +48,7 @@ export default function AddStore() {
     const [regencies, setRegencies] = useState(initialRegencies);
     const [districts, setDistricts] = useState(initialDistricts);
     const [villages, setVillages] = useState(initialVillages);
+    const [success, setSuccess] = useState(false);
 
     // FUNCTIONS SPECIFIC //
     function handleGoBackDashboard(navigate) {
@@ -60,8 +61,10 @@ export default function AddStore() {
         setData(temp);
     }
 
-    function handleOpenOverridingHome(overridingName) {
-        window.location.replace(`/?openWindow=${overridingName}`);
+    function handleTextChangeByValue(field, value) {
+        const temp = { ...data }
+        temp[field] = value;
+        setData(temp);
     }
 
     async function handleChangeProvince(provinceId, provinceName) {
@@ -70,12 +73,13 @@ export default function AddStore() {
                 const regencies = res.map(obj => obj.name);
                 const temp = { ...data };
                 temp.storeProvince = provinceName;
-                temp.storeRegency = regencies[0];
+                temp.storeRegency = initialValue.storeRegency;
                 temp.storeDistrict = NO_STRING;
                 temp.storeVillage = NO_STRING;
                 setVillages([]);
                 setDistricts([]);
-                setRegencies(regencies);
+                if (regencies.length === 0) setRegencies([NO_DATA]);
+                else setRegencies(regencies);
                 setData(temp);
             })
             .catch(err => handleErrorMessage(err, setErrorMessage, setModalToggle, modalToggle));
@@ -87,10 +91,11 @@ export default function AddStore() {
                 const districts = res.map(obj => obj.name);
                 const temp = { ...data };
                 temp.storeRegency = regencyName;
-                temp.storeDistrict = districts[0];
+                temp.storeDistrict = initialValue.storeDistrict;
                 temp.storeVillage = NO_STRING;
                 setVillages([]);
-                setDistricts(districts);
+                if (districts.length === 0) setDistricts([NO_DATA]);
+                else setDistricts(districts);
                 setData(temp);
             })
             .catch(err => handleErrorMessage(err, setErrorMessage, setModalToggle, modalToggle));
@@ -102,8 +107,9 @@ export default function AddStore() {
                 const villages = res.map(obj => obj.name);
                 const temp = { ...data };
                 temp.storeDistrict = districtName;
-                temp.storeVillage = villages[0];
-                setVillages(villages);
+                temp.storeVillage = initialValue.storeVillage;;
+                if (villages.length === 0) setVillages([NO_DATA]);
+                else setVillages(villages);
                 setData(temp);
             })
             .catch(err => handleErrorMessage(err, setErrorMessage, setModalToggle, modalToggle));
@@ -144,7 +150,7 @@ export default function AddStore() {
                 if (result.responseStatus === 200) login = cookies.get(CLIENT_USER_INFO);
                 return result;
             }).then((res) => {
-                console.log(res)
+                if (res.responseStatus === 200) setSuccess(true);
             }).catch((error) => {
                 if (error.responseStatus === 401 || error.responseStatus === 403) {
                     cookies.remove(CLIENT_USER_INFO, { path: '/' });
@@ -157,10 +163,10 @@ export default function AddStore() {
 
     // COMPONENT SPECIFIC
     const ShowErrorModal = () => {
-        return <div className="navbar-modal-container dark-bg-color">
-            <div className="navbar-modal-wrapper">
-                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end otp-button red-bg-color">
-                    <h4 className="otp-button-text">X</h4>
+        return <div className="add-store-modal-container dark-bg-color">
+            <div className="add-store-modal-wrapper">
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end add-store-modal-button red-bg-color">
+                    <h4 className="add-store-modal-button-text">X</h4>
                 </Button>
                 <br />
                 <h3 className="margin-top-0 margin-bottom-12-18">
@@ -174,18 +180,42 @@ export default function AddStore() {
         </div>
     }
 
+    const ShowSuccessModal = () => {
+        return <div className="add-store-modal-container dark-bg-color">
+            <div className="add-store-modal-wrapper">
+                <h3 className="margin-top-0 margin-bottom-12-18"><span className="main-color">SUKSES</span></h3>
+                <br />
+                <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
+                    Wah selamat, kamu berhasil membuat toko lelangmu !
+                </label>
+                <br />
+                <div style={{ padding: "0px", width: "30%" }} className="align-self-center add-store-modal-button">
+                    <Button onClick={() => handleGoBackDashboard(navigate)} >OK</Button>
+                </div>
+            </div>
+        </div>
+    }
+
     useEffect(() => {
         async function init() {
+            const result = await checkAuthAndRefresh(zeusService, cookies);
+            if (result.responseStatus === 200) login = cookies.get(CLIENT_USER_INFO);
+            if (result.responseStatus === 401 || result.responseStatus === 403) {
+                cookies.remove(CLIENT_USER_INFO, { path: '/' });
+                handleOpenOverridingHome(LOGIN);
+            }
+            else if (result.responseStatus >= 400)
+                handleErrorMessage(result, setErrorMessage, setModalToggle, modalToggle);
             await territories.getAllProvinces()
                 .then(res => {
                     const provinces = res.map(obj => obj.name);
-                    setProvinces(provinces)
+                    setProvinces(provinces);
                 })
                 .catch(err => {
                     return handleErrorMessage(err, setErrorMessage, setModalToggle, modalToggle);
                 });
         }
-        init();
+        trackPromise(init());
     }, []);
 
     return (
@@ -193,33 +223,36 @@ export default function AddStore() {
             <Modal className="dark-bg-color" clicked={() => handleOpenModal(setModalToggle, modalToggle)} toggle={modalToggle} >
                 <ShowErrorModal />
             </Modal>
-            <div className="add-toko-container">
-                <div className="add-toko-wrapper">
-                    <div className="add-toko-text-container">
-                        <div className="add-toko-text-wrapper">
+            <Modal className="dark-bg-color" toggle={success} >
+                <ShowSuccessModal />
+            </Modal>
+            <div className="add-store-container">
+                <div className="add-store-wrapper">
+                    <div className="add-store-text-container">
+                        <div className="add-store-text-wrapper">
                             <br />
-                            <Button style={{ paddingLeft: "0px" }} onClick={() => handleGoBackDashboard(navigate)} className="align-self-start add-toko-button darker-bg-color">
-                                <h4 className="add-toko-button-back-text">Go back</h4>
+                            <Button style={{ paddingLeft: "0px" }} onClick={() => handleGoBackDashboard(navigate)} className="align-self-start add-store-button darker-bg-color">
+                                <h4 className="add-store-button-back-text">Go back</h4>
                             </Button>
                             <h2 className="margin-bottom-12-18">Ayo kita mulai buat toko, kamu isi <span className="main-color">informasi toko</span> mu dulu ya</h2>
                             <h3 className="margin-top-0">Boleh tau <span className="main-color">nama</span> tokomu dulu gak ?</h3>
-                            <div className="add-toko-textinput-box">
-                                <TextInput value={data.productName} onChange={(e) => handleTextChange("storeName", e)} type="text" className="add-toko-textinput" />
+                            <div className="add-store-textinput-box">
+                                <TextInput value={data.productName} onChange={(e) => handleTextChange("storeName", e)} type="text" className="add-store-textinput" />
                             </div>
                             <br />
                             <h2 className="margin-bottom-12-18">Set <span className="main-color">informasi</span> toko</h2>
                             <h3 className="margin-top-0 margin-bottom-12-18">Silahkan input <span className="main-color">informasi</span> tokomu</h3>
-                            <div className="add-toko-textinput-box">
-                                <label className="add-toko-input-title">No HP</label>
-                                <TextInput value={data.pickupSubdistrict} onChange={(e) => handleTextChange("storePhone", e)} type="text" className="add-toko-textinput" />
+                            <div className="add-store-textinput-box">
+                                <label className="add-store-input-title">No HP</label>
+                                <TextInput value={data.pickupSubdistrict} onChange={(e) => handleTextChange("storePhone", e)} type="text" className="add-store-textinput" />
                             </div>
-                            <div className="add-toko-textinput-box">
-                                <label className="add-toko-input-title">No Whatsapp</label>
-                                <TextInput value={data.pickupWard} onChange={(e) => handleTextChange("storeWhatsapp", e)} type="text" className="add-toko-textinput" />
+                            <div className="add-store-textinput-box">
+                                <label className="add-store-input-title">No Whatsapp</label>
+                                <TextInput value={data.pickupWard} onChange={(e) => handleTextChange("storeWhatsapp", e)} type="text" className="add-store-textinput" />
                             </div>
-                            <div className="add-toko-textinput-box">
-                                <label className="add-toko-input-title">Email</label>
-                                <TextInput value={data.pickupAddress} onChange={(e) => handleTextChange("storeEmail", e)} type="text" className="add-toko-textinput" />
+                            <div className="add-store-textinput-box">
+                                <label className="add-store-input-title">Email</label>
+                                <TextInput value={data.pickupAddress} onChange={(e) => handleTextChange("storeEmail", e)} type="text" className="add-store-textinput" />
                             </div>
                             <br />
                             <h2 className="margin-bottom-12-18">Set <span className="main-color">alamat</span> toko</h2>
@@ -234,30 +267,30 @@ export default function AddStore() {
                             </div>
                             <div className={districts.length === 0 ? "display-none hidden" : ""}>
                                 <br />
-                                <h3 className="margin-top-0 margin-bottom-12-18">Pilih <span className="main-color">kelurahan</span></h3>
+                                <h3 className="margin-top-0 margin-bottom-12-18">Pilih <span className="main-color">kecamatan</span></h3>
                                 <Dropdown onChange={(value) => handleShowVillages(value)} style={{ width: "150px", maxWidth: "150px" }} showTitle={false} toggle={true} value={data.storeDistrict} values={districts} />
                             </div>
                             <div className={villages.length === 0 ? "display-none hidden" : ""}>
                                 <br />
-                                <h3 className="margin-top-0 margin-bottom-12-18">Pilih <span className="main-color">kecamatan</span></h3>
-                                <Dropdown onChange={(value) => { }} style={{ width: "150px", maxWidth: "150px" }} showTitle={false} toggle={true} value={data.storeVillage} values={villages} />
+                                <h3 className="margin-top-0 margin-bottom-12-18">Pilih <span className="main-color">kelurahan</span></h3>
+                                <Dropdown onChange={(value) => handleTextChangeByValue("storeVillage", value)} style={{ width: "150px", maxWidth: "150px" }} showTitle={false} toggle={true} value={data.storeVillage} values={villages} />
                             </div>
                             <br />
-                            <div className="add-toko-textinput-box">
-                                <label className="add-toko-input-title">Alamat</label>
-                                <TextInput value={data.pickupAddress} onChange={(e) => handleTextChange("storeAddress", e)} type="text" className="add-toko-textinput" />
+                            <div className="add-store-textinput-box">
+                                <label className="add-store-input-title">Alamat</label>
+                                <TextInput value={data.pickupAddress} onChange={(e) => handleTextChange("storeAddress", e)} type="text" className="add-store-textinput" />
                             </div>
-                            <div className="add-toko-textinput-box">
-                                <label className="add-toko-input-title">Kode Pos</label>
-                                <TextInput value={data.pickupPostalCode} onChange={(e) => handleTextChange("storePostalCode", e)} type="text" className="add-toko-textinput" />
+                            <div className="add-store-textinput-box">
+                                <label className="add-store-input-title">Kode Pos</label>
+                                <TextInput value={data.pickupPostalCode} onChange={(e) => handleTextChange("storePostalCode", e)} type="text" className="add-store-textinput" />
                             </div>
                             <br />
                             <br />
-                            <div className="add-toko-textinput-box">
+                            <div className="add-store-textinput-box">
                                 <Checkbox checked={agreementCheckbox} onChange={() => handleAgreementCheck()} className="dashboard-chat-checkbox-item" title={"Dengan menyontreng ini, kamu telah membaca dan menyetujui syarat dan ketentuan yang berlaku"} />
                             </div>
-                            <Button onClick={() => handleSubmit()} className="align-self-start add-toko-button main-bg-color">
-                                <h4 className="add-toko-button-text">Submit</h4>
+                            <Button onClick={() => handleSubmit()} className="align-self-start add-store-button main-bg-color">
+                                <h4 className="add-store-button-text">Submit</h4>
                             </Button>
                         </div>
                     </div>
