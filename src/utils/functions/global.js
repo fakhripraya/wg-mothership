@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer';
+
 // Whatsapp sender
 export function sendWACS() {
     // Send static Whatsapp messages to Customer Service
@@ -57,6 +59,18 @@ export const getBase64 = (file) => {
         reader.onerror = error => reject(error);
         reader.readAsDataURL(file);
     });
+}
+
+export const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
+    var base64result = b64Data.split(',')[1];
+    if (!contentType)
+        contentType = b64Data.substring("data:".length, b64Data.indexOf(";base64"));
+    const byteArray = Buffer.from(base64result, 'base64');
+    const byteArrays = [];
+    byteArrays.push(byteArray);
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
 }
 
 export function handleOpenModal(setModalToggle, modalToggle) {

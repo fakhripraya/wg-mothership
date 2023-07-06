@@ -67,11 +67,12 @@ export const URL_POST_OTP = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/
 export const URL_CHECK_AUTH_AND_REFRESH_TOKEN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/token`;
 
 // ZEUS SERVICE ROUTE
-export const URL_POST_ADD_STORE_CATALOGUE = (storeId) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/${storeId}/catalogues/add`;
+export const URL_POST_ADD_STORE_CATALOGUE = (storeCode) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues/add?code=${storeCode}`;
 export const URL_POST_ADD_USER_STORE = (userId) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores/add`;
 export const URL_GET_DASHBOARD_STORES = (userId) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores`;
-export const URL_GET_ADD_CATALOGUE_DATA = (storeId) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/${storeId}/catalogues`;
+export const URL_GET_ADD_CATALOGUE_DATA = (storeCode) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues?code=${storeCode}`;
 export const URL_GET_CATEGORIES = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/category`;
+export const URL_GET_COURIERS = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/couriers`;
 
 // USER RDP ROLE
 export const HOST = "HOST";

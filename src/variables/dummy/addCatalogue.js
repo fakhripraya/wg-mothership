@@ -13,9 +13,22 @@ export const initialValue = {
     productBidPeriod: "/ Hari",
     productStocks: "",
     courierChoosen: [
-        "JNE"
+        "Pilih Kurir"
     ],
     newCatalogues: []
+}
+
+export const initialFetchedDatas = {
+    datas: {
+        catalogues: [],
+        categories: [],
+        couriers: [],
+    },
+    dropdowns: {
+        catalogues: [],
+        categories: [],
+        couriers: [],
+    }
 }
 
 export const defaultPrice = {
@@ -23,8 +36,7 @@ export const defaultPrice = {
     period: "/ Hari",
 }
 
-export const defaultCourier = "JNE"
-export const courierValues = ["JNE", "SiCepat"];
+export const defaultCourier = "Pilih Kurir"
 export const bidMultiplicationPeriodValues = ["/ Menit", "/ Jam", "/ Hari"];
 export const bidPeriodValues = ["/ Hari", "/ 3 Hari", "/ 7 Hari", "/ 15 Hari", "/ 30 Hari"];
 export const pricePeriodValues = ["/ Hari", "/ 3 Hari", "/ 7 Hari", "/ 15 Hari", "/ 30 Hari"];

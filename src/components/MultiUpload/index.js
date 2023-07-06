@@ -30,7 +30,7 @@ export default function MultiUpload(props) {
             const proceed = acceptedFiles.length > 0 ? true : false
             const temp = [...props.base64s];
             for (var i = 0; acceptedFiles.length > i; i++) {
-                if (temp.length >= 5) break;
+                if (temp.length >= props.maxLength) break;
                 const converted = await getBase64(acceptedFiles[i]);
                 temp.push({
                     name: acceptedFiles[i].name,

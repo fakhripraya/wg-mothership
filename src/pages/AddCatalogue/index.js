@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Fragment } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import Dropdown from '../../components/DynamicDropdown';
 import Modal from '../../components/Modal';
 import MultiUpload from '../../components/MultiUpload';
 import TextInput from '../../components/TextInput';
 import {
-    courierValues,
     defaultCourier,
     initialValue,
     bidMultiplicationPeriodValues,
     bidPeriodValues,
+    initialFetchedDatas,
 } from '../../variables/dummy/addCatalogue';
 import {
     ADD_CATALOGUE_FORM,
@@ -22,16 +22,17 @@ import {
     NO_STRING,
     URL_GET_ADD_CATALOGUE_DATA,
     URL_GET_CATEGORIES,
+    URL_GET_COURIERS,
     URL_POST_ADD_STORE_CATALOGUE
 } from '../../variables/global';
 import AgreementIcon from "../../assets/svg/agreement-icon.svg";
 import './style.scss';
 import Checkbox from '../../components/Checkbox';
-import { emptyArray } from '../../variables/dummy/global';
 import { useAxios } from '../../utils/hooks/useAxios';
 import { checkAuthAndRefresh } from '../../utils/functions/middlewares';
 import Cookies from 'universal-cookie';
 import {
+    b64toBlob,
     handleErrorMessage,
     handleOpenOverridingHome
 } from '../../utils/functions/global';
@@ -40,7 +41,9 @@ import {
     AGREEMENT_CHECKBOX_UNCHECKED,
     INPUT_NEW_CATALOGUE_VALUE
 } from '../../variables/errorMessages/addCatalogue';
+import { v4 as uuidv4 } from 'uuid';
 
+// TODO: Fix input lag caused by uploaded file re rendered
 export default function AddCatalogue() {
 
     // OBJECT CLASSES
@@ -50,27 +53,31 @@ export default function AddCatalogue() {
     const navigate = useNavigate();
     const zeusService = useAxios();
     const [data, setData] = useState(initialValue);
+    const [fetchedDatas, setFetchedDatas] = useState(initialFetchedDatas);
     const [agreementCheckbox, setAgreementCheckbox] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const [modalToggle, setModalToggle] = useState(false);
     const [modalCatalogueToggle, setModalCatalogueToggle] = useState(false);
     const [errorModalToggle, setErrorModalToggle] = useState(false);
-    const [catalogues, setCatalogues] = useState(emptyArray);
-    const [categories, setCategories] = useState(emptyArray);
-    const [agreement, setAgreement] = useState([]);
     const [base64s, setBase64s] = useState([]);
-    const [agreementBase64s, setAgreementBase64s] = useState([]);
+    const [additionalBase64s, setAdditionalBase64s] = useState([]);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     // VARIABLES
+    const storeCode = searchParams.get("code");
     let login = cookies.get(CLIENT_USER_INFO, { path: '/' });
     const endpoints = [{
         headers: { "authorization": `Bearer ${login.credentialToken.accessToken}` },
         endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-        url: URL_GET_ADD_CATALOGUE_DATA(login.user.userId),
+        url: URL_GET_ADD_CATALOGUE_DATA(storeCode),
     }, {
         headers: { "authorization": `Bearer ${login.credentialToken.accessToken}` },
         endpoint: process.env.REACT_APP_ZEUS_SERVICE,
         url: URL_GET_CATEGORIES,
+    }, {
+        headers: { "authorization": `Bearer ${login.credentialToken.accessToken}` },
+        endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+        url: URL_GET_COURIERS,
     }]
 
     // FUNCTIONS SPECIFIC //
@@ -106,22 +113,33 @@ export default function AddCatalogue() {
         setData(temp);
     }
 
-    function handleSetDropdowns(array) {
-        let newCatalogues = array[0].responseData.map(obj => obj.catalogueName);
-        let newCategories = array[1].responseData.map(obj => obj.categoryName);
+    function handleSetFetchedDatas(array) {
+        let newFetchedDatas = { ...fetchedDatas };
+        let fetchedCatalogues = array[0].responseData.map(obj => obj.catalogueName);
+        let fetchedCategories = array[1].responseData.map(obj => obj.categoryName);
+        let fetchedCouriers = array[2].responseData.map(obj => obj.courierName);
 
-        setCatalogues(newCatalogues);
-        setCategories(newCategories);
+        newFetchedDatas = {
+            datas: {
+                catalogues: array[0],
+                categories: array[1],
+                couriers: array[2],
+            },
+            dropdowns: {
+                catalogues: fetchedCatalogues.length === 0 ? [NO_DATA] : fetchedCatalogues,
+                categories: fetchedCategories.length === 0 ? [NO_DATA] : fetchedCategories,
+                couriers: fetchedCouriers.length === 0 ? [NO_DATA] : fetchedCouriers,
+            }
+        }
 
-        if (array[0].responseData.length === 0) setCatalogues([NO_DATA]);
-        if (array[1].responseData.length === 0) setCategories([NO_DATA]);
+        setFetchedDatas(newFetchedDatas)
     }
 
     function handleAgreementCheck() {
         setAgreementCheckbox(!agreementCheckbox);
     }
 
-    function handleSubmit() {
+    async function handleSubmit() {
         // Validate the form submission
         if (!agreementCheckbox)
             return handleErrorMessage(
@@ -132,52 +150,60 @@ export default function AddCatalogue() {
 
         // Process raw data and base64s to be sent via POST request
         const formData = new FormData();
-        const processUploadedImageFiles = () => {
-            for (var i = 0; base64s.length > i; i++) {
-                formData.append(ADD_CATALOGUE_FORM, base64s[i], base64s[i].name);
-            }
+        const formProductCategory = fetchedDatas.datas.categories.responseData.filter((val) => val.categoryName === data.productCategory)[0];
+        const formProductCatalog = fetchedDatas.dropdowns.catalogues.filter((val) => val === data.productCatalog)[0];
 
-            const result = formData.getAll(ADD_CATALOGUE_FORM);
-            if (result.length > 0) return result;
-            else return [];
+        formData.append("productName", data.productName);
+        formData.append("productCategory", JSON.stringify(formProductCategory));
+        formData.append("productCatalog", formProductCatalog);
+        formData.append("productDescription", data.productDescription);
+        formData.append("productHashtag", data.productHashtag);
+        formData.append("productCondition", data.productCondition);
+        formData.append("productWeight", data.productWeight);
+        formData.append("productBidPrice", data.productBidPrice);
+        formData.append("productBINPrice", data.productBINPrice);
+        formData.append("productBidMultiplication", data.productBidMultiplication);
+        formData.append("productBidMultiplicationPeriod", data.productBidMultiplicationPeriod);
+        formData.append("productBidPeriod", data.productBidPeriod);
+        formData.append("productStocks", data.productStocks);
+        formData.append("courierChoosen", JSON.stringify(data.courierChoosen));
+        formData.append("newCatalogues", JSON.stringify(fetchedDatas.datas.catalogues.responseData));
+        for (var i = 0; base64s.length > i; i++) {
+            formData.append("uploadedImageFiles", b64toBlob(base64s[i].base64), base64s[i].name);
         }
-        const processAgreementFiles = () => {
-            for (var i = 0; agreementBase64s.length > i; i++) {
-                formData.append(`${ADD_CATALOGUE_FORM}_AGREEMENT`, agreementBase64s[i], agreementBase64s[i].name);
-            }
-            const result = formData.getAll(`${ADD_CATALOGUE_FORM}_AGREEMENT`);
-            if (result.length > 0) return result;
-            else return [];
+        for (var i = 0; additionalBase64s.length > i; i++) {
+            formData.append("uploadedAdditionalFiles", b64toBlob(additionalBase64s[i].base64), additionalBase64s[i].name);
         }
-        const reqData = {
-            ...data,
-            uploadedImageFiles: processUploadedImageFiles(),
-            agreementFiles: processAgreementFiles()
-        }
-
-        console.log(reqData)
-
-        // // Post data        
-        // trackPromise(
-        //     zeusService.postDataWithOnRequestInterceptors({
-        //         endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-        //         url: URL_POST_ADD_STORE_CATALOGUE(login.user.userId),
-        //         headers: { "authorization": `Bearer ${login.credentialToken.accessToken}` },
-        //         data: reqData
-        //     }, async () => {
-        //         const result = await checkAuthAndRefresh(zeusService, cookies);
-        //         if (result.responseStatus === 200) login = cookies.get(CLIENT_USER_INFO);
-        //         return result;
-        //     }).then((res) => {
-        //         if (res.responseStatus === 200) { }
-        //     }).catch((error) => {
-        //         if (error.responseStatus === 401 || error.responseStatus === 403) {
-        //             cookies.remove(CLIENT_USER_INFO, { path: '/' });
-        //             handleOpenOverridingHome(LOGIN);
-        //         }
-        //         else return handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle);
-        //     })
-        // );
+        console.log(JSON.stringify(fetchedDatas.datas.catalogues.responseData))
+        // Post data     
+        trackPromise(
+            zeusService.postDataWithOnRequestInterceptors({
+                endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+                url: URL_POST_ADD_STORE_CATALOGUE(storeCode),
+                headers: {
+                    "authorization": `Bearer ${login.credentialToken.accessToken}`,
+                    "Content-Type": "multipart/form-data",
+                },
+                data: formData
+            }, async () => {
+                const result = await checkAuthAndRefresh(zeusService, cookies);
+                if (result.responseStatus === 200) login = cookies.get(CLIENT_USER_INFO);
+                return result;
+            }).then((res) => {
+                if (res.responseStatus === 200) { }
+            }).catch((error) => {
+                if (error.responseStatus === 401 || error.responseStatus === 403) {
+                    cookies.remove(CLIENT_USER_INFO, { path: '/' });
+                    handleOpenOverridingHome(LOGIN);
+                }
+                else return handleErrorMessage(
+                    error,
+                    setErrorMessage,
+                    setErrorModalToggle,
+                    errorModalToggle
+                );
+            })
+        );
     }
 
     // COMPONENTS SPECIFIC //
@@ -193,10 +219,16 @@ export default function AddCatalogue() {
                 setErrorMessage,
                 setErrorModalToggle,
                 errorModalToggle);
-            const temp = { ...data };
-            temp["newCatalogues"].push(tempCatalogue);
-            setData(temp);
-            setCatalogues(temp["newCatalogues"]);
+
+            let newFetchedDatas = { ...fetchedDatas };
+            let newDropdowns = newFetchedDatas.dropdowns.catalogues.filter(val => val !== NO_DATA)
+            newDropdowns.push(tempCatalogue);
+            newFetchedDatas.dropdowns.catalogues = newDropdowns;
+            newFetchedDatas.datas.catalogues.responseData.push({
+                id: uuidv4(),
+                catalogueName: tempCatalogue
+            });
+            setFetchedDatas(newFetchedDatas);
             handleOpenModal(props.setModalToggle, props.modalToggle);
         }
 
@@ -233,6 +265,7 @@ export default function AddCatalogue() {
                     formName={ADD_CATALOGUE_FORM}
                     base64s={base64s}
                     setBase64s={setBase64s}
+                    maxLength={5}
                     extensions="image/jpeg, image/png"
                     label="Geser file dan masukkan file ke box ini atau klik untuk pilih file"
                     subLabel="Mohon hanya upload extension .jpeg atau .png saja"
@@ -268,7 +301,7 @@ export default function AddCatalogue() {
                     if (result.responseStatus === 200) login = cookies.get(CLIENT_USER_INFO);
                     return result;
                 }).then((result) => {
-                    if (result.responseStatus === 200) handleSetDropdowns(result.responseData);
+                    if (result.responseStatus === 200) handleSetFetchedDatas(result.responseData);
                 }).catch((error) => {
                     if (error.responseStatus === 401 || error.responseStatus === 403) {
                         cookies.remove(CLIENT_USER_INFO, { path: '/' });
@@ -309,13 +342,13 @@ export default function AddCatalogue() {
                             <br />
                             <h3 className="margin-top-0 margin-bottom-12-18">Produkmu masuk kedalam <span className="main-color">kategori</span> apa ?</h3>
                             <div className="add-catalogue-textinput-box margin-top-0">
-                                <Dropdown onChange={(value) => handleValueChange("productCategory", value)} style={{ marginRight: "8px", width: "150px", maxWidth: "150px" }} showTitle={false} toggle={true} value={data.productCategory} values={categories} />
+                                <Dropdown onChange={(value) => handleValueChange("productCategory", value)} style={{ marginRight: "8px", width: "150px", maxWidth: "150px" }} showTitle={false} toggle={true} value={data.productCategory} values={fetchedDatas.dropdowns.categories} />
                             </div>
                             <br />
                             <br />
                             <h3 className="margin-top-0 margin-bottom-12-18">Kamu harus memasukan <span className="main-color">produkmu</span> sesuai dengan <span className="main-color">katalog</span> yang kamu inginkan</h3>
                             <div className="add-catalogue-textinput-box margin-top-0">
-                                <Dropdown onChange={(value) => handleValueChange("productCatalog", value)} style={{ marginRight: "8px", width: "150px", maxWidth: "150px" }} showTitle={false} toggle={true} value={data.productCatalog} values={catalogues} />
+                                <Dropdown onChange={(value) => handleValueChange("productCatalog", value)} style={{ marginRight: "8px", width: "150px", maxWidth: "150px" }} showTitle={false} toggle={true} value={data.productCatalog} values={fetchedDatas.dropdowns.catalogues} />
                                 <Button onClick={() => handleOpenModal(setModalCatalogueToggle, modalCatalogueToggle)} className="margin-top-0 align-self-end add-catalogue-button main-bg-color">
                                     <h4 className="add-catalogue-button-text">+</h4>
                                 </Button>
@@ -387,7 +420,7 @@ export default function AddCatalogue() {
                                 data.courierChoosen.map((val, index) => {
                                     return <div key={`add-catalogue-product-courier-${index}`} className="add-catalogue-textinput-box">
                                         <label className="add-catalogue-input-title">Pilih Kurir {index + 1}</label>
-                                        <Dropdown style={{ width: "75px", maxWidth: "75px" }} onChange={(value) => handleCourierChange(value, index)} showTitle={false} toggle={true} value={val} values={courierValues} />
+                                        <Dropdown style={{ width: "75px", maxWidth: "75px" }} onChange={(value) => handleCourierChange(value, index)} showTitle={false} toggle={true} value={val} values={fetchedDatas.dropdowns.couriers} />
                                     </div>
                                 })
                             }
@@ -396,13 +429,13 @@ export default function AddCatalogue() {
                             </Button>
                             <br />
                             <br />
-                            <h2 className="margin-bottom-12-18">Upload <span className="main-color">ketentuan pelelangan</span></h2>
-                            <h3 className="margin-top-0 margin-bottom-12-18">Ini nih bagian yang agak sensitif, kamu bisa upload <span className="main-color">ketentuan pelelangan</span> agar lelang kamu lebih terorganisir dan teratur <span className="main-color">(opsional)</span></h3>
+                            <h2 className="margin-bottom-12-18">Upload <span className="main-color">file tambahan</span></h2>
+                            <h3 className="margin-top-0 margin-bottom-12-18">Ini juga gak kalah penting nih, kamu bisa upload <span className="main-color">file tambahan</span> untuk mendukung data informasi produkmu <span className="main-color">(opsional)</span></h3>
                             <MultiUpload
                                 customIcon={AgreementIcon}
-                                formName={`${ADD_CATALOGUE_FORM}_AGREEMENT`}
-                                base64s={agreementBase64s}
-                                setBase64s={setAgreementBase64s}
+                                base64s={additionalBase64s}
+                                setBase64s={setAdditionalBase64s}
+                                maxLength={5}
                                 extensions="image/jpeg, image/png"
                                 label="Geser file dan masukkan file ke box ini atau klik untuk pilih file"
                                 subLabel="Mohon hanya upload extension .pdf saja" />
