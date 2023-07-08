@@ -88,8 +88,8 @@ export default function OTP(props) {
                     </ShowNavbar>
                     <div className="otp-container">
                         <div className="otp-wrapper">
-                            <h2 className="margin-bottom-12-18">Input The OTP Code</h2>
-                            <h3 className="margin-top-0 margin-bottom-12-18">We've sent an OTP code to your email, put it here so we can make sure it is you !</h3>
+                            <h2 className="margin-bottom-12-18">Input Kode OTP</h2>
+                            <h3 className="margin-top-0 margin-bottom-12-18">Kami telah mengirimi kode OTP melalui email anda, input disini agar kami bisa memverifikasi data anda</h3>
                             <div className="otp-textinput-box">
                                 <label className="otp-input-title">OTP</label>
                                 <TextInput value={postOTPData.OTPInput} onChange={(e) => handleTextChange("OTPInput", e)} maxLength="6" type="password" className="otp-textinput text-align-center" />

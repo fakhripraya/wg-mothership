@@ -103,7 +103,7 @@ export default function Detail() {
                     <div className="detail-flexbox detail-flexbox-pricing">
                         <h1 className="detail-title margin-top-bottom-0">Pesan</h1>
                         <br />
-                        <h3 className="detail-title margin-top-bottom-0">Jumlah Peminjaman</h3>
+                        <h3 className="detail-title margin-top-bottom-0">Jumlah Pembelian</h3>
                         <div style={{ marginBottom: "8px" }} className="detail-flexbox-pricing-rowbox">
                             <TextInput className="detail-flexbox-pricing-count-area"></TextInput>
                             <img className="detail-flexbox-pricing-count-button" src={PlusIcon} alt={"plus-icon"} />

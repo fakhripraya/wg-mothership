@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.scss';
 import Button from '../Button';
-import WGLogo from '../../assets/images/ic_new_wg_logo.png';
+import WGLogo from '../../assets/images/baru2.png';
 import { getSocialMedia } from '../../variables/path/footer';
 
 export default function Footer() {
@@ -39,8 +39,8 @@ export default function Footer() {
                 </div>
                 <div className="footer-column-2">
                     <div className="footer-column-2-wrapper">
-                        <img className="footer-logo-img" src={WGLogo} alt="WG_LOGO"></img>
-                        <p>© {'2022'} All Rights Reserved, WARGEM.</p>
+                        {/* <img className="footer-logo-img" src={WGLogo} alt="WG_LOGO"></img> */}
+                        <p>© {'2022'} All Rights Reserved, OKSYEN.ID</p>
                     </div>
                 </div>
             </div>

@@ -73,9 +73,12 @@
 }
 
 .navbar-logo-img{
-    margin-top: 10px;
-    max-height: 60px;
-    margin-left: 24px;
+    //margin-top: 10px;
+    position: relative;
+    top: -30px;
+    left: -10px;
+    height: 160px;
+    //margin-left: 24px;
     cursor: pointer;
 }
 

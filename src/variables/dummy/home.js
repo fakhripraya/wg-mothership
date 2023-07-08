@@ -2,15 +2,15 @@ export const getBalanceTools = () => {
     return [
         {
             name: "Top Up",
-            desc: "Click here"
+            desc: "Klik disini"
         },
         {
             name: "Transfer",
-            desc: "Click here"
+            desc: "Klik disini"
         },
         {
-            name: "Promos",
-            desc: "See all"
+            name: "Promo",
+            desc: "Lihat Semua"
         },
     ]
 }

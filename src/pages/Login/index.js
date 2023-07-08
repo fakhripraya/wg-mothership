@@ -96,8 +96,8 @@ export default function Login(props) {
                     </ShowNavbar>
                     <div className="login-container">
                         <div className="login-wrapper">
-                            <h2 className="margin-bottom-12-18">Sign In To Access</h2>
-                            <h3 className="margin-top-0 margin-bottom-12-18">Start rentaling your device now, what are you waiting for ?</h3>
+                            <h2 className="margin-bottom-12-18">Sign In Untuk Mengakses</h2>
+                            <h3 className="margin-top-0 margin-bottom-12-18">Mulai bisnis lelangmu sekarang, tunggu apa lagi?</h3>
                             <div className="login-textinput-box">
                                 <label className="login-input-title">ID</label>
                                 <TextInput value={postLoginData.username} onChange={(e) => handleTextChange("username", e)} type="text" className="login-textinput text-align-center" />
@@ -106,14 +106,14 @@ export default function Login(props) {
                                 <label className="login-input-title">Pass</label>
                                 <TextInput value={postLoginData.password} onChange={(e) => handleTextChange("password", e)} type="password" className="login-textinput text-align-center" />
                             </div>
-                            <h3 onClick={() => handleOpenForgotPassword()} className="login-forgot-pass link-color cursor-pointer">Forgot your password</h3>
+                            <h3 onClick={() => handleOpenForgotPassword()} className="login-forgot-pass link-color cursor-pointer">Lupa password</h3>
                             <Button onClick={() => handleLoginRequest(() => {
                                 props.handleOpen(OTP_PAGE);
                             })} className="login-button dark-bg-color">
                                 <h3 className="login-button-text">Sign In</h3>
                             </Button>
                             <br></br>
-                            <h3 className="login-middle-text">Or continue with</h3>
+                            <h3 className="login-middle-text">atau lanjut dengan</h3>
                             <div className="login-open-auths">
                                 <Button onClick={() => handlePostGoogleAuth(credentialService)} className="login-open-auths-button light-bg-color">
                                     <img src={GoogleIcon} alt={"google-icon"} />
@@ -122,7 +122,7 @@ export default function Login(props) {
                             <br></br>
                             <br></br>
                             <br></br>
-                            <h3 className="login-middle-text">Not a member ? <span onClick={() => handleOpenRegister()} className="link-color cursor-pointer">Sign up now</span></h3>
+                            <h3 className="login-middle-text">Belum jadi member ? <span onClick={() => handleOpenRegister()} className="link-color cursor-pointer">Sign up now</span></h3>
                         </div>
                     </div>
                     <Footer />

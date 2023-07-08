@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from '../Modal';
 import { usePromiseTracker } from "react-promise-tracker";
-import WGLogo from '../../assets/images/ic_new_wg_logo.png';
+import WGLogo from '../../assets/images/baru2.png';
 import './style.scss'
 
 export default function Spinner() {

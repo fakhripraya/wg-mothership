@@ -91,8 +91,8 @@ export default function NewPassword(props) {
                     </ShowNavbar>
                     <div className="new-password-container">
                         <div className="new-password-wrapper">
-                            <h2 className="margin-bottom-12-18">It Is You ! Nice !!</h2>
-                            <h3 className="margin-top-0 margin-bottom-12-18">Nicely done pal, now just input your new pass</h3>
+                            <h2 className="margin-bottom-12-18">Ternyata beneran kamu ! Nice !!</h2>
+                            <h3 className="margin-top-0 margin-bottom-12-18">Nicely done bro, sekarang tinggal input password barumu aja</h3>
                             <div className="new-password-textinput-box">
                                 <label className="new-password-input-title">New Pass</label>
                                 <TextInput value={postNewPWData.newPassword} onChange={(e) => handleTextChange("newPassword", e)} type="password" className="new-password-textinput text-align-center" />
@@ -101,7 +101,7 @@ export default function NewPassword(props) {
                                 <label className="new-password-input-title">Confirm</label>
                                 <TextInput value={postNewPWData.confirmPassword} onChange={(e) => handleTextChange("confirmPassword", e)} type="password" className="new-password-textinput text-align-center" />
                             </div>
-                            <h3 onClick={() => handleOpenLogin()} className="new-password-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
+                            <h3 onClick={() => handleOpenLogin()} className="new-password-forgot-pass link-color cursor-pointer">Gak jadi deh, aku ingat passwordku</h3>
                             <Button onClick={() => handleNewPWRequest(() => handleOpenLogin())} className="new-password-button dark-bg-color">
                                 <h3 className="new-password-button-text">Submit</h3>
                             </Button>

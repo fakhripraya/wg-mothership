@@ -12,7 +12,7 @@ import {
     useNavigate, useSearchParams
 } from 'react-router-dom';
 import OverridingContainer from '../OveriddingContainer';
-import WGLogo from '../../assets/images/ic_new_wg_logo.png';
+import WGLogo from '../../assets/images/baru2.png';
 import ICHamburger from '../../assets/svg/ic_hamburg_3.svg';
 import {
     getMenus
@@ -200,7 +200,7 @@ export default function Navbar() {
                     <h4 className="add-catalogue-button-text">X</h4>
                 </Button>
                 <br />
-                <h2 className="margin-top-0 margin-bottom-12-18">Are you sure to logout your account ?</h2>
+                <h2 className="margin-top-0 margin-bottom-12-18">Yakin mau logout akun kamu ?</h2>
                 <div style={{ padding: "0px" }} className="navbar-mobile-menu-row-wrapper">
                     <Button onClick={() => handleLogout()} style={{ marginRight: "8px" }} >Yes</Button>
                     <Button className="red-bg-color" onClick={() => handleOpenModal(setModalToggle, modalToggle)}>No</Button>

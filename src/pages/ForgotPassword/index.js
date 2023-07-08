@@ -106,13 +106,13 @@ export default function ForgotPassword(props) {
                     </ShowNavbar>
                     <div className="forgot-password-container">
                         <div className="forgot-password-wrapper">
-                            <h2 className="margin-bottom-12-18">Lose Your Password ?</h2>
-                            <h3 className="margin-top-0 margin-bottom-12-18">Don't worry we got you, we will send you a password recovery email</h3>
+                            <h2 className="margin-bottom-12-18">Lupa password kamu ?</h2>
+                            <h3 className="margin-top-0 margin-bottom-12-18">Jangan khawatir, kita bakal kirimin kamu email recovery password</h3>
                             <div className="forgot-password-textinput-box">
                                 <label className="forgot-password-input-title">Email</label>
                                 <TextInput value={postForgotPWData.email} onChange={(e) => handleTextChange("email", e)} type="text" className="forgot-password-textinput text-align-center" />
                             </div>
-                            <h3 onClick={() => handleOpenLogin()} className="forgot-password-forgot-pass link-color cursor-pointer">Nevermind, I remember my password now</h3>
+                            <h3 onClick={() => handleOpenLogin()} className="forgot-password-forgot-pass link-color cursor-pointer">Gak jadi deh, aku ingat passwordku</h3>
                             <Button onClick={() => handleForgotPWRequest((result) => handleAfterSubmitEmail(result))} className="forgot-password-button dark-bg-color">
                                 <h3 className="forgot-password-button-text">Send Email</h3>
                             </Button>
