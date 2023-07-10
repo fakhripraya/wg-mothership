@@ -151,7 +151,7 @@ export default function Home() {
                                     Rp. 1000.000
                                 </h3>
                                 <p className="home-desc-balance dark-color">
-                                    Click disini untuk isi saldo
+                                    Klik disini untuk isi saldo
                                 </p>
                             </div>
                             <div className="home-balance-tools">
