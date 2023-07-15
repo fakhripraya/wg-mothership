@@ -19,7 +19,7 @@ export const getMenus = () => {
         {
             key: RENTAL_MARKET,
             name: "Rental Market",
-            route: "/market"
+            route: "/search"
         }
     ]
 }

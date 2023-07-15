@@ -14,13 +14,13 @@ import Tag from '../../components/Tag';
 import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import Accordion from '../../components/Accordion';
-import { filterData } from '../../variables/dummy/finder';
+import { filterData } from '../../variables/dummy/productSearch';
 import { ShowBreadcrumbs } from '../../components/Global';
 
-export default function Finder() {
+export default function ProductSearch() {
 
     // REFS //
-    const finderTagRef = useRef();
+    const productSearchTagRef = useRef();
     const gridRefs = {};
 
     // STATES //
@@ -60,7 +60,7 @@ export default function Finder() {
 
     const ShowGridCardCarousel = (props) => {
         return props.arrayFunc().map((item, index) => {
-            return <div key={`all-finding-${index}`} onMouseDown={(event) => scrollCarousel(event, gridRefs[index])} className="finder-cards-grid-wrapper" ref={ref => gridRefs[index] = ref}>
+            return <div key={`all-finding-${index}`} onMouseDown={(event) => scrollCarousel(event, gridRefs[index])} className="product-search-cards-grid-wrapper" ref={ref => gridRefs[index] = ref}>
                 <ShowGrabableCardCarousel uniqueKey={`all-finding-id-${index}`} arrayFunc={() => item.arrayFunc()} />
             </div>
         })
@@ -75,44 +75,44 @@ export default function Finder() {
 
     return (
         <Fragment>
-            <div className="finder-container">
-                <div className="finder-wrapper">
-                    <div className="finder-breadcrumbs">
+            <div className="product-search-container">
+                <div className="product-search-wrapper">
+                    <div className="product-search-breadcrumbs">
                         <ShowBreadcrumbs trails={breadcrumbs} />
                     </div>
-                    <div className="finder-title">
-                        <h2>THIS IS THE TITLE OF THE FINDER</h2>
+                    <div className="product-search-title">
+                        <h2>THIS IS THE TITLE OF THE SEARCH</h2>
                     </div>
-                    <div className="finder-flex-container">
-                        <div className="finder-tools-container">
+                    <div className="product-search-flex-container">
+                        <div className="product-search-tools-container">
                             <ShowAccordions uniqueKey="desktop" datas={filterData} />
                         </div>
-                        <div className="finder-cards-container">
-                            <div className="finder-cards-top-header-container" >
-                                <FloatButton onClick={() => handleBottomSheet()} className="finder-filter-button" />
-                                <div onMouseDown={(event) => scrollCarousel(event, finderTagRef.current)} className="finder-cards-tag-container" ref={finderTagRef}>
-                                    <ShowGrabableCarouselTag uniqueKey={'finder-tag'} arrayFunc={() => getRecommendedGaming()} />
+                        <div className="product-search-cards-container">
+                            <div className="product-search-cards-top-header-container" >
+                                <FloatButton onClick={() => handleBottomSheet()} className="product-search-filter-button" />
+                                <div onMouseDown={(event) => scrollCarousel(event, productSearchTagRef.current)} className="product-search-cards-tag-container" ref={productSearchTagRef}>
+                                    <ShowGrabableCarouselTag uniqueKey={'product-search-tag'} arrayFunc={() => getRecommendedGaming()} />
                                 </div>
                             </div>
-                            <div className="finder-cards-header">
-                                <div className="finder-cards-counter">
+                            <div className="product-search-cards-header">
+                                <div className="product-search-cards-counter">
                                     <span>Showing 1 - 60 products of 257k of </span>
                                     <strong>Graphical Render</strong>
                                 </div>
                                 <Dropdown onChange={(value) => { }} style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={["Fittest", "Jancokest"]} />
                             </div>
-                            <div className="finder-cards-wrapper">
+                            <div className="product-search-cards-wrapper">
                                 <ShowGridCardCarousel arrayFunc={() => getGrid()} />
                             </div>
-                            <div className="finder-cards-button-wrapper">
-                                <Button className="finder-button">See More</Button>
+                            <div className="product-search-cards-button-wrapper">
+                                <Button className="product-search-button">See More</Button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
-                <div className="finder-mobile-tools-container">
+                <div className="product-search-mobile-tools-container">
                     <ShowAccordions uniqueKey="desktop" datas={filterData} />
                 </div>
             </BottomSheet>

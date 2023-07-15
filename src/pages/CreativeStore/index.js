@@ -112,9 +112,9 @@ export default function CreativeStore() {
                         <div className="creative-store-body-container">
                             <div className="creative-store-body-top-header-container" >
                                 <FloatButton onClick={() => handleBottomSheet()} className="creative-store-filter-button" />
-                                <div onMouseDown={(event) => scrollCarousel(event, finderTagRef.current)} className="creative-store-cards-tag-container" ref={finderTagRef}>
+                                {/* <div onMouseDown={(event) => scrollCarousel(event, finderTagRef.current)} className="creative-store-cards-tag-container" ref={finderTagRef}>
                                     <ShowGrabableCarouselTag uniqueKey={'creative-store-tag'} arrayFunc={() => getRecommendedGaming()} />
-                                </div>
+                                </div> */}
                             </div>
                             <div className="creative-store-room-title-container">
                                 <div className="creative-store-title-wrapper">
@@ -123,12 +123,15 @@ export default function CreativeStore() {
                                 <Dropdown onChange={(value) => { }} style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={["Fittest", "Jancokest"]} />
                             </div>
                             <div className="creative-store-chatbody-container dark-bg-color">
+                                <div className="creative-store-chatbody-wrapper">
 
+                                </div>
+                                <div className="creative-store-chat-container">
+                                    <TextInput className="creative-store-chat-textinput"></TextInput>
+                                    <Button>Send</Button>
+                                </div>
                             </div>
-                            <div className="creative-store-chat-container">
-                                <TextInput className="creative-store-chat-textinput"></TextInput>
-                                <Button>Send</Button>
-                            </div>
+
                         </div>
                     </div>
                 </div>

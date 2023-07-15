@@ -36,21 +36,17 @@
 .dynamic-accordion-title{
     display: block;
     position: relative;
-    font-weight: 800;
-    font-size: 1.5rem;
-    line-height: 18px;
-    letter-spacing: 0px;
     text-align: left;
     text-decoration: initial;
     overflow-wrap: break-word;
     margin: 0px;
-    width: 100%
+    width: 100%;
 }
 
 .dynamic-accordion-title-prefixes{
     display: flex;
     flex-direction: row;
-    margin-right: 6px;
+    margin-right: 12px;
 }
 
 .dynamic-accordion-button-label-caret{

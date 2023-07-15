@@ -1,7 +1,7 @@
 import React from "react";
 import Home from '../../pages/Home';
 import Error404 from '../../pages/Error404';
-import Finder from '../../pages/Finder';
+import ProductSearch from '../../pages/ProductSearch';
 import RDP from "../../pages/RDP";
 import Detail from "../../pages/Detail";
 import RDPRoom from "../../pages/RDPRoom";
@@ -33,8 +33,8 @@ export const routes = [
         component: <RDPRoomError />,
     },
     {
-        path: '/market',
-        component: <Finder />,
+        path: '/search',
+        component: <ProductSearch />,
     },
     {
         path: '/dashboard/add/catalogue',

@@ -2,23 +2,19 @@ export const getSocialMedia = () => {
     return [
         {
             name: "Facebook",
-            url: "/"
-        },
-        {
-            name: "Dribble",
-            url: "/rental"
+            url: "/https://www.facebook.com/"
         },
         {
             name: "Instagram",
-            url: "/finder"
+            url: "https://www.instagram.com/"
         },
         {
             name: "Whatsapp",
-            url: "/finder"
+            url: "https://web.whatsapp.com/"
         },
         {
             name: "LinkedIn",
-            url: "/finder"
+            url: "https://www.linkedin.com/"
         },
     ]
 }
