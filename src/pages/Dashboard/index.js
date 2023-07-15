@@ -5,7 +5,11 @@ import React, {
 } from 'react';
 import './style.scss';
 import Dropdown from '../../components/DynamicDropdown';
-import { handleErrorMessage, handleOpenOverridingHome, smoothScrollTop } from '../../utils/functions/global';
+import {
+    handleErrorMessage,
+    handleOpenOverridingHome,
+    smoothScrollTop
+} from '../../utils/functions/global';
 import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import DashboardHome from '../DashboardHome';
@@ -15,12 +19,12 @@ import {
     DASHBOARD_CATALOG,
     DASHBOARD_CHATS,
     DASHBOARD_HOME,
-    DASHBOARD_ORDERS,
+    DASHBOARD_TRANSACTIONS,
     LOGIN,
     NO_DATA,
     URL_GET_DASHBOARD_STORES
 } from '../../variables/global';
-import DashboardMyOrders from '../DashboardMyOrders';
+import DashboardTransaction from '../DashboardTransaction';
 import DashboardChat from '../DashboardChat';
 import Avatar from 'react-avatar';
 import Cookies from 'universal-cookie';
@@ -101,7 +105,7 @@ export default function Dashboard() {
             <DashboardCatalogue toggleOpen={toggleOpenBody} data={{
                 selectedStore: selectedStore
             }} />
-            <DashboardMyOrders toggleOpen={toggleOpenBody} />
+            <DashboardTransaction toggleOpen={toggleOpenBody} />
             <DashboardChat toggleOpen={toggleOpenBody} />
         </Fragment>
     }
@@ -159,7 +163,7 @@ export default function Dashboard() {
                         <div className="dashboard-tools-container">
                             <Avatar style={{ cursor: "pointer" }} size={"60px"} round={true} title={login.user.fullName} name={login.user.fullName} />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_HOME)} className="dashboard-menu-button dashboard-menu-button-home" />
-                            <FloatButton onClick={() => handleOpenPage(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" />
+                            <FloatButton onClick={() => handleOpenPage(DASHBOARD_TRANSACTIONS)} className="dashboard-menu-button dashboard-menu-button-order" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_CHATS)} className="dashboard-menu-button dashboard-menu-button-chat" />
                             <FloatButton onClick={() => handleOpenPage(DASHBOARD_CATALOG)} className="dashboard-menu-button dashboard-menu-button-product" />
                         </div>
@@ -190,7 +194,7 @@ export default function Dashboard() {
                     </FloatButton>
                     <br />
                     <br />
-                    <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_ORDERS)} className="dashboard-menu-button dashboard-menu-button-order" >
+                    <FloatButton onClick={() => handleOpenPageMobile(DASHBOARD_TRANSACTIONS)} className="dashboard-menu-button dashboard-menu-button-order" >
                     </FloatButton>
                     <br />
                     <br />

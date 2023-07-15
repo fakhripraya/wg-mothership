@@ -1,4 +1,4 @@
-.accordion-wrapper{
+.dynamic-accordion-wrapper{
     display: flex;
     flex-direction: column;
     -webkit-box-pack: justify;
@@ -9,7 +9,7 @@
     margin-bottom: 1em;
 }
 
-.accordion-button{
+.dynamic-accordion-button{
     display: flex;
     -webkit-box-pack: justify;
     justify-content: space-between;
@@ -24,11 +24,11 @@
     appearance: none;
 }
 
-.accordion-button:hover{
+.dynamic-accordion-button:hover{
     opacity: 0.6;
 }
 
-.accordion-title{
+.dynamic-accordion-title{
     display: block;
     position: relative;
     font-weight: 800;
@@ -39,10 +39,15 @@
     text-decoration: initial;
     overflow-wrap: break-word;
     margin: 0px;
+    width: 100%
 }
 
+.dynamic-accordion-title-prefixes{
+    display: flex;
+    flex-direction: row;
+}
 
-.accordion-button-label-after{
+.dynamic-accordion-button-label-caret{
     display: flex;
     content: "";
     background-image: url('../../assets/svg/caret-down-solid.svg');
@@ -55,7 +60,20 @@
     border-radius: 50%;
 }
 
-.accordion-subtitle{
+.dynamic-accordion-button-label-plus{
+    display: flex;
+    content: "";
+    background-image: url('../../assets/svg/square-plus-solid.svg');
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: transform 280ms ease 0s, background-color 0.12s ease 0s;
+    transform: rotate(0deg);
+    border-radius: 50%;
+}
+
+.dynamic-accordion-subtitle{
     display: block;
     position: relative;
     font-weight: 800;
@@ -68,7 +86,7 @@
     margin-left: 4px;
 }
 
-.accordion-lists-container{
+.dynamic-accordion-lists-container{
     transition: max-height 0.5s ease-in-out;
     width: 100%;
     max-height: fit-content;
@@ -76,6 +94,6 @@
     overflow-y: scroll;
 }
 
-.accordion-lists-container::-webkit-scrollbar {
+.dynamic-accordion-lists-container::-webkit-scrollbar {
     display: none;
 }

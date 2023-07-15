@@ -12,10 +12,10 @@ import {
 import { useEffect } from 'react';
 import { smoothScrollTop } from '../../utils/functions/global';
 import { useNavigate } from 'react-router-dom';
-import { DASHBOARD_ORDERS } from '../../variables/global';
+import { DASHBOARD_TRANSACTIONS } from '../../variables/global';
 import TextArea from '../../components/TextArea';
 
-export default function DashboardMyOrders(props) {
+export default function DashboardTransaction(props) {
 
     // FUNCTIONS SPECIFIC //
     function handleOpenDetail(item, navigate) {
@@ -80,7 +80,7 @@ export default function DashboardMyOrders(props) {
     }, []);
 
     return (
-        <div className={props.toggleOpen === DASHBOARD_ORDERS ? "my-orders-container" : "display-none"}>
+        <div className={props.toggleOpen === DASHBOARD_TRANSACTIONS ? "my-orders-container" : "display-none"}>
             <div className="my-orders-wrapper">
                 <div className="my-orders-header dark-bg-color">
                     <div className="my-orders-searchbar-container">

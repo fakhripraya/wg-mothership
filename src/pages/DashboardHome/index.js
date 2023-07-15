@@ -1,11 +1,11 @@
 import './style.scss';
 import React, { useState } from 'react'
 import LineChart from "../../components/LineChart";
-import BellIcon from '../../assets/svg/bell-solid.svg';
+import VisitIcon from '../../assets/svg/logout.svg';
 import RentalIcon from '../../assets/svg/book-solid.svg';
-import ChatIcon from '../../assets/svg/comment-dots-regular.svg';
+import RatingIcon from '../../assets/svg/face-smile-solid.svg';
 import ProductIcon from '../../assets/svg/bag-shopping-solid.svg';
-import { DASHBOARD_CATALOG, DASHBOARD_HOME, DASHBOARD_NOTES, DASHBOARD_ORDERS } from '../../variables/global';
+import { DASHBOARD_CATALOG, DASHBOARD_HOME, DASHBOARD_NOTES, DASHBOARD_TRANSACTIONS } from '../../variables/global';
 
 const UserData = [
     {
@@ -47,7 +47,7 @@ export default function DashboardHome(props) {
         labels: UserData.map((data) => data.year),
         datasets: [
             {
-                label: "Produk Terlelang",
+                label: "Produk Terjual",
                 data: UserData.map((data) => data.userGain),
                 backgroundColor: "#0DA34D",
                 borderColor: "#0DA34D",
@@ -75,16 +75,16 @@ export default function DashboardHome(props) {
                         <h4>Katalog</h4>
                     </div>
                     <div onClick={() => { }} className="dashboard-home-grid-item dashboard-home-grid-item-2 dashboard-home-grid-item-small main-bg-color">
-                        <img src={ChatIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h4>Broadcast</h4>
+                        <img src={RatingIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
+                        <h4>Rating</h4>
                     </div>
-                    <div onClick={() => handleOpenPage(DASHBOARD_ORDERS)} className="dashboard-home-grid-item dashboard-home-grid-item-3 dashboard-home-grid-item-small main-bg-color">
+                    <div onClick={() => handleOpenPage(DASHBOARD_TRANSACTIONS)} className="dashboard-home-grid-item dashboard-home-grid-item-3 dashboard-home-grid-item-small main-bg-color">
                         <img src={RentalIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h4>Lihat Lelang</h4>
+                        <h4>Transaksi</h4>
                     </div>
                     <div onClick={() => handleOpenPage(DASHBOARD_NOTES)} className="dashboard-home-grid-item dashboard-home-grid-item-4 dashboard-home-grid-item-small main-bg-color">
-                        <img src={BellIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h4>Reminder</h4>
+                        <img src={VisitIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
+                        <h4>Masuk ke toko</h4>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-small-1 dashboard-home-grid-item-big dark-bg-color">
                         <h3>Pesanan</h3>

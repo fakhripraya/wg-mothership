@@ -75,15 +75,15 @@
 .navbar-logo-img{
     //margin-top: 10px;
     position: relative;
-    top: -30px;
-    left: -10px;
-    height: 160px;
+    top: 0px;
+    height: 80px;
+    transform: scale(1.75) translateX(20%);
     //margin-left: 24px;
     cursor: pointer;
 }
 
 .navbar-logo-img:hover{
-    transform: scale(1.1);
+    transform: scale(1.95) translateX(20%);
     transition: all 0.1s ease-in-out;
 }
 
