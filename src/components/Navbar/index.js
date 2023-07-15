@@ -260,6 +260,7 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleNavbarHide);
     }, []);
 
+    if (window.location.pathname.includes("creative-store")) return null;
     return (
         <Fragment>
             <Modal className="dark-bg-color" clicked={() => handleOpenModal(setModalToggle, modalToggle)} toggle={modalToggle} >

@@ -15,6 +15,7 @@ export default function Footer() {
         </div>
     }
 
+    if (window.location.pathname.includes("creative-store")) return null;
     return (
         <div className="footer-container main-bg-color">
             <div className="footer-grid-wrapper grid-false">

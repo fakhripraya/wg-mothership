@@ -323,7 +323,7 @@
     display: flex;
     overflow-y: scroll;
     margin-top: 20px;
-    height: fill-available;
+    height: stretch;
     border-radius: 24px;
     padding-bottom: 0px !important;
 }
@@ -352,7 +352,7 @@ background: inherit;
 
 .creative-store-chat-container{
     margin-top: 20px;
-    width: fill-available;
+    width: stretch;
     display: flex;
     flex-direction: row;
 }

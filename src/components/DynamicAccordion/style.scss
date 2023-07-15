@@ -9,14 +9,19 @@
     margin-bottom: 1em;
 }
 
-.dynamic-accordion-button{
+.dynamic-accordion-button-wrapper{
     display: flex;
+    flex-direction: row;
     -webkit-box-pack: justify;
     justify-content: space-between;
-    flex-direction: row;
     -webkit-box-align: center;
     align-items: center;
     width: 100%;
+}
+
+.dynamic-accordion-button{
+    display: flex;
+    width: stretch;
     padding: 10px 8px 9px 12px;
     border: none;
     background-color:transparent;
@@ -45,6 +50,7 @@
 .dynamic-accordion-title-prefixes{
     display: flex;
     flex-direction: row;
+    margin-right: 6px;
 }
 
 .dynamic-accordion-button-label-caret{
@@ -87,7 +93,7 @@
 }
 
 .dynamic-accordion-lists-container{
-    transition: max-height 0.5s ease-in-out;
+    transition: max-height 0.2s ease-in-out;
     width: 100%;
     max-height: fit-content;
     overflow: hidden;

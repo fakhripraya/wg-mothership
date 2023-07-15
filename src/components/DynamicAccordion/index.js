@@ -36,13 +36,15 @@ export default function DynamicAccordion(props) {
 
     return (
         <div className={"dynamic-accordion-wrapper " + props.className}>
-            <button className="dynamic-accordion-button">
-                <h3 onClick={() => handleAccordionClick()} className="dynamic-accordion-title light-color">{props.title}</h3>
+            <div className="dynamic-accordion-button-wrapper">
+                <button onClick={() => handleAccordionClick()} className="dynamic-accordion-button">
+                    <h3 className="dynamic-accordion-title light-color">{props.title}</h3>
+                </button>
                 <div className="dynamic-accordion-title-prefixes">
                     <span onClick={() => handleAccordionClick()} className="dynamic-accordion-button-label-caret" ref={caretRef} />
                     <span onClick={() => { }} className="dynamic-accordion-button-label-plus" ref={plusRef} />
                 </div>
-            </button>
+            </div>
             <div ref={listRef} className="dynamic-accordion-lists-container">
                 <ShowItems />
             </div>

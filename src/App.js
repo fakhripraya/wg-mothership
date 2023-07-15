@@ -1,6 +1,7 @@
 import './App.scss';
 import React,
 {
+  Fragment,
   Suspense,
   useEffect,
   useState
@@ -24,7 +25,6 @@ import Spinner from './components/Spinner';
 function App() {
 
   const [style, setStyle] = useState(styleInitialState);
-  const [pathname, setPathName] = useState(window.location.pathname);
 
   const history = createBrowserHistory({ forceRefresh: true });
   const cache = new Cache({
@@ -51,24 +51,6 @@ function App() {
   }
 
   //COMPONENT FUNCTION
-  function ShowNavbar() {
-    if (pathname.includes("creative-store")) return null;
-    return <NavBar />
-  }
-
-  function ShowFooter() {
-    if (pathname.includes("creative-store")) return null;
-    return <Footer />
-  }
-
-  function ShowMenu() {
-    if (pathname.includes("creative-store")) return null;
-    return <FloatButton style={{ transform: `${style.floatButton.transform}` }} onClick={() => sendWA()} className="fixed-app-button main-bg-color">
-      <h3 className="light-color">
-        Help
-      </h3>
-    </FloatButton>
-  }
 
   useEffect(() => {
     window.addEventListener('scroll', handleStyleChange)
@@ -80,7 +62,7 @@ function App() {
   return (
     <ConfigProvider cache={cache}>
       <Router history={history} basename="/">
-        <ShowNavbar />
+        <NavBar />
         <Routes>
           {routes.map((item, index) => {
             return <Route
@@ -92,13 +74,19 @@ function App() {
           }
           )}
         </Routes>
-        <ShowFooter />
+        <Footer />
         <FloatButton style={{ transform: `${style.ScrollTopButton.transform}` }} onClick={() => smoothScrollTop()} className="fixed-app-button main-bg-color">
           <h3 className="light-color">
             Menu
           </h3>
         </FloatButton>
-        <ShowMenu />
+        {!window.location.pathname.includes("creative-store") ?
+          <FloatButton style={{ transform: `${style.floatButton.transform}` }} onClick={() => sendWA()} className="fixed-app-button main-bg-color">
+            <h3 className="light-color">
+              Help
+            </h3>
+          </FloatButton> :
+          null}
         <Spinner />
       </Router>
     </ConfigProvider>
