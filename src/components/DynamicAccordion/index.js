@@ -37,11 +37,11 @@ export default function DynamicAccordion(props) {
     return (
         <div className={"dynamic-accordion-wrapper " + props.className}>
             <div onClick={() => handleAccordionClick()} className="dynamic-accordion-button-wrapper">
-                <button onClick={() => handleAccordionClick()} className="dynamic-accordion-button">
+                <button className="dynamic-accordion-button">
                     <h2 className="dynamic-accordion-title light-color">{props.title}</h2>
                 </button>
                 <div className="dynamic-accordion-title-prefixes">
-                    <span onClick={() => handleAccordionClick()} className="dynamic-accordion-button-label-caret" ref={caretRef} />
+                    <span className="dynamic-accordion-button-label-caret" ref={caretRef} />
                     <span onClick={(e) => { e.stopPropagation() }} className="dynamic-accordion-button-label-plus" ref={plusRef} />
                 </div>
             </div>
