@@ -85,11 +85,12 @@
     align-self: center;
     padding-top: 6px !important;
     padding-bottom: 6px !important;
+    width: stretch;
+    height: 100px;
 }
 
 .creative-store-avatar-container{
-    padding: 6px;
-    height: 100px;
+    padding: 6px 12px;
     width: fit-content;
 }
 
@@ -103,7 +104,6 @@
     flex-direction: column;
     align-items: flex-start;
     width: stretch;
-    height: 100px;
     padding: 6px 8px 10px 12px;
     border: none;
     background-color: transparent;
@@ -161,9 +161,6 @@
     overflow-y: scroll;
     margin-top: 12px;
     height: stretch;
-    // --containerH: calc(100vh - 12px);
-    // --differenceH: 204px;
-    // height: calc(var(--containerH) - var(--differenceH));
 }
 
 .creative-store-scrollable-menu-container{
@@ -188,6 +185,82 @@
 .creative-store-dynamic-accordion-socket-wrapper *{
     font-size: 1.25em;
     padding: 4px;
+}
+
+.creative-store-user-avatar{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    width: stretch;
+    margin-top: 12px;
+    height: 80px;
+}
+
+.creative-store-user-avatar-container{
+    padding: 4px 12px;
+    width: fit-content;
+}
+
+.creative-store-user-identifier-img-wrapper{
+    height: 100%;
+}
+
+.creative-store-user-avatar-side-container{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+    width: stretch;
+    padding: 6px 8px 10px 12px;
+    border: none;
+    background-color: transparent;
+    height: stretch;
+    width: stretch;
+}
+
+.creative-store-store-user-name{
+    margin: 0px !important;
+    height: fit-content;
+    margin-bottom: 6px !important;
+}
+
+.creative-store-store-user-tools{
+    width: 100%;
+    height: auto;
+    margin: 0px !important;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    padding: 4px 0px ;
+}
+
+.creative-store-button-icon{
+    display: flex;
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    transition: transform 50ms ease 0s, background-color 0.12s ease 0s;
+    margin-right: 12px;
+}
+
+.creative-store-button-icon-voice{
+    background-image: url('../../assets/svg/microphone-disabled.svg');
+}
+.creative-store-button-icon-audio{
+    background-image: url('../../assets/svg/headphone-enabled.svg');
+}
+.creative-store-button-icon-setting{
+    background-image: url('../../assets/svg/gear-icon.svg');
+}
+
+.creative-store-store-label::-webkit-scrollbar {
+    display: none;
 }
 
 .creative-store-body-container{

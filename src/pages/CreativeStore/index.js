@@ -83,7 +83,12 @@ export default function CreativeStore() {
                             <div className="creative-store-tools-sub-container creative-store-avatar">
                                 <div className="creative-store-avatar-container">
                                     <div className="creative-store-identifier-img-wrapper">
-                                        <Avatar style={{ cursor: "pointer" }} src={"https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"} size={60} title={"test"} name={"test"} />
+                                        <Avatar
+                                            style={{ cursor: "pointer" }}
+                                            src={"https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"}
+                                            size={60}
+                                            title={"test"}
+                                            name={"test"} />
                                     </div>
                                 </div>
                                 <div className="creative-store-header">
@@ -100,6 +105,25 @@ export default function CreativeStore() {
                             <div className="creative-store-tools-sub-container creative-store-scrollable-menu">
                                 <div className='creative-store-scrollable-menu-container'>
                                     <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
+                                </div>
+                            </div>
+                            <div className="creative-store-tools-sub-container creative-store-user-avatar">
+                                <div className="creative-store-user-avatar-container">
+                                    <div className="creative-store-user-identifier-img-wrapper">
+                                        <Avatar style={{ cursor: "pointer" }}
+                                            src={"https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"}
+                                            round={true} size={60}
+                                            title={"test"}
+                                            name={"test"} />
+                                    </div>
+                                </div>
+                                <div className="creative-store-user-avatar-side-container">
+                                    <h4 className='creative-store-store-user-name'>Freddy Sambo</h4>
+                                    <div className='creative-store-store-user-tools'>
+                                        <span className="creative-store-button-icon creative-store-button-icon-voice" />
+                                        <span className="creative-store-button-icon creative-store-button-icon-audio" />
+                                        <span className="creative-store-button-icon creative-store-button-icon-setting" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

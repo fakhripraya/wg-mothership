@@ -5,7 +5,6 @@ export default function DynamicAccordion(props) {
 
     const listRef = useRef();
     const caretRef = useRef();
-    const plusRef = useRef();
     const [toggle, setToggle] = useState(props.toggle);
 
     // FUNCTION SPECIFICS //
@@ -42,7 +41,7 @@ export default function DynamicAccordion(props) {
                 </button>
                 <div className="dynamic-accordion-title-prefixes">
                     <span className="dynamic-accordion-button-label-caret" ref={caretRef} />
-                    <span onClick={(e) => { e.stopPropagation() }} className="dynamic-accordion-button-label-plus" ref={plusRef} />
+                    <span onClick={(e) => { e.stopPropagation() }} className="dynamic-accordion-button-label-plus" />
                 </div>
             </div>
             <div ref={listRef} className="dynamic-accordion-lists-container">
