@@ -6,7 +6,7 @@ import { smoothScrollTop } from '../../utils/functions/global';
 import Button from '../../components/Button';
 import TextInput from '../../components/TextInput';
 import MinusIcon from '../../assets/svg/square-minus-solid.svg';
-import PlusIcon from '../../assets/svg/square-plus-solid.svg';
+import PlusIcon from '../../assets/svg/square-plus-solid-green.svg';
 import Accordion from '../../components/Accordion';
 import { filterData } from '../../variables/dummy/detail';
 import TextArea from '../../components/TextArea';

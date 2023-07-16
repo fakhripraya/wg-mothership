@@ -25,10 +25,15 @@
     width: stretch;
     margin: 4px;
     border-radius: 1em;
+    transition: all 0.2s ease-in-out;
 }
 
 .dynamic-accordion-button-wrapper:hover{
-    background-color: #181818;
+    background-color: #0DA34D;
+}
+
+.dynamic-accordion-button-wrapper:hover .dynamic-accordion-title-prefixes .dynamic-accordion-button-label-plus{
+    background-image: url('../../assets/svg/square-plus-solid.svg');
 }
 
 .dynamic-accordion-button{
@@ -81,13 +86,13 @@
 .dynamic-accordion-button-label-plus{
     display: flex;
     content: "";
-    background-image: url('../../assets/svg/square-plus-solid.svg');
+    background-image: url('../../assets/svg/square-plus-solid-green.svg');
     width: 18px;
     height: 18px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    transition: transform 50ms ease 0s, background-color 0.12s ease 0s;
+    transition: all 0.2s ease-in-out;
 }
 
 .dynamic-accordion-button-label-plus:hover{
@@ -106,10 +111,6 @@
     margin: 0px;
     margin-left: 4px;
     @include text-ellipsis();
-}
-
-.dynamic-accordion-subtitle:hover{
-    opacity: 0.6;
 }
 
 .dynamic-accordion-lists-container{

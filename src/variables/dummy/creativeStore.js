@@ -1,6 +1,6 @@
 export const initialRooms = [
     {
-        title: "Informasi Tokoasdddddddddddddddd",
+        title: "Informasi Toko",
         data: [
             {
                 roomTitle: "📢︱announcement",

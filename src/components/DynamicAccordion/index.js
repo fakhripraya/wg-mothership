@@ -16,7 +16,7 @@ export default function DynamicAccordion(props) {
     const ShowItems = () => {
         if (!props.isButton) return props.children
         return props.data.map((item, index) => {
-            return <button key={`dynamic-accordion-${item.title}-${index}`} className="dynamic-accordion-button">
+            return <button key={`dynamic-accordion-${item.title}-${index}`} className="dynamic-accordion-button dynamic-accordion-subtitle-button">
                 <h6 className="dynamic-accordion-subtitle light-color">{item.title}</h6>
             </button>
         })

@@ -12,7 +12,7 @@ import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import DynamicAccordion from '../../components/DynamicAccordion';
 import { initialRooms } from '../../variables/dummy/creativeStore';
-import PlusBtn from '../../assets/svg/square-plus-solid.svg'
+import PlusBtn from '../../assets/svg/square-plus-solid-green.svg'
 import Avatar from 'react-avatar';
 import TextInput from '../../components/TextInput';
 import { MENU_MOBILE } from '../../variables/global';
@@ -92,14 +92,14 @@ export default function CreativeStore() {
                                     </div>
                                 </div>
                                 <div className="creative-store-header">
-                                    <h3 className='creative-store-store-title'>Nama Toko</h3>
+                                    <h3 className='creative-store-store-title'>Bahari One Stop</h3>
                                     <label className='creative-store-store-label'>Kita adalah toko terbaik di muka bumi Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, dignissimos! Obcaecati, magni temporibus soluta atque nesciunt ipsam velit explicabo eligendi earum ullam nemo, voluptate nam totam iusto culpa optio repudiandae?</label>
                                 </div>
                             </div>
                             <div className="creative-store-tools-sub-container creative-store-add-menu">
                                 <div className="creative-store-add-menu-wording">
                                     <h4 className='white-color'>Tambah Kategori</h4>
-                                    <img className='creative-store-plus-button' src={PlusBtn}></img>
+                                    <span className='creative-store-plus-button' />
                                 </div>
                             </div>
                             <div className="creative-store-tools-sub-container creative-store-scrollable-menu">
@@ -111,10 +111,9 @@ export default function CreativeStore() {
                                 <div className="creative-store-user-avatar-container">
                                     <div className="creative-store-user-identifier-img-wrapper">
                                         <Avatar style={{ cursor: "pointer" }}
-                                            src={"https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"}
-                                            round={true} size={60}
-                                            title={"test"}
-                                            name={"test"} />
+                                            round={true} size={50}
+                                            title={"Freddy Sambo"}
+                                            name={"Freddy Sambo"} />
                                     </div>
                                 </div>
                                 <div className="creative-store-user-avatar-side-container">
@@ -137,14 +136,39 @@ export default function CreativeStore() {
                             </div>
                             <div className="creative-store-chatbody-container dark-bg-color">
                                 <div className="creative-store-chatbody-wrapper">
-
-                                </div>
-                                <div className="creative-store-chat-container">
-                                    <TextInput className="creative-store-chat-textinput"></TextInput>
-                                    <Button>Send</Button>
+                                    <div className="creative-store-chattext-container">
+                                        <div className="creative-store-chattext-avatar">
+                                            <Avatar style={{ cursor: "pointer" }}
+                                                round={true} size={50}
+                                                title={"Veallen Aisyah"}
+                                                name={"Veallen Aisyah"} />
+                                        </div>
+                                        <div className="creative-store-chattext-wrapper">
+                                            <label>Veallen Aisyah</label>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.</p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.</p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.</p>
+                                        </div>
+                                    </div>
+                                    <div className="creative-store-chattext-container">
+                                        <div className="creative-store-chattext-avatar">
+                                            <Avatar style={{ cursor: "pointer" }}
+                                                round={true} size={50}
+                                                title={"Fakhri Prayatna Putra"}
+                                                name={"Fakhri Prayatna Putra"} />
+                                        </div>
+                                        <div className="creative-store-chattext-wrapper">
+                                            <label>Fakhri Prayatna Putra</label>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.</p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
+                            <div className="creative-store-chat-container dark-bg-color">
+                                <TextInput className="creative-store-chat-textinput"></TextInput>
+                                <Button>Send</Button>
+                            </div>
                         </div>
                     </div>
                 </div>
