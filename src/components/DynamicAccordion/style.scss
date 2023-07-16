@@ -105,6 +105,7 @@
     text-align: left;
     margin: 0px;
     margin-left: 4px;
+    @include text-ellipsis();
 }
 
 .dynamic-accordion-subtitle:hover{

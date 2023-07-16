@@ -99,4 +99,14 @@ export const initialRooms = [
             },
         ]
     },
+    {
+        title: "Masukan",
+        data: [
+            {
+                roomTitle: "🖥︱Kasih kita masukan disini",
+                roomType: "TEXT",
+                roomChats: []
+            },
+        ]
+    },
 ]

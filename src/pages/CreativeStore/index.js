@@ -83,7 +83,7 @@ export default function CreativeStore() {
                             <div className="creative-store-tools-sub-container creative-store-avatar">
                                 <div className="creative-store-avatar-container">
                                     <div className="creative-store-identifier-img-wrapper">
-                                        <Avatar style={{ cursor: "pointer" }} src={"https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"} round={true} title={"test"} name={"test"} />
+                                        <Avatar style={{ cursor: "pointer" }} src={"https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"} size={60} title={"test"} name={"test"} />
                                     </div>
                                 </div>
                                 <div className="creative-store-header">
@@ -98,7 +98,9 @@ export default function CreativeStore() {
                                 </div>
                             </div>
                             <div className="creative-store-tools-sub-container creative-store-scrollable-menu">
-                                <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
+                                <div className='creative-store-scrollable-menu-container'>
+                                    <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
+                                </div>
                             </div>
                         </div>
                         <div className="creative-store-body-container">
