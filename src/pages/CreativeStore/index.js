@@ -1,32 +1,30 @@
 import React, {
     Fragment,
     useEffect,
-    useRef,
     useState
 } from 'react';
-import Dropdown from '../../components/Dropdown';
 import Button from '../../components/Button';
 import './style.scss';
 import Card from '../../components/Card';
 import { scrollCarousel, smoothScrollTop } from '../../utils/functions/global';
-import { getGrid, getRecommendedGaming } from '../../variables/dummy/home';
 import Tag from '../../components/Tag';
 import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import DynamicAccordion from '../../components/DynamicAccordion';
-import { data } from '../../variables/dummy/creativeStore';
+import { initialRooms } from '../../variables/dummy/creativeStore';
 import PlusBtn from '../../assets/svg/square-plus-solid.svg'
 import Avatar from 'react-avatar';
 import TextInput from '../../components/TextInput';
+import { MENU_MOBILE } from '../../variables/global';
 
 export default function CreativeStore() {
 
     // REFS //
-    const finderTagRef = useRef();
     const gridRefs = {};
 
     // STATES //
-    const [breadcrumbs, setBreadcrumb] = useState([]);
+    const [rooms, setRooms] = useState(initialRooms);
+    const [selectedRoom, setSelectedRoom] = useState(null);
     const [toggle, setToggle] = useState(false);
 
     // FUNCTIONS SPECIFIC //
@@ -34,52 +32,46 @@ export default function CreativeStore() {
         setToggle(!toggle);
     }
 
+    function handleSelectedRoom() {
+
+    }
+
     // COMPONENTS SPECIFIC //
-    const ShowRooms = (props) => {
-        return props.datas.map((item, index) => {
-            return <DynamicAccordion key={`${props.uniqueKey}-accordion-${index}`} toggle={true} isButton={true} title={item.title} data={item.data} />
-        })
+    const ShowSockets = (props) => {
+        if (!props.data || props.data.length === 0) return null;
+        return (<div className='creative-store-dynamic-accordion-socket-wrapper'>
+            {props.data.map((obj, index) => {
+                return <label
+                    className="light-color"
+                    key={`${props.uniqueKey}-dynamic-accordion-socket-${index}`}>
+                    {obj.name}
+                </label>
+            })}
+        </div>)
     }
 
-    //TODO: A PLACE HOLDER AND WILL BE DELETED SOON
-    const ShowAccordions = (props) => {
-        return props.datas.map((item, index) => {
-            return <DynamicAccordion key={`${props.uniqueKey}-accordion-${index}`} toggle={true} isButton={true} title={item.title} data={item.data} />
-        })
-    }
-
-    const ShowGrabableCarouselTag = (props) => {
-        return props.arrayFunc().map((item, index) => {
-            return <Tag key={`carousel-${props.uniqueKey}-${index}`} text={item.name} textStyle={{ marginTop: "12px", marginBottom: "12px" }} />
-        })
-    }
-
-    const ShowGrabableCardCarousel = (props) => {
-        return props.arrayFunc().map((item, index) => {
-            return <Card
-                className="dark-bg-color"
-                key={`finding-carousel-${props.uniqueKey}-${index}`}
-                imgUrl={item.url}
-                title={item.name}
-                location={item.location}
-                price={item.price}
-                desc={item.desc} />
-        })
-    }
-
-    const ShowGridCardCarousel = (props) => {
-        return props.arrayFunc().map((item, index) => {
-            return <div key={`all-finding-${index}`} onMouseDown={(event) => scrollCarousel(event, gridRefs[index])} className="creative-store-cards-grid-wrapper" ref={ref => gridRefs[index] = ref}>
-                <ShowGrabableCardCarousel uniqueKey={`all-finding-id-${index}`} arrayFunc={() => item.arrayFunc()} />
-            </div>
+    const ShowRoomCategories = (props) => {
+        return props.datas.map((obj1, index1) => {
+            return <DynamicAccordion
+                key={`${props.uniqueKey}-dynamic-accordion-${index1}`}
+                toggle={true}
+                isButton={false}
+                title={obj1.title} >
+                {obj1.data.map((obj2, index2) => {
+                    return <button
+                        key={`${props.uniqueKey}-dynamic-accordion-${obj2.roomTitle}-${index2}`}
+                        className="dynamic-accordion-button creative-store-dynamic-accordion-button">
+                        <h6 className="dynamic-accordion-subtitle light-color">{obj2.roomTitle}</h6>
+                        <ShowSockets uniqueKey={props.uniqueKey} data={obj2.roomSockets} />
+                    </button>
+                })}
+            </DynamicAccordion>
         })
     }
 
     // INITIAL RENDER
     useEffect(() => {
         smoothScrollTop();
-        const dummyBreadcrumb = ["Home", "Graphical Renders", "Tesla P100"];
-        setBreadcrumb(dummyBreadcrumb);
     }, []);
 
     return (
@@ -101,26 +93,21 @@ export default function CreativeStore() {
                             </div>
                             <div className="creative-store-tools-sub-container creative-store-add-menu">
                                 <div className="creative-store-add-menu-wording">
-                                    <h3 className='white-color'>Add Menu</h3>
-                                    <img style={{ height: "30px", marginLeft: "10px" }} src={PlusBtn}></img>
+                                    <h4 className='white-color'>Tambah Kategori</h4>
+                                    <img className='creative-store-plus-button' src={PlusBtn}></img>
                                 </div>
                             </div>
                             <div className="creative-store-tools-sub-container creative-store-scrollable-menu">
-                                <ShowRooms uniqueKey="desktop" datas={data} />
+                                <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
                             </div>
                         </div>
                         <div className="creative-store-body-container">
-                            <div className="creative-store-body-top-header-container" >
-                                <FloatButton onClick={() => handleBottomSheet()} className="creative-store-filter-button" />
-                                {/* <div onMouseDown={(event) => scrollCarousel(event, finderTagRef.current)} className="creative-store-cards-tag-container" ref={finderTagRef}>
-                                    <ShowGrabableCarouselTag uniqueKey={'creative-store-tag'} arrayFunc={() => getRecommendedGaming()} />
-                                </div> */}
-                            </div>
-                            <div className="creative-store-room-title-container">
-                                <div className="creative-store-title-wrapper">
-                                    <strong>📢︱announcement</strong>
+                            <div className="creative-store-body-header-container" >
+                                <div className="creative-store-body-header-left">
+                                    <FloatButton onClick={() => handleBottomSheet()} className="creative-store-filter-button" />
+                                    <h4>📢︱announcement</h4>
                                 </div>
-                                <Dropdown onChange={(value) => { }} style={{ width: "100px", maxWidth: "100px" }} showTitle={true} toggle={true} values={["Fittest", "Jancokest"]} />
+                                <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-hamburg-menu-button' />
                             </div>
                             <div className="creative-store-chatbody-container dark-bg-color">
                                 <div className="creative-store-chatbody-wrapper">
@@ -138,7 +125,6 @@ export default function CreativeStore() {
             </div>
             <BottomSheet toggle={toggle} clicked={handleBottomSheet}>
                 <div className="creative-store-mobile-tools-container">
-                    <ShowAccordions uniqueKey="desktop" datas={data} />
                 </div>
             </BottomSheet>
         </Fragment>

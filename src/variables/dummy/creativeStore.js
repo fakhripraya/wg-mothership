@@ -1,12 +1,18 @@
-export const data = [
+export const initialRooms = [
     {
-        title: "Informasi Toko",
+        title: "Informasi Tokoasdddddddddddddddd",
         data: [
             {
-                title: "📢︱announcement"
+                roomTitle: "📢︱announcement",
+                roomType: "TEXT",
+                roomChats: [
+                    ""
+                ]
             },
             {
-                title: "💸︱event-live"
+                roomTitle: "💸︱event-live",
+                roomType: "TEXT",
+                roomChats: []
             },
         ]
     },
@@ -14,14 +20,20 @@ export const data = [
         title: "Lounge",
         data: [
             {
-                title: "🪐︱General Chat"
+                roomTitle: "🪐︱General Chat",
+                roomType: "TEXT",
+                roomChats: []
             },
             {
-                title: "🪐︱Chat Resepsionis"
+                roomTitle: "🪐︱Chat Resepsionis",
+                roomType: "TEXT",
+                roomChats: []
             },
             {
-                title: "🎧「Voice 1",
-                sockets: [
+                roomTitle: "🎧「Voice 1",
+                roomType: "VOICE",
+                roomMaxSocket: 10,
+                roomSockets: [
                     {
                         name: "user 1"
                     },
@@ -31,8 +43,10 @@ export const data = [
                 ]
             },
             {
-                title: "🎧「Voice 2",
-                sockets: [
+                roomTitle: "🎧「Voice 2",
+                roomType: "VOICE",
+                roomMaxSocket: 10,
+                roomSockets: [
                     {
                         name: "user 1"
                     },
@@ -44,10 +58,16 @@ export const data = [
         title: "Live Streaming",
         data: [
             {
-                title: "🔥︱Baju Gamis"
+                roomTitle: "🔥︱Baju Gamis",
+                roomType: "LIVE_SPACE",
+                roomMaxSocket: -1,
+                roomSockets: []
             },
             {
-                title: "🔥︱Sepatu High Heels"
+                roomTitle: "🔥︱Sepatu High Heels",
+                roomType: "LIVE_SPACE",
+                roomMaxSocket: -1,
+                roomSockets: []
             },
         ]
     },
@@ -55,10 +75,27 @@ export const data = [
         title: "Pelaporan",
         data: [
             {
-                title: "🖥︱Lapor Transaksi"
+                roomTitle: "🖥︱Lapor Transaksi",
+                roomType: "TEXT",
+                roomChats: []
             },
             {
-                title: "📑︱Lapor Retur"
+                roomTitle: "📑︱Lapor Retur",
+                roomType: "TEXT",
+                roomChats: []
+            },
+            {
+                roomTitle: "🎧「Bilik Lapor Privat",
+                roomType: "VOICE",
+                roomMaxSocket: 2,
+                roomSockets: [
+                    {
+                        name: "staff 1"
+                    },
+                    {
+                        name: "user 1"
+                    },
+                ]
             },
         ]
     },
