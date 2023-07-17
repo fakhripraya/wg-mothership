@@ -221,10 +221,14 @@
 
 .home-balance-tools-box{
     height: fit-content;
-    width: 100%;
+    width: stretch;
     padding: 0px 24px;
     margin-right: 12px;
     @include shrink-padding($isCounter: false);
+
+    @media screen and (max-width: 310px){
+        margin-right: 0px;
+    }
 }
 
 .home-balance-tools-box:last-child{

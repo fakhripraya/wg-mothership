@@ -144,13 +144,13 @@ export default function Home() {
                     <div className="home-element-container darker-bg-color">
                         <div className="home-balance-wrapper">
                             <div className="home-balance-box home-balance-counter-box dark-bg-color">
-                                <h1 className="home-title-balance dark-color">
+                                <h1 className="home-title-balance light-color">
                                     Saldo
                                 </h1>
-                                <h3 className="home-balance-number dark-color">
+                                <h3 className="home-balance-number light-color">
                                     Rp. 1000.000
                                 </h3>
-                                <p className="home-desc-balance dark-color">
+                                <p className="home-desc-balance light-color">
                                     Klik disini untuk isi saldo
                                 </p>
                             </div>
