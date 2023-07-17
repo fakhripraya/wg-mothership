@@ -7,7 +7,7 @@
 // MAIN STYLES //
 .creative-store-container{
     min-width: 100vw;
-    margin-top: 12px;
+    height: 100dvh;
     //overflow: hidden;
 }
 
@@ -37,6 +37,8 @@
 }
 
 .creative-store-flex-container{
+    margin-top: 12px;
+    margin-bottom: 12px;
     display: flex;
     margin-left: 0px;
     margin-right: 0px;
@@ -279,6 +281,7 @@
 .creative-store-body-container{
     position: relative;
     padding-left: 12px;
+    padding-right: 12px;
     box-sizing: border-box;
     width: stretch;
     display: flex;
@@ -287,6 +290,7 @@
 
     @media screen and (max-width: 1000px){
         padding-left: 0px;
+        padding-right: 0px;
     }
 }
 
@@ -313,11 +317,10 @@
 .creative-store-filter-button{
     border-style: none;
     cursor: pointer;
-    border-radius: 100px;
-    height: 40px !important;
-    width: 40px !important;
+    height: 36px !important;
+    width: 36px !important;
     transition: all 0.3s ease-in-out;
-    background-image: url('../../assets//svg/filter-solid.svg');
+    background-image: url('../../assets//svg/ellipsis-vertical-solid.svg');
     background-repeat: no-repeat;
     background-position: center center;
     justify-self: center;
@@ -338,8 +341,8 @@
 
 .creative-store-hamburg-menu-button{
     cursor: pointer;
-    height: 40px !important;
-    width: 40px !important;
+    height: 36px !important;
+    width: 36px !important;
     transition: all 0.3s ease-in-out;
     background-image: url('../../assets/svg/ic_hamburg_3.svg');
     background-repeat: no-repeat;
@@ -349,6 +352,7 @@
     align-self: center;
     display: flex;
     background-color: transparent;
+    box-shadow: none !important;
 }
 
 .creative-store-chatbody-container{

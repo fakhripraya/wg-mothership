@@ -166,8 +166,49 @@ export default function CreativeStore() {
                                 </div>
                             </div>
                             <div className="creative-store-chat-container dark-bg-color">
-                                <TextInput className="creative-store-chat-textinput"></TextInput>
+                                <TextInput className="creative-store-chat-textinput light-color darker-bg-color"></TextInput>
                                 <Button>Send</Button>
+                            </div>
+                        </div>
+                        <div className="creative-store-tools-container">
+                            <div className="creative-store-tools-sub-container creative-store-avatar">
+                                <div className="creative-store-avatar-container">
+                                    <div className="creative-store-identifier-img-wrapper">
+                                        <Avatar
+                                            style={{ cursor: "pointer" }}
+                                            src={"https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"}
+                                            size={60}
+                                            title={"test"}
+                                            name={"test"} />
+                                    </div>
+                                </div>
+                                <div className="creative-store-header">
+                                    <h3 className='creative-store-store-title'>Bahari One Stop</h3>
+                                    <label className='creative-store-store-label'>Kita adalah toko terbaik di muka bumi Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, dignissimos! Obcaecati, magni temporibus soluta atque nesciunt ipsam velit explicabo eligendi earum ullam nemo, voluptate nam totam iusto culpa optio repudiandae?</label>
+                                </div>
+                            </div>
+                            <div className="creative-store-tools-sub-container creative-store-scrollable-menu">
+                                <div className='creative-store-scrollable-menu-container'>
+                                    <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
+                                </div>
+                            </div>
+                            <div className="creative-store-tools-sub-container creative-store-user-avatar">
+                                <div className="creative-store-user-avatar-container">
+                                    <div className="creative-store-user-identifier-img-wrapper">
+                                        <Avatar style={{ cursor: "pointer" }}
+                                            round={true} size={50}
+                                            title={"Freddy Sambo"}
+                                            name={"Freddy Sambo"} />
+                                    </div>
+                                </div>
+                                <div className="creative-store-user-avatar-side-container">
+                                    <h4 className='creative-store-store-user-name'>Freddy Sambo</h4>
+                                    <div className='creative-store-store-user-tools'>
+                                        <span className="creative-store-button-icon creative-store-button-icon-voice" />
+                                        <span className="creative-store-button-icon creative-store-button-icon-audio" />
+                                        <span className="creative-store-button-icon creative-store-button-icon-setting" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
