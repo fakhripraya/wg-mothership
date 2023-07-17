@@ -6,6 +6,7 @@ import RentalIcon from '../../assets/svg/book-solid.svg';
 import RatingIcon from '../../assets/svg/face-smile-solid.svg';
 import ProductIcon from '../../assets/svg/bag-shopping-solid.svg';
 import { DASHBOARD_CATALOG, DASHBOARD_HOME, DASHBOARD_NOTES, DASHBOARD_TRANSACTIONS } from '../../variables/global';
+import { useNavigate } from 'react-router-dom';
 
 const UserData = [
     {
@@ -43,6 +44,7 @@ const UserData = [
 export default function DashboardHome(props) {
 
     // STATES //
+    const navigate = useNavigate();
     const [userData, setUserData] = useState({
         labels: UserData.map((data) => data.year),
         datasets: [
@@ -63,6 +65,10 @@ export default function DashboardHome(props) {
         props.toggleOpenHandler(keyword);
     }
 
+    function handleGoToCreativeStore(navigate) {
+        navigate(`/creative-store?code=${props.data.selectedStore.storeCode}`);
+    }
+
     return (
         <div className={props.toggleOpen === DASHBOARD_HOME ? "dashboard-home-container" : "display-none"}>
             <div className="dashboard-home-wrapper">
@@ -72,19 +78,19 @@ export default function DashboardHome(props) {
                     </div>
                     <div onClick={() => handleOpenPage(DASHBOARD_CATALOG)} className="dashboard-home-grid-item dashboard-home-grid-item-1 dashboard-home-grid-item-small main-bg-color">
                         <img src={ProductIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h4>Katalog</h4>
+                        <label>Katalog</label>
                     </div>
                     <div onClick={() => { }} className="dashboard-home-grid-item dashboard-home-grid-item-2 dashboard-home-grid-item-small main-bg-color">
                         <img src={RatingIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h4>Rating</h4>
+                        <label>Rating</label>
                     </div>
                     <div onClick={() => handleOpenPage(DASHBOARD_TRANSACTIONS)} className="dashboard-home-grid-item dashboard-home-grid-item-3 dashboard-home-grid-item-small main-bg-color">
                         <img src={RentalIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h4>Transaksi</h4>
+                        <label>Transaksi</label>
                     </div>
-                    <div onClick={() => handleOpenPage(DASHBOARD_NOTES)} className="dashboard-home-grid-item dashboard-home-grid-item-4 dashboard-home-grid-item-small main-bg-color">
+                    <div onClick={() => handleGoToCreativeStore(navigate)} className="dashboard-home-grid-item dashboard-home-grid-item-4 dashboard-home-grid-item-small main-bg-color">
                         <img src={VisitIcon} alt="product_catalog_icon" className="dashboard-home-grid-item-icon" />
-                        <h4>Masuk ke toko</h4>
+                        <label>Masuk ke toko</label>
                     </div>
                     <div className="dashboard-home-grid-item dashboard-home-grid-small-1 dashboard-home-grid-item-big dark-bg-color">
                         <h3>Pesanan</h3>

@@ -101,12 +101,20 @@ export default function Dashboard() {
             </ErrorHandling>
         }
         else if (login && userStore.length > 0) return <Fragment>
-            <DashboardHome toggleOpen={toggleOpenBody} toggleOpenHandler={setToggleOpenBody} />
-            <DashboardCatalogue toggleOpen={toggleOpenBody} data={{
-                selectedStore: selectedStore
-            }} />
-            <DashboardTransaction toggleOpen={toggleOpenBody} />
-            <DashboardChat toggleOpen={toggleOpenBody} />
+            <DashboardHome
+                toggleOpen={toggleOpenBody}
+                toggleOpenHandler={setToggleOpenBody} data={{
+                    selectedStore: selectedStore
+                }} />
+            <DashboardCatalogue
+                toggleOpen={toggleOpenBody}
+                data={{
+                    selectedStore: selectedStore
+                }} />
+            <DashboardTransaction
+                toggleOpen={toggleOpenBody} />
+            <DashboardChat
+                toggleOpen={toggleOpenBody} />
         </Fragment>
     }
 
