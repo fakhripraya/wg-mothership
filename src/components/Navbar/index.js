@@ -196,11 +196,12 @@ export default function Navbar() {
     const ShowLogoutModal = () => {
         return <div className="navbar-modal-container dark-bg-color">
             <div className="navbar-modal-wrapper">
-                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end add-catalogue-button red-bg-color">
-                    <h4 className="add-catalogue-button-text">X</h4>
+                <Button onClick={() => handleOpenModal(setModalToggle, modalToggle)} className="align-self-end navbar-modal-button red-bg-color">
+                    <h4 className="navbar-modal-button-text">X</h4>
                 </Button>
                 <br />
-                <h2 className="margin-top-0 margin-bottom-12-18">Yakin mau logout akun kamu ?</h2>
+                <h3 className="margin-top-0 margin-bottom-12-18">Yakin mau logout akun kamu ?</h3>
+                <label className="margin-top-0 margin-bottom-12-18">Kalo udah logout magger banget ga sih loginnya? stay aja dulu !</label>
                 <div style={{ padding: "0px" }} className="navbar-mobile-menu-row-wrapper">
                     <Button onClick={() => handleLogout()} style={{ marginRight: "8px" }} >Yes</Button>
                     <Button className="red-bg-color" onClick={() => handleOpenModal(setModalToggle, modalToggle)}>No</Button>
