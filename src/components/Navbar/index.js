@@ -50,11 +50,12 @@ export default function Navbar() {
     const cookies = new Cookies();
 
     // HOOKS //
+    const ref = useRef();
+    const navigate = useNavigate();
     const credentialService = useAxios();
 
     // VARIABLES
-    const ref = useRef();
-    const navigate = useNavigate();
+    let navbarDisplayAdditionalClassName = "";
     const menus = getMenus();
     const login = cookies.get(CLIENT_USER_INFO, { path: '/' });
 
@@ -261,13 +262,13 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleNavbarHide);
     }, []);
 
-    if (window.location.pathname.includes("creative-store")) return null;
+    if (window.location.pathname.includes("creative-store")) navbarDisplayAdditionalClassName = "display-none";
     return (
         <Fragment>
             <Modal className="dark-bg-color" clicked={() => handleOpenModal(setModalToggle, modalToggle)} toggle={modalToggle} >
                 <ShowModal />
             </Modal>
-            <div style={navbarStyle} ref={ref} className="fixed-top navbar">
+            <div style={navbarStyle} ref={ref} className={`fixed-top navbar ${navbarDisplayAdditionalClassName}`}>
                 <div className="navbar-container">
                     <div className="navbar-wrapper">
                         <div className="navbar-logo-wrapper">

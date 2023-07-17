@@ -117,7 +117,7 @@ export default function Home() {
                     <div ref={heroRef} className="home-section home-hero-section darker-bg-color">
                         <div className="home-hero-container justify-center">
                             <h1>
-                                OKSYEN <span className="hero-span-text">.ID</span>
+                                FORE <span className="hero-span-text">FRONT</span>
                             </h1>
                             <label>
                                 Mau cari barang langka atau barang - barang lainnya dengan harga dinamis? langsung cekidot aja yuk scroll kebawah !
@@ -132,7 +132,7 @@ export default function Home() {
                     <ImageSlider />
                     <div className="home-element-container darker-bg-color">
                         <h2 className="home-recommend-title light-color">
-                            FLASH BID
+                            FLASH SALE
                         </h2>
                         <h3 className="home-recommend-subtitle light-color">
                             Selesai setelah : 58:34:21 - <span className="cursor-pointer main-color">Lihat Lebih</span>

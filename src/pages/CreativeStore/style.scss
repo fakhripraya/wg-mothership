@@ -11,6 +11,17 @@
     //overflow: hidden;
 }
 
+.creative-store-container p,
+.creative-store-container label,
+.creative-store-container h1,
+.creative-store-container h2,
+.creative-store-container h3,
+.creative-store-container h4,
+.creative-store-container h5,
+.creative-store-container h6{
+   opacity: 0.85;
+}
+
 .creative-store-wrapper{
     width: calc(100vw - 20px);
     margin: 0px auto;
@@ -19,6 +30,12 @@
     -webkit-box-align: center;
     display: flex;
     flex-direction: column;
+}
+
+.creative-store-linebreak{
+    width: 90%;
+    border-color: #2C2F33;
+    border-style:groove;
 }
 
 .creative-store-button{
@@ -65,7 +82,7 @@
     }
 }
 
-.creative-store-tools-sub-container{
+.creative-store-sub-container{
     border-radius: 1em;
     transition: all 0.3s ease-in-out;
     background-color: #1c1d1d;
@@ -228,12 +245,21 @@
     justify-content: flex-start;
     flex-direction: column;
     align-items: flex-start;
-    width: stretch;
     padding: 6px 8px 10px 12px;
     border: none;
     background-color: transparent;
     height: stretch;
     width: stretch;
+}
+
+.creative-store-user-avatar-end-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    height: stretch;
+    width: fit-content;
+    padding: 6px;
 }
 
 .creative-store-store-user-name{
@@ -405,6 +431,10 @@
     padding-top: 12.5px !important;
 }
 
+.creative-store-chattext-username{
+    margin: 0px !important;
+}
+
 .creative-store-chat-container{
     padding: 12px;
     height: fit-content;
@@ -509,6 +539,14 @@
     flex: 1;
     justify-content: flex-end;
     background-color: transparent;
+}
+
+.creative-store-scrollable-menu-title{
+    margin: 0px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 90%;
+    float: right;
 }
 
 // MOBILE //

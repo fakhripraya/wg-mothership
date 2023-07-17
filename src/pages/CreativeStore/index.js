@@ -49,20 +49,23 @@ export default function CreativeStore() {
 
     const ShowRoomCategories = (props) => {
         return props.datas.map((obj1, index1) => {
-            return <DynamicAccordion
-                key={`${props.uniqueKey}-dynamic-accordion-${index1}`}
-                toggle={true}
-                isButton={false}
-                title={obj1.title} >
-                {obj1.data.map((obj2, index2) => {
-                    return <button
-                        key={`${props.uniqueKey}-dynamic-accordion-${obj2.roomTitle}-${index2}`}
-                        className="dynamic-accordion-button creative-store-dynamic-accordion-button">
-                        <h6 className="dynamic-accordion-subtitle light-color">{obj2.roomTitle}</h6>
-                        <ShowSockets uniqueKey={props.uniqueKey} data={obj2.roomSockets} />
-                    </button>
-                })}
-            </DynamicAccordion>
+            return <Fragment>
+                <DynamicAccordion
+                    key={`${props.uniqueKey}-dynamic-accordion-${index1}`}
+                    toggle={true}
+                    isButton={false}
+                    title={obj1.title} >
+                    {obj1.data.map((obj2, index2) => {
+                        return <button
+                            key={`${props.uniqueKey}-dynamic-accordion-${obj2.roomTitle}-${index2}`}
+                            className="dynamic-accordion-button creative-store-dynamic-accordion-button">
+                            <h6 className="dynamic-accordion-subtitle light-color">{obj2.roomTitle}</h6>
+                            <ShowSockets uniqueKey={props.uniqueKey} data={obj2.roomSockets} />
+                        </button>
+                    })}
+                </DynamicAccordion>
+                {props.datas.length - 1 !== index1 && <hr className='creative-store-linebreak'></hr>}
+            </Fragment>
         })
     }
 
@@ -77,7 +80,7 @@ export default function CreativeStore() {
                 <div className="creative-store-wrapper">
                     <div className="creative-store-flex-container">
                         <div className="creative-store-tools-container">
-                            <div className="creative-store-tools-sub-container creative-store-avatar">
+                            <div className="creative-store-sub-container creative-store-avatar">
                                 <div className="creative-store-avatar-container">
                                     <div className="creative-store-identifier-img-wrapper">
                                         <Avatar
@@ -93,18 +96,18 @@ export default function CreativeStore() {
                                     <label className='creative-store-store-label'>Kita adalah toko terbaik di muka bumi Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, dignissimos! Obcaecati, magni temporibus soluta atque nesciunt ipsam velit explicabo eligendi earum ullam nemo, voluptate nam totam iusto culpa optio repudiandae?</label>
                                 </div>
                             </div>
-                            <div className="creative-store-tools-sub-container creative-store-add-menu">
+                            <div className="creative-store-sub-container creative-store-add-menu">
                                 <div className="creative-store-add-menu-wording">
                                     <h4 className='white-color'>Tambah Kategori</h4>
                                     <span className='creative-store-plus-button' />
                                 </div>
                             </div>
-                            <div className="creative-store-tools-sub-container creative-store-scrollable-menu">
+                            <div className="creative-store-sub-container creative-store-scrollable-menu">
                                 <div className='creative-store-scrollable-menu-container'>
                                     <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
                                 </div>
                             </div>
-                            <div className="creative-store-tools-sub-container creative-store-user-avatar">
+                            <div className="creative-store-sub-container creative-store-user-avatar">
                                 <div className="creative-store-user-avatar-container">
                                     <div className="creative-store-user-identifier-img-wrapper">
                                         <Avatar style={{ cursor: "pointer" }}
@@ -118,8 +121,10 @@ export default function CreativeStore() {
                                     <div className='creative-store-store-user-tools'>
                                         <span className="creative-store-button-icon creative-store-button-icon-voice" />
                                         <span className="creative-store-button-icon creative-store-button-icon-audio" />
-                                        <span className="creative-store-button-icon creative-store-button-icon-setting" />
                                     </div>
+                                </div>
+                                <div className="creative-store-user-avatar-end-container">
+                                    <span className="creative-store-button-icon creative-store-button-icon-setting" />
                                 </div>
                             </div>
                         </div>
@@ -140,7 +145,7 @@ export default function CreativeStore() {
                                                 name={"Veallen Aisyah"} />
                                         </div>
                                         <div className="creative-store-chattext-wrapper">
-                                            <label>Veallen Aisyah</label>
+                                            <h4 className='creative-store-chattext-username'>Veallen Aisyah</h4>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.</p>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.</p>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.</p>
@@ -154,7 +159,7 @@ export default function CreativeStore() {
                                                 name={"Fakhri Prayatna Putra"} />
                                         </div>
                                         <div className="creative-store-chattext-wrapper">
-                                            <label>Fakhri Prayatna Putra</label>
+                                            <h4 className='creative-store-chattext-username'>Fakhri Prayatna Putra</h4>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.</p>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio pariatur, doloremque a ducimus, provident cum officia neque consequuntur, maxime quam obcaecati iusto dolorem odit natus deleniti consectetur asperiores saepe quis.</p>
                                         </div>
@@ -167,7 +172,7 @@ export default function CreativeStore() {
                             </div>
                         </div>
                         <div className="creative-store-userlists-container">
-                            <div className="creative-store-tools-sub-container creative-store-rightside-tools">
+                            <div className="creative-store-sub-container creative-store-rightside-tools">
                                 <div className="creative-store-left-header">
                                     <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-rightside-menu-button-active creative-store-rightside-menu-people-button' />
                                     <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-rightside-menu-button creative-store-rightside-menu-pinned-button' />
@@ -176,9 +181,10 @@ export default function CreativeStore() {
                                     <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-hamburg-menu-button' />
                                 </div>
                             </div>
-                            <div className="creative-store-tools-sub-container creative-store-scrollable-menu">
+                            <div className="creative-store-sub-container creative-store-scrollable-menu">
+                                <h3 className='creative-store-scrollable-menu-title'>Visitor toko</h3>
+                                <hr className='creative-store-linebreak'></hr>
                                 <div className='creative-store-scrollable-menu-container'>
-                                    <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
                                 </div>
                             </div>
                         </div>
