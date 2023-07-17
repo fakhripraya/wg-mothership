@@ -63,6 +63,10 @@
     box-sizing: border-box;
 }
 
+.dashboard-home-grid-item-small label{
+    cursor: pointer;
+}
+
 .dashboard-home-grid-item-small img{
     @media screen and (max-width: 680px){
         margin-top: 1em !important;

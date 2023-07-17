@@ -11,6 +11,17 @@
   font-family: 'Roboto Condensed', sans-serif;
 }
 
+body p,
+body label,
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6{
+   opacity: 0.9;
+}
+
 /* Colors */
 .main-color{
   color: #0DA34D !important;
