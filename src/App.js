@@ -76,15 +76,15 @@ function App() {
         </Routes>
         <Footer />
         <FloatButton style={{ transform: `${style.ScrollTopButton.transform}` }} onClick={() => smoothScrollTop()} className="fixed-app-button main-bg-color">
-          <h3 className="light-color">
+          <h4 className="light-color">
             Menu
-          </h3>
+          </h4>
         </FloatButton>
         {!window.location.pathname.includes("creative-store") ?
           <FloatButton style={{ transform: `${style.floatButton.transform}` }} onClick={() => sendWA()} className="fixed-app-button main-bg-color">
-            <h3 className="light-color">
+            <h4 className="light-color">
               Help
-            </h3>
+            </h4>
           </FloatButton> :
           null}
         <Spinner />

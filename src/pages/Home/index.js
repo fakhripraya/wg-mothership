@@ -24,6 +24,7 @@ import Cookies from 'universal-cookie';
 import { CLIENT_USER_INFO } from '../../variables/global';
 import { checkAuthAndRefresh } from '../../utils/functions/middlewares';
 import { trackPromise } from 'react-promise-tracker';
+import FloatButton from '../../components/FloatButton';
 
 export default function Home() {
 
@@ -123,9 +124,7 @@ export default function Home() {
                                 Mau cari barang langka atau barang - barang lainnya dengan harga dinamis? langsung cekidot aja yuk scroll kebawah !
                             </label>
                             <div onClick={() => handleScrollToFirstSection()} className="hero-round-button">
-                                <label>
-                                    Scroll
-                                </label>
+                                <span className='hero-round-button-icon' />
                             </div>
                         </div>
                     </div>

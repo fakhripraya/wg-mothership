@@ -168,15 +168,26 @@
     margin-top: 3.5vh;
     display: flex;
     flex-direction: column;
-    width: 120px;
-    height: 120px;
+    width: 70px;
+    height: 70px;
     border-radius: 1000px;
     justify-content: center;
     align-items: center;
     -webkit-box-align: center;
     background-color: #1c1d1d;
     cursor: pointer;
-    transform: scale(0.75);
+}
+
+.hero-round-button-icon{
+    display: flex;
+    content: "";
+    width: 12px;
+    height: 12px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    transition: transform 50ms ease 0s, background-color 0.12s ease 0s;
+    background-image: url('../../assets/svg/caret-down-solid.svg');
 }
 
 .hero-round-button:hover{

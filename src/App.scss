@@ -288,8 +288,8 @@ body h6{
 
 // APP COMPONENT // 
 .fixed-app-button{
-  width: 60px !important;
-  height: 60px !important;
+  width: 40px !important;
+  height: 40px !important;
   padding: 12px;
   position: fixed;
   bottom: 24px;
@@ -297,9 +297,4 @@ body h6{
   z-index: 9997 !important;
   text-align: center;
   transition: all 0.3s ease-in-out;
-
-  @media screen and (max-width: 768px) {
-    width: 40px !important;
-    height: 40px !important;
-  }
 }
