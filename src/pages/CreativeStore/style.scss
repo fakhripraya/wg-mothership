@@ -49,6 +49,7 @@
     border-radius: 1em;
 }
 
+// LEFT SIDE ELEMENTS //
 .creative-store-tools-container{
     box-sizing: border-box;
     width: fit-content;
@@ -57,6 +58,7 @@
     transition: all 0.3s ease-in-out;
     height: inherit;
     overflow-y: hidden;
+    min-width: 250px;
     
     @media screen and (max-width: 1000px){
         display: none;
@@ -278,6 +280,7 @@
     display: none;
 }
 
+// MIDDLE SIDE ELEMENTS //
 .creative-store-body-container{
     position: relative;
     padding-left: 12px;
@@ -351,6 +354,7 @@
     justify-self: center;
     align-self: center;
     display: flex;
+    border-radius: 0px !important;
     background-color: transparent;
     box-shadow: none !important;
 }
@@ -397,7 +401,8 @@
 }
 
 .creative-store-chattext-wrapper{
-    
+    padding: 1em;
+    padding-top: 12.5px !important;
 }
 
 .creative-store-chat-container{
@@ -415,8 +420,97 @@
     margin-right: 6px;
 }
 
-// MOBILE //
+// RIGHT SIDE ELEMENTS //
+.creative-store-userlists-container{
+    box-sizing: border-box;
+    width: fit-content;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease-in-out;
+    height: inherit;
+    overflow-y: hidden;
+    
+    @media screen and (max-width: 1000px){
+        display: none;
+    }
+}
 
+.creative-store-rightside-tools{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    width: stretch;
+    height: 60px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.creative-store-left-header{
+    display: flex;
+    padding: 6px 8px 10px 12px;
+    border: none;
+    flex: 1;
+    justify-content: flex-start;
+    background-color: transparent;
+}
+
+.creative-store-rightside-menu-button{
+    cursor: pointer;
+    height: 24px !important;
+    width: 24px !important;
+    transition: all 0.3s ease-in-out;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    background-color: transparent;
+    box-shadow: none !important;
+}
+
+.creative-store-rightside-menu-button-active{
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    height: 32px !important;
+    width: 32px !important;
+    background-color: #0DA34D !important;
+    box-shadow: 0px 1px 5px 2px #0DA34D !important;
+}
+
+.creative-store-rightside-menu-button:hover{
+    transform: scale(1.3);
+    transition: all 0.2s ease-in-out;
+}
+
+.creative-store-rightside-menu-people-button{
+    background-image: url('../../assets/svg/user-group.svg');
+    margin-right: 8px;
+}
+
+.creative-store-rightside-menu-pinned-button{
+    background-image: url('../../assets/svg/bell-concierge.svg');
+}
+
+.creative-store-right-header{
+    display: flex;
+    padding: 6px 8px 10px 12px;
+    border: none;
+    flex: 1;
+    justify-content: flex-end;
+    background-color: transparent;
+}
+
+// MOBILE //
 .creative-store-mobile-tools-container{
     height: 100%;
     width: fit-content;

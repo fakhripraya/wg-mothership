@@ -5,14 +5,11 @@ import React, {
 } from 'react';
 import Button from '../../components/Button';
 import './style.scss';
-import Card from '../../components/Card';
-import { scrollCarousel, smoothScrollTop } from '../../utils/functions/global';
-import Tag from '../../components/Tag';
+import { smoothScrollTop } from '../../utils/functions/global';
 import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import DynamicAccordion from '../../components/DynamicAccordion';
 import { initialRooms } from '../../variables/dummy/creativeStore';
-import PlusBtn from '../../assets/svg/square-plus-solid-green.svg'
 import Avatar from 'react-avatar';
 import TextInput from '../../components/TextInput';
 import { MENU_MOBILE } from '../../variables/global';
@@ -132,7 +129,6 @@ export default function CreativeStore() {
                                     <FloatButton onClick={() => handleBottomSheet()} className="creative-store-filter-button" />
                                     <h4>📢︱announcement</h4>
                                 </div>
-                                <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-hamburg-menu-button' />
                             </div>
                             <div className="creative-store-chatbody-container dark-bg-color">
                                 <div className="creative-store-chatbody-wrapper">
@@ -170,44 +166,19 @@ export default function CreativeStore() {
                                 <Button>Send</Button>
                             </div>
                         </div>
-                        <div className="creative-store-tools-container">
-                            <div className="creative-store-tools-sub-container creative-store-avatar">
-                                <div className="creative-store-avatar-container">
-                                    <div className="creative-store-identifier-img-wrapper">
-                                        <Avatar
-                                            style={{ cursor: "pointer" }}
-                                            src={"https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"}
-                                            size={60}
-                                            title={"test"}
-                                            name={"test"} />
-                                    </div>
+                        <div className="creative-store-userlists-container">
+                            <div className="creative-store-tools-sub-container creative-store-rightside-tools">
+                                <div className="creative-store-left-header">
+                                    <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-rightside-menu-button-active creative-store-rightside-menu-people-button' />
+                                    <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-rightside-menu-button creative-store-rightside-menu-pinned-button' />
                                 </div>
-                                <div className="creative-store-header">
-                                    <h3 className='creative-store-store-title'>Bahari One Stop</h3>
-                                    <label className='creative-store-store-label'>Kita adalah toko terbaik di muka bumi Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, dignissimos! Obcaecati, magni temporibus soluta atque nesciunt ipsam velit explicabo eligendi earum ullam nemo, voluptate nam totam iusto culpa optio repudiandae?</label>
+                                <div className="creative-store-right-header">
+                                    <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-hamburg-menu-button' />
                                 </div>
                             </div>
                             <div className="creative-store-tools-sub-container creative-store-scrollable-menu">
                                 <div className='creative-store-scrollable-menu-container'>
                                     <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
-                                </div>
-                            </div>
-                            <div className="creative-store-tools-sub-container creative-store-user-avatar">
-                                <div className="creative-store-user-avatar-container">
-                                    <div className="creative-store-user-identifier-img-wrapper">
-                                        <Avatar style={{ cursor: "pointer" }}
-                                            round={true} size={50}
-                                            title={"Freddy Sambo"}
-                                            name={"Freddy Sambo"} />
-                                    </div>
-                                </div>
-                                <div className="creative-store-user-avatar-side-container">
-                                    <h4 className='creative-store-store-user-name'>Freddy Sambo</h4>
-                                    <div className='creative-store-store-user-tools'>
-                                        <span className="creative-store-button-icon creative-store-button-icon-voice" />
-                                        <span className="creative-store-button-icon creative-store-button-icon-audio" />
-                                        <span className="creative-store-button-icon creative-store-button-icon-setting" />
-                                    </div>
                                 </div>
                             </div>
                         </div>
