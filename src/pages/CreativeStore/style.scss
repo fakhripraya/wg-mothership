@@ -66,7 +66,7 @@
     overflow-y: hidden;
     min-width: 250px;
     
-    @media screen and (max-width: 1000px){
+    @media screen and (max-width: 769px){
         display: none;
     }
 }
@@ -177,6 +177,20 @@
     height: stretch;
 }
 
+.creative-store-scrollable-menu-title{
+    margin: 0px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 90%;
+    float: right;
+}
+
+.creative-store-scrollable-menu-button{
+    margin: 12px;
+    font-size: medium;
+    font-weight: bold;
+}
+
 .creative-store-scrollable-menu-container{
     height: fit-content;
 }
@@ -200,11 +214,23 @@
     display: flex;
     flex-direction: column;
     padding: 10px 8px 9px 12px;
+    width: stretch;
+    align-items: flex-start;
+    justify-content: center;
 }
 
-.creative-store-dynamic-accordion-socket-wrapper *{
+.creative-store-dynamic-accordion-socket-user{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.creative-store-dynamic-accordion-socket-user label{
     font-size: 1.25em;
-    padding: 4px;
+    text-align: center;
+    margin-left: 8px;
 }
 
 .creative-store-user-avatar{
@@ -254,7 +280,10 @@
 .creative-store-store-user-name{
     margin: 0px !important;
     height: fit-content;
-    margin-bottom: 6px !important;
+}
+
+.creative-store-store-user-name + small{
+    margin-bottom: 6px;
 }
 
 .creative-store-store-user-tools{
@@ -306,7 +335,7 @@
     flex-direction: column;
     height: inherit;
 
-    @media screen and (max-width: 1000px){
+    @media screen and (max-width: 769px){
         padding-left: 0px;
         padding-right: 0px;
     }
@@ -352,7 +381,7 @@
         margin-right: 12px;
     }
 
-    @media screen and (max-width: 1000px){
+    @media screen and (max-width: 769px){
         display: flex;
     }
 }
@@ -380,6 +409,7 @@
     margin-top: 12px;
     height: stretch;
     padding: 12px;
+    padding-bottom: 0px !important;
     overflow-y: scroll;
     border-top-left-radius: 1em;
     border-top-right-radius: 1em;
@@ -426,6 +456,7 @@
 
 .creative-store-chat-container{
     padding: 12px;
+    padding-top: 0px !important;
     height: fit-content;
     width: stretch;
     display: flex;
@@ -440,6 +471,30 @@
     text-indent: 12px;
 }
 
+.creative-store-chat-leftside-textinput-button{
+    cursor: pointer;
+    height: 30px !important;
+    width: 30px !important;
+    transition: all 0.3s ease-in-out;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 24px;
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    background-color: transparent;
+    box-shadow: none !important;
+    margin-right: 6px;
+}
+
+.creative-store-chat-leftside-textinput-button-emoji{
+    background-image: url('../../assets/svg/face-smile-solid.svg');
+}
+
+.creative-store-chat-leftside-textinput-button-gif{
+    background-image: url('../../assets/svg/gif-icon.svg');
+}
+
 // RIGHT SIDE ELEMENTS //
 .creative-store-userlists-container{
     box-sizing: border-box;
@@ -451,7 +506,7 @@
     height: inherit;
     overflow-y: hidden;
     
-    @media screen and (max-width: 1000px){
+    @media screen and (max-width: 769px){
         display: none;
     }
 }
@@ -479,12 +534,12 @@
 
 .creative-store-rightside-menu-button{
     cursor: pointer;
-    height: 24px !important;
-    width: 24px !important;
+    height: 30px !important;
+    width: 30px !important;
     transition: all 0.3s ease-in-out;
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: cover;
+    background-size: 24px;
     justify-self: center;
     align-self: center;
     display: flex;
@@ -497,19 +552,24 @@
     transition: all 0.3s ease-in-out;
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: cover;
+    background-size: 24px;
     justify-self: center;
     align-self: center;
     display: flex;
-    height: 32px !important;
-    width: 32px !important;
-    background-color: #0DA34D !important;
-    box-shadow: 0px 1px 5px 2px #0DA34D !important;
+    height: 30px !important;
+    width: 30px !important;
+    box-shadow: none !important;
+    border-bottom: 2px solid #0DA34D !important;
+    border-radius: 0px;
 }
 
 .creative-store-rightside-menu-button:hover{
-    transform: scale(1.3);
+    transform: scale(1.1);
     transition: all 0.2s ease-in-out;
+}
+
+.creative-store-rightside-menu-button-active:hover{
+    transform: scale(1) !important;
 }
 
 .creative-store-rightside-menu-people-button{
@@ -530,12 +590,21 @@
     background-color: transparent;
 }
 
-.creative-store-scrollable-menu-title{
-    margin: 0px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    width: 90%;
-    float: right;
+.creative-store-scrollable-visitor-container{
+    margin-right: 12px;
+    margin-left: 12px;
+}
+
+.creative-store-visitor-user{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 12px;
+}
+
+.creative-store-visitor-user-text-container{
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
 }
 
 // MOBILE //

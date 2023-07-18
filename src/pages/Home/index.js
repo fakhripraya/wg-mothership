@@ -118,7 +118,7 @@ export default function Home() {
                     <div ref={heroRef} className="home-section home-hero-section darker-bg-color">
                         <div className="home-hero-container justify-center">
                             <h1>
-                                FORE <span className="hero-span-text">FRONT</span>
+                                LIVE <span className="hero-span-text">JB</span>
                             </h1>
                             <label>
                                 Mau cari barang langka atau barang - barang lainnya dengan harga dinamis? langsung cekidot aja yuk scroll kebawah !
