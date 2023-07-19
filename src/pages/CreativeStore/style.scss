@@ -170,19 +170,20 @@
     background-image: url('../../assets/svg/square-plus-solid.svg');
 }
 
-.creative-store-scrollable-menu{
-    overflow-y: scroll;
+.creative-store-scrollable-menu-header{
     margin-top: 12px;
     padding: 8px 0px;
-    height: stretch;
+    height: fit-content;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
 }
 
-.creative-store-scrollable-menu-title{
-    margin: 0px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    width: 90%;
-    float: right;
+.creative-store-scrollable-menu-body{
+    overflow-y: scroll;
+    padding: 8px 0px;
+    height: stretch;
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
 }
 
 .creative-store-scrollable-menu-button{
@@ -590,9 +591,34 @@
     background-color: transparent;
 }
 
+.creative-store-scrollable-visitor-header{
+    margin-top: 12px;
+    padding: 8px 0px;
+    height: fit-content;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.creative-store-scrollable-visitor-title{
+    margin: 0px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 90%;
+    float: right;
+}
+
+.creative-store-scrollable-visitor-body{
+    overflow-y: scroll;
+    padding: 8px 0px;
+    height: stretch;
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+
 .creative-store-scrollable-visitor-container{
     margin-right: 12px;
     margin-left: 12px;
+    height: fit-content;
 }
 
 .creative-store-visitor-user{

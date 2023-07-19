@@ -234,12 +234,12 @@ body h6{
 /* Scrollbar */
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #151515;
+  background: transparent;
 }
 
 /* Handle */

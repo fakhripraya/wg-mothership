@@ -88,6 +88,7 @@ export default function Navbar() {
         else window.document.getElementsByTagName('html')[0].style.overflow = "hidden";
     }
 
+    // TODO: FIX SCROLL RERENDER PLS
     function handleNavbarHide() {
         if (window.scrollY > 80) setNavbarStyle({ transform: 'translateY(-100%)' });
         else setNavbarStyle({ transform: 'translateY(0)' });

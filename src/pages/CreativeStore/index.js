@@ -56,9 +56,7 @@ export default function CreativeStore() {
 
     const ShowNewOrders = (props) => {
         return <Fragment>
-            <h3 className='creative-store-scrollable-menu-title'>Pesanan baru</h3>
-            <hr className='creative-store-linebreak'></hr>
-            <div className='creative-store-scrollable-menu-container creative-store-scrollable-visitor-container'>
+            <div className='creative-store-scrollable-visitor-container'>
                 {props.datas && props.datas.map((obj, index) => {
                     return <div
                         className='creative-store-visitor-user'
@@ -85,9 +83,7 @@ export default function CreativeStore() {
 
     const ShowVisitors = (props) => {
         return <Fragment>
-            <h3 className='creative-store-scrollable-menu-title'>Visitor</h3>
-            <hr className='creative-store-linebreak'></hr>
-            <div className='creative-store-scrollable-menu-container creative-store-scrollable-visitor-container'>
+            <div className='creative-store-scrollable-visitor-container'>
                 {props.datas && props.datas.map((obj, index) => {
                     return <div
                         className='creative-store-visitor-user'
@@ -113,9 +109,8 @@ export default function CreativeStore() {
     }
 
     const ShowSockets = (props) => {
-        if (!props.data || props.data.length === 0) return null;
         return (<div className='creative-store-dynamic-accordion-socket-wrapper'>
-            {props.data.map((obj, index) => {
+            {props.data && props.data.map((obj, index) => {
                 return <div className='creative-store-dynamic-accordion-socket-user'>
                     <Avatar
                         style={{ cursor: "pointer" }}
@@ -217,8 +212,10 @@ export default function CreativeStore() {
                                     <span className='creative-store-plus-button' />
                                 </div>
                             </div>
-                            <div className="creative-store-sub-container creative-store-scrollable-menu">
+                            <div className="creative-store-sub-container creative-store-scrollable-menu-header">
                                 <Button className='creative-store-scrollable-menu-button'>Katalog</Button>
+                            </div>
+                            <div className="creative-store-sub-container creative-store-scrollable-menu-body">
                                 <div className='creative-store-scrollable-menu-container'>
                                     <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
                                 </div>
@@ -274,7 +271,11 @@ export default function CreativeStore() {
                                     <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-hamburg-menu-button' />
                                 </div>
                             </div>
-                            <div className="creative-store-sub-container creative-store-scrollable-menu">
+                            <div className="creative-store-sub-container creative-store-scrollable-visitor-header">
+                                <h3 className='creative-store-scrollable-visitor-title'>Visitor</h3>
+                                <hr className='creative-store-linebreak'></hr>
+                            </div>
+                            <div className="creative-store-sub-container creative-store-scrollable-visitor-body">
                                 <ShowRightScrollableMenu />
                             </div>
                         </div>
