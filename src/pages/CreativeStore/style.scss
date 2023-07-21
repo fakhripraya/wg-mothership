@@ -179,11 +179,15 @@
 }
 
 .creative-store-scrollable-menu-body{
-    overflow-y: scroll;
+    overflow-y: hidden;
     padding: 8px 0px;
     height: stretch;
     border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
+}
+
+.creative-store-scrollable-menu-body:hover{
+    overflow-y: scroll;
 }
 
 .creative-store-scrollable-menu-button{
@@ -209,6 +213,7 @@
 
 .creative-store-dynamic-accordion-button:hover{
     background-color: #0DA34D;
+    transition: all 0.2s ease-in-out;
 }
 
 .creative-store-dynamic-accordion-socket-wrapper{
@@ -410,22 +415,14 @@
     margin-top: 12px;
     height: stretch;
     padding: 12px;
+    overflow-y: hidden;
     padding-bottom: 0px !important;
-    overflow-y: scroll;
     border-top-left-radius: 1em;
     border-top-right-radius: 1em;
 }
 
-.creative-store-chatbody-container::-webkit-scrollbar{
-    display: none;
-}
-
-.creative-store-chatbody-container::-webkit-scrollbar-track{
-    background-color: #1c1d1d;
-}
-
-.creative-store-chatbody-container::-webkit-scrollbar-thumb{
-    background-color: #151515;
+.creative-store-chatbody-container:hover{
+    overflow-y: scroll;
 }
 
 .creative-store-chatbody-wrapper{
@@ -608,11 +605,15 @@
 }
 
 .creative-store-scrollable-visitor-body{
-    overflow-y: scroll;
+    overflow-y: hidden;
     padding: 8px 0px;
     height: stretch;
     border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
+}
+
+.creative-store-scrollable-visitor-body:hover{
+    overflow-y: scroll;
 }
 
 .creative-store-scrollable-visitor-container{
@@ -625,6 +626,13 @@
     display: flex;
     flex-direction: row;
     margin-bottom: 12px;
+    padding: 6px;
+    border-radius: 12px;
+}
+
+.creative-store-visitor-user:hover{
+    background-color: #0DA34D;
+    transition: 0.2s ease-in-out all;
 }
 
 .creative-store-visitor-user-text-container{

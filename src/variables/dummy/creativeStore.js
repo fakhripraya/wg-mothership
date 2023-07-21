@@ -5,9 +5,7 @@ export const initialRooms = [
             {
                 roomTitle: "📢︱announcement",
                 roomType: "TEXT",
-                roomChats: [
-                    ""
-                ]
+                roomChats: []
             },
             {
                 roomTitle: "💸︱event-live",
@@ -33,24 +31,13 @@ export const initialRooms = [
                 roomTitle: "🎧「Voice 1",
                 roomType: "VOICE",
                 roomMaxSocket: 10,
-                roomSockets: [
-                    {
-                        name: "user 1"
-                    },
-                    {
-                        name: "user 2"
-                    },
-                ]
+                roomSockets: []
             },
             {
                 roomTitle: "🎧「Voice 2",
                 roomType: "VOICE",
                 roomMaxSocket: 10,
-                roomSockets: [
-                    {
-                        name: "user 1"
-                    },
-                ]
+                roomSockets: []
             },
         ]
     },
@@ -88,14 +75,7 @@ export const initialRooms = [
                 roomTitle: "🎧「Bilik Lapor Privat",
                 roomType: "VOICE",
                 roomMaxSocket: 2,
-                roomSockets: [
-                    {
-                        name: "staff 1"
-                    },
-                    {
-                        name: "user 1"
-                    },
-                ]
+                roomSockets: []
             },
         ]
     },

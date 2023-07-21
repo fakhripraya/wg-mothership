@@ -1,11 +1,14 @@
 import React from 'react';
 import './style.scss';
 import Button from '../Button';
-import WGLogo from '../../assets/images/baru2.png';
 import { getSocialMedia } from '../../variables/path/footer';
 
 export default function Footer() {
 
+    // VARIABLES
+    const isRender = (!window.location.pathname.includes("creative-store"));
+
+    // COMPONENT SPECIFIC
     const StyledButton = (props) => {
         const { children, className } = props;
         return <div className="footer-button-container">
@@ -15,9 +18,8 @@ export default function Footer() {
         </div>
     }
 
-    if (window.location.pathname.includes("creative-store")) return null;
     return (
-        <div className="footer-container main-bg-color">
+        isRender && <div className="footer-container main-bg-color">
             <div className="footer-grid-wrapper grid-false">
                 <div className="footer-column-1">
                     <div className="footer-column-1-wrapper">

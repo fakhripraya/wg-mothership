@@ -56,6 +56,8 @@ export default function Navbar() {
 
     // VARIABLES
     let navbarDisplayAdditionalClassName = "";
+    const isRender = window.location.pathname.includes("creative-store");
+    if (isRender) navbarDisplayAdditionalClassName = "display-none";
     const menus = getMenus();
     const login = cookies.get(CLIENT_USER_INFO, { path: '/' });
 
@@ -263,7 +265,6 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleNavbarHide);
     }, []);
 
-    if (window.location.pathname.includes("creative-store")) navbarDisplayAdditionalClassName = "display-none";
     return (
         <Fragment>
             <Modal className="dark-bg-color" clicked={() => handleOpenModal(setModalToggle, modalToggle)} toggle={modalToggle} >

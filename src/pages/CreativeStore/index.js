@@ -86,7 +86,7 @@ export default function CreativeStore() {
             <div className='creative-store-scrollable-visitor-container'>
                 {props.datas && props.datas.map((obj, index) => {
                     return <div
-                        className='creative-store-visitor-user'
+                        className='creative-store-visitor-user cursor-pointer'
                         key={`creative-store-visitor-user-${index}`}>
                         <Avatar
                             style={{ cursor: "pointer" }}
@@ -95,7 +95,7 @@ export default function CreativeStore() {
                             title={obj.fullname}
                             name={obj.fullname} />
                         <div className='creative-store-visitor-user-text-container'>
-                            <label className="light-color">
+                            <label className="light-color cursor-pointer">
                                 {obj.fullname}
                             </label>
                             <small>
@@ -109,7 +109,7 @@ export default function CreativeStore() {
     }
 
     const ShowSockets = (props) => {
-        return (<div className='creative-store-dynamic-accordion-socket-wrapper'>
+        return (<div className={`creative-store-dynamic-accordion-socket-wrapper ${(!props.data || props.data.length === 0) && "display-none"}`}>
             {props.data && props.data.map((obj, index) => {
                 return <div className='creative-store-dynamic-accordion-socket-user'>
                     <Avatar

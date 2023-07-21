@@ -121,7 +121,7 @@ export default function Home() {
                                 LIVE <span className="hero-span-text">JB</span>
                             </h1>
                             <label>
-                                Mau cari barang langka atau barang - barang lainnya dengan harga dinamis? langsung cekidot aja yuk scroll kebawah !
+                                Jualan? beli barang? sambil voice call aja negonya wkwkwk...
                             </label>
                             <div onClick={() => handleScrollToFirstSection()} className="hero-round-button">
                                 <span className='hero-round-button-icon' />

@@ -6,6 +6,7 @@ import React, {
 import './style.scss';
 import Dropdown from '../../components/DynamicDropdown';
 import {
+    handleError500,
     handleErrorMessage,
     handleOpenOverridingHome,
     smoothScrollTop
@@ -38,6 +39,7 @@ import { useAxios } from '../../utils/hooks/useAxios';
 import { trackPromise } from 'react-promise-tracker';
 import { checkAuthAndRefresh } from '../../utils/functions/middlewares';
 import { initialValue } from '../../variables/dummy/addStore';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
 
@@ -49,9 +51,12 @@ export default function Dashboard() {
 
     // HOOKS //
     const zeusService = useAxios();
+    const navigate = useNavigate();
 
     // STATES //
-    const [userStore, setUserStores] = useState([]);
+    const [userStore, setUserStores] = useState([{
+        storeName: undefined
+    }]);
     const [selectedStore, setSelectedStore] = useState(initialValue);
     const [toggle, setToggle] = useState(false);
     const [toggleOpenBody, setToggleOpenBody] = useState(DASHBOARD_HOME);
@@ -90,7 +95,12 @@ export default function Dashboard() {
     // COMPONENT FUNCTIONS //
 
     const ShowMenuTabs = () => {
-        if (login && userStore.length <= 0) {
+        if (typeof userStore[0].storeName === 'undefined') {
+            // Placeholder message while redirecting to home page
+            return <ErrorHandling containerStyle={{ width: 'auto' }} errorMessage={"Loading data..."} >
+            </ErrorHandling>
+        }
+        else if (login && userStore.length <= 0) {
             // Placeholder message while redirecting to home page
             return <ErrorHandling containerStyle={{ width: 'auto' }} errorMessage={NO_STORE_FOUND_IN_THE_DASHBOARD} >
                 <br />
@@ -144,6 +154,7 @@ export default function Dashboard() {
                         else setSelectedStore(result.responseData[0]);
                     }
                 }).catch((error) => {
+                    if (error.responseStatus === 500) handleError500(navigate);
                     if (error.responseStatus === 401 || error.responseStatus === 403) {
                         cookies.remove(CLIENT_USER_INFO, { path: '/' });
                         handleOpenOverridingHome(LOGIN);

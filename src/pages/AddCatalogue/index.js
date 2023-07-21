@@ -33,6 +33,7 @@ import { checkAuthAndRefresh } from '../../utils/functions/middlewares';
 import Cookies from 'universal-cookie';
 import {
     b64toBlob,
+    handleError500,
     handleErrorMessage,
     handleOpenOverridingHome
 } from '../../utils/functions/global';
@@ -192,6 +193,7 @@ export default function AddCatalogue() {
             }).then((res) => {
                 if (res.responseStatus === 200) { }
             }).catch((error) => {
+                if (error.responseStatus === 500) handleError500(navigate);
                 if (error.responseStatus === 401 || error.responseStatus === 403) {
                     cookies.remove(CLIENT_USER_INFO, { path: '/' });
                     handleOpenOverridingHome(LOGIN);
@@ -303,6 +305,7 @@ export default function AddCatalogue() {
                 }).then((result) => {
                     if (result.responseStatus === 200) handleSetFetchedDatas(result.responseData);
                 }).catch((error) => {
+                    if (error.responseStatus === 500) handleError500(navigate);
                     if (error.responseStatus === 401 || error.responseStatus === 403) {
                         cookies.remove(CLIENT_USER_INFO, { path: '/' });
                         handleOpenOverridingHome(LOGIN);

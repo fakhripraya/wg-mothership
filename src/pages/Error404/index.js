@@ -9,8 +9,8 @@ export default function Error404() {
         <div className="error404-container">
             <div className="error404-wrapper">
                 <div className="error404-title">
-                    <h1 className="margin-bottom-0">ERROR 404</h1>
-                    <h2>This page is either <span className="red-color">not found</span> or is under <span className="red-color">maintenance</span></h2>
+                    <h2 className="margin-bottom-0 red-color">ERROR 404</h2>
+                    <h3>This page is either <span className="red-color">not found</span> or is under <span className="red-color">maintenance</span></h3>
                     <Button onClick={() => navigate('/')}>Back to home</Button>
                 </div>
             </div>

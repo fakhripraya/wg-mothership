@@ -1,6 +1,7 @@
 import React from "react";
 import Home from '../../pages/Home';
 import Error404 from '../../pages/Error404';
+import Error500 from '../../pages/Error500';
 import ProductSearch from '../../pages/ProductSearch';
 import RDP from "../../pages/RDP";
 import Detail from "../../pages/Detail";
@@ -55,5 +56,9 @@ export const routes = [
     {
         path: '*',
         component: <Error404 />,
+    },
+    {
+        path: '/error500',
+        component: <Error500 />,
     },
 ];
