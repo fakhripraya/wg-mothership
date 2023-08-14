@@ -20,16 +20,12 @@ import Tag from '../../components/Tag';
 import Card from '../../components/Card';
 import { useNavigate } from 'react-router-dom';
 import { useAxios } from '../../utils/hooks/useAxios';
-import Cookies from 'universal-cookie';
 import { CLIENT_USER_INFO } from '../../variables/global';
 import { checkAuthAndRefresh } from '../../utils/functions/middlewares';
 import { trackPromise } from 'react-promise-tracker';
-import FloatButton from '../../components/FloatButton';
+import { cookies } from '../../config/cookie';
 
 export default function Home() {
-
-    // OBJECT CLASSES
-    const cookies = new Cookies();
 
     // VARIABLES //
     let login = cookies.get(CLIENT_USER_INFO);
@@ -48,6 +44,11 @@ export default function Home() {
     const gridRefs = {};
 
     // FUNCTIONS SPECIFIC //
+    async function handleInitialize() {
+        const result = await checkAuthAndRefresh(credentialService, cookies);
+        if (result.responseStatus === 401 || result.responseStatus === 403) cookies.remove(CLIENT_USER_INFO, { path: '/' });
+    }
+
     function handleScrollToFirstSection() {
         window.scrollTo({ top: heroRef.current.offsetHeight, behavior: "smooth" });
     }
@@ -101,14 +102,9 @@ export default function Home() {
     useEffect(() => {
         // scroll to top on entering
         smoothScrollTop();
-        // check user auth
-        async function checkUserAuth() {
-            const result = await checkAuthAndRefresh(credentialService, cookies);
-            if (result.responseStatus === 401 || result.responseStatus === 403) cookies.remove(CLIENT_USER_INFO, { path: '/' });
-        }
-
-        // home page init
-        if (login) trackPromise(checkUserAuth());
+        // home page initialization
+        // here we will check the user authentication first
+        if (login) trackPromise(handleInitialize());
     }, []);
 
     return (

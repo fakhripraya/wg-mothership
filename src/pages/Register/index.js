@@ -22,13 +22,10 @@ import { postRegisterDataInitialValue } from '../../variables/dummy/register';
 import { trackPromise } from 'react-promise-tracker';
 import Modal from '../../components/Modal';
 import { ERROR_CONFIRM_PASSWORD } from '../../variables/errorMessages/register';
-import Cookies from 'universal-cookie';
 import { handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
+import { cookies } from '../../config/cookie';
 
 export default function Register(props) {
-
-    // OBJECT CLASSES
-    const cookies = new Cookies();
 
     // HOOKS //
     const credentialService = useAxios();

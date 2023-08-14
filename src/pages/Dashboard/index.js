@@ -28,7 +28,6 @@ import {
 import DashboardTransaction from '../DashboardTransaction';
 import DashboardChat from '../DashboardChat';
 import Avatar from 'react-avatar';
-import Cookies from 'universal-cookie';
 import {
     NO_STORE_FOUND_IN_THE_DASHBOARD,
     PAGE_REDIRECTING_MESSAGE
@@ -39,19 +38,15 @@ import { useAxios } from '../../utils/hooks/useAxios';
 import { trackPromise } from 'react-promise-tracker';
 import { checkAuthAndRefresh } from '../../utils/functions/middlewares';
 import { initialValue } from '../../variables/dummy/addStore';
-import { useNavigate } from 'react-router-dom';
+import { cookies } from '../../config/cookie';
 
 export default function Dashboard() {
-
-    // OBJECT CLASSES
-    const cookies = new Cookies();
 
     // VARIABLES //
     let login = cookies.get(CLIENT_USER_INFO);
 
     // HOOKS //
     const zeusService = useAxios();
-    const navigate = useNavigate();
 
     // STATES //
     const [userStore, setUserStores] = useState([{
@@ -64,6 +59,37 @@ export default function Dashboard() {
     const [errorMessage, setErrorMessage] = useState(null);
 
     // FUNCTIONS
+    function handleInitialize() {
+        trackPromise(
+            zeusService.getDataWithOnRequestInterceptors({
+                headers: { "authorization": `Bearer ${login.credentialToken.accessToken}` },
+                endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+                url: URL_GET_DASHBOARD_STORES(login.user.userId),
+            }, async () => {
+                const result = await checkAuthAndRefresh(zeusService, cookies);
+                if (result.responseStatus === 200) login = cookies.get(CLIENT_USER_INFO);
+                return result;
+            }).then((result) => {
+                if (result.responseStatus === 200) {
+                    setUserStores(result.responseData);
+                    if (result.responseData.length <= 0) {
+                        let temp = { ...selectedStore };
+                        temp.storeName = "Buat Toko";
+                        setSelectedStore(temp);
+                    }
+                    else setSelectedStore(result.responseData[0]);
+                }
+            }).catch((error) => {
+                if (error.responseStatus === 500) handleError500();
+                if (error.responseStatus === 401 || error.responseStatus === 403) {
+                    cookies.remove(CLIENT_USER_INFO, { path: '/' });
+                    handleOpenOverridingHome(LOGIN);
+                }
+                else handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle)
+            })
+        );
+    }
+
     function handleBottomSheet() {
         setToggle(!toggle);
     }
@@ -132,40 +158,8 @@ export default function Dashboard() {
     useEffect(() => {
         // scroll to top on entering
         smoothScrollTop();
-        // get user store from zeus service
-        function getUserStores() {
-            trackPromise(
-                zeusService.getDataWithOnRequestInterceptors({
-                    headers: { "authorization": `Bearer ${login.credentialToken.accessToken}` },
-                    endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-                    url: URL_GET_DASHBOARD_STORES(login.user.userId),
-                }, async () => {
-                    const result = await checkAuthAndRefresh(zeusService, cookies);
-                    if (result.responseStatus === 200) login = cookies.get(CLIENT_USER_INFO);
-                    return result;
-                }).then((result) => {
-                    if (result.responseStatus === 200) {
-                        setUserStores(result.responseData);
-                        if (result.responseData.length <= 0) {
-                            let temp = { ...selectedStore };
-                            temp.storeName = "Buat Toko";
-                            setSelectedStore(temp);
-                        }
-                        else setSelectedStore(result.responseData[0]);
-                    }
-                }).catch((error) => {
-                    if (error.responseStatus === 500) handleError500(navigate);
-                    if (error.responseStatus === 401 || error.responseStatus === 403) {
-                        cookies.remove(CLIENT_USER_INFO, { path: '/' });
-                        handleOpenOverridingHome(LOGIN);
-                    }
-                    else handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle)
-                })
-            );
-        }
-
         // dashboard initialization
-        if (login) getUserStores();
+        if (login) handleInitialize();
     }, []);
 
     if (!login) {

@@ -28,10 +28,6 @@ export const DASHBOARD_CHATS = "DASHBOARD_CHATS";
 export const DASHBOARD_NOTES = "DASHBOARD_NOTES";
 export const DASHBOARD_CATALOG = "DASHBOARD_CATALOG";
 
-// VOIP CREATIVE STORE
-export const VISITORS = "VISITORS";
-export const NEW_ORDERS = "NEW_ORDERS";
-
 // RDP FAIL REASON //
 export const LOGIN_REQUIRED = "LOGIN_REQUIRED";
 export const ROOM_FULL = "ROOM_FULL";
@@ -41,10 +37,10 @@ export const USER_ALREADY_JOIN = "USER_ALREADY_JOIN";
 export const RTC_PEER_CONNECTION_FAILED = "RTC_PEER_CONNECTION_FAILED";
 export const RTC_PEER_UNTRUSTED_CONNECTION = "RTC_PEER_UNTRUSTED_CONNECTION";
 
-//RTC CONNECTION STATE //
+// RTC CONNECTION STATE //
 export const FAILED = "FAILED";
 
-//AXIOS DEFAULTS //
+// AXIOS DEFAULTS //
 export const AXIOS_DEFAULT_ERROR_CONTENT = "Something went wrong,\nPlease try again or contact our support.";
 
 // XHR METHOD //
@@ -75,6 +71,7 @@ export const URL_POST_ADD_STORE_CATALOGUE = (storeCode) => `/v${process.env.REAC
 export const URL_POST_ADD_USER_STORE = (userId) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores/add`;
 export const URL_GET_DASHBOARD_STORES = (userId) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores`;
 export const URL_GET_ADD_CATALOGUE_DATA = (storeCode) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues?code=${storeCode}`;
+export const URL_GET_SERVER_INFO = (query) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/stores${query}`;
 export const URL_GET_CATEGORIES = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/category`;
 export const URL_GET_COURIERS = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/couriers`;
 

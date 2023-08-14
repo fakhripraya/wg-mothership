@@ -56,7 +56,7 @@
 }
 
 // LEFT SIDE ELEMENTS //
-.creative-store-tools-container{
+.creative-store-left-panel-container{
     box-sizing: border-box;
     width: fit-content;
     display: flex;
@@ -209,6 +209,7 @@
     flex-direction: column;
     max-width: 100% !important;
     border-radius: 1em;
+    margin: 4px;
 }
 
 .creative-store-dynamic-accordion-button:hover{
@@ -494,7 +495,7 @@
 }
 
 // RIGHT SIDE ELEMENTS //
-.creative-store-userlists-container{
+.creative-store-right-panel-container{
     box-sizing: border-box;
     width: fit-content;
     min-width: 250px;
@@ -509,7 +510,7 @@
     }
 }
 
-.creative-store-rightside-tools{
+.creative-store-right-panel-tools{
     display: flex;
     flex-direction: row;
     align-self: center;
@@ -521,7 +522,7 @@
     box-sizing: border-box;
 }
 
-.creative-store-left-header{
+.creative-store-right-panel-left-header{
     display: flex;
     padding: 6px 8px 10px 12px;
     border: none;
@@ -579,7 +580,7 @@
     background-image: url('../../assets/svg/bell-concierge.svg');
 }
 
-.creative-store-right-header{
+.creative-store-right-panel-right-header{
     display: flex;
     padding: 6px 8px 10px 12px;
     border: none;

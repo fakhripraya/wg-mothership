@@ -30,7 +30,6 @@ import './style.scss';
 import Checkbox from '../../components/Checkbox';
 import { useAxios } from '../../utils/hooks/useAxios';
 import { checkAuthAndRefresh } from '../../utils/functions/middlewares';
-import Cookies from 'universal-cookie';
 import {
     b64toBlob,
     handleError500,
@@ -43,12 +42,10 @@ import {
     INPUT_NEW_CATALOGUE_VALUE
 } from '../../variables/errorMessages/addCatalogue';
 import { v4 as uuidv4 } from 'uuid';
+import { cookies } from '../../config/cookie';
 
 // TODO: Fix input lag caused by uploaded file re rendered
 export default function AddCatalogue() {
-
-    // OBJECT CLASSES
-    const cookies = new Cookies();
 
     // HOOK
     const navigate = useNavigate();
@@ -193,7 +190,7 @@ export default function AddCatalogue() {
             }).then((res) => {
                 if (res.responseStatus === 200) { }
             }).catch((error) => {
-                if (error.responseStatus === 500) handleError500(navigate);
+                if (error.responseStatus === 500) handleError500();
                 if (error.responseStatus === 401 || error.responseStatus === 403) {
                     cookies.remove(CLIENT_USER_INFO, { path: '/' });
                     handleOpenOverridingHome(LOGIN);
@@ -305,7 +302,7 @@ export default function AddCatalogue() {
                 }).then((result) => {
                     if (result.responseStatus === 200) handleSetFetchedDatas(result.responseData);
                 }).catch((error) => {
-                    if (error.responseStatus === 500) handleError500(navigate);
+                    if (error.responseStatus === 500) handleError500();
                     if (error.responseStatus === 401 || error.responseStatus === 403) {
                         cookies.remove(CLIENT_USER_INFO, { path: '/' });
                         handleOpenOverridingHome(LOGIN);

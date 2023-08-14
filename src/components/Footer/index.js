@@ -32,7 +32,7 @@ export default function Footer() {
                         <h3 >Jakarta,  </h3>
                         <h1 style={{ fontSize: "2.5em" }} className="break-word">Indonesia</h1>
                         <h2 className="footer-column-1-email">Drop us a line</h2>
-                        <h1 className="break-word"><a className="footer-column-1-email-text" href="mailto:letmeask@wg.com">letmeask@wg.com</a></h1>
+                        <h1 className="break-word"><a className="footer-column-1-email-text" href="mailto:letmeask@wg.com">letmeask@livejb.com</a></h1>
                         <div className="footer-column-1-help">
                             <StyledButton className="max-width footer-button-block">Privacy and Policy</StyledButton>
                             <StyledButton className="max-width footer-button-block">Terms and Condition</StyledButton>
@@ -43,7 +43,7 @@ export default function Footer() {
                 <div className="footer-column-2">
                     <div className="footer-column-2-wrapper">
                         {/* <img className="footer-logo-img" src={WGLogo} alt="WG_LOGO"></img> */}
-                        <p>© {'2022'} All Rights Reserved, OKSYEN.ID</p>
+                        <p>© {'2022'} All Rights Reserved, LiveJB</p>
                     </div>
                 </div>
             </div>

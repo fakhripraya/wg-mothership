@@ -1,57 +1,461 @@
 import React, {
     Fragment,
     useEffect,
+    useRef,
     useState
 } from 'react';
 import Button from '../../components/Button';
 import './style.scss';
-import { smoothScrollTop } from '../../utils/functions/global';
+import {
+    handleError500,
+    handleErrorMessage,
+    smoothScrollTop
+} from '../../utils/functions/global';
 import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
 import DynamicAccordion from '../../components/DynamicAccordion';
-import { initialChatTexts, initialRooms, initialVisitors } from '../../variables/dummy/creativeStore';
+import {
+    initialChatTexts,
+    initialLeftPanelDatas,
+    initialVisitors
+} from '../../variables/dummy/creativeStore';
 import Avatar from 'react-avatar';
 import TextInput from '../../components/TextInput';
 import {
+    CLIENT_USER_INFO,
     MENU_MOBILE,
-    NEW_ORDERS,
-    VISITORS
+    URL_GET_SERVER_INFO,
 } from '../../variables/global';
+import {
+    VISITORS,
+    NEW_TRANSACTION_ORDERS,
+} from '../../variables/constants/creativeStore';
+import { cookies } from '../../config/cookie';
+import { trackPromise } from 'react-promise-tracker';
+import { useAxios } from '../../utils/hooks/useAxios';
+import { videoConfig } from '../../config/mediasoup/config';
+import { connectWebsocket } from '../../config/websocket/websocket';
+import { useSearchParams } from 'react-router-dom';
+const mediasoupClient = require('mediasoup-client');
 
 export default function CreativeStore() {
 
     // REFS //
-    const gridRefs = {};
+    const webRTCref = useRef();
+
+    // HOOKS //
+    const zeusService = useAxios();
+    // eslint-disable-next-line no-unused-vars
+    const [searchParams, setSearchParams] = useSearchParams();
 
     // STATES //
     const [rooms, setRooms] = useState([]);
     const [visitor, setVisitors] = useState([]);
-    const [selectedRoom, setSelectedRoom] = useState(null);
     const [toggle, setToggle] = useState(false);
-    const [selectedRightSide, setSelectedRightSide] = useState(VISITORS);
+    const [selectedRightPanel, setSelectedRightPanel] = useState(VISITORS);
+    const [modalToggle, setModalToggle] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
+
+    // VARIABLES //
+    const storeId = searchParams.get("id");
+    let login = cookies.get(CLIENT_USER_INFO);
+    let joinedRoom;
+    // device variable used to store device
+    // to create send/consume transport with the given rtpCapabilities
+    let device
+    let rtpCapabilities
+    // producerTransport needed only as an object,
+    // as it can produce multiple producer with a single producerTransport
+    // consumerTransports need to be as array,
+    // as it will be needed to store multiple consumerTransport
+    let producerTransport
+    let consumerTransports = [];
+    // audio and video parameter for mediasoup producer configuration
+    let audioProducer
+    let audioParams;
+    let videoProducer
+    let videoParams = { videoConfig };
+    // this variable will store all remote audio/video producer
+    // to prevent multiple redundant consuming 
+    let consumedTransports = [];
+    // END OF VARIABLES //
 
     // FUNCTIONS SPECIFIC //
+    function handleInitialize() {
+        trackPromise(
+            zeusService.getData({
+                endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+                url: URL_GET_SERVER_INFO(`?storeId=${storeId}`),
+            }).then((result) => {
+                if (result.responseStatus === 200) {
+                    setRooms(initialLeftPanelDatas);
+                    setVisitors(initialVisitors);
+                }
+            }).catch((error) => {
+                if (error.responseStatus === 500) handleError500();
+                else handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle)
+            })
+        );
+    }
+
+    function handleInitializeWebsocket() {
+        // CUSTOM MEDIASOUP FUNCTIONS //
+        const streamSuccess = (stream) => {
+            // the video/audio param will later be used to create the producer transport 
+            console.log(`assigning stream recieved to the audio/video param`);
+            audioParams = { track: stream.getAudioTracks()[0], ...audioParams };
+            joinRoom();
+        }
+
+        const getLocalStream = () => {
+            console.log(`getting the local stream...`);
+            navigator.mediaDevices.getUserMedia({
+                audio: true,
+            })
+                .then(streamSuccess)
+                .catch(error => {
+                    console.error(`error getting the local stream with error: ${error.message}`);
+                })
+        }
+
+        const joinRoom = () => {
+            console.log(`user is ready to join the room - emitting signal to the server...`);
+            webRTCref.current.emit('joinRoom', {
+                storeId,
+                room: joinedRoom,
+                user: login.user
+            }, (data) => {
+                console.log(`ROUTER RTP Capabilities... ${JSON.stringify(data.rtpCapabilities)}`);
+                // we assign to local variable and will be used when
+                // loading the client Device (see createDevice above)
+                rtpCapabilities = data.rtpCapabilities;
+
+                // once we have rtpCapabilities from the Router, create Device
+                createDevice();
+            })
+        }
+
+        // A device is an endpoint connecting to a Router on the
+        // server side to send/recive media
+        const createDevice = async () => {
+            try {
+                device = new mediasoupClient.Device();
+
+                // https://mediasoup.org/documentation/v3/mediasoup-client/api/#device-load
+                // Loads the device with RTP capabilities of the Router (server side)
+                await device.load({
+                    // see getRtpCapabilities() below
+                    routerRtpCapabilities: rtpCapabilities
+                });
+
+                console.log('DEVICE RTP Capabilities - ', device.rtpCapabilities);
+
+                // once the device loads, create transport
+                createSendTransport();
+
+            } catch (error) {
+                if (error.name === 'UnsupportedError') console.warn('browser not supported');
+                else console.log(`there is an error while creating the DEVICE, error: ${error}`);
+            }
+        }
+
+        const createSendTransport = () => {
+            // see server's socket.on('createWebRtcTransport', sender?, ...)
+            // this is a call from Producer, so sender = true
+            // The server sends back params needed 
+            // to create Send Transport on the client side
+            webRTCref.current.emit('createWebRtcTransport', {
+                isConsumer: false,
+                room: joinedRoom,
+                user: login.user
+            }, ({ params }) => {
+                // if error the process will end here
+                if (params.error) {
+                    console.error(`there is an error while creating SEND TRANSPORT\n error: ${params.error}`);
+                    return;
+                }
+
+                console.log(`server successfully create the new SEND TRANSPORT with param: ${JSON.stringify(params)}`);
+                console.log(`proceed with creating the SEND PRODUCER TRANSPORT`);
+                try {
+                    producerTransport = device.createSendTransport(params);
+                } catch (error) {
+                    console.error(`there is an error while creating SEND PRODUCER TRANSPORT\n error: ${error}`);
+                    return;
+                }
+
+                // assigning event listener on the newly created producer transport
+                // transmit the dtls parameters to the server
+                producerTransport.on('connect', async ({ dtlsParameters }, callback, errback) => {
+                    try {
+                        await webRTCref.current.emit('transport-connect', {
+                            dtlsParameters,
+                            room: joinedRoom,
+                            user: login.user,
+                            producerTransportId: producerTransport.id
+                        });
+                        callback();
+                    } catch (error) {
+                        errback(error);
+                    }
+                });
+
+                // tell the server to create a Producer
+                // with the following parameters and produce
+                // and expect back a server side producer id
+                // see server's socket.on('transport-produce', ...)
+                producerTransport.on('produce', async (parameters, callback, errback) => {
+                    try {
+                        console.log(`produce event on producer transport has been fired!`);
+                        console.log(`produce parameters: ${JSON.stringify(parameters)}`);
+                        console.log(`produce transport id: ${producerTransport.id}`);
+                        await webRTCref.current.emit('transport-produce', {
+                            user: login.user,
+                            room: joinedRoom,
+                            producerTransportId: producerTransport.id,
+                            kind: parameters.kind,
+                            rtpParameters: parameters.rtpParameters,
+                            appData: parameters.appData,
+                        }, ({ producerId, peersExist }) => {
+                            // Tell the transport that parameters were transmitted and provide it with the
+                            // server side producer's id.
+                            // if producers exist, then join room
+                            callback({ producerId });
+                            console.log(peersExist)
+                            if (peersExist) getProducers();
+                        })
+                    } catch (error) {
+                        errback(error);
+                    }
+                });
+
+                connectSendTransportForAudio();
+            })
+        }
+
+        const connectSendTransportForAudio = async () => {
+            // we now call produce() to instruct the producer transport
+            // to send audio media to the Router
+            // https://mediasoup.org/documentation/v3/mediasoup-client/api/#transport-produce
+            // this action will trigger the 'connect' and 'produce' events above
+
+            audioProducer = await producerTransport.produce(audioParams);
+            audioProducer.on('trackended', () => console.log('audio track ended'));
+            audioProducer.on('transportclose', () => console.log('audio transport ended'));
+        }
+
+        const getProducers = () => {
+            console.log(`get all existing producer to signal: `);
+            webRTCref.current.emit('getProducers', { room: joinedRoom }, producerIds => {
+                // for each of the producer create a consumer
+                // producerIds.forEach(id => signalNewConsumerTransport(id))
+                console.log(`signal all existing peer : `);
+                console.log(producerIds);
+                producerIds.forEach(signalNewConsumerTransport);
+            })
+        }
+
+        const signalNewConsumerTransport = async (remoteProducerId) => {
+            // check if we are already consuming the remoteProducerId
+            if (consumedTransports.includes(remoteProducerId)) return;
+            consumedTransports.push(remoteProducerId);
+            // emit the create webrtc transport, this time is to create consumer transport
+            await webRTCref.current.emit('createWebRtcTransport', {
+                isConsumer: true,
+                room: joinedRoom,
+                user: login.user
+            }, ({ params }) => {
+                // The server sends back params needed 
+                // to create Send Transport on the client side
+                if (params.error) {
+                    console.error(`there is an error while creating RECV TRANSPORT\n error: ${params.error}`);
+                    return
+                }
+
+                console.log(`server successfully create the new RECV TRANSPORT with param: ${JSON.stringify(params)}`);
+                console.log(`proceed with creating the RECV CONSUMER TRANSPORT`);
+                let consumerTransport;
+                try {
+                    consumerTransport = device.createRecvTransport(params);
+                } catch (error) {
+                    console.error(`there is an error while creating RECV CONSUMER TRANSPORT\n error: ${error}`);
+                    return;
+                }
+
+                consumerTransport.on('connect', async ({ dtlsParameters }, callback, errback) => {
+                    try {
+                        // Signal local DTLS parameters to the server side transport
+                        // see server's socket.on('transport-recv-connect', ...)
+                        await webRTCref.current.emit('transport-recv-connect', {
+                            dtlsParameters,
+                            room: joinedRoom,
+                            user: login.user,
+                            serverConsumerTransportId: params.id,
+                        })
+                        // Tell the transport that parameters were transmitted.
+                        callback();
+                    } catch (error) {
+                        // Tell the transport that something was wrong
+                        errback(error);
+                    }
+                });
+
+                connectRecvTransport(consumerTransport, remoteProducerId, params.id);
+            })
+        }
+
+        const connectRecvTransport = async (consumerTransport, remoteProducerId, serverConsumerTransportId) => {
+            // for consumer, we need to tell the server first
+            // to create a consumer based on the rtpCapabilities and consume
+            // if the router can consume, it will send back a set of params as below
+            await webRTCref.current.emit('transport-recv-consume', {
+                user: login.user,
+                room: joinedRoom,
+                rtpCapabilities: device.rtpCapabilities,
+                remoteProducerId,
+                serverConsumerTransportId,
+            }, async ({ params }) => {
+                if (params.error) {
+                    console.error(`there is an error while CONSUMING the producer,
+                        with PRODUCER ID: ${remoteProducerId}\n error: ${params.error}`);
+                    return;
+                }
+
+                // then consume with the local consumer transport
+                // which creates a consumer
+                console.log(`successfully consume the producer, PRODUCER ID: ${remoteProducerId} and get parameters: ${JSON.stringify(params)}`);
+                console.log(`proceed with consuming the producer on the local consumer transport, with SERVER CONSUMER TRANSPORT ID: ${params.id}`);
+                const consumer = await consumerTransport.consume({
+                    id: params.id,
+                    producerId: params.producerId,
+                    kind: params.kind,
+                    rtpParameters: params.rtpParameters
+                })
+
+                consumerTransports = [
+                    ...consumerTransports,
+                    {
+                        consumerKind: params.kind,
+                        consumerTransport: consumerTransport,
+                        consumer: consumer,
+                        serverConsumerTransportId: params.id,
+                        producerId: remoteProducerId,
+                    },
+                ];
+
+                assignTrackFromConsumer(consumer, remoteProducerId, params.id, params.kind);
+            })
+        }
+
+        const assignTrackFromConsumer = (
+            consumer,
+            remoteProducerId,
+            serverConsumerId,
+            serverConsumerKind,
+            roomId = null
+        ) => {
+            // create a new div element for the new consumer media
+            const newElem = document.createElement('div');
+            newElem.setAttribute('id', `creative-store-consumer-${serverConsumerId}-remote-producer-${remoteProducerId}`);
+
+            const isAudio = serverConsumerKind === 'audio';
+            const newElementId =
+                isAudio ?
+                    `creative-store-consumer-${serverConsumerId}-remote-producer-${remoteProducerId}-audio` :
+                    `creative-store-consumer-${serverConsumerId}-remote-producer-${remoteProducerId}-video`;
+            if (isAudio) {
+                //append to the audio container
+                newElem.setAttribute('class', 'creative-store-remote-audio-subcontainer');
+                newElem.innerHTML = `<audio id="${newElementId}" autoplay></audio>`
+            } else {
+                //append to the video container
+                newElem.setAttribute('class', 'creative-store-remote-video-subcontainer');
+                newElem.innerHTML = `<video 
+                id="${newElementId}"
+                playsInline 
+                autoplay 
+                class="creative-store-remote-video" ></video>`
+            }
+
+            // append the new consumer element
+            const container = isAudio ?
+                document.getElementsByClassName('creative-store-audio-media-container')[0] :
+                document.getElementsByClassName(`creative-store-video-media-container-${roomId}`)[0];
+            container.appendChild(newElem);
+
+            // destructure and retrieve the video track from the producer
+            const { track } = consumer;
+            console.log(`playing track from CONSUMER WITH ID: ${consumer.id}`);
+            document.getElementById(newElementId).srcObject = new MediaStream([track]);
+
+            // the server consumer started with media paused
+            // so we need to inform the server to resume
+            webRTCref.current.emit('consumer-resume', {
+                room: joinedRoom,
+                user: login.user,
+                serverConsumerId: serverConsumerId
+            });
+        }
+
+        // SOCKET EVENTS LISTENER//
+        // server informs the client of user joining the room
+        webRTCref.current.on('connection-success', ({ socketId }) => {
+            console.log(`peer connection success ${login.user.username} with socketId: ` + socketId);
+            // get local stream after the connection success
+            getLocalStream();
+        });
+        webRTCref.current.on('userAlreadyJoined', ({ error }) => console.log(`already joined the room`));
+        webRTCref.current.on('new-producer', ({ producerId }) => signalNewConsumerTransport(producerId));
+
+        // CLEANUP EVENT
+        webRTCref.current.on('producer-closed', ({
+            serverConsumerId,
+            serverConsumerKind,
+            remoteProducerId
+        }) => {
+            // server notification is received when a producer is closed
+            // we need to close the client-side consumer and associated transport
+            const producerToClose = consumerTransports.find(data => data.producerId === remoteProducerId);
+            producerToClose.consumerTransport.close();
+            producerToClose.consumer.close();
+
+            // remove the consumer transport from the list
+            consumerTransports = consumerTransports.filter(data => data.producerId !== remoteProducerId)
+
+            // remove the video div element
+            const isAudio = serverConsumerKind === 'audio';
+            const container = isAudio ?
+                document.getElementsByClassName('creative-store-audio-media-container')[0] :
+                document.getElementsByClassName(`creative-store-video-media-container-${joinedRoom.roomId}`)[0];
+
+            let removingElem = document.getElementById(`creative-store-consumer-${serverConsumerId}-remote-producer-${remoteProducerId}`);
+            container.removeChild(removingElem);
+        });
+    }
+
+    function handleJoinRoom(room) {
+        // handle WebRTC Socket connection to the signaler service,
+        // and store it to webRTCref
+        // once it connect it will process the ICE establishment
+        console.log(room)
+        joinedRoom = room;
+        webRTCref.current = connectWebsocket(process.env.REACT_APP_WG_SIGNALER_SERVICE);
+        // and then initialize the websocket to the webrtc server signaler service
+        handleInitializeWebsocket();
+    }
+
     function handleBottomSheet() {
         setToggle(!toggle);
     }
 
-    function handleSelectedRoom() {
-
-    }
-
-    function handleSelectedRightSide() {
-
+    function handleSelectedRightPanel(select) {
+        setSelectedRightPanel(select);
     }
 
     // COMPONENTS SPECIFIC //
     const ShowRightScrollableMenu = () => {
-        if (selectedRightSide === NEW_ORDERS) {
-            setSelectedRightSide(NEW_ORDERS);
-            return <ShowNewOrders datas={initialVisitors} />
-        }
-
-        setSelectedRightSide(VISITORS);
-        return <ShowVisitors datas={initialVisitors} />
+        if (selectedRightPanel === NEW_TRANSACTION_ORDERS) return <ShowNewOrders datas={visitor} />
+        return <ShowVisitors datas={visitor} />
     }
 
     const ShowNewOrders = (props) => {
@@ -130,16 +534,16 @@ export default function CreativeStore() {
 
     const ShowRoomCategories = (props) => {
         return props.datas.map((obj1, index1) => {
-            return <Fragment>
+            return <Fragment key={`${props.uniqueKey}-dynamic-accordion-${index1}`}>
                 <DynamicAccordion
-                    key={`${props.uniqueKey}-dynamic-accordion-${index1}`}
                     toggle={true}
                     isButton={false}
                     title={obj1.title} >
                     {obj1.data.map((obj2, index2) => {
                         return <button
                             key={`${props.uniqueKey}-dynamic-accordion-${obj2.roomTitle}-${index2}`}
-                            className="dynamic-accordion-button creative-store-dynamic-accordion-button">
+                            className="dynamic-accordion-button creative-store-dynamic-accordion-button"
+                            onClick={() => handleJoinRoom(obj2)}>
                             <h6 className="dynamic-accordion-subtitle light-color">{obj2.roomTitle}</h6>
                             <ShowSockets uniqueKey={props.uniqueKey} data={obj2.roomSockets} />
                         </button>
@@ -152,7 +556,9 @@ export default function CreativeStore() {
 
     const ShowChatTexts = (props) => {
         return props.datas.map((obj1, index1) => {
-            return <div className="creative-store-chattext-container">
+            return <div
+                key={`creative-store-chattext-container-${index1}`}
+                className="creative-store-chattext-container">
                 <div className="creative-store-chattext-avatar">
                     <Avatar style={{ cursor: "pointer" }}
                         round={true} size={50}
@@ -166,7 +572,9 @@ export default function CreativeStore() {
                         <small>{obj1.chats[obj1.chats.length - 1].createdAt}</small>
                     </div>
                     {obj1.chats.map((obj2, index2) => {
-                        return <p>{obj2.content}</p>
+                        return <p
+                            key={`creative-store-chattext-p-${index2}`}
+                        >{obj2.content}</p>
                     })}
                 </div>
             </div>
@@ -174,22 +582,21 @@ export default function CreativeStore() {
     }
 
     // INITIAL RENDER
+    // AND WEBSOCKET INITIALIZATION
     useEffect(() => {
         smoothScrollTop();
-        async function init() {
-            setRooms(initialRooms);
-            setVisitors(initialVisitors);
-        }
-
-        init();
+        handleInitialize();
     }, []);
 
     return (
         <Fragment>
+            <div className='creative-store-audio-media-container'>
+
+            </div>
             <div className="creative-store-container">
                 <div className="creative-store-wrapper">
                     <div className="creative-store-flex-container">
-                        <div className="creative-store-tools-container">
+                        <div className="creative-store-left-panel-container">
                             <div className="creative-store-sub-container creative-store-avatar">
                                 <div className="creative-store-avatar-container">
                                     <div className="creative-store-identifier-img-wrapper">
@@ -261,13 +668,13 @@ export default function CreativeStore() {
                                 <Button>Send</Button>
                             </div>
                         </div>
-                        <div className="creative-store-userlists-container">
-                            <div className="creative-store-sub-container creative-store-rightside-tools">
-                                <div className="creative-store-left-header">
+                        <div className="creative-store-right-panel-container">
+                            <div className="creative-store-sub-container creative-store-right-panel-tools">
+                                <div className="creative-store-right-panel-left-header">
                                     <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-rightside-menu-button-active creative-store-rightside-menu-people-button' />
                                     <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-rightside-menu-button creative-store-rightside-menu-pinned-button' />
                                 </div>
-                                <div className="creative-store-right-header">
+                                <div className="creative-store-right-panel-right-header">
                                     <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-hamburg-menu-button' />
                                 </div>
                             </div>

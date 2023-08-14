@@ -85,8 +85,8 @@ export function handleErrorMessage(error, setErrorMessage, setModalToggle, modal
     handleOpenModal(setModalToggle, modalToggle);
 }
 
-export function handleError500(navigate) {
-    navigate('/error500');
+export function handleError500() {
+    window.location.replace('/error500');
 }
 
 export function handleOpenOverridingHome(overridingName) {

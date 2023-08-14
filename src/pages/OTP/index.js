@@ -12,17 +12,16 @@ import {
     URL_POST_OTP,
     CLIENT_USER_INFO
 } from '../../variables/global';
-import Cookies from 'universal-cookie';
 import { useAxios } from '../../utils/hooks/useAxios';
 import Modal from '../../components/Modal';
 import { postOTPDataInitialValue } from '../../variables/dummy/otp';
 import { trackPromise } from 'react-promise-tracker';
 import { handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
+import { cookies } from '../../config/cookie';
 
 export default function OTP(props) {
 
-    // OBJECT CLASSES
-    const cookies = new Cookies();
+    // VARIABLES
     const userInfo = cookies.get(CLIENT_USER_INFO);
     if (userInfo) postOTPDataInitialValue.credentialToken = cookies.get(CLIENT_USER_INFO).credentialToken;
 

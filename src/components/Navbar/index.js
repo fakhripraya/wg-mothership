@@ -36,18 +36,15 @@ import {
 } from '../../variables/global';
 import { ShowNavbar } from '../Global';
 import { navbarInitialStyle } from '../../variables/styles/navbar';
-import Cookies from 'universal-cookie';
 import Avatar from 'react-avatar';
 import FloatButton from '../FloatButton';
 import Modal from '../Modal';
 import { trackPromise } from 'react-promise-tracker';
 import { useAxios } from '../../utils/hooks/useAxios';
 import { catchPromiseErrors, handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
+import { cookies } from '../../config/cookie';
 
 export default function Navbar() {
-
-    // OBJECT CLASSES
-    const cookies = new Cookies();
 
     // HOOKS //
     const ref = useRef();
@@ -71,6 +68,37 @@ export default function Navbar() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     // FUNCTIONS SPECIFIC //
+    function handleRecoveryTokenListener(recoveryToken) {
+        trackPromise(
+            credentialService.postData({
+                endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
+                url: URL_POST_RECOVERY_TOKEN_CHECK,
+                data: {
+                    recoveryToken: recoveryToken
+                }
+            }).then(() => {
+                setError(false);
+                window.handleOpenOverriding(NEW_PASSWORD);
+            }).catch((error) => {
+                catchPromiseErrors(error, navigate);
+            })
+        );
+    }
+
+    function handleGoogleAuthListener() {
+        const queryString = window.location.search;
+        trackPromise(
+            credentialService.postData({
+                endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
+                url: `${URL_POST_GOOGLE_CALLBACK}/${queryString}`,
+            }).then((result) => {
+                cookies.set(CLIENT_USER_INFO, result.responseData, { path: '/' });
+            }).catch((error) => {
+                catchPromiseErrors(error, navigate);
+            })
+        );
+    }
+
     function handleNavbarDisplay(overridingToggle) {
         function displayChange(opacity, visibility) {
             ref.current.style.opacity = opacity;
@@ -222,46 +250,14 @@ export default function Navbar() {
     // RENDERS SPECIFIC //
     useEffect(() => {
         window.addEventListener("scroll", handleNavbarHide);
-
-        function recoveryTokenListener() {
-            trackPromise(
-                credentialService.postData({
-                    endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
-                    url: URL_POST_RECOVERY_TOKEN_CHECK,
-                    data: {
-                        recoveryToken: recoveryToken
-                    }
-                }).then(() => {
-                    setError(false);
-                    window.handleOpenOverriding(NEW_PASSWORD);
-                }).catch((error) => {
-                    catchPromiseErrors(error, navigate);
-                })
-            );
-        }
-
-        function googleAuthListener() {
-            const queryString = window.location.search;
-            trackPromise(
-                credentialService.postData({
-                    endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
-                    url: `${URL_POST_GOOGLE_CALLBACK}/${queryString}`,
-                }).then((result) => {
-                    cookies.set(CLIENT_USER_INFO, result.responseData, { path: '/' });
-                }).catch((error) => {
-                    catchPromiseErrors(error, navigate);
-                })
-            );
-        }
-
+        // Get the query param from the url 
         const recoveryToken = searchParams.get("recoveryToken");
         const searchParamScopes = searchParams.get("scope");
         const toggleOpenWindow = searchParams.get("openWindow");
-
-        if (recoveryToken) recoveryTokenListener();
-        else if (searchParamScopes && searchParamScopes.includes("googleapis")) googleAuthListener();
+        // Navbar initialization to check the authentication
+        if (recoveryToken) handleRecoveryTokenListener(recoveryToken);
+        else if (searchParamScopes && searchParamScopes.includes("googleapis")) handleGoogleAuthListener();
         else if (toggleOpenWindow) window.handleOpenOverriding(toggleOpenWindow);
-
         return () => window.removeEventListener("scroll", handleNavbarHide);
     }, []);
 

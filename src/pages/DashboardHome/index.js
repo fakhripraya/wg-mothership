@@ -66,7 +66,7 @@ export default function DashboardHome(props) {
     }
 
     function handleGoToCreativeStore(navigate) {
-        navigate(`/creative-store?code=${props.data.selectedStore.storeCode}`);
+        navigate(`/creative-store?id=${props.data.selectedStore.id}`);
     }
 
     return (

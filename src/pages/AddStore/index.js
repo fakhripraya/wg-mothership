@@ -12,7 +12,6 @@ import { useAxios } from '../../utils/hooks/useAxios';
 import { CLIENT_USER_INFO, LOGIN, NO_DATA, NO_STRING, URL_POST_ADD_USER_STORE } from '../../variables/global';
 import { handleError500, handleErrorMessage, handleOpenOverridingHome } from '../../utils/functions/global';
 import { handleOpenModal } from '../../utils/functions/global';
-import Cookies from 'universal-cookie';
 import {
     initialValue,
 } from '../../variables/dummy/addStore';
@@ -26,11 +25,9 @@ import { checkAuthAndRefresh } from '../../utils/functions/middlewares';
 import { AGREEMENT_CHECKBOX_UNCHECKED } from '../../variables/errorMessages/addStore';
 import Dropdown from '../../components/DynamicDropdown';
 import territories from 'territory-indonesia';
+import { cookies } from '../../config/cookie';
 
 export default function AddStore() {
-
-    // OBJECT CLASSES
-    const cookies = new Cookies();
 
     // HOOK
     const navigate = useNavigate();
@@ -152,7 +149,7 @@ export default function AddStore() {
             }).then((res) => {
                 if (res.responseStatus === 200) setSuccess(true);
             }).catch((error) => {
-                if (error.responseStatus === 500) handleError500(navigate);
+                if (error.responseStatus === 500) handleError500();
                 if (error.responseStatus === 401 || error.responseStatus === 403) {
                     cookies.remove(CLIENT_USER_INFO, { path: '/' });
                     handleOpenOverridingHome(LOGIN);
@@ -201,7 +198,7 @@ export default function AddStore() {
         async function init() {
             const result = await checkAuthAndRefresh(zeusService, cookies);
             if (result.responseStatus === 200) login = cookies.get(CLIENT_USER_INFO);
-            if (result.responseStatus === 500) handleError500(navigate);
+            if (result.responseStatus === 500) handleError500();
             if (result.responseStatus === 401 || result.responseStatus === 403) {
                 cookies.remove(CLIENT_USER_INFO, { path: '/' });
                 handleOpenOverridingHome(LOGIN);

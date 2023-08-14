@@ -16,18 +16,15 @@ import {
     OTP_PAGE,
     CLIENT_USER_INFO
 } from '../../variables/global';
-import Cookies from 'universal-cookie';
 import { trackPromise } from 'react-promise-tracker';
 import { useAxios } from '../../utils/hooks/useAxios';
 import { postLoginDataInitialValue } from '../../variables/dummy/login';
 import Modal from '../../components/Modal';
 import { handleErrorMessage, handleOpenModal } from '../../utils/functions/global';
 import { handlePostGoogleAuth } from '../../utils/functions/credentials';
+import { cookies } from '../../config/cookie';
 
 export default function Login(props) {
-
-    // OBJECT CLASSES
-    const cookies = new Cookies();
 
     // HOOKS //
     const credentialService = useAxios();

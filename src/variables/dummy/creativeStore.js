@@ -1,4 +1,11 @@
-export const initialRooms = [
+import { v4 as uuidv4 } from 'uuid';
+
+export const dummyStoreInfo = {
+    id: '39598421-3d00-493a-bd71-b197ec2c6a23',
+    name: 'dummy-store',
+}
+
+export const initialLeftPanelDatas = [
     {
         title: "Informasi Toko",
         data: [
@@ -28,12 +35,14 @@ export const initialRooms = [
                 roomChats: []
             },
             {
+                roomId: uuidv4(),
                 roomTitle: "🎧「Voice 1",
                 roomType: "VOICE",
                 roomMaxSocket: 10,
                 roomSockets: []
             },
             {
+                roomId: uuidv4(),
                 roomTitle: "🎧「Voice 2",
                 roomType: "VOICE",
                 roomMaxSocket: 10,
@@ -72,6 +81,7 @@ export const initialRooms = [
                 roomChats: []
             },
             {
+                roomId: uuidv4(),
                 roomTitle: "🎧「Bilik Lapor Privat",
                 roomType: "VOICE",
                 roomMaxSocket: 2,

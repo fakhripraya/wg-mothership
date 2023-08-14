@@ -10,6 +10,7 @@
     "buffer": "^6.0.3",
     "chart.js": "^4.2.1",
     "history": "^5.3.0",
+    "mediasoup-client": "^3.6.98",
     "node-sass": "^8.0.0",
     "react": "^18.2.0",
     "react-avatar": "^5.0.3",
