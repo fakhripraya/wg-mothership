@@ -122,7 +122,7 @@ export default function CreativeStore() {
 
         const joinRoom = () => {
             console.log(`user is ready to join the room - emitting signal to the server...`);
-            webRTCref.current.emit('joinRoom', {
+            webRTCref.current.emit('join-room', {
                 storeId,
                 room: joinedRoom,
                 user: login.user
@@ -162,11 +162,11 @@ export default function CreativeStore() {
         }
 
         const createSendTransport = () => {
-            // see server's socket.on('createWebRtcTransport', sender?, ...)
+            // see server's socket.on('create-webrtc-transport', sender?, ...)
             // this is a call from Producer, so sender = true
             // The server sends back params needed 
             // to create Send Transport on the client side
-            webRTCref.current.emit('createWebRtcTransport', {
+            webRTCref.current.emit('create-webrtc-transport', {
                 isConsumer: false,
                 room: joinedRoom,
                 user: login.user
@@ -248,7 +248,7 @@ export default function CreativeStore() {
 
         const getProducers = () => {
             console.log(`get all existing producer to signal: `);
-            webRTCref.current.emit('getProducers', { room: joinedRoom }, producerIds => {
+            webRTCref.current.emit('get-producers', { room: joinedRoom }, producerIds => {
                 // for each of the producer create a consumer
                 // producerIds.forEach(id => signalNewConsumerTransport(id))
                 console.log(`signal all existing peer : `);
@@ -262,7 +262,7 @@ export default function CreativeStore() {
             if (consumedTransports.includes(remoteProducerId)) return;
             consumedTransports.push(remoteProducerId);
             // emit the create webrtc transport, this time is to create consumer transport
-            await webRTCref.current.emit('createWebRtcTransport', {
+            await webRTCref.current.emit('create-webrtc-transport', {
                 isConsumer: true,
                 room: joinedRoom,
                 user: login.user
@@ -406,7 +406,7 @@ export default function CreativeStore() {
             // get local stream after the connection success
             getLocalStream();
         });
-        webRTCref.current.on('userAlreadyJoined', ({ error }) => console.log(`already joined the room`));
+        webRTCref.current.on('user-already-joined', ({ error }) => console.log(`already joined the room`));
         webRTCref.current.on('new-producer', ({ producerId }) => signalNewConsumerTransport(producerId));
 
         // CLEANUP EVENT
@@ -439,7 +439,8 @@ export default function CreativeStore() {
         // handle WebRTC Socket connection to the signaler service,
         // and store it to webRTCref
         // once it connect it will process the ICE establishment
-        console.log(room)
+        if (!room.roomId) return;
+        // assign local room
         joinedRoom = room;
         webRTCref.current = connectWebsocket(process.env.REACT_APP_WG_SIGNALER_SERVICE);
         // and then initialize the websocket to the webrtc server signaler service
