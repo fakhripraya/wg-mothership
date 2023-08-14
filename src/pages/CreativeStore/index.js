@@ -36,7 +36,9 @@ import { useAxios } from '../../utils/hooks/useAxios';
 import { videoConfig } from '../../config/mediasoup/config';
 import { connectWebsocket } from '../../config/websocket/websocket';
 import { useSearchParams } from 'react-router-dom';
-const mediasoupClient = require('mediasoup-client');
+import { NO_STORE_FOUND_IN_THE_CREATIVE_STORE } from '../../variables/errorMessages/creativeStore';
+import { Device } from 'mediasoup-client';
+import ErrorHandling from '../ErrorHandling';
 
 export default function CreativeStore() {
 
@@ -139,7 +141,7 @@ export default function CreativeStore() {
         // server side to send/recive media
         const createDevice = async () => {
             try {
-                device = new mediasoupClient.Device();
+                device = new Device();
 
                 // https://mediasoup.org/documentation/v3/mediasoup-client/api/#device-load
                 // Loads the device with RTP capabilities of the Router (server side)
@@ -452,6 +454,17 @@ export default function CreativeStore() {
         setSelectedRightPanel(select);
     }
 
+    function handleRedirectNoStoreFound() {
+        // Placeholder message while redirecting to home page
+        return <ErrorHandling errorMessage={NO_STORE_FOUND_IN_THE_CREATIVE_STORE} >
+            <br />
+            <br />
+            <Button onClick={() => window.location.replace('/')}>
+                Balik ke Home
+            </Button>
+        </ErrorHandling>
+    }
+
     // COMPONENTS SPECIFIC //
     const ShowRightScrollableMenu = () => {
         if (selectedRightPanel === NEW_TRANSACTION_ORDERS) return <ShowNewOrders datas={visitor} />
@@ -588,10 +601,10 @@ export default function CreativeStore() {
         handleInitialize();
     }, []);
 
+    if (!storeId) return handleRedirectNoStoreFound();
     return (
         <Fragment>
             <div className='creative-store-audio-media-container'>
-
             </div>
             <div className="creative-store-container">
                 <div className="creative-store-wrapper">

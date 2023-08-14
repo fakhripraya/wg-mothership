@@ -121,12 +121,8 @@ export default function Dashboard() {
     // COMPONENT FUNCTIONS //
 
     const ShowMenuTabs = () => {
-        if (typeof userStore[0].storeName === 'undefined') {
-            // Placeholder message while redirecting to home page
-            return <ErrorHandling containerStyle={{ width: 'auto' }} errorMessage={"Loading data..."} >
-            </ErrorHandling>
-        }
-        else if (login && userStore.length <= 0) {
+        console.log(userStore)
+        if (login && userStore.length <= 0) {
             // Placeholder message while redirecting to home page
             return <ErrorHandling containerStyle={{ width: 'auto' }} errorMessage={NO_STORE_FOUND_IN_THE_DASHBOARD} >
                 <br />
@@ -134,6 +130,11 @@ export default function Dashboard() {
                 <Button onClick={() => handleGoToAddStore()}>
                     Buat toko
                 </Button>
+            </ErrorHandling>
+        }
+        else if (typeof userStore[0].storeName === 'undefined') {
+            // Placeholder message while redirecting to home page
+            return <ErrorHandling containerStyle={{ width: 'auto' }} errorMessage={"Loading data..."} >
             </ErrorHandling>
         }
         else if (login && userStore.length > 0) return <Fragment>

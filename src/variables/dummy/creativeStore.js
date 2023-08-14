@@ -35,14 +35,14 @@ export const initialLeftPanelDatas = [
                 roomChats: []
             },
             {
-                roomId: uuidv4(),
+                roomId: '123',
                 roomTitle: "🎧「Voice 1",
                 roomType: "VOICE",
                 roomMaxSocket: 10,
                 roomSockets: []
             },
             {
-                roomId: uuidv4(),
+                roomId: '1234',
                 roomTitle: "🎧「Voice 2",
                 roomType: "VOICE",
                 roomMaxSocket: 10,
@@ -81,7 +81,7 @@ export const initialLeftPanelDatas = [
                 roomChats: []
             },
             {
-                roomId: uuidv4(),
+                roomId: '12345',
                 roomTitle: "🎧「Bilik Lapor Privat",
                 roomType: "VOICE",
                 roomMaxSocket: 2,

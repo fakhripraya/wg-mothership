@@ -1,0 +1,1 @@
+export const NO_STORE_FOUND_IN_THE_CREATIVE_STORE = 'Toko tidak ditemukan!';
