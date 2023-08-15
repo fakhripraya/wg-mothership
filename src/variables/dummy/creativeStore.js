@@ -7,6 +7,7 @@ export const dummyStoreInfo = {
 
 export const initialLeftPanelDatas = [
     {
+        id: 1,
         title: "Informasi Toko",
         data: [
             {
@@ -22,6 +23,7 @@ export const initialLeftPanelDatas = [
         ]
     },
     {
+        id: 2,
         title: "Lounge",
         data: [
             {
@@ -51,6 +53,7 @@ export const initialLeftPanelDatas = [
         ]
     },
     {
+        id: 3,
         title: "Live Streaming",
         data: [
             {
@@ -68,6 +71,7 @@ export const initialLeftPanelDatas = [
         ]
     },
     {
+        id: 4,
         title: "Pelaporan",
         data: [
             {
@@ -90,6 +94,7 @@ export const initialLeftPanelDatas = [
         ]
     },
     {
+        id: 5,
         title: "Masukan",
         data: [
             {

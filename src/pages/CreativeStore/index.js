@@ -1,6 +1,7 @@
 import React, {
     Fragment,
     useEffect,
+    useMemo,
     useRef,
     useState
 } from 'react';
@@ -24,11 +25,12 @@ import TextInput from '../../components/TextInput';
 import {
     CLIENT_USER_INFO,
     MENU_MOBILE,
+    ROOM_UNAVAILABLE,
     URL_GET_SERVER_INFO,
 } from '../../variables/global';
 import {
     VISITORS,
-    NEW_TRANSACTION_ORDERS,
+    TRANSACTION_ORDERS,
 } from '../../variables/constants/creativeStore';
 import { cookies } from '../../config/cookie';
 import { trackPromise } from 'react-promise-tracker';
@@ -52,6 +54,7 @@ export default function CreativeStore() {
 
     // STATES //
     const [rooms, setRooms] = useState([]);
+    const [joinedRoom, setJoinedRoom] = useState(null);
     const [visitor, setVisitors] = useState([]);
     const [toggle, setToggle] = useState(false);
     const [selectedRightPanel, setSelectedRightPanel] = useState(VISITORS);
@@ -61,7 +64,6 @@ export default function CreativeStore() {
     // VARIABLES //
     const storeId = searchParams.get("id");
     let login = cookies.get(CLIENT_USER_INFO);
-    let joinedRoom;
     // device variable used to store device
     // to create send/consume transport with the given rtpCapabilities
     let device
@@ -100,7 +102,35 @@ export default function CreativeStore() {
         );
     }
 
-    function handleInitializeWebsocket() {
+    function handleSocketCleanUp() {
+        // find the rooms in roomCategory
+        let newRooms = rooms;
+        let selectedRoomCategory = newRooms.find((data) => data.id === joinedRoom.roomCategoryId);
+        let updateRooms = selectedRoomCategory.data;
+
+        // delete the user inside the room with the key
+        let updateRoom = updateRooms.find((data2) => data2.roomId === joinedRoom.roomId);
+        if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
+        delete updateRoom.roomSockets[login.user.userId];
+
+        // set room with the new value
+        setJoinedRoom(null);
+        setRooms([
+            ...newRooms
+        ]);
+
+        // disconnect the peer from the socket
+        webRTCref.current.disconnect();
+
+        // delete the previous ref
+        delete webRTCref.current;
+    }
+
+    function handleInitializeWebsocket(selectedRoom) {
+
+        // assign var joinedRoom inside the function
+        let joinedRoom = selectedRoom;
+
         // CUSTOM MEDIASOUP FUNCTIONS //
         const streamSuccess = (stream) => {
             // the video/audio param will later be used to create the producer transport 
@@ -435,24 +465,53 @@ export default function CreativeStore() {
         });
     }
 
-    function handleJoinRoom(room) {
+    function handleJoinRoom(roomCategory, room) {
         // handle WebRTC Socket connection to the signaler service,
         // and store it to webRTCref
         // once it connect it will process the ICE establishment
+
+        // do some validation
+        // check whether there is already a ref to the socket and if its connected then return
         if (!room.roomId) return;
-        // assign local room
-        joinedRoom = room;
+        if (webRTCref.current &&
+            webRTCref.current.connected &&
+            joinedRoom.roomId === room.roomId
+        ) return;
+        if (webRTCref.current &&
+            webRTCref.current.connected
+        ) handleSocketCleanUp(room);
+
+        // assign selectedRoom with room value
+        // make a temporary room value
+        let newRooms = rooms;
+        let selectedRoomCategory = newRooms.find((data) => data.id === roomCategory.id);
+        let updateRooms = selectedRoomCategory.data;
+
+        // find the room that the socket join
+        // if the room is not available throw new error
+        // if the room is available then push the new socket user info
+        let updateRoom = updateRooms.find((data2) => data2.roomId === room.roomId);
+        if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
+        updateRoom.roomSockets[login.user.userId] = login.user;
+
+        // set room with the new value
+        const selectedRoom = {
+            roomCategoryId: roomCategory.id,
+            ...room
+        };
+        setJoinedRoom({
+            ...selectedRoom
+        });
+        setRooms([
+            ...newRooms
+        ]);
         webRTCref.current = connectWebsocket(process.env.REACT_APP_WG_SIGNALER_SERVICE);
         // and then initialize the websocket to the webrtc server signaler service
-        handleInitializeWebsocket();
+        handleInitializeWebsocket(selectedRoom);
     }
 
     function handleBottomSheet() {
         setToggle(!toggle);
-    }
-
-    function handleSelectedRightPanel(select) {
-        setSelectedRightPanel(select);
     }
 
     function handleRedirectNoStoreFound() {
@@ -467,10 +526,6 @@ export default function CreativeStore() {
     }
 
     // COMPONENTS SPECIFIC //
-    const ShowRightScrollableMenu = () => {
-        if (selectedRightPanel === NEW_TRANSACTION_ORDERS) return <ShowNewOrders datas={visitor} />
-        return <ShowVisitors datas={visitor} />
-    }
 
     const ShowNewOrders = (props) => {
         return <Fragment>
@@ -527,22 +582,26 @@ export default function CreativeStore() {
     }
 
     const ShowSockets = (props) => {
-        return (<div className={`creative-store-dynamic-accordion-socket-wrapper ${(!props.data || props.data.length === 0) && "display-none"}`}>
-            {props.data && props.data.map((obj, index) => {
-                return <div className='creative-store-dynamic-accordion-socket-user'>
-                    <Avatar
-                        style={{ cursor: "pointer" }}
-                        size={30}
-                        round={true}
-                        title={obj.name}
-                        name={obj.name} />
-                    <label
-                        className="light-color"
-                        key={`${props.uniqueKey}-dynamic-accordion-socket-${index}`}>
-                        {obj.name}
-                    </label>
-                </div>
-            })}
+        if (!props.roomSockets) return null;
+        const entries = Object.entries(props.roomSockets);
+        return (<div className={`creative-store-dynamic-accordion-socket-wrapper ${(entries.length === 0) && "display-none"}`}>
+            {(() => {
+                for (const [key, value] of entries) {
+                    return <div
+                        key={`${key}-dynamic-accordion-socket-user`}
+                        className='creative-store-dynamic-accordion-socket-user'>
+                        <Avatar
+                            style={{ cursor: "pointer" }}
+                            size={30}
+                            round={true}
+                            title={value.fullName}
+                            name={value.fullName} />
+                        <label className="light-color">
+                            {value.fullName}
+                        </label>
+                    </div>
+                }
+            })()}
         </div>)
     }
 
@@ -557,9 +616,9 @@ export default function CreativeStore() {
                         return <button
                             key={`${props.uniqueKey}-dynamic-accordion-${obj2.roomTitle}-${index2}`}
                             className="dynamic-accordion-button creative-store-dynamic-accordion-button"
-                            onClick={() => handleJoinRoom(obj2)}>
+                            onClick={() => handleJoinRoom(obj1, obj2)}>
                             <h6 className="dynamic-accordion-subtitle light-color">{obj2.roomTitle}</h6>
-                            <ShowSockets uniqueKey={props.uniqueKey} data={obj2.roomSockets} />
+                            <ShowSockets uniqueKey={props.uniqueKey} roomSockets={obj2.roomSockets} />
                         </button>
                     })}
                 </DynamicAccordion>
@@ -600,9 +659,13 @@ export default function CreativeStore() {
     useEffect(() => {
         smoothScrollTop();
         handleInitialize();
+
+        return () => {
+            if (webRTCref.current) webRTCref.current.disconnect();
+        }
     }, []);
 
-    if (!storeId) return handleRedirectNoStoreFound();
+    //if (!storeId) handleRedirectNoStoreFound();
     return (
         <Fragment>
             <div className='creative-store-audio-media-container'>
@@ -638,7 +701,9 @@ export default function CreativeStore() {
                             </div>
                             <div className="creative-store-sub-container creative-store-scrollable-menu-body">
                                 <div className='creative-store-scrollable-menu-container'>
-                                    <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
+                                    {useMemo(() => {
+                                        return <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
+                                    }, [rooms])}
                                 </div>
                             </div>
                             <div className="creative-store-sub-container creative-store-user-avatar">
@@ -672,12 +737,14 @@ export default function CreativeStore() {
                             </div>
                             <div className="creative-store-chatbody-container dark-bg-color">
                                 <div className="creative-store-chatbody-wrapper">
-                                    <ShowChatTexts datas={initialChatTexts} />
+                                    {useMemo(() => {
+                                        return <ShowChatTexts datas={initialChatTexts} />
+                                    }, [initialChatTexts])}
                                 </div>
                             </div>
                             <div className="creative-store-chat-container dark-bg-color">
-                                <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-chat-leftside-textinput-button creative-store-chat-leftside-textinput-button-emoji' />
-                                <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-chat-leftside-textinput-button creative-store-chat-leftside-textinput-button-gif' />
+                                <FloatButton onClick={() => { }} className='creative-store-chat-leftside-textinput-button creative-store-chat-leftside-textinput-button-emoji' />
+                                <FloatButton onClick={() => { }} className='creative-store-chat-leftside-textinput-button creative-store-chat-leftside-textinput-button-gif' />
                                 <TextInput className="creative-store-chat-textinput light-color darker-bg-color"></TextInput>
                                 <Button>Send</Button>
                             </div>
@@ -685,8 +752,8 @@ export default function CreativeStore() {
                         <div className="creative-store-right-panel-container">
                             <div className="creative-store-sub-container creative-store-right-panel-tools">
                                 <div className="creative-store-right-panel-left-header">
-                                    <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-rightside-menu-button-active creative-store-rightside-menu-people-button' />
-                                    <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-rightside-menu-button creative-store-rightside-menu-pinned-button' />
+                                    <FloatButton onClick={() => setSelectedRightPanel(VISITORS)} className='creative-store-rightside-menu-button-active creative-store-rightside-menu-people-button' />
+                                    <FloatButton onClick={() => setSelectedRightPanel(TRANSACTION_ORDERS)} className='creative-store-rightside-menu-button creative-store-rightside-menu-pinned-button' />
                                 </div>
                                 <div className="creative-store-right-panel-right-header">
                                     <FloatButton onClick={() => window.handleOpenOverriding(MENU_MOBILE)} className='creative-store-hamburg-menu-button' />
@@ -697,7 +764,10 @@ export default function CreativeStore() {
                                 <hr className='creative-store-linebreak'></hr>
                             </div>
                             <div className="creative-store-sub-container creative-store-scrollable-visitor-body">
-                                <ShowRightScrollableMenu />
+                                {useMemo(() => {
+                                    if (selectedRightPanel === TRANSACTION_ORDERS) return <ShowNewOrders datas={visitor} />
+                                    return <ShowVisitors datas={visitor} />
+                                }, [selectedRightPanel, visitor])}
                             </div>
                         </div>
                     </div>

@@ -118,6 +118,13 @@ export default function Dashboard() {
         else setSelectedStore(result);
     }
 
+    function handleNoLogin() {
+        // Executing asynchronous call for redirecting to home page
+        handleOpenOverridingHome(LOGIN);
+        // Placeholder message while redirecting to home page
+        return <ErrorHandling errorMessage={PAGE_REDIRECTING_MESSAGE} />
+    }
+
     // COMPONENT FUNCTIONS //
 
     const ShowMenuTabs = () => {
@@ -163,12 +170,7 @@ export default function Dashboard() {
         if (login) handleInitialize();
     }, []);
 
-    if (!login) {
-        // Executing asynchronous call for redirecting to home page
-        handleOpenOverridingHome(LOGIN);
-        // Placeholder message while redirecting to home page
-        return <ErrorHandling errorMessage={PAGE_REDIRECTING_MESSAGE} />
-    }
+    if (!login) handleNoLogin();
     else return (
         <Fragment>
             <div className="dashboard-container">

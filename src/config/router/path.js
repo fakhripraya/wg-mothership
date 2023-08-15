@@ -11,6 +11,7 @@ import Dashboard from "../../pages/Dashboard";
 import CreativeStore from "../../pages/CreativeStore";
 import AddCatalogue from "../../pages/AddCatalogue";
 import AddStore from "../../pages/AddStore";
+import ErrorHandling from "../../pages/ErrorHandling";
 
 export const routes = [
     {
@@ -60,5 +61,9 @@ export const routes = [
     {
         path: '/error500',
         component: <Error500 />,
+    },
+    {
+        path: '/error',
+        component: <ErrorHandling />,
     },
 ];
