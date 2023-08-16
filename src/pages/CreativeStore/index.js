@@ -1,5 +1,6 @@
 import React, {
     Fragment,
+    useCallback,
     useEffect,
     useMemo,
     useRef,
@@ -24,6 +25,7 @@ import Avatar from 'react-avatar';
 import TextInput from '../../components/TextInput';
 import {
     CLIENT_USER_INFO,
+    LOGIN,
     MENU_MOBILE,
     ROOM_UNAVAILABLE,
     URL_GET_SERVER_INFO,
@@ -31,6 +33,7 @@ import {
 import {
     VISITORS,
     TRANSACTION_ORDERS,
+    VOICE,
 } from '../../variables/constants/creativeStore';
 import { cookies } from '../../config/cookie';
 import { trackPromise } from 'react-promise-tracker';
@@ -41,6 +44,7 @@ import { useSearchParams } from 'react-router-dom';
 import { NO_STORE_FOUND_IN_THE_CREATIVE_STORE } from '../../variables/errorMessages/creativeStore';
 import { Device } from 'mediasoup-client';
 import ErrorHandling from '../ErrorHandling';
+import ShowChannels from './ModularComponents/ShowChannel';
 
 export default function CreativeStore() {
 
@@ -53,7 +57,7 @@ export default function CreativeStore() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     // STATES //
-    const [rooms, setRooms] = useState([]);
+    const [channels, setChannels] = useState([]);
     const [joinedRoom, setJoinedRoom] = useState(null);
     const [visitor, setVisitors] = useState([]);
     const [toggle, setToggle] = useState(false);
@@ -92,7 +96,7 @@ export default function CreativeStore() {
                 url: URL_GET_SERVER_INFO(`?storeId=${storeId}`),
             }).then((result) => {
                 if (result.responseStatus === 200) {
-                    setRooms(initialLeftPanelDatas);
+                    setChannels(initialLeftPanelDatas);
                     setVisitors(initialVisitors);
                 }
             }).catch((error) => {
@@ -100,30 +104,6 @@ export default function CreativeStore() {
                 else handleErrorMessage(error, setErrorMessage, setModalToggle, modalToggle)
             })
         );
-    }
-
-    function handleSocketCleanUp() {
-        // find the rooms in roomCategory
-        let newRooms = rooms;
-        let selectedRoomCategory = newRooms.find((data) => data.id === joinedRoom.roomCategoryId);
-        let updateRooms = selectedRoomCategory.data;
-
-        // delete the user inside the room with the key
-        let updateRoom = updateRooms.find((data2) => data2.roomId === joinedRoom.roomId);
-        if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
-        delete updateRoom.roomSockets[login.user.userId];
-
-        // set room with the new value
-        setJoinedRoom(null);
-        setRooms([
-            ...newRooms
-        ]);
-
-        // disconnect the peer from the socket
-        webRTCref.current.disconnect();
-
-        // delete the previous ref
-        delete webRTCref.current;
     }
 
     function handleInitializeWebsocket(selectedRoom) {
@@ -465,13 +445,106 @@ export default function CreativeStore() {
         });
     }
 
-    function handleJoinRoom(roomCategory, room) {
+    function handleJoinTextRoom() {
+
+    }
+
+    function handleRoomSocketCleanUp(joinedRoom) {
+        // set room with the new value
+
+        if (!joinedRoom) return;
+        setChannels((oldChannels) => {
+            // // find the rooms in roomCategory
+            let selectedRoomChannel = oldChannels[joinedRoom.channelId];
+            let updateRooms = selectedRoomChannel.channelRooms;
+            let updateRoom = updateRooms[joinedRoom.roomId];
+            if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
+
+            // filter the socket
+            let filteredSockets = { ...oldChannels[joinedRoom.channelId].channelRooms[joinedRoom.roomId].roomSockets }
+            delete filteredSockets[login.user.userId];
+
+            return {
+                ...oldChannels,
+                [joinedRoom.channelId]: {
+                    ...oldChannels[joinedRoom.channelId],
+                    channelRooms: {
+                        ...oldChannels[joinedRoom.channelId].channelRooms,
+                        [joinedRoom.roomId]: {
+                            ...oldChannels[joinedRoom.channelId].channelRooms[joinedRoom.roomId],
+                            roomSockets: {
+                                ...filteredSockets
+                            }
+                        }
+                    }
+                },
+            };
+        });
+
+        // clear the joined room value
+        setJoinedRoom(null);
+
+        // // disconnect the peer from the socket
+        webRTCref.current.disconnect();
+
+        // // delete the previous webrtc ref
+        delete webRTCref.current;
+    }
+
+    function handleJoinRoom(room, channel) {
+        // // find the room that the socket join
+        // // if the room is available then push the new socket user info
+        setChannels((oldChannels) => {
+            // find the rooms in roomCategory
+            let selectedChannel = oldChannels[channel.channelId];
+            let updateRooms = selectedChannel.channelRooms;
+
+            // delete the user inside the room with the key
+            let updateRoom = updateRooms[room.roomId];
+            if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
+
+            return {
+                ...oldChannels,
+                [channel.channelId]: {
+                    ...oldChannels[channel.channelId],
+                    channelRooms: {
+                        ...oldChannels[channel.channelId].channelRooms,
+                        [room.roomId]: {
+                            ...oldChannels[channel.channelId].channelRooms[room.roomId],
+                            roomSockets: {
+                                ...oldChannels[channel.channelId].channelRooms[room.roomId].roomSockets,
+                                [login.user.userId]: {
+                                    ...login.user
+                                }
+                            }
+                        }
+                    }
+                },
+            };
+        });
+
+        // set room with the new value and new channel id
+        let selectedRoom = {
+            channelId: channel.channelId,
+            ...room
+        };
+
+        // set the state
+        setJoinedRoom(selectedRoom);
+
+        // return the new selected room to be processed
+        return selectedRoom;
+    }
+
+    const listenJoinRoom = useCallback((channel, room, joinedRoom) => {
         // handle WebRTC Socket connection to the signaler service,
         // and store it to webRTCref
         // once it connect it will process the ICE establishment
 
         // do some validation
         // check whether there is already a ref to the socket and if its connected then return
+        if (room.roomType !== VOICE) return handleJoinTextRoom();
+        if (!login) return window.handleOpenOverriding(LOGIN);
         if (!room.roomId) return;
         if (webRTCref.current &&
             webRTCref.current.connected &&
@@ -479,36 +552,16 @@ export default function CreativeStore() {
         ) return;
         if (webRTCref.current &&
             webRTCref.current.connected
-        ) handleSocketCleanUp(room);
+        ) handleRoomSocketCleanUp(joinedRoom);
 
-        // assign selectedRoom with room value
-        // make a temporary room value
-        let newRooms = rooms;
-        let selectedRoomCategory = newRooms.find((data) => data.id === roomCategory.id);
-        let updateRooms = selectedRoomCategory.data;
+        // proceed altering room state
+        let selectedRoom = handleJoinRoom(room, channel);
 
-        // find the room that the socket join
-        // if the room is not available throw new error
-        // if the room is available then push the new socket user info
-        let updateRoom = updateRooms.find((data2) => data2.roomId === room.roomId);
-        if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
-        updateRoom.roomSockets[login.user.userId] = login.user;
-
-        // set room with the new value
-        const selectedRoom = {
-            roomCategoryId: roomCategory.id,
-            ...room
-        };
-        setJoinedRoom({
-            ...selectedRoom
-        });
-        setRooms([
-            ...newRooms
-        ]);
+        // connecting to the websocket
         webRTCref.current = connectWebsocket(process.env.REACT_APP_WG_SIGNALER_SERVICE);
         // and then initialize the websocket to the webrtc server signaler service
         handleInitializeWebsocket(selectedRoom);
-    }
+    }, [joinedRoom])
 
     function handleBottomSheet() {
         setToggle(!toggle);
@@ -581,52 +634,6 @@ export default function CreativeStore() {
         </Fragment>
     }
 
-    const ShowSockets = (props) => {
-        if (!props.roomSockets) return null;
-        const entries = Object.entries(props.roomSockets);
-        return (<div className={`creative-store-dynamic-accordion-socket-wrapper ${(entries.length === 0) && "display-none"}`}>
-            {(() => {
-                for (const [key, value] of entries) {
-                    return <div
-                        key={`${key}-dynamic-accordion-socket-user`}
-                        className='creative-store-dynamic-accordion-socket-user'>
-                        <Avatar
-                            style={{ cursor: "pointer" }}
-                            size={30}
-                            round={true}
-                            title={value.fullName}
-                            name={value.fullName} />
-                        <label className="light-color">
-                            {value.fullName}
-                        </label>
-                    </div>
-                }
-            })()}
-        </div>)
-    }
-
-    const ShowRoomCategories = (props) => {
-        return props.datas.map((obj1, index1) => {
-            return <Fragment key={`${props.uniqueKey}-dynamic-accordion-${index1}`}>
-                <DynamicAccordion
-                    toggle={true}
-                    isButton={false}
-                    title={obj1.title} >
-                    {obj1.data.map((obj2, index2) => {
-                        return <button
-                            key={`${props.uniqueKey}-dynamic-accordion-${obj2.roomTitle}-${index2}`}
-                            className="dynamic-accordion-button creative-store-dynamic-accordion-button"
-                            onClick={() => handleJoinRoom(obj1, obj2)}>
-                            <h6 className="dynamic-accordion-subtitle light-color">{obj2.roomTitle}</h6>
-                            <ShowSockets uniqueKey={props.uniqueKey} roomSockets={obj2.roomSockets} />
-                        </button>
-                    })}
-                </DynamicAccordion>
-                {props.datas.length - 1 !== index1 && <hr className='creative-store-linebreak'></hr>}
-            </Fragment>
-        })
-    }
-
     const ShowChatTexts = (props) => {
         return props.datas.map((obj1, index1) => {
             return <div
@@ -654,6 +661,17 @@ export default function CreativeStore() {
         })
     }
 
+    // MEMOIZE COMPONENTS
+
+    const showChats = useMemo(() => {
+        return <ShowChatTexts datas={initialChatTexts} />
+    }, [initialChatTexts]);
+
+    const showRightSidePanel = useMemo(() => {
+        if (selectedRightPanel === TRANSACTION_ORDERS) return <ShowNewOrders datas={visitor} />
+        return <ShowVisitors datas={visitor} />
+    }, [selectedRightPanel, visitor]);
+
     // INITIAL RENDER
     // AND WEBSOCKET INITIALIZATION
     useEffect(() => {
@@ -665,7 +683,7 @@ export default function CreativeStore() {
         }
     }, []);
 
-    //if (!storeId) handleRedirectNoStoreFound();
+    if (!storeId) handleRedirectNoStoreFound();
     return (
         <Fragment>
             <div className='creative-store-audio-media-container'>
@@ -701,9 +719,7 @@ export default function CreativeStore() {
                             </div>
                             <div className="creative-store-sub-container creative-store-scrollable-menu-body">
                                 <div className='creative-store-scrollable-menu-container'>
-                                    {useMemo(() => {
-                                        return <ShowRoomCategories uniqueKey="desktop" datas={rooms} />
-                                    }, [rooms])}
+                                    <ShowChannels uniqueKey="desktop" channels={channels} joinedRoom={joinedRoom} listenJoinRoom={listenJoinRoom} />
                                 </div>
                             </div>
                             <div className="creative-store-sub-container creative-store-user-avatar">
@@ -737,9 +753,7 @@ export default function CreativeStore() {
                             </div>
                             <div className="creative-store-chatbody-container dark-bg-color">
                                 <div className="creative-store-chatbody-wrapper">
-                                    {useMemo(() => {
-                                        return <ShowChatTexts datas={initialChatTexts} />
-                                    }, [initialChatTexts])}
+                                    {showChats}
                                 </div>
                             </div>
                             <div className="creative-store-chat-container dark-bg-color">
@@ -764,10 +778,7 @@ export default function CreativeStore() {
                                 <hr className='creative-store-linebreak'></hr>
                             </div>
                             <div className="creative-store-sub-container creative-store-scrollable-visitor-body">
-                                {useMemo(() => {
-                                    if (selectedRightPanel === TRANSACTION_ORDERS) return <ShowNewOrders datas={visitor} />
-                                    return <ShowVisitors datas={visitor} />
-                                }, [selectedRightPanel, visitor])}
+                                {showRightSidePanel}
                             </div>
                         </div>
                     </div>

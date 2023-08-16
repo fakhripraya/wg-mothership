@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import "./style.scss"
 
 export default function DynamicAccordion(props) {
@@ -22,16 +22,21 @@ export default function DynamicAccordion(props) {
         })
     }
 
+    // MEMOIZED COMPONENTS //
+    const Caret = React.memo(() => {
+        return <span className="dynamic-accordion-button-label-caret" ref={caretRef} />
+    });
+
     useEffect(() => {
         if (toggle) {
             listRef.current.style.maxHeight = "500px";
-            caretRef.current.style.transform = "rotate(180deg)";
+            caretRef.current.style.transform = "rotate(0deg)";
         }
         else {
             listRef.current.style.maxHeight = "0px";
-            caretRef.current.style.transform = "rotate(0deg)";
+            caretRef.current.style.transform = "rotate(180deg)";
         }
-    }, [toggle])
+    }, [toggle]);
 
     return (
         <div className={"dynamic-accordion-wrapper " + props.className}>
@@ -40,7 +45,7 @@ export default function DynamicAccordion(props) {
                     <h2 className="dynamic-accordion-title light-color">{props.title}</h2>
                 </button>
                 <div className="dynamic-accordion-title-prefixes">
-                    <span className="dynamic-accordion-button-label-caret" ref={caretRef} />
+                    <Caret />
                     <span onClick={(e) => { e.stopPropagation() }} className="dynamic-accordion-button-label-plus" />
                 </div>
             </div>
