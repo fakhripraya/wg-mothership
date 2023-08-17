@@ -11,6 +11,7 @@ import './style.scss';
 import {
     handleError500,
     handleErrorMessage,
+    removeAllChildNodes,
     smoothScrollTop
 } from '../../utils/functions/global';
 import FloatButton from '../../components/FloatButton';
@@ -273,7 +274,10 @@ export default function CreativeStore() {
 
         const getProducers = () => {
             console.log(`get all existing producer to signal: `);
-            webRTCref.current.emit('get-producers', { room: joinedRoom }, producerIds => {
+            webRTCref.current.emit('get-producers', {
+                user: login.user,
+                room: joinedRoom
+            }, producerIds => {
                 // for each of the producer create a consumer
                 // producerIds.forEach(id => signalNewConsumerTransport(id))
                 console.log(`signal all existing peer : `);
@@ -439,14 +443,27 @@ export default function CreativeStore() {
             webRTCref.current.connect();
         });
         webRTCref.current.on('webrtc-error', () => console.log(`already joined the room`));
-        webRTCref.current.on('user-already-joined', () => console.log(`already joined the room`));
+        webRTCref.current.on('user-already-joined', () => {
+            alert(`already joined the room`)
+            handleRoomSocketCleanUp(joinedRoom);
+        });
 
-        // CLEANUP EVENT
+        // CLEANUP EVENTS
+        // this will trigger when the local producer(user) leave the room 
+        webRTCref.current.on("disconnect", () => {
+            const audioContainer = document.getElementsByClassName('creative-store-audio-media-container')[0];
+            const videoContainer = document.getElementsByClassName(`creative-store-video-media-container-${joinedRoom.roomId}`)[0];
+
+            if (audioContainer) removeAllChildNodes(audioContainer);
+            if (videoContainer) removeAllChildNodes(videoContainer);
+        });
+        // this will trigger when the remote producer leave the room
         webRTCref.current.on('producer-closed', ({
             serverConsumerId,
             serverConsumerKind,
             remoteProducerId
         }) => {
+            console.log(`producer from id ${remoteProducerId} is closed`)
             // server notification is received when a producer is closed
             // we need to close the client-side consumer and associated transport
             const producerToClose = consumerTransports.find(data => data.producerId === remoteProducerId);
@@ -755,7 +772,7 @@ export default function CreativeStore() {
                                     <ShowChannels uniqueKey="desktop" channels={channels} joinedRoom={joinedRoom} listenJoinRoom={listenJoinRoom} />
                                 </div>
                             </div>
-                            <div className="creative-store-sub-container creative-store-user-avatar">
+                            {login && <div className="creative-store-sub-container creative-store-user-avatar">
                                 <div className="creative-store-user-avatar-container">
                                     <div className="creative-store-user-identifier-img-wrapper">
                                         <Avatar style={{ cursor: "pointer" }}
@@ -770,7 +787,7 @@ export default function CreativeStore() {
                                     connectionStatus={connectionStatus}
                                     joinedRoom={joinedRoom}
                                 />
-                            </div>
+                            </div>}
                         </div>
                         <div className="creative-store-body-container">
                             <div className="creative-store-body-header-container" >

@@ -104,4 +104,10 @@ export function catchPromiseErrors(error, navigate) {
     }
 }
 
+export function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
 export const delayInMilliSecond = (ms) => new Promise(res => setTimeout(res, ms));
