@@ -98,7 +98,13 @@ body h6{
   z-index: 999 !important;
 }
 
+.visible{
+  visibility: visible;
+  opacity: 1 !important;
+}
+
 .hidden{
+  visibility: hidden;
   opacity: 0 !important;
 }
 

@@ -65,6 +65,7 @@
     height: inherit;
     overflow-y: hidden;
     min-width: 250px;
+    max-width: 250px;
     
     @media screen and (max-width: 769px){
         display: none;
@@ -272,6 +273,7 @@
     background-color: transparent;
     height: stretch;
     width: stretch;
+    overflow: hidden;
 }
 
 .creative-store-user-avatar-end-container{
@@ -284,12 +286,17 @@
     padding: 6px;
 }
 
-.creative-store-store-user-name{
-    margin: 0px !important;
-    height: fit-content;
+.creative-store-store-text-container{
+    width: 100%;
 }
 
-.creative-store-store-user-name + small{
+.creative-store-store-text{
+    margin: 0px !important;
+    height: fit-content;
+    width: stretch;
+}
+
+.creative-store-store-text + small{
     margin-bottom: 6px;
 }
 
@@ -312,7 +319,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    transition: transform 50ms ease 0s, background-color 0.12s ease 0s;
+    transition: all 0.4s ease-in-out;
     margin-right: 12px;
     cursor: pointer;
 }
@@ -320,9 +327,15 @@
 .creative-store-button-icon-voice{
     background-image: url('../../assets/svg/microphone-disabled.svg');
 }
+
 .creative-store-button-icon-audio{
     background-image: url('../../assets/svg/headphone-enabled.svg');
 }
+
+.creative-store-button-icon-leave{
+    background-image: url('../../assets/svg/leave.svg');
+}
+
 .creative-store-button-icon-setting{
     background-image: url('../../assets/svg/gear-icon.svg');
 }

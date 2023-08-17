@@ -45,6 +45,7 @@ import { NO_STORE_FOUND_IN_THE_CREATIVE_STORE } from '../../variables/errorMessa
 import { Device } from 'mediasoup-client';
 import ErrorHandling from '../ErrorHandling';
 import ShowChannels from './ModularComponents/ShowChannel';
+import ShowBottomStatus from './ModularComponents/ShowBottomStatus';
 
 export default function CreativeStore() {
 
@@ -64,6 +65,10 @@ export default function CreativeStore() {
     const [selectedRightPanel, setSelectedRightPanel] = useState(VISITORS);
     const [modalToggle, setModalToggle] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [connectionStatus, setConnectionStatus] = useState({
+        webRTCStatus: "Not Connected",
+        chatSocketStatus: "Ready"
+    })
 
     // VARIABLES //
     const storeId = searchParams.get("id");
@@ -113,35 +118,39 @@ export default function CreativeStore() {
 
         // CUSTOM MEDIASOUP FUNCTIONS //
         const streamSuccess = (stream) => {
+            // set new connection status
+            handleChangeStatus("assigning stream recieved to the audio/video param");
             // the video/audio param will later be used to create the producer transport 
-            console.log(`assigning stream recieved to the audio/video param`);
             audioParams = { track: stream.getAudioTracks()[0], ...audioParams };
             joinRoom();
         }
 
         const getLocalStream = () => {
-            console.log(`getting the local stream...`);
+            // set new connection status
+            handleChangeStatus("Getting the local stream");
+            // get the audio media device of the user
             navigator.mediaDevices.getUserMedia({
                 audio: true,
             })
                 .then(streamSuccess)
-                .catch(error => {
-                    console.error(`error getting the local stream with error: ${error.message}`);
-                })
+                .catch(error => handleChangeStatus(`error getting the local stream with error: ${error.message}`));
         }
 
         const joinRoom = () => {
-            console.log(`user is ready to join the room - emitting signal to the server...`);
+            // set new connection status
+            handleChangeStatus("user is ready to join the room - emitting signal to the server");
+            // emit join room socket events
             webRTCref.current.emit('join-room', {
                 storeId,
                 room: joinedRoom,
                 user: login.user
             }, (data) => {
-                console.log(`ROUTER RTP Capabilities... ${JSON.stringify(data.rtpCapabilities)}`);
                 // we assign to local variable and will be used when
                 // loading the client Device (see createDevice above)
                 rtpCapabilities = data.rtpCapabilities;
 
+                // set new connection status
+                handleChangeStatus("Got the signal, proceed to create the device");
                 // once we have rtpCapabilities from the Router, create Device
                 createDevice();
             })
@@ -151,8 +160,8 @@ export default function CreativeStore() {
         // server side to send/recive media
         const createDevice = async () => {
             try {
+                // creating the device constructor
                 device = new Device();
-
                 // https://mediasoup.org/documentation/v3/mediasoup-client/api/#device-load
                 // Loads the device with RTP capabilities of the Router (server side)
                 await device.load({
@@ -160,18 +169,20 @@ export default function CreativeStore() {
                     routerRtpCapabilities: rtpCapabilities
                 });
 
-                console.log('DEVICE RTP Capabilities - ', device.rtpCapabilities);
-
+                // set new connection status
+                handleChangeStatus("Device has been successfully created, proceed to create the SEND TRANSPORT");
                 // once the device loads, create transport
                 createSendTransport();
 
             } catch (error) {
-                if (error.name === 'UnsupportedError') console.warn('browser not supported');
-                else console.log(`there is an error while creating the DEVICE, error: ${error}`);
+                if (error.name === 'UnsupportedError') handleChangeStatus("Browser is not supported");
+                else handleChangeStatus(`there is an error while creating the DEVICE, error: ${error}`);
             }
         }
 
         const createSendTransport = () => {
+            // set new connection status
+            handleChangeStatus("Creating the SEND TRANSPORT");
             // see server's socket.on('create-webrtc-transport', sender?, ...)
             // this is a call from Producer, so sender = true
             // The server sends back params needed 
@@ -183,16 +194,17 @@ export default function CreativeStore() {
             }, ({ params }) => {
                 // if error the process will end here
                 if (params.error) {
-                    console.error(`there is an error while creating SEND TRANSPORT\n error: ${params.error}`);
+                    handleChangeStatus(`${params.error}`);
                     return;
                 }
 
-                console.log(`server successfully create the new SEND TRANSPORT with param: ${JSON.stringify(params)}`);
-                console.log(`proceed with creating the SEND PRODUCER TRANSPORT`);
+                // set the new connection status
+                handleChangeStatus(`Successfully create the new SEND TRANSPORT, proceed with creating the SEND PRODUCER TRANSPORT`);
+                // creating SEND PRODUCER TRANSPORT
                 try {
                     producerTransport = device.createSendTransport(params);
                 } catch (error) {
-                    console.error(`there is an error while creating SEND PRODUCER TRANSPORT\n error: ${error}`);
+                    handleChangeStatus(`there is an error while creating SEND PRODUCER TRANSPORT\n error: ${error}`);
                     return;
                 }
 
@@ -218,9 +230,9 @@ export default function CreativeStore() {
                 // see server's socket.on('transport-produce', ...)
                 producerTransport.on('produce', async (parameters, callback, errback) => {
                     try {
-                        console.log(`produce event on producer transport has been fired!`);
-                        console.log(`produce parameters: ${JSON.stringify(parameters)}`);
-                        console.log(`produce transport id: ${producerTransport.id}`);
+                        // console.log(`produce event on producer transport has been fired!`);
+                        // console.log(`produce parameters: ${JSON.stringify(parameters)}`);
+                        // console.log(`produce transport id: ${producerTransport.id}`);
                         await webRTCref.current.emit('transport-produce', {
                             user: login.user,
                             room: joinedRoom,
@@ -233,7 +245,6 @@ export default function CreativeStore() {
                             // server side producer's id.
                             // if producers exist, then join room
                             callback({ producerId });
-                            console.log(peersExist)
                             if (peersExist) getProducers();
                         })
                     } catch (error) {
@@ -241,6 +252,8 @@ export default function CreativeStore() {
                     }
                 });
 
+                // set the new connection status
+                handleChangeStatus(`Producing the audio`);
                 connectSendTransportForAudio();
             })
         }
@@ -252,6 +265,8 @@ export default function CreativeStore() {
             // this action will trigger the 'connect' and 'produce' events above
 
             audioProducer = await producerTransport.produce(audioParams);
+            if (audioProducer) handleChangeStatus(`Connected`);
+            else handleChangeStatus(`Connection Failed`);
             audioProducer.on('trackended', () => console.log('audio track ended'));
             audioProducer.on('transportclose', () => console.log('audio transport ended'));
         }
@@ -412,12 +427,19 @@ export default function CreativeStore() {
         // SOCKET EVENTS LISTENER//
         // server informs the client of user joining the room
         webRTCref.current.on('connection-success', ({ socketId }) => {
-            console.log(`peer connection success ${login.user.username} with socketId: ` + socketId);
+            // console.log(`peer connection success ${login.user.username} with socketId: ` + socketId);
             // get local stream after the connection success
             getLocalStream();
         });
-        webRTCref.current.on('user-already-joined', ({ error }) => console.log(`already joined the room`));
         webRTCref.current.on('new-producer', ({ producerId }) => signalNewConsumerTransport(producerId));
+
+        // ERROR EVENTS
+        webRTCref.current.on("connect_error", (error) => {
+            console.error(`connection error due to ${error.message}`);
+            webRTCref.current.connect();
+        });
+        webRTCref.current.on('webrtc-error', () => console.log(`already joined the room`));
+        webRTCref.current.on('user-already-joined', () => console.log(`already joined the room`));
 
         // CLEANUP EVENT
         webRTCref.current.on('producer-closed', ({
@@ -444,6 +466,13 @@ export default function CreativeStore() {
             container.removeChild(removingElem);
         });
     }
+
+    const handleChangeStatus = (newStatus) => setConnectionStatus((oldStatus) => {
+        return {
+            ...oldStatus,
+            webRTCStatus: newStatus
+        }
+    });
 
     function handleJoinTextRoom() {
 
@@ -484,11 +513,14 @@ export default function CreativeStore() {
         // clear the joined room value
         setJoinedRoom(null);
 
-        // // disconnect the peer from the socket
+        // disconnect the peer from the socket
         webRTCref.current.disconnect();
 
-        // // delete the previous webrtc ref
+        // delete the previous webrtc ref
         delete webRTCref.current;
+
+        // set new connection status
+        handleChangeStatus("Not Connected");
     }
 
     function handleJoinRoom(room, channel) {
@@ -558,7 +590,8 @@ export default function CreativeStore() {
         let selectedRoom = handleJoinRoom(room, channel);
 
         // connecting to the websocket
-        webRTCref.current = connectWebsocket(process.env.REACT_APP_WG_SIGNALER_SERVICE);
+        if (webRTCref.current) webRTCref.current.connect();
+        else webRTCref.current = connectWebsocket(process.env.REACT_APP_WG_SIGNALER_SERVICE);
         // and then initialize the websocket to the webrtc server signaler service
         handleInitializeWebsocket(selectedRoom);
     }, [joinedRoom])
@@ -727,21 +760,16 @@ export default function CreativeStore() {
                                     <div className="creative-store-user-identifier-img-wrapper">
                                         <Avatar style={{ cursor: "pointer" }}
                                             round={true} size={50}
-                                            title={"Freddy Sambo"}
-                                            name={"Freddy Sambo"} />
+                                            title={login.user.fullName}
+                                            name={login.user.fullName} />
                                     </div>
                                 </div>
-                                <div className="creative-store-user-avatar-side-container">
-                                    <h4 className='creative-store-store-user-name'>Freddy Sambo</h4>
-                                    <small>Newcomer</small>
-                                    <div className='creative-store-store-user-tools'>
-                                        <span className="creative-store-button-icon creative-store-button-icon-voice" />
-                                        <span className="creative-store-button-icon creative-store-button-icon-audio" />
-                                    </div>
-                                </div>
-                                <div className="creative-store-user-avatar-end-container">
-                                    <span className="creative-store-button-icon creative-store-button-icon-setting" />
-                                </div>
+                                <ShowBottomStatus
+                                    login={login}
+                                    handleRoomSocketCleanUp={handleRoomSocketCleanUp}
+                                    connectionStatus={connectionStatus}
+                                    joinedRoom={joinedRoom}
+                                />
                             </div>
                         </div>
                         <div className="creative-store-body-container">
