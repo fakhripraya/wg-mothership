@@ -62,6 +62,7 @@ import ShowChannels from "./ModularComponents/ShowChannel";
 import ShowBottomStatus from "./ModularComponents/ShowBottomStatus";
 import Modal from "../../components/Modal";
 import { ShowErrorModal } from "./ModularComponents/ShowModals";
+import PageLoading from "../PageLoading";
 
 export default function CreativeStore() {
   // REFS //
@@ -73,6 +74,7 @@ export default function CreativeStore() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // STATES //
+  const [rendered, setRendered] = useState(false);
   const [channels, setChannels] = useState([]);
   const [joinedRoom, setJoinedRoom] = useState(null);
   const [joinedStatus, setJoinedStatus] =
@@ -113,30 +115,28 @@ export default function CreativeStore() {
 
   // FUNCTIONS SPECIFIC //
   function handleInitialize() {
-    trackPromise(
-      zeusService
-        .getData({
-          endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-          url: URL_GET_SERVER_INFO(`?storeId=${storeId}`),
-        })
-        .then((result) => {
-          if (result.responseStatus === 200) {
-            setChannels(initialLeftPanelDatas);
-            setVisitors(initialVisitors);
-          }
-        })
-        .catch((error) => {
-          if (error.responseStatus === 500)
-            handleError500();
-          else
-            handleErrorMessage(
-              error,
-              setErrorMessage,
-              setModalToggle,
-              modalToggle
-            );
-        })
-    );
+    zeusService
+      .getData({
+        endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+        url: URL_GET_SERVER_INFO(`?storeId=${storeId}`),
+      })
+      .then((result) => {
+        if (result.responseStatus === 200) {
+          setChannels(initialLeftPanelDatas);
+          setVisitors(initialVisitors);
+          setRendered(true);
+        }
+      })
+      .catch((error) => {
+        if (error.responseStatus === 500) handleError500();
+        else
+          handleErrorMessage(
+            error,
+            setErrorMessage,
+            setModalToggle,
+            modalToggle
+          );
+      });
   }
 
   function handleInitializeWebsocket(selectedRoom) {
@@ -700,12 +700,34 @@ export default function CreativeStore() {
 
   function handleJoinTextRoom() {}
 
+  function handleNewChannel(
+    channelId,
+    roomId,
+    oldChannels,
+    newSockets
+  ) {
+    return {
+      ...oldChannels,
+      [channelId]: {
+        ...oldChannels[channelId],
+        channelRooms: {
+          ...oldChannels[channelId].channelRooms,
+          [roomId]: {
+            ...oldChannels[channelId].channelRooms[roomId],
+            roomSockets: {
+              ...newSockets,
+            },
+          },
+        },
+      },
+    };
+  }
+
   function handleRoomSocketCleanUp(joinedRoom) {
     // set room with the new value
 
     if (!joinedRoom) return;
     setChannels((oldChannels) => {
-      // // find the rooms in roomCategory
       let selectedRoomChannel =
         oldChannels[joinedRoom.channelId];
       let updateRooms = selectedRoomChannel.channelRooms;
@@ -720,23 +742,12 @@ export default function CreativeStore() {
       };
       delete filteredSockets[login.user.userId];
 
-      return {
-        ...oldChannels,
-        [joinedRoom.channelId]: {
-          ...oldChannels[joinedRoom.channelId],
-          channelRooms: {
-            ...oldChannels[joinedRoom.channelId]
-              .channelRooms,
-            [joinedRoom.roomId]: {
-              ...oldChannels[joinedRoom.channelId]
-                .channelRooms[joinedRoom.roomId],
-              roomSockets: {
-                ...filteredSockets,
-              },
-            },
-          },
-        },
-      };
+      return handleNewChannel(
+        joinedRoom.channelId,
+        joinedRoom.roomId,
+        oldChannels,
+        filteredSockets
+      );
     });
 
     // clear the joined room value
@@ -755,34 +766,26 @@ export default function CreativeStore() {
     // // find the room that the socket join
     // // if the room is available then push the new socket user info
     setChannels((oldChannels) => {
-      // find the rooms in roomCategory
       let selectedChannel = oldChannels[channel.channelId];
       let updateRooms = selectedChannel.channelRooms;
-
-      // delete the user inside the room with the key
       let updateRoom = updateRooms[room.roomId];
       if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
 
-      return {
-        ...oldChannels,
-        [channel.channelId]: {
-          ...oldChannels[channel.channelId],
-          channelRooms: {
-            ...oldChannels[channel.channelId].channelRooms,
-            [room.roomId]: {
-              ...oldChannels[channel.channelId]
-                .channelRooms[room.roomId],
-              roomSockets: {
-                ...oldChannels[channel.channelId]
-                  .channelRooms[room.roomId].roomSockets,
-                [login.user.userId]: {
-                  ...login.user,
-                },
-              },
-            },
-          },
+      // if room available, handle new channel, room, and socket value
+      const newSockets = {
+        ...oldChannels[channel.channelId].channelRooms[
+          room.roomId
+        ].roomSockets,
+        [login.user.userId]: {
+          ...login.user,
         },
       };
+      return handleNewChannel(
+        channel.channelId,
+        room.roomId,
+        oldChannels,
+        newSockets
+      );
     });
 
     // set room with the new value and new channel id
@@ -856,23 +859,7 @@ export default function CreativeStore() {
     setToggle(!toggleValue);
   }
 
-  function handleRedirectNoStoreFound() {
-    // Placeholder message while redirecting to home page
-    return (
-      <ErrorHandling
-        errorMessage={NO_STORE_FOUND_IN_THE_CREATIVE_STORE}>
-        <br />
-        <br />
-        <Button
-          onClick={() => window.location.replace("/")}>
-          Balik ke Home
-        </Button>
-      </ErrorHandling>
-    );
-  }
-
   // COMPONENTS SPECIFIC //
-
   const ShowNewOrders = (props) => {
     return (
       <Fragment>
@@ -988,8 +975,7 @@ export default function CreativeStore() {
     return <ShowVisitors datas={visitor} />;
   }, [selectedRightPanel, visitor]);
 
-  // INITIAL RENDER
-  // AND WEBSOCKET INITIALIZATION
+  // INITIAL RENDER AND INITIALIZATION
   useEffect(() => {
     smoothScrollTop();
     handleInitialize();
@@ -999,9 +985,30 @@ export default function CreativeStore() {
     };
   }, []);
 
-  if (!storeId) handleRedirectNoStoreFound();
+  // Placeholder message while redirecting to home page
+  if (!storeId) {
+    return (
+      <ErrorHandling
+        errorMessage={NO_STORE_FOUND_IN_THE_CREATIVE_STORE}>
+        <Button
+          className="margin-top-12-18 "
+          onClick={() => window.location.replace("/")}>
+          Balik ke Home
+        </Button>
+      </ErrorHandling>
+    );
+  }
+
   return (
     <Fragment>
+      <PageLoading
+        className={
+          rendered ? "hidden no-height" : "visible"
+        }
+        loadingMessage={
+          "Kita lagi nyiapin tokonya dulu ya, harap tunggu :)"
+        }
+      />
       <Modal
         className="dark-bg-color"
         clicked={() =>

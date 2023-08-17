@@ -7,7 +7,7 @@ export default function ErrorHandling(props) {
   return (
     <div
       style={props.containerStyle}
-      className="error-handling-container">
+      className={`error-handling-container ${props.className}`}>
       <div
         style={props.wrapperStyle}
         className="error-handling-wrapper">

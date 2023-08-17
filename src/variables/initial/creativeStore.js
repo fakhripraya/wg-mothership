@@ -1,12 +1,7 @@
-import { v4 as uuidv4 } from "uuid";
-
 export const dummyStoreInfo = {
   id: "39598421-3d00-493a-bd71-b197ec2c6a23",
   name: "dummy-store",
 };
-
-const uuidLounge3 = uuidv4();
-const uuidLounge4 = uuidv4();
 
 export const initialLeftPanelDatas = {
   1: {
@@ -55,7 +50,16 @@ export const initialLeftPanelDatas = {
         roomTitle: "🎧「Voice 2",
         roomType: "VOICE",
         roomMaxSocket: 10,
-        roomSockets: {},
+        roomSockets: {
+          "dummy-1": {
+            userId: "dummy-1",
+            username: "fakhripraya@gmail.com",
+            fullName: "fakhripraya@gmail.com",
+            phoneNumber: null,
+            email: "fakhripraya@gmail.com",
+            OTPVerified: true,
+          },
+        },
       },
     },
   },
