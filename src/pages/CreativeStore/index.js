@@ -16,7 +16,6 @@ import {
 } from '../../utils/functions/global';
 import FloatButton from '../../components/FloatButton';
 import BottomSheet from '../../components/BottomSheet';
-import DynamicAccordion from '../../components/DynamicAccordion';
 import {
     initialChatTexts,
     initialLeftPanelDatas,
@@ -35,6 +34,17 @@ import {
     VISITORS,
     TRANSACTION_ORDERS,
     VOICE,
+    JOINING_AUDIO_URL,
+    JOINING_AUDIO,
+    LEAVING_AUDIO,
+    MUTE_AUDIO,
+    UNMUTE_AUDIO,
+    UNMUTE_AUDIO_URL,
+    MUTE_AUDIO_URL,
+    LEAVING_AUDIO_URL,
+    DISCONNECTED,
+    CONNECTED,
+    CONNECTING,
 } from '../../variables/constants/creativeStore';
 import { cookies } from '../../config/cookie';
 import { trackPromise } from 'react-promise-tracker';
@@ -42,11 +52,13 @@ import { useAxios } from '../../utils/hooks/useAxios';
 import { videoConfig } from '../../config/mediasoup/config';
 import { connectWebsocket } from '../../config/websocket/websocket';
 import { useSearchParams } from 'react-router-dom';
-import { NO_STORE_FOUND_IN_THE_CREATIVE_STORE } from '../../variables/errorMessages/creativeStore';
+import { NO_STORE_FOUND_IN_THE_CREATIVE_STORE, SYSTEM_STILL_EXECUTING_THE_CONNECTION } from '../../variables/errorMessages/creativeStore';
 import { Device } from 'mediasoup-client';
 import ErrorHandling from '../ErrorHandling';
 import ShowChannels from './ModularComponents/ShowChannel';
 import ShowBottomStatus from './ModularComponents/ShowBottomStatus';
+import Modal from '../../components/Modal';
+import { ShowErrorModal } from './ModularComponents/ShowModals';
 
 export default function CreativeStore() {
 
@@ -61,6 +73,7 @@ export default function CreativeStore() {
     // STATES //
     const [channels, setChannels] = useState([]);
     const [joinedRoom, setJoinedRoom] = useState(null);
+    const [joinedStatus, setJoinedStatus] = useState(DISCONNECTED);
     const [visitor, setVisitors] = useState([]);
     const [toggle, setToggle] = useState(false);
     const [selectedRightPanel, setSelectedRightPanel] = useState(VISITORS);
@@ -161,6 +174,8 @@ export default function CreativeStore() {
         // server side to send/recive media
         const createDevice = async () => {
             try {
+                // handling audio join, this indicates the user is accepted by the signaling server aswell
+                handleJoinAudio(JOINING_AUDIO);
                 // creating the device constructor
                 device = new Device();
                 // https://mediasoup.org/documentation/v3/mediasoup-client/api/#device-load
@@ -266,8 +281,13 @@ export default function CreativeStore() {
             // this action will trigger the 'connect' and 'produce' events above
 
             audioProducer = await producerTransport.produce(audioParams);
-            if (audioProducer) handleChangeStatus(`Connected`);
-            else handleChangeStatus(`Connection Failed`);
+            if (audioProducer) {
+                setJoinedStatus(CONNECTED);
+                handleChangeStatus(`Connected`);
+            }
+            else {
+                handleChangeStatus(`Connection Failed`);
+            }
             audioProducer.on('trackended', () => console.log('audio track ended'));
             audioProducer.on('transportclose', () => console.log('audio transport ended'));
         }
@@ -451,6 +471,8 @@ export default function CreativeStore() {
         // CLEANUP EVENTS
         // this will trigger when the local producer(user) leave the room 
         webRTCref.current.on("disconnect", () => {
+            // handling user leaving audio , this indicates the user is leaving the room
+            handleJoinAudio(LEAVING_AUDIO);
             // set array variables to empty array
             // set the variables to undefined so it can be garbage collected
             consumerTransports = [];
@@ -476,6 +498,8 @@ export default function CreativeStore() {
             serverConsumerKind,
             remoteProducerId
         }) => {
+            // handling remote peer leaving audio , this indicates the remote peer is leaving the room
+            handleJoinAudio(LEAVING_AUDIO);
             console.log(`producer from id ${remoteProducerId} is closed`)
             // server notification is received when a producer is closed
             // we need to close the client-side consumer and associated transport
@@ -503,6 +527,12 @@ export default function CreativeStore() {
             webRTCStatus: newStatus
         }
     });
+
+    async function handleJoinAudio(id) {
+        const audioElement = document.getElementById(id);
+        audioElement.currentTime = 0;
+        audioElement.play();
+    }
 
     function handleJoinTextRoom() {
 
@@ -542,14 +572,13 @@ export default function CreativeStore() {
 
         // clear the joined room value
         setJoinedRoom(null);
-
         // disconnect the peer from the socket
-        webRTCref.current.disconnect();
-
         // delete the previous webrtc ref
+        webRTCref.current.disconnect();
         delete webRTCref.current;
-
         // set new connection status
+        // set joined status
+        setJoinedStatus(DISCONNECTED);
         handleChangeStatus("Not Connected");
     }
 
@@ -591,9 +620,9 @@ export default function CreativeStore() {
             ...room
         };
 
-        // set the state
+        // set the state and set joined status
         setJoinedRoom(selectedRoom);
-
+        setJoinedStatus(CONNECTING);
         // return the new selected room to be processed
         return selectedRoom;
     }
@@ -603,8 +632,15 @@ export default function CreativeStore() {
         // and store it to webRTCref
         // once it connect it will process the ICE establishment
 
-        // do some validation
-        // check whether there is already a ref to the socket and if its connected then return
+        // do some validation here
+        // validate the connecting state, the desired room type, the login,
+        // whether user connected to the room already,
+        // and do some cleanups if user want to change room
+        if (joinedStatus === CONNECTING) {
+            return handleErrorMessage({
+                errorContent: SYSTEM_STILL_EXECUTING_THE_CONNECTION
+            }, setErrorMessage, setModalToggle, modalToggle);
+        }
         if (room.roomType !== VOICE) return handleJoinTextRoom();
         if (!login) return window.handleOpenOverriding(LOGIN);
         if (!room.roomId) return;
@@ -616,7 +652,8 @@ export default function CreativeStore() {
             webRTCref.current.connected
         ) handleRoomSocketCleanUp(joinedRoom);
 
-        // proceed altering room state
+        // proceed altering room state and join status state
+        setJoinedStatus(CONNECTING);
         let selectedRoom = handleJoinRoom(room, channel);
 
         // connecting to the websocket
@@ -624,10 +661,14 @@ export default function CreativeStore() {
         else webRTCref.current = connectWebsocket(process.env.REACT_APP_WG_SIGNALER_SERVICE);
         // and then initialize the websocket to the webrtc server signaler service
         handleInitializeWebsocket(selectedRoom);
-    }, [joinedRoom])
+    }, [joinedRoom, joinedStatus])
 
     function handleBottomSheet() {
         setToggle(!toggle);
+    }
+
+    function handleOpenModal(setToggle, toggleValue) {
+        setToggle(!toggleValue);
     }
 
     function handleRedirectNoStoreFound() {
@@ -725,7 +766,6 @@ export default function CreativeStore() {
     }
 
     // MEMOIZE COMPONENTS
-
     const showChats = useMemo(() => {
         return <ShowChatTexts datas={initialChatTexts} />
     }, [initialChatTexts]);
@@ -749,6 +789,20 @@ export default function CreativeStore() {
     if (!storeId) handleRedirectNoStoreFound();
     return (
         <Fragment>
+            <Modal className="dark-bg-color"
+                clicked={() => handleOpenModal(setModalToggle, modalToggle)}
+                toggle={modalToggle} >
+                <ShowErrorModal
+                    handleOpenModal={handleOpenModal}
+                    setModalToggle={setModalToggle}
+                    modalToggle={modalToggle}
+                    errorMessage={errorMessage}
+                />
+            </Modal>
+            <audio id={JOINING_AUDIO} src={JOINING_AUDIO_URL} />
+            <audio id={LEAVING_AUDIO} src={LEAVING_AUDIO_URL} />
+            <audio id={MUTE_AUDIO} src={MUTE_AUDIO_URL} />
+            <audio id={UNMUTE_AUDIO} src={UNMUTE_AUDIO_URL} />
             <div className='creative-store-audio-media-container'>
             </div>
             <div className="creative-store-container">
@@ -799,6 +853,7 @@ export default function CreativeStore() {
                                     handleRoomSocketCleanUp={handleRoomSocketCleanUp}
                                     connectionStatus={connectionStatus}
                                     joinedRoom={joinedRoom}
+                                    joinedStatus={joinedStatus}
                                 />
                             </div>}
                         </div>

@@ -1,4 +1,5 @@
 import { Fragment, useMemo } from "react"
+import { CONNECTED } from "../../../variables/constants/creativeStore"
 
 const ShowBottomStatus = (props) => {
     return useMemo(() => {
@@ -18,7 +19,7 @@ const ShowBottomStatus = (props) => {
             <div className="creative-store-user-avatar-end-container">
                 <span
                     onClick={() => props.handleRoomSocketCleanUp(props.joinedRoom)}
-                    className={`creative-store-button-icon creative-store-button-icon-leave ${props.joinedRoom ? "visible" : "hidden"}`}
+                    className={`creative-store-button-icon creative-store-button-icon-leave ${props.joinedStatus === CONNECTED ? "visible" : "hidden"}`}
                 />
                 <span className="creative-store-button-icon creative-store-button-icon-setting" />
             </div>
