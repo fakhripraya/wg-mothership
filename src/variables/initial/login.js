@@ -1,4 +1,4 @@
 export const postLoginDataInitialValue = {
-    username: "",
-    password: "",
-}
+  username: "",
+  password: "",
+};

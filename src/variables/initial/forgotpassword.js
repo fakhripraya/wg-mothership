@@ -1,3 +1,3 @@
 export const postForgotPWInitialValue = {
-    email: "",
-}
+  email: "",
+};

@@ -1,60 +1,60 @@
-.imageslider-container{
-    position: relative;
-    width: 100%;
-    border-radius: 3.5vmax;
+.imageslider-container {
+  position: relative;
+  width: 100%;
+  border-radius: 3.5vmax;
 }
 
-.imageslider-wrapper{
-    text-align: center;
-    justify-content: center;
-    border-radius: inherit;
-    width: 100%;
-    display:flex;
-    flex-direction: row;
+.imageslider-wrapper {
+  text-align: center;
+  justify-content: center;
+  border-radius: inherit;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
-.imageslider-wrapper img{
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: inherit;
-    cursor: pointer;
-    align-self: flex-start;
-    justify-self: flex-start;
+.imageslider-wrapper img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: inherit;
+  cursor: pointer;
+  align-self: flex-start;
+  justify-self: flex-start;
 }
 
-.imageslider-button{
-    position: absolute;
-    top: calc(50% - 12px);
-    z-index: 2;
-    font-size: 1.5rem;
-    color: #151515;
-    background-color: #fff;
-    width: 40px !important;
-    height: 40px !important;
+.imageslider-button {
+  position: absolute;
+  top: calc(50% - 12px);
+  z-index: 2;
+  font-size: 1.5rem;
+  color: #151515;
+  background-color: #fff;
+  width: 40px !important;
+  height: 40px !important;
 
-    @media screen and (max-width: 1280px){
-        font-size: larger;
-    }
+  @media screen and (max-width: 1280px) {
+    font-size: larger;
+  }
 
-    @media screen and (max-width: 768px){
-        font-size: medium;
-        width: 25px !important;
-        height: 25px !important;
-    }
+  @media screen and (max-width: 768px) {
+    font-size: medium;
+    width: 25px !important;
+    height: 25px !important;
+  }
 }
 
-.imageslider-left-button{
-    left: 10px;
-    @media screen and (min-width: 2000px){
-        left: 100px;
-    }
+.imageslider-left-button {
+  left: 10px;
+  @media screen and (min-width: 2000px) {
+    left: 100px;
+  }
 }
 
-.imageslider-right-button{
-    right: 10px;
-    @media screen and (min-width: 2000px){
-        right: 100px;
-    }
+.imageslider-right-button {
+  right: 10px;
+  @media screen and (min-width: 2000px) {
+    right: 100px;
+  }
 }

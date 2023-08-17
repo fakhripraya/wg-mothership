@@ -4,5 +4,5 @@ export const colors = {
   darkColor: "#151515",
   darkBgColor: "#151515",
   lightColor: "aliceblue",
-  lightBgColor: "aliceblue"
-}
+  lightBgColor: "aliceblue",
+};

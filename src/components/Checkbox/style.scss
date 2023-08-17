@@ -1,19 +1,19 @@
 /* The container */
 .checkbox-container {
-    display: block;
-    position: relative;
-    padding-left: 25px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-.checkbox-title{
+.checkbox-title {
   align-self: center;
 }
-  
+
 /* Hide the browser's default checkbox */
 .checkbox-container input {
   position: absolute;
@@ -41,7 +41,7 @@
 
 /* When the checkbox is checked, add a blue background */
 .checkbox-container input:checked ~ .checkbox-checkmark {
-  background-color: #0DA34D;
+  background-color: #0da34d;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -52,7 +52,9 @@
 }
 
 /* Show the checkmark when checked */
-.checkbox-container input:checked ~ .checkbox-checkmark:after {
+.checkbox-container
+  input:checked
+  ~ .checkbox-checkmark:after {
   display: block;
 }
 

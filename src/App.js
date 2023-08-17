@@ -1,39 +1,41 @@
-import './App.scss';
-import React,
-{
+import "./App.scss";
+import React, {
   Fragment,
   Suspense,
   useEffect,
-  useState
-} from 'react';
-import NavBar from './components/Navbar';
-import Footer from './components/Footer';
-import { createBrowserHistory } from 'history';
+  useState,
+} from "react";
+import NavBar from "./components/Navbar";
+import Footer from "./components/Footer";
+import { createBrowserHistory } from "history";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-} from 'react-router-dom';
-import { routes } from './config/router/path'
-import smoothscroll from 'smoothscroll-polyfill';
-import FloatButton from './components/FloatButton';
-import { sendWACS, smoothScrollTop } from './utils/functions/global';
-import { styleInitialState } from './variables/styles/app';
-import { Cache, ConfigProvider } from 'react-avatar';
-import Spinner from './components/Spinner';
+} from "react-router-dom";
+import { routes } from "./config/router/path";
+import smoothscroll from "smoothscroll-polyfill";
+import FloatButton from "./components/FloatButton";
+import {
+  sendWACS,
+  smoothScrollTop,
+} from "./utils/functions/global";
+import { styleInitialState } from "./variables/styles/app";
+import { Cache, ConfigProvider } from "react-avatar";
+import Spinner from "./components/Spinner";
 
 function App() {
-
   const [style, setStyle] = useState(styleInitialState);
 
-  const history = createBrowserHistory({ forceRefresh: true });
+  const history = createBrowserHistory({
+    forceRefresh: true,
+  });
   const cache = new Cache({
-
     // Keep cached source failures for up to 7 days
     sourceTTL: 7 * 24 * 3600 * 1000,
 
     // Keep a maximum of 20 entries in the source cache
-    sourceSize: 20
+    sourceSize: 20,
   });
 
   // kick off the polyfill!
@@ -46,47 +48,73 @@ function App() {
   }
 
   function handleStyleChange() {
-    if (window.scrollY > 200) setStyle({ floatButton: { transform: "scale(0)" }, ScrollTopButton: { transform: "scale(1)" } });
-    else setStyle({ floatButton: { transform: "scale(1)" }, ScrollTopButton: { transform: "scale(0)" } });
+    if (window.scrollY > 200)
+      setStyle({
+        floatButton: { transform: "scale(0)" },
+        ScrollTopButton: { transform: "scale(1)" },
+      });
+    else
+      setStyle({
+        floatButton: { transform: "scale(1)" },
+        ScrollTopButton: { transform: "scale(0)" },
+      });
   }
 
   //COMPONENT FUNCTION
 
   useEffect(() => {
-    window.addEventListener('scroll', handleStyleChange)
+    window.addEventListener("scroll", handleStyleChange);
     return () => {
-      window.removeEventListener('scroll', handleStyleChange)
-    }
+      window.removeEventListener(
+        "scroll",
+        handleStyleChange
+      );
+    };
   }, []);
 
   return (
     <ConfigProvider cache={cache}>
-      <Router history={history} basename="/">
+      <Router
+        history={history}
+        basename="/">
         <NavBar />
         <Routes>
           {routes.map((item, index) => {
-            return <Route
-              key={`route-${index}`}
-              path={item.path}
-              element={<Suspense fallback={<p>Loading...</p>}>{item.component}</Suspense>}
-              exact
-            />
-          }
-          )}
+            return (
+              <Route
+                key={`route-${index}`}
+                path={item.path}
+                element={
+                  <Suspense fallback={<p>Loading...</p>}>
+                    {item.component}
+                  </Suspense>
+                }
+                exact
+              />
+            );
+          })}
         </Routes>
         <Footer />
-        <FloatButton style={{ transform: `${style.ScrollTopButton.transform}` }} onClick={() => smoothScrollTop()} className="fixed-app-button main-bg-color">
-          <h4 className="light-color">
-            Menu
-          </h4>
+        <FloatButton
+          style={{
+            transform: `${style.ScrollTopButton.transform}`,
+          }}
+          onClick={() => smoothScrollTop()}
+          className="fixed-app-button main-bg-color">
+          <h4 className="light-color">Menu</h4>
         </FloatButton>
-        {!window.location.pathname.includes("creative-store") ?
-          <FloatButton style={{ transform: `${style.floatButton.transform}` }} onClick={() => sendWA()} className="fixed-app-button main-bg-color">
-            <h4 className="light-color">
-              Help
-            </h4>
-          </FloatButton> :
-          null}
+        {!window.location.pathname.includes(
+          "creative-store"
+        ) ? (
+          <FloatButton
+            style={{
+              transform: `${style.floatButton.transform}`,
+            }}
+            onClick={() => sendWA()}
+            className="fixed-app-button main-bg-color">
+            <h4 className="light-color">Help</h4>
+          </FloatButton>
+        ) : null}
         <Spinner />
       </Router>
     </ConfigProvider>

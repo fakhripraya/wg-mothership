@@ -1,47 +1,47 @@
-.modal-container{
-    position:fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: fit-content;
-    margin: auto;
-    height: fit-content;
-    z-index: 9999;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    transition: transform 0.4s ease-out;
-    border-radius: 8px;
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: fit-content;
+  margin: auto;
+  height: fit-content;
+  z-index: 9999;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  transition: transform 0.4s ease-out;
+  border-radius: 8px;
 }
 
 /* Scrollbar */
 /* width */
 .modal-container::-webkit-scrollbar {
-    width: 0px;
-}
-  
-/* Track */
-.modal-container::-webkit-scrollbar-track {
-    background: transparent !important;
-}
-  
-/* Handle */
-.modal-container::-webkit-scrollbar-thumb {
-    background: #151515 !important;
-    border-radius: 10px !important;
-}
-  
-/* Handle on hover */
-.modal-container::-webkit-scrollbar-thumb:hover {
-    background: #151515 !important;
+  width: 0px;
 }
 
-.modal-background{
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5) !important;
-    z-index: 9998;
+/* Track */
+.modal-container::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+/* Handle */
+.modal-container::-webkit-scrollbar-thumb {
+  background: #151515 !important;
+  border-radius: 10px !important;
+}
+
+/* Handle on hover */
+.modal-container::-webkit-scrollbar-thumb:hover {
+  background: #151515 !important;
+}
+
+.modal-background {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  z-index: 9998;
 }

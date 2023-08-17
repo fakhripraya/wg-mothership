@@ -1,281 +1,285 @@
 @mixin text-ellipsis() {
-    white-space: wrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+  white-space: wrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 // MAIN STYLES //
-.my-rdp-list-container{
-    height: fit-content;
-    width: 100%;
-    padding: 1em 0em;
-    margin-bottom: 1em;
-    margin-right: 1em;
+.my-rdp-list-container {
+  height: fit-content;
+  width: 100%;
+  padding: 1em 0em;
+  margin-bottom: 1em;
+  margin-right: 1em;
 }
 
-.my-rdp-list-wrapper{
-    margin: 0px auto;
-    align-items: center;
-    -webkit-box-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.my-rdp-list-wrapper {
+  margin: 0px auto;
+  align-items: center;
+  -webkit-box-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.my-rdp-list-wrapper *{
-    box-sizing: border-box;
+.my-rdp-list-wrapper * {
+  box-sizing: border-box;
 }
 
-
-.my-rdp-list-title{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: flex-start;
-    margin-top: 1em;
+.my-rdp-list-title {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-start;
+  margin-top: 1em;
 }
 
 // HEADER //
-.my-rdp-list-header{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    height: auto;
-    padding: 12px;
-    border-radius: 1em;
+.my-rdp-list-header {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+  padding: 12px;
+  border-radius: 1em;
 }
 
-.my-rdp-list-searchbar-container{
-    flex: 0 0 100%;
-    margin-bottom: 12px;
+.my-rdp-list-searchbar-container {
+  flex: 0 0 100%;
+  margin-bottom: 12px;
 }
 
-.my-rdp-list-searchbar-wrapper{
-    display: flex;
-    flex-direction: row;
-    border-right: 6px solid transparent;
+.my-rdp-list-searchbar-wrapper {
+  display: flex;
+  flex-direction: row;
+  border-right: 6px solid transparent;
 }
 
-.my-rdp-list-searchbar-input{
-    margin-right: 6px;
+.my-rdp-list-searchbar-input {
+  margin-right: 6px;
 }
 
-.my-rdp-list-tools-container{
-    flex: 100%;
+.my-rdp-list-tools-container {
+  flex: 100%;
 }
 
-.my-rdp-list-tools-wrapper{
-    display: flex;
-    flex-direction: row;
+.my-rdp-list-tools-wrapper {
+  display: flex;
+  flex-direction: row;
 }
 
-.my-rdp-list-checkbox{
-    flex: 50%;
+.my-rdp-list-checkbox {
+  flex: 50%;
 }
 
-.my-rdp-list-checkbox-wrapper{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
+.my-rdp-list-checkbox-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-.my-rdp-list-checkbox-item{
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid transparent;
+.my-rdp-list-checkbox-item {
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid transparent;
 }
 
-.my-rdp-list-dropdown-wrapper{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    flex: 50%;
-    justify-content: flex-end;
-    align-items: center;
+.my-rdp-list-dropdown-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 50%;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.my-rdp-list-dropdown-item{
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid transparent;
+.my-rdp-list-dropdown-item {
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid transparent;
 }
 
-.my-rdp-list-add-button{
-    width: 100%;
-    display: flex;
-    height: auto;
-    padding: 12px;
-    border-radius: 1em;
-    cursor: pointer;
-    transition: all 0.25s ease-in-out;
+.my-rdp-list-add-button {
+  width: 100%;
+  display: flex;
+  height: auto;
+  padding: 12px;
+  border-radius: 1em;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
 }
 
-.my-rdp-list-add-button:hover{
-    background-color: #0DA34D;
+.my-rdp-list-add-button:hover {
+  background-color: #0da34d;
 }
 
-.my-rdp-list-add-button:hover span{
-    color: #fff !important;
-    transition: all 0.25s ease-in-out;
+.my-rdp-list-add-button:hover span {
+  color: #fff !important;
+  transition: all 0.25s ease-in-out;
 }
 
 // BODY //
-.my-rdp-list-body{
+.my-rdp-list-body {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  padding: 12px;
+  border-radius: 1em;
+}
+
+.my-rdp-list-body-items {
+  padding: 6px;
+}
+
+.my-rdp-list-body-identifier {
+  flex: 20%;
+  flex-wrap: wrap;
+  height: auto;
+  @include text-ellipsis();
+}
+
+.my-rdp-list-body-identifier * {
+  @include text-ellipsis();
+}
+
+.my-rdp-list-identifier-img-wrapper {
+  height: auto;
+  width: auto;
+  margin-top: 18px;
+
+  @media screen and (max-width: 2500px) {
+    margin-top: 12px;
+  }
+}
+
+.my-rdp-list-identifier-img {
+  height: 75%;
+  width: 75%;
+  border-radius: 8px;
+
+  @media screen and (max-width: 768px) {
+    height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    height: auto;
-    padding: 12px;
-    border-radius: 1em;
+  }
 }
 
-.my-rdp-list-body-items{
-    padding: 6px;
+.my-rdp-list-body-cpu-spec {
+  flex: 20%;
+  flex-wrap: wrap;
+  height: auto;
+  @include text-ellipsis();
 }
 
-.my-rdp-list-body-identifier{
-    flex: 20%;
-    flex-wrap: wrap;
-    height: auto;
-    @include text-ellipsis();
+.my-rdp-list-body-cpu-spec * {
+  @include text-ellipsis();
 }
 
-.my-rdp-list-body-identifier *{
-    @include text-ellipsis();
+.my-rdp-list-body-graphical-spec {
+  flex: 20%;
+  flex-wrap: wrap;
+  height: auto;
+  @include text-ellipsis();
 }
 
-.my-rdp-list-identifier-img-wrapper{
-    height: auto;
-    width: auto;
-    margin-top: 18px;
-
-    @media screen and (max-width: 2500px){
-        margin-top: 12px;
-    }
+.my-rdp-list-body-graphical-spec * {
+  @include text-ellipsis();
 }
 
-.my-rdp-list-identifier-img{
-    height: 75%;
-    width: 75%;
-    border-radius: 8px;
-
-    @media screen and (max-width: 768px){
-        height: 100%;
-        width: 100%;
-    }
+.my-rdp-list-body-storage-spec {
+  flex: 20%;
+  flex-wrap: wrap;
+  height: auto;
+  @include text-ellipsis();
 }
 
-.my-rdp-list-body-cpu-spec{
-    flex: 20%;
-    flex-wrap: wrap;
-    height: auto;
-    @include text-ellipsis();
+.my-rdp-list-body-storage-spec * {
+  @include text-ellipsis();
 }
 
-.my-rdp-list-body-cpu-spec *{
-    @include text-ellipsis();
+.my-rdp-list-body-storage-spec
+  .accordion-wrapper
+  .accordion-button {
+  padding: 0px 8px 9px 0px !important;
 }
 
-.my-rdp-list-body-graphical-spec{
-    flex: 20%;
-    flex-wrap: wrap;
-    height: auto;
-    @include text-ellipsis();
+.my-rdp-list-body-storage-spec
+  .accordion-wrapper
+  .accordion-button
+  h3 {
+  line-height: 1em;
 }
 
-.my-rdp-list-body-graphical-spec *{
-    @include text-ellipsis();
+.my-rdp-list-body-storage-spec-items {
+  flex-wrap: wrap;
+  height: auto;
+  width: 100%;
+  text-align: left;
+  align-items: center;
+  justify-content: center;
+  @include text-ellipsis();
 }
 
-.my-rdp-list-body-storage-spec{
-    flex: 20%;
-    flex-wrap: wrap;
-    height: auto;
-    @include text-ellipsis();
+.my-rdp-list-body-storage-spec-items {
+  @include text-ellipsis();
 }
 
-.my-rdp-list-body-storage-spec *{
-    @include text-ellipsis();
+.my-rdp-list-body-rent-detail {
+  flex: 20%;
+  flex-wrap: wrap;
+  height: auto;
+  @include text-ellipsis();
 }
 
-.my-rdp-list-body-storage-spec .accordion-wrapper .accordion-button{
-    padding: 0px 8px 9px 0px !important;
+.my-rdp-list-body-rent-detail * {
+  @include text-ellipsis();
 }
 
-.my-rdp-list-body-storage-spec .accordion-wrapper .accordion-button h3{
-   line-height: 1em;
+.my-rdp-list-body-rent-detail-status {
+  padding: 6px;
+  text-align: center;
+  margin-bottom: 18px;
+  border-radius: 8px;
+
+  @media screen and (max-width: 2500px) {
+    margin-bottom: 12px;
+  }
 }
 
-.my-rdp-list-body-storage-spec-items{
-    flex-wrap: wrap;
-    height: auto;
-    width: 100%;
-    text-align: left;
-    align-items: center;
-    justify-content: center;
-    @include text-ellipsis();
+.my-rdp-list-body-rent-button {
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  padding: 6px;
+  transition: all 0.3s ease-in-out;
 }
 
-.my-rdp-list-body-storage-spec-items{
-    @include text-ellipsis();
+.my-rdp-list-body-rent-button:hover {
+  opacity: 0.65;
 }
 
-.my-rdp-list-body-rent-detail{
-    flex: 20%;
-    flex-wrap: wrap;
-    height: auto;
-    @include text-ellipsis();
+.my-rdp-list-paging {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  padding: 12px;
+  transition: all 0.25s ease-in-out;
 }
 
-.my-rdp-list-body-rent-detail *{
-    @include text-ellipsis();
+.my-rdp-list-paging-button {
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  margin-right: 6px;
+  transition: all 0.25s ease-in-out;
 }
 
-.my-rdp-list-body-rent-detail-status{
-    padding: 6px;
-    text-align: center;
-    margin-bottom: 18px;
-    border-radius: 8px;
-
-    @media screen and (max-width: 2500px){
-        margin-bottom: 12px;
-    }
+.my-rdp-list-paging-button:last-child {
+  margin-right: 0px !important;
 }
 
-.my-rdp-list-body-rent-button{
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-    padding: 6px;
-    transition: all 0.3s ease-in-out;
-}
-
-.my-rdp-list-body-rent-button:hover{
-    opacity: 0.65;
-}
-
-.my-rdp-list-paging{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    height: auto;
-    padding: 12px;
-    transition: all 0.25s ease-in-out;
-}
-
-.my-rdp-list-paging-button{
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 8px;
-    margin-right: 6px;
-    transition: all 0.25s ease-in-out;
-}
-
-.my-rdp-list-paging-button:last-child{
-    margin-right: 0px !important;
-}
-
-.my-rdp-list-paging-button:hover{
-    background-color: #0DA34D;
+.my-rdp-list-paging-button:hover {
+  background-color: #0da34d;
 }

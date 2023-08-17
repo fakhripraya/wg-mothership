@@ -1,112 +1,106 @@
 @mixin shrink-padding($isCounter: false) {
-    @media screen and (max-width: 1280px){
-        @if $isCounter {
-            padding: 0px 12px;
-        }
-  
-        @else {
-            padding: 0px 10px;
-        }
+  @media screen and (max-width: 1280px) {
+    @if $isCounter {
+      padding: 0px 12px;
+    } @else {
+      padding: 0px 10px;
     }
-    @media screen and (max-width: 1000px){
-        @if $isCounter {
-            padding: 0px 8px;
-        }
-  
-        @else {
-            padding: 0px 6px;
-        }
+  }
+  @media screen and (max-width: 1000px) {
+    @if $isCounter {
+      padding: 0px 8px;
+    } @else {
+      padding: 0px 6px;
     }
-    @media screen and (max-width: 768px){
-        @if $isCounter {
-            padding: 0px 6px;
-        }
-  
-        @else {
-            padding: 0px 4px;
-        }
+  }
+  @media screen and (max-width: 768px) {
+    @if $isCounter {
+      padding: 0px 6px;
+    } @else {
+      padding: 0px 4px;
     }
+  }
 }
 
-.card-container{
-    border-radius: inherit;
-    width: 225px;
-    min-inline-size: 150px;
-    height: auto;
-    padding: 12px !important;
-    overflow-wrap: break-word;
-    box-sizing: border-box;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    margin: auto 0px;
-    margin-right: 12px !important;
-    background-color: #1c1d1d;
-    cursor: inherit;
-    transition: all 0.3s ease-in-out;
-    @include shrink-padding($isCounter: false);
-    
-    @media screen and (max-width: 1000px){
-        padding: 8px !important;
-        margin-right: 8px !important;
-    }
-    @media screen and (max-width: 768px){
-        padding: 6px !important;
-    }
+.card-container {
+  border-radius: inherit;
+  width: 225px;
+  min-inline-size: 150px;
+  height: auto;
+  padding: 12px !important;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  margin: auto 0px;
+  margin-right: 12px !important;
+  background-color: #1c1d1d;
+  cursor: inherit;
+  transition: all 0.3s ease-in-out;
+  @include shrink-padding($isCounter: false);
+
+  @media screen and (max-width: 1000px) {
+    padding: 8px !important;
+    margin-right: 8px !important;
+  }
+  @media screen and (max-width: 768px) {
+    padding: 6px !important;
+  }
 }
 
-.card-container:last-child{
-    margin-right: 0px!important;
+.card-container:last-child {
+  margin-right: 0px !important;
 }
 
-.card-container:hover{
-    background-color: #0DA34D !important;
-    color: #fff !important;
+.card-container:hover {
+  background-color: #0da34d !important;
+  color: #fff !important;
 }
 
-.card-img{
-    border-radius: 12px;
-    background-size: cover;
-    width: 100%;
-    height: 150px;
-    background-repeat: no-repeat;
+.card-img {
+  border-radius: 12px;
+  background-size: cover;
+  width: 100%;
+  height: 150px;
+  background-repeat: no-repeat;
 
-    @media screen and (max-width: 1000px){
-        height: 100px;
-    }
+  @media screen and (max-width: 1000px) {
+    height: 100px;
+  }
 }
 
-.card-container h1{
-    margin-bottom: 0px;
-    white-space: nowrap;
-    overflow: hidden;
-    max-inline-size: 100%;
-    text-overflow: ellipsis;
+.card-container h1 {
+  margin-bottom: 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-inline-size: 100%;
+  text-overflow: ellipsis;
 }
 
-.card-container:hover h1{
-    color: #fff !important;
+.card-container:hover h1 {
+  color: #fff !important;
 }
 
-.card-container h3{
-    margin-top: 0px;
-    white-space: nowrap;
-    overflow: hidden;
-    max-inline-size: 100%;
-    text-overflow: ellipsis;
+.card-container h3 {
+  margin-top: 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-inline-size: 100%;
+  text-overflow: ellipsis;
 }
 
-.card-container:hover h3{
-    color: #fff !important;
+.card-container:hover h3 {
+  color: #fff !important;
 }
 
-.card-container p{
-    white-space: nowrap;
-    overflow: hidden;
-    max-inline-size: 100%;
-    text-overflow: ellipsis;
+.card-container p {
+  white-space: nowrap;
+  overflow: hidden;
+  max-inline-size: 100%;
+  text-overflow: ellipsis;
 }
 
-.card-container:hover p{
-    color: #fff !important;
+.card-container:hover p {
+  color: #fff !important;
 }

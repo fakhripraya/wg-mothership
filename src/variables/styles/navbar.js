@@ -1,3 +1,3 @@
 export const navbarInitialStyle = {
-    transform: 'translateY(0%)',
-}
+  transform: "translateY(0%)",
+};

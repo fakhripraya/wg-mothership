@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export const createAxios = (baseUrl) => {
-    return axios.create({
-        baseURL: baseUrl,
-        timeout: 61000,
-        withCredentials: true,
-    });
-}
+  return axios.create({
+    baseURL: baseUrl,
+    timeout: 61000,
+    withCredentials: true,
+  });
+};

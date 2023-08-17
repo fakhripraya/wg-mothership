@@ -1,14 +1,14 @@
-.button-container{
-    padding: 8px 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    align-items: center;
-    -webkit-box-align: center;
-    justify-content: center;
-    display: flex;
+.button-container {
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  align-items: center;
+  -webkit-box-align: center;
+  justify-content: center;
+  display: flex;
 }
 
-.button-container:hover{
-    transform: scale(1.1);
+.button-container:hover {
+  transform: scale(1.1);
 }

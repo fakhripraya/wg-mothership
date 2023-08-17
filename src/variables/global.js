@@ -23,7 +23,8 @@ export const OTP_PAGE = "OTP_PAGE";
 
 // DASHBOARD PAGES
 export const DASHBOARD_HOME = "DASHBOARD_HOME";
-export const DASHBOARD_TRANSACTIONS = "DASHBOARD_TRANSACTIONS";
+export const DASHBOARD_TRANSACTIONS =
+  "DASHBOARD_TRANSACTIONS";
 export const DASHBOARD_CHATS = "DASHBOARD_CHATS";
 export const DASHBOARD_NOTES = "DASHBOARD_NOTES";
 export const DASHBOARD_CATALOG = "DASHBOARD_CATALOG";
@@ -34,14 +35,17 @@ export const ROOM_FULL = "ROOM_FULL";
 export const ROOM_AVAILABLE = "ROOM_AVAILABLE";
 export const ROOM_UNAVAILABLE = "ROOM_UNAVAILABLE";
 export const USER_ALREADY_JOIN = "USER_ALREADY_JOIN";
-export const RTC_PEER_CONNECTION_FAILED = "RTC_PEER_CONNECTION_FAILED";
-export const RTC_PEER_UNTRUSTED_CONNECTION = "RTC_PEER_UNTRUSTED_CONNECTION";
+export const RTC_PEER_CONNECTION_FAILED =
+  "RTC_PEER_CONNECTION_FAILED";
+export const RTC_PEER_UNTRUSTED_CONNECTION =
+  "RTC_PEER_UNTRUSTED_CONNECTION";
 
 // RTC CONNECTION STATE //
 export const FAILED = "FAILED";
 
 // AXIOS DEFAULTS //
-export const AXIOS_DEFAULT_ERROR_CONTENT = "Something went wrong,\nPlease try again or contact our support.";
+export const AXIOS_DEFAULT_ERROR_CONTENT =
+  "Something went wrong,\nPlease try again or contact our support.";
 
 // XHR METHOD //
 export const GET = "GET";
@@ -51,8 +55,8 @@ export const PATCH = "PATCH";
 export const DELETE = "DELETE";
 
 // SIGNALER SERVICE ROUTE
-export const URL_ROOM_CHECK = '/v1/room/check';
-export const URL_ROOM_CREATE = '/v1/room/create';
+export const URL_ROOM_CHECK = "/v1/room/check";
+export const URL_ROOM_CREATE = "/v1/room/create";
 
 // OLYMPUS SERVICE ROUTE
 export const URL_GET_GOOGLE_URL = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/google/url`;
@@ -67,11 +71,16 @@ export const URL_POST_OTP = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/
 export const URL_CHECK_AUTH_AND_REFRESH_TOKEN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/token`;
 
 // ZEUS SERVICE ROUTE
-export const URL_POST_ADD_STORE_CATALOGUE = (storeCode) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues/add?code=${storeCode}`;
-export const URL_POST_ADD_USER_STORE = (userId) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores/add`;
-export const URL_GET_DASHBOARD_STORES = (userId) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores`;
-export const URL_GET_ADD_CATALOGUE_DATA = (storeCode) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues?code=${storeCode}`;
-export const URL_GET_SERVER_INFO = (query) => `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/stores${query}`;
+export const URL_POST_ADD_STORE_CATALOGUE = (storeCode) =>
+  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues/add?code=${storeCode}`;
+export const URL_POST_ADD_USER_STORE = (userId) =>
+  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores/add`;
+export const URL_GET_DASHBOARD_STORES = (userId) =>
+  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores`;
+export const URL_GET_ADD_CATALOGUE_DATA = (storeCode) =>
+  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues?code=${storeCode}`;
+export const URL_GET_SERVER_INFO = (query) =>
+  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/stores${query}`;
 export const URL_GET_CATEGORIES = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/category`;
 export const URL_GET_COURIERS = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/couriers`;
 
