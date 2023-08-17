@@ -273,15 +273,15 @@ export default function CreativeStore() {
         }
 
         const getProducers = () => {
-            console.log(`get all existing producer to signal: `);
+            // console.log(`get all existing producer to signal: `);
             webRTCref.current.emit('get-producers', {
                 user: login.user,
                 room: joinedRoom
             }, producerIds => {
                 // for each of the producer create a consumer
                 // producerIds.forEach(id => signalNewConsumerTransport(id))
-                console.log(`signal all existing peer : `);
-                console.log(producerIds);
+                // console.log(`signal all existing peer : `);
+                // console.log(producerIds);
                 producerIds.forEach(signalNewConsumerTransport);
             })
         }
@@ -354,8 +354,8 @@ export default function CreativeStore() {
 
                 // then consume with the local consumer transport
                 // which creates a consumer
-                console.log(`successfully consume the producer, PRODUCER ID: ${remoteProducerId} and get parameters: ${JSON.stringify(params)}`);
-                console.log(`proceed with consuming the producer on the local consumer transport, with SERVER CONSUMER TRANSPORT ID: ${params.id}`);
+                // console.log(`successfully consume the producer, PRODUCER ID: ${remoteProducerId} and get parameters: ${JSON.stringify(params)}`);
+                // console.log(`proceed with consuming the producer on the local consumer transport, with SERVER CONSUMER TRANSPORT ID: ${params.id}`);
                 const consumer = await consumerTransport.consume({
                     id: params.id,
                     producerId: params.producerId,
@@ -416,7 +416,7 @@ export default function CreativeStore() {
 
             // destructure and retrieve the video track from the producer
             const { track } = consumer;
-            console.log(`playing track from CONSUMER WITH ID: ${consumer.id}`);
+            // console.log(`playing track from CONSUMER WITH ID: ${consumer.id}`);
             document.getElementById(newElementId).srcObject = new MediaStream([track]);
 
             // the server consumer started with media paused
@@ -451,9 +451,22 @@ export default function CreativeStore() {
         // CLEANUP EVENTS
         // this will trigger when the local producer(user) leave the room 
         webRTCref.current.on("disconnect", () => {
+            // set array variables to empty array
+            // set the variables to undefined so it can be garbage collected
+            consumerTransports = [];
+            consumedTransports = [];
+            device = undefined;
+            rtpCapabilities = undefined;
+            producerTransport = undefined;
+            audioProducer = undefined;
+            // stop audio/video tracks
+            audioParams.track.stop();
+            // delete reference to the variable
+            delete audioParams.track;
+            // get containers
             const audioContainer = document.getElementsByClassName('creative-store-audio-media-container')[0];
             const videoContainer = document.getElementsByClassName(`creative-store-video-media-container-${joinedRoom.roomId}`)[0];
-
+            // remove all media element child
             if (audioContainer) removeAllChildNodes(audioContainer);
             if (videoContainer) removeAllChildNodes(videoContainer);
         });
