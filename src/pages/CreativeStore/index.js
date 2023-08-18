@@ -27,6 +27,7 @@ import {
   CLIENT_USER_INFO,
   LOGIN,
   MENU_MOBILE,
+  NO_STRING,
   ROOM_UNAVAILABLE,
   URL_GET_SERVER_INFO,
 } from "../../variables/global";
@@ -45,6 +46,7 @@ import {
   DISCONNECTED,
   CONNECTED,
   CONNECTING,
+  DISCONNECTING,
 } from "../../variables/constants/creativeStore";
 import { cookies } from "../../config/cookie";
 import { trackPromise } from "react-promise-tracker";
@@ -67,6 +69,13 @@ import PageLoading from "../PageLoading";
 export default function CreativeStore() {
   // REFS //
   const webRTCref = useRef();
+  webRTCref.current = useMemo(
+    () =>
+      connectWebsocket(
+        process.env.REACT_APP_WG_SIGNALER_SERVICE
+      ),
+    []
+  );
 
   // HOOKS //
   const zeusService = useAxios();
@@ -86,7 +95,7 @@ export default function CreativeStore() {
   const [modalToggle, setModalToggle] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [connectionStatus, setConnectionStatus] = useState({
-    webRTCStatus: "Not Connected",
+    webRTCStatus: NO_STRING,
     chatSocketStatus: "Ready",
   });
 
@@ -99,9 +108,9 @@ export default function CreativeStore() {
   let rtpCapabilities;
   // producerTransport needed only as an object,
   // as it can produce multiple producer with a single producerTransport
+  let producerTransport;
   // consumerTransports need to be as array,
   // as it will be needed to store multiple consumerTransport
-  let producerTransport;
   let consumerTransports = [];
   // audio and video parameter for mediasoup producer configuration
   let audioProducer;
@@ -113,38 +122,105 @@ export default function CreativeStore() {
   let consumedTransports = [];
   // END OF VARIABLES //
 
-  // FUNCTIONS SPECIFIC //
-  function handleInitialize() {
-    zeusService
-      .getData({
-        endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-        url: URL_GET_SERVER_INFO(`?storeId=${storeId}`),
-      })
-      .then((result) => {
-        if (result.responseStatus === 200) {
-          setChannels(initialLeftPanelDatas);
-          setVisitors(initialVisitors);
-          setRendered(true);
+  // CLASS SPECIFIC //
+  // this class made specifically to store all the function
+  // and needed to execute mediasoup webrtc
+  class WGSignaler {
+    constructor(peerRef) {
+      this.peerRef = peerRef;
+      this.joinedRoom = null;
+
+      // SOCKET EVENTS LISTENER//
+      // server informs the client of user joining the room
+      this.peerRef.on(
+        "connection-success",
+        ({ socketId }) => {
+          // console.log(`peer connection success ${login.user.username} with socketId: ` + socketId);
+          // do something about rendering
         }
-      })
-      .catch((error) => {
-        if (error.responseStatus === 500) handleError500();
-        else
-          handleErrorMessage(
-            error,
-            setErrorMessage,
-            setModalToggle,
-            modalToggle
-          );
+      );
+
+      this.peerRef.on("new-producer", ({ producerId }) =>
+        this.signalNewConsumerTransport(producerId)
+      );
+
+      // ERROR EVENTS
+      this.peerRef.on("connect_error", (error) => {
+        console.error(
+          `connection error due to ${error.message}`
+        );
+        webRTCref.current.connect();
       });
-  }
 
-  function handleInitializeWebsocket(selectedRoom) {
-    // assign var joinedRoom inside the function
-    const joinedRoom = selectedRoom;
+      this.peerRef.on("webrtc-error", () =>
+        console.log(`already joined the room`)
+      );
 
-    // CUSTOM MEDIASOUP FUNCTIONS //
-    const streamSuccess = (stream) => {
+      this.peerRef.on("user-already-joined", () => {
+        alert(`already joined the room`);
+        handleRoomSocketCleanUp(this.joinedRoom);
+      });
+
+      // CLEANUP EVENTS
+      // this will trigger when the local producer(user) leave the room
+      this.peerRef.on("disconnect", () => {});
+
+      // this will trigger when the remote producer leave the room
+      this.peerRef.on(
+        "producer-closed",
+        ({
+          serverConsumerId,
+          serverConsumerKind,
+          remoteProducerId,
+        }) => {
+          // handling remote peer leaving audio , this indicates the remote peer is leaving the room
+          handleJoinAudio(LEAVING_AUDIO);
+          console.log(
+            `producer from id ${remoteProducerId} is closed`
+          );
+          // server notification is received when a producer is closed
+          // we need to close the client-side consumer and associated transport
+          const producerToClose = consumerTransports.find(
+            (data) => data.producerId === remoteProducerId
+          );
+          producerToClose.consumerTransport.close();
+          producerToClose.consumer.close();
+
+          // remove the consumer transport from the list
+          consumerTransports = consumerTransports.filter(
+            (data) => data.producerId !== remoteProducerId
+          );
+
+          // remove the video div element
+          const isAudio = serverConsumerKind === "audio";
+          const container = isAudio
+            ? document.getElementsByClassName(
+                "creative-store-audio-media-container"
+              )[0]
+            : document.getElementsByClassName(
+                `creative-store-video-media-container-${this.joinedRoom.roomId}`
+              )[0];
+
+          let removingElem = document.getElementById(
+            `creative-store-consumer-${serverConsumerId}-remote-producer-${remoteProducerId}`
+          );
+          container.removeChild(removingElem);
+        }
+      );
+    }
+
+    get joinedRoom() {
+      return this._joinedRoom;
+    }
+    set joinedRoom(joinedRoom) {
+      if (typeof joinedRoom === "undefined")
+        throw new Error(
+          "Unable to set 'joinedRoom' property with undefined value"
+        );
+      this._joinedRoom = joinedRoom;
+    }
+
+    streamSuccess = (stream) => {
       // set new connection status
       handleChangeStatus(
         "assigning stream recieved to the audio/video param"
@@ -154,10 +230,10 @@ export default function CreativeStore() {
         track: stream.getAudioTracks()[0],
         ...audioParams,
       };
-      joinRoom();
+      this.joinRoom();
     };
 
-    const getLocalStream = () => {
+    getLocalStream = () => {
       // set new connection status
       handleChangeStatus("Getting the local stream");
       // get the audio media device of the user
@@ -165,7 +241,7 @@ export default function CreativeStore() {
         .getUserMedia({
           audio: true,
         })
-        .then(streamSuccess)
+        .then(this.streamSuccess)
         .catch((error) =>
           handleChangeStatus(
             `error getting the local stream with error: ${error.message}`
@@ -173,17 +249,17 @@ export default function CreativeStore() {
         );
     };
 
-    const joinRoom = () => {
+    joinRoom = () => {
       // set new connection status
       handleChangeStatus(
         "user is ready to join the room - emitting signal to the server"
       );
       // emit join room socket events
-      webRTCref.current.emit(
+      this.peerRef.emit(
         "join-room",
         {
           storeId,
-          room: joinedRoom,
+          room: this.joinedRoom,
           user: login.user,
         },
         (data) => {
@@ -196,20 +272,19 @@ export default function CreativeStore() {
             "Got the signal, proceed to create the device"
           );
           // once we have rtpCapabilities from the Router, create Device
-          createDevice();
+          this.createDevice();
         }
       );
     };
 
     // A device is an endpoint connecting to a Router on the
     // server side to send/recive media
-    const createDevice = async () => {
+    createDevice = async () => {
       try {
         // handling audio join, this indicates the user is accepted by the signaling server aswell
         handleJoinAudio(JOINING_AUDIO);
         // creating the device constructor
         device = new Device();
-        // https://mediasoup.org/documentation/v3/mediasoup-client/api/#device-load
         // Loads the device with RTP capabilities of the Router (server side)
         await device.load({
           // see getRtpCapabilities() below
@@ -221,7 +296,7 @@ export default function CreativeStore() {
           "Device has been successfully created, proceed to create the SEND TRANSPORT"
         );
         // once the device loads, create transport
-        createSendTransport();
+        this.createSendTransport();
       } catch (error) {
         if (error.name === "UnsupportedError")
           handleChangeStatus("Browser is not supported");
@@ -232,18 +307,18 @@ export default function CreativeStore() {
       }
     };
 
-    const createSendTransport = () => {
+    createSendTransport = () => {
       // set new connection status
       handleChangeStatus("Creating the SEND TRANSPORT");
       // see server's socket.on('create-webrtc-transport', sender?, ...)
       // this is a call from Producer, so sender = true
       // The server sends back params needed
       // to create Send Transport on the client side
-      webRTCref.current.emit(
+      this.peerRef.emit(
         "create-webrtc-transport",
         {
           isConsumer: false,
-          room: joinedRoom,
+          room: this.joinedRoom,
           user: login.user,
         },
         ({ params }) => {
@@ -278,11 +353,11 @@ export default function CreativeStore() {
               errback
             ) => {
               try {
-                await webRTCref.current.emit(
+                await this.peerRef.emit(
                   "transport-connect",
                   {
                     dtlsParameters,
-                    room: joinedRoom,
+                    room: this.joinedRoom,
                     user: login.user,
                     producerTransportId:
                       producerTransport.id,
@@ -306,11 +381,11 @@ export default function CreativeStore() {
                 // console.log(`produce event on producer transport has been fired!`);
                 // console.log(`produce parameters: ${JSON.stringify(parameters)}`);
                 // console.log(`produce transport id: ${producerTransport.id}`);
-                await webRTCref.current.emit(
+                await this.peerRef.emit(
                   "transport-produce",
                   {
                     user: login.user,
-                    room: joinedRoom,
+                    room: this.joinedRoom,
                     producerTransportId:
                       producerTransport.id,
                     kind: parameters.kind,
@@ -322,7 +397,7 @@ export default function CreativeStore() {
                     // server side producer's id.
                     // if producers exist, then join room
                     callback({ producerId });
-                    if (peersExist) getProducers();
+                    if (peersExist) this.getProducers();
                   }
                 );
               } catch (error) {
@@ -333,15 +408,14 @@ export default function CreativeStore() {
 
           // set the new connection status
           handleChangeStatus(`Producing the audio`);
-          connectSendTransportForAudio();
+          this.connectSendTransportForAudio();
         }
       );
     };
 
-    const connectSendTransportForAudio = async () => {
+    connectSendTransportForAudio = async () => {
       // we now call produce() to instruct the producer transport
       // to send audio media to the Router
-      // https://mediasoup.org/documentation/v3/mediasoup-client/api/#transport-produce
       // this action will trigger the 'connect' and 'produce' events above
 
       audioProducer = await producerTransport.produce(
@@ -361,25 +435,27 @@ export default function CreativeStore() {
       );
     };
 
-    const getProducers = () => {
+    getProducers = () => {
       // console.log(`get all existing producer to signal: `);
-      webRTCref.current.emit(
+      this.peerRef.emit(
         "get-producers",
         {
           user: login.user,
-          room: joinedRoom,
+          room: this.joinedRoom,
         },
         (producerIds) => {
           // for each of the producer create a consumer
           // producerIds.forEach(id => signalNewConsumerTransport(id))
           // console.log(`signal all existing peer : `);
           // console.log(producerIds);
-          producerIds.forEach(signalNewConsumerTransport);
+          producerIds.forEach(
+            this.signalNewConsumerTransport
+          );
         }
       );
     };
 
-    const signalNewConsumerTransport = async (
+    signalNewConsumerTransport = async (
       remoteProducerId
     ) => {
       // check if we are already consuming the remoteProducerId
@@ -387,11 +463,11 @@ export default function CreativeStore() {
         return;
       consumedTransports.push(remoteProducerId);
       // emit the create webrtc transport, this time is to create consumer transport
-      await webRTCref.current.emit(
+      await this.peerRef.emit(
         "create-webrtc-transport",
         {
           isConsumer: true,
-          room: joinedRoom,
+          room: this.joinedRoom,
           user: login.user,
         },
         ({ params }) => {
@@ -433,11 +509,11 @@ export default function CreativeStore() {
               try {
                 // Signal local DTLS parameters to the server side transport
                 // see server's socket.on('transport-recv-connect', ...)
-                await webRTCref.current.emit(
+                await this.peerRef.emit(
                   "transport-recv-connect",
                   {
                     dtlsParameters,
-                    room: joinedRoom,
+                    room: this.joinedRoom,
                     user: login.user,
                     serverConsumerTransportId: params.id,
                   }
@@ -451,7 +527,7 @@ export default function CreativeStore() {
             }
           );
 
-          connectRecvTransport(
+          this.connectRecvTransport(
             consumerTransport,
             remoteProducerId,
             params.id
@@ -460,7 +536,7 @@ export default function CreativeStore() {
       );
     };
 
-    const connectRecvTransport = async (
+    connectRecvTransport = async (
       consumerTransport,
       remoteProducerId,
       serverConsumerTransportId
@@ -468,11 +544,11 @@ export default function CreativeStore() {
       // for consumer, we need to tell the server first
       // to create a consumer based on the rtpCapabilities and consume
       // if the router can consume, it will send back a set of params as below
-      await webRTCref.current.emit(
+      await this.peerRef.emit(
         "transport-recv-consume",
         {
           user: login.user,
-          room: joinedRoom,
+          room: this.joinedRoom,
           rtpCapabilities: device.rtpCapabilities,
           remoteProducerId,
           serverConsumerTransportId,
@@ -506,7 +582,7 @@ export default function CreativeStore() {
             },
           ];
 
-          assignTrackFromConsumer(
+          this.assignTrackFromConsumer(
             consumer,
             remoteProducerId,
             params.id,
@@ -516,7 +592,7 @@ export default function CreativeStore() {
       );
     };
 
-    const assignTrackFromConsumer = (
+    assignTrackFromConsumer = (
       consumer,
       remoteProducerId,
       serverConsumerId,
@@ -572,116 +648,76 @@ export default function CreativeStore() {
 
       // the server consumer started with media paused
       // so we need to inform the server to resume
-      webRTCref.current.emit("consumer-resume", {
-        room: joinedRoom,
+      this.peerRef.emit("consumer-resume", {
+        room: this.joinedRoom,
         user: login.user,
         serverConsumerId: serverConsumerId,
       });
     };
 
-    // SOCKET EVENTS LISTENER//
-    // server informs the client of user joining the room
-    webRTCref.current.on(
-      "connection-success",
-      ({ socketId }) => {
-        // console.log(`peer connection success ${login.user.username} with socketId: ` + socketId);
-        // get local stream after the connection success
-        getLocalStream();
-      }
-    );
-    webRTCref.current.on("new-producer", ({ producerId }) =>
-      signalNewConsumerTransport(producerId)
-    );
-
-    // ERROR EVENTS
-    webRTCref.current.on("connect_error", (error) => {
-      console.error(
-        `connection error due to ${error.message}`
-      );
-      webRTCref.current.connect();
-    });
-    webRTCref.current.on("webrtc-error", () =>
-      console.log(`already joined the room`)
-    );
-    webRTCref.current.on("user-already-joined", () => {
-      alert(`already joined the room`);
-      handleRoomSocketCleanUp(joinedRoom);
-    });
-
-    // CLEANUP EVENTS
-    // this will trigger when the local producer(user) leave the room
-    webRTCref.current.on("disconnect", () => {
-      // handling user leaving audio , this indicates the user is leaving the room
-      handleJoinAudio(LEAVING_AUDIO);
-      // set array variables to empty array
-      // set the variables to undefined so it can be garbage collected
-      consumerTransports = [];
-      consumedTransports = [];
-      device = undefined;
-      rtpCapabilities = undefined;
-      producerTransport = undefined;
-      audioProducer = undefined;
-      // stop audio/video tracks
-      audioParams.track.stop();
-      // delete reference to the variable
-      delete audioParams.track;
-      // get containers
-      const audioContainer =
-        document.getElementsByClassName(
-          "creative-store-audio-media-container"
-        )[0];
-      const videoContainer =
-        document.getElementsByClassName(
-          `creative-store-video-media-container-${joinedRoom.roomId}`
-        )[0];
-      // remove all media element child
-      if (audioContainer)
-        removeAllChildNodes(audioContainer);
-      if (videoContainer)
-        removeAllChildNodes(videoContainer);
-    });
-    // this will trigger when the remote producer leave the room
-    webRTCref.current.on(
-      "producer-closed",
-      ({
-        serverConsumerId,
-        serverConsumerKind,
-        remoteProducerId,
-      }) => {
-        // handling remote peer leaving audio , this indicates the remote peer is leaving the room
+    leaveRoom = async () => {
+      await this.peerRef.emit("leave-room", () => {
+        // handling user leaving audio , this indicates the user is leaving the room
         handleJoinAudio(LEAVING_AUDIO);
-        console.log(
-          `producer from id ${remoteProducerId} is closed`
-        );
-        // server notification is received when a producer is closed
-        // we need to close the client-side consumer and associated transport
-        const producerToClose = consumerTransports.find(
-          (data) => data.producerId === remoteProducerId
-        );
-        producerToClose.consumerTransport.close();
-        producerToClose.consumer.close();
+        // set array variables to empty array
+        // set the variables to undefined so it can be garbage collected
+        consumerTransports = [];
+        consumedTransports = [];
+        device = undefined;
+        rtpCapabilities = undefined;
+        producerTransport = undefined;
+        audioProducer = undefined;
+        // stop audio/video tracks
+        audioParams.track.stop();
+        // delete reference to the variable
+        delete audioParams.track;
+        // get containers
+        const audioContainer =
+          document.getElementsByClassName(
+            "creative-store-audio-media-container"
+          )[0];
+        const videoContainer =
+          document.getElementsByClassName(
+            `creative-store-video-media-container-${this.joinedRoom.roomId}`
+          )[0];
+        // remove all media element child
+        if (audioContainer)
+          removeAllChildNodes(audioContainer);
+        if (videoContainer)
+          removeAllChildNodes(videoContainer);
+      });
+    };
+  }
 
-        // remove the consumer transport from the list
-        consumerTransports = consumerTransports.filter(
-          (data) => data.producerId !== remoteProducerId
-        );
+  const mediaSignaler = useMemo(
+    () => new WGSignaler(webRTCref.current),
+    []
+  );
 
-        // remove the video div element
-        const isAudio = serverConsumerKind === "audio";
-        const container = isAudio
-          ? document.getElementsByClassName(
-              "creative-store-audio-media-container"
-            )[0]
-          : document.getElementsByClassName(
-              `creative-store-video-media-container-${joinedRoom.roomId}`
-            )[0];
-
-        let removingElem = document.getElementById(
-          `creative-store-consumer-${serverConsumerId}-remote-producer-${remoteProducerId}`
-        );
-        container.removeChild(removingElem);
-      }
-    );
+  // FUNCTION SPECIFICS
+  function handleInitialize() {
+    zeusService
+      .getData({
+        endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+        url: URL_GET_SERVER_INFO(`?storeId=${storeId}`),
+      })
+      .then((result) => {
+        if (result.responseStatus === 200) {
+          setChannels(initialLeftPanelDatas);
+          setVisitors(initialVisitors);
+          setRendered(true);
+        }
+      })
+      .catch((error) => {
+        if (error.responseStatus === 500) handleError500();
+        else
+          handleErrorMessage(
+            error,
+            setErrorMessage,
+            setModalToggle,
+            modalToggle
+          );
+      });
   }
 
   const handleChangeStatus = (newStatus) =>
@@ -779,9 +815,11 @@ export default function CreativeStore() {
     });
   }
 
-  function handleRoomSocketCleanUp(joinedRoom) {
+  async function handleRoomSocketCleanUp(joinedRoom) {
     // set room with the new value
     if (!joinedRoom) return;
+    setJoinedStatus(DISCONNECTING);
+    handleChangeStatus("Leaving...");
     handleDeleteSocketFromChannel(
       joinedRoom.channelId,
       joinedRoom.roomId,
@@ -790,14 +828,13 @@ export default function CreativeStore() {
 
     // clear the joined room value
     setJoinedRoom(null);
-    // disconnect the peer from the socket
-    // delete the previous webrtc ref
-    webRTCref.current.disconnect();
-    delete webRTCref.current;
-    // set new connection status
-    // set joined status
-    setJoinedStatus(DISCONNECTED);
-    handleChangeStatus("Not Connected");
+    // signal the socket to leave the room and do some cleanup on the server side
+    await mediaSignaler.leaveRoom().then(() => {
+      // set joined status
+      setJoinedStatus(DISCONNECTED);
+      // set new connection status
+      handleChangeStatus(NO_STRING);
+    });
   }
 
   function handleJoinRoom(room, channel) {
@@ -816,7 +853,7 @@ export default function CreativeStore() {
     };
 
     // set the state and set joined status
-    setJoinedRoom(selectedRoom);
+    setJoinedRoom({ ...selectedRoom });
     setJoinedStatus(CONNECTING);
     // return the new selected room to be processed
     return selectedRoom;
@@ -832,7 +869,11 @@ export default function CreativeStore() {
       // validate the connecting state, the desired room type, the login,
       // whether user connected to the room already,
       // and do some cleanups if user want to change room
-      if (joinedStatus === CONNECTING) {
+      console.log(joinedStatus);
+      if (
+        joinedStatus === CONNECTING ||
+        joinedStatus === DISCONNECTING
+      ) {
         return handleErrorMessage(
           {
             errorContent:
@@ -848,26 +889,20 @@ export default function CreativeStore() {
       if (!login) return window.handleOpenOverriding(LOGIN);
       if (!room.roomId) return;
       if (
-        webRTCref.current &&
-        webRTCref.current.connected &&
+        joinedStatus === CONNECTED &&
         joinedRoom.roomId === room.roomId
       )
         return;
-      if (webRTCref.current && webRTCref.current.connected)
+      if (joinedStatus === CONNECTED)
         handleRoomSocketCleanUp(joinedRoom);
 
       // proceed altering room state and join status state
       setJoinedStatus(CONNECTING);
       let selectedRoom = handleJoinRoom(room, channel);
 
-      // connecting to the websocket
-      if (webRTCref.current) webRTCref.current.connect();
-      else
-        webRTCref.current = connectWebsocket(
-          process.env.REACT_APP_WG_SIGNALER_SERVICE
-        );
-      // and then initialize the websocket to the webrtc server signaler service
-      handleInitializeWebsocket(selectedRoom);
+      // get local stream and join the selected room
+      mediaSignaler.joinedRoom = selectedRoom;
+      mediaSignaler.getLocalStream();
     },
     [joinedRoom, joinedStatus]
   );

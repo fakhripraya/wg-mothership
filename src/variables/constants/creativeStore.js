@@ -23,6 +23,7 @@ export const VOICE = "VOICE";
 export const LIVE_SPACE = "LIVE_SPACE";
 export const CONNECTED = "CONNECTED";
 export const CONNECTING = "CONNECTING";
+export const DISCONNECTING = "DISCONNECTING";
 export const DISCONNECTED = "DISCONNECTED";
 
 // RIGHT SIDE PANEL
