@@ -141,7 +141,7 @@ export default function CreativeStore() {
 
   function handleInitializeWebsocket(selectedRoom) {
     // assign var joinedRoom inside the function
-    let joinedRoom = selectedRoom;
+    const joinedRoom = selectedRoom;
 
     // CUSTOM MEDIASOUP FUNCTIONS //
     const streamSuccess = (stream) => {
@@ -700,55 +700,93 @@ export default function CreativeStore() {
 
   function handleJoinTextRoom() {}
 
-  function handleNewChannel(
+  function handleDeleteSocketFromChannel(
     channelId,
     roomId,
-    oldChannels,
-    newSockets
+    targetUser
   ) {
-    return {
-      ...oldChannels,
-      [channelId]: {
-        ...oldChannels[channelId],
-        channelRooms: {
-          ...oldChannels[channelId].channelRooms,
-          [roomId]: {
-            ...oldChannels[channelId].channelRooms[roomId],
-            roomSockets: {
-              ...newSockets,
-            },
-          },
-        },
-      },
-    };
-  }
-
-  function handleRoomSocketCleanUp(joinedRoom) {
-    // set room with the new value
-
-    if (!joinedRoom) return;
     setChannels((oldChannels) => {
-      let selectedRoomChannel =
-        oldChannels[joinedRoom.channelId];
+      let selectedRoomChannel = oldChannels[channelId];
       let updateRooms = selectedRoomChannel.channelRooms;
-      let updateRoom = updateRooms[joinedRoom.roomId];
+      let updateRoom = updateRooms[roomId];
       if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
 
       // filter the socket
       let filteredSockets = {
-        ...oldChannels[joinedRoom.channelId].channelRooms[
-          joinedRoom.roomId
-        ].roomSockets,
+        ...oldChannels[channelId].channelRooms[roomId]
+          .roomSockets,
       };
-      delete filteredSockets[login.user.userId];
+      delete filteredSockets[targetUser.userId];
 
-      return handleNewChannel(
-        joinedRoom.channelId,
-        joinedRoom.roomId,
-        oldChannels,
-        filteredSockets
-      );
+      return {
+        ...oldChannels,
+        [channelId]: {
+          ...oldChannels[channelId],
+          channelRooms: {
+            ...oldChannels[channelId].channelRooms,
+            [roomId]: {
+              ...oldChannels[channelId].channelRooms[
+                roomId
+              ],
+              roomSockets: {
+                ...filteredSockets,
+              },
+            },
+          },
+        },
+      };
     });
+  }
+
+  function handleAddSocketFromChannel(
+    channelId,
+    roomId,
+    targetUser
+  ) {
+    // find the room that the socket join
+    // if the room is available then push the new socket user info
+    setChannels((oldChannels) => {
+      let selectedChannel = oldChannels[channelId];
+      let updateRooms = selectedChannel.channelRooms;
+      let updateRoom = updateRooms[roomId];
+      if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
+
+      // if room available, handle new channel, room, and socket value
+      const newSockets = {
+        ...oldChannels[channelId].channelRooms[roomId]
+          .roomSockets,
+        [targetUser.userId]: {
+          ...targetUser,
+        },
+      };
+      return {
+        ...oldChannels,
+        [channelId]: {
+          ...oldChannels[channelId],
+          channelRooms: {
+            ...oldChannels[channelId].channelRooms,
+            [roomId]: {
+              ...oldChannels[channelId].channelRooms[
+                roomId
+              ],
+              roomSockets: {
+                ...newSockets,
+              },
+            },
+          },
+        },
+      };
+    });
+  }
+
+  function handleRoomSocketCleanUp(joinedRoom) {
+    // set room with the new value
+    if (!joinedRoom) return;
+    handleDeleteSocketFromChannel(
+      joinedRoom.channelId,
+      joinedRoom.roomId,
+      login.user
+    );
 
     // clear the joined room value
     setJoinedRoom(null);
@@ -763,30 +801,13 @@ export default function CreativeStore() {
   }
 
   function handleJoinRoom(room, channel) {
-    // // find the room that the socket join
-    // // if the room is available then push the new socket user info
-    setChannels((oldChannels) => {
-      let selectedChannel = oldChannels[channel.channelId];
-      let updateRooms = selectedChannel.channelRooms;
-      let updateRoom = updateRooms[room.roomId];
-      if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
-
-      // if room available, handle new channel, room, and socket value
-      const newSockets = {
-        ...oldChannels[channel.channelId].channelRooms[
-          room.roomId
-        ].roomSockets,
-        [login.user.userId]: {
-          ...login.user,
-        },
-      };
-      return handleNewChannel(
-        channel.channelId,
-        room.roomId,
-        oldChannels,
-        newSockets
-      );
-    });
+    // find the room that the socket join
+    // if the room is available then push the new socket user info
+    handleAddSocketFromChannel(
+      channel.channelId,
+      room.roomId,
+      login.user
+    );
 
     // set room with the new value and new channel id
     let selectedRoom = {
