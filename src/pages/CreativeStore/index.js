@@ -68,14 +68,10 @@ import PageLoading from "../PageLoading";
 
 export default function CreativeStore() {
   // REFS //
-  const webRTCref = useRef();
-  webRTCref.current = useMemo(
-    () =>
-      connectWebsocket(
-        process.env.REACT_APP_WG_SIGNALER_SERVICE
-      ),
-    []
-  );
+  // const webRTCref = useRef();
+  // socket = connectWebsocket(
+  //   process.env.REACT_APP_WG_SIGNALER_SERVICE
+  // );
 
   // HOOKS //
   const zeusService = useAxios();
@@ -83,6 +79,7 @@ export default function CreativeStore() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // STATES //
+  const [socket, setSocket] = useState(null);
   const [rendered, setRendered] = useState(false);
   const [channels, setChannels] = useState([]);
   const [joinedRoom, setJoinedRoom] = useState(null);
@@ -95,6 +92,7 @@ export default function CreativeStore() {
   const [modalToggle, setModalToggle] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [connectionStatus, setConnectionStatus] = useState({
+    webRTCSocketConnected: false,
     webRTCStatus: NO_STRING,
     chatSocketStatus: "Ready",
   });
@@ -135,8 +133,13 @@ export default function CreativeStore() {
       this.peerRef.on(
         "connection-success",
         ({ socketId }) => {
-          // console.log(`peer connection success ${login.user.username} with socketId: ` + socketId);
-          // do something about rendering
+          console.log(`peer connection success `);
+          setConnectionStatus((val) => {
+            return {
+              ...val,
+              webRTCSocketConnected: true,
+            };
+          });
         }
       );
 
@@ -149,7 +152,7 @@ export default function CreativeStore() {
         console.error(
           `connection error due to ${error.message}`
         );
-        webRTCref.current.connect();
+        socket.connect();
       });
 
       this.peerRef.on("webrtc-error", () =>
@@ -689,10 +692,47 @@ export default function CreativeStore() {
     };
   }
 
-  const mediaSignaler = useMemo(
-    () => new WGSignaler(webRTCref.current),
-    []
-  );
+  const mediaSignaler = useMemo(() => {
+    if (socket) return new WGSignaler(socket);
+  }, [socket]);
+
+  function handleInitialChannelsRender(initialValue) {
+    // do something about rendering
+    socket.emit(
+      "get-render-data",
+      {
+        storeId: storeId,
+      },
+      (socketsInTheStore) => {
+        console.log(socketsInTheStore);
+        setChannels(() => {
+          let newChannels = { ...initialValue };
+          Object.entries(socketsInTheStore).forEach(
+            ([key, val], index) => {
+              const findChannel = Object.entries(
+                newChannels
+              ).find(([key, val]) => {
+                const foundKey = Object.entries(
+                  val.channelRooms
+                ).find(([k, e]) => {
+                  return k.includes("Lounge-3");
+                });
+                if (foundKey) return val;
+              });
+              console.log(findChannel);
+              newChannels = handleAddSocketToChannel(
+                newChannels,
+                findChannel[0],
+                key,
+                val.remotePeers
+              );
+            }
+          );
+          return { ...newChannels };
+        });
+      }
+    );
+  }
 
   // FUNCTION SPECIFICS
   function handleInitialize() {
@@ -703,7 +743,9 @@ export default function CreativeStore() {
       })
       .then((result) => {
         if (result.responseStatus === 200) {
-          setChannels(initialLeftPanelDatas);
+          handleInitialChannelsRender(
+            initialLeftPanelDatas
+          );
           setVisitors(initialVisitors);
           setRendered(true);
         }
@@ -774,46 +816,52 @@ export default function CreativeStore() {
     });
   }
 
-  function handleAddSocketFromChannel(
+  const handleAddSocketToChannel = (
+    oldChannels,
     channelId,
     roomId,
-    targetUser
-  ) {
+    targetUsers
+  ) => {
     // find the room that the socket join
     // if the room is available then push the new socket user info
-    setChannels((oldChannels) => {
-      let selectedChannel = oldChannels[channelId];
-      let updateRooms = selectedChannel.channelRooms;
-      let updateRoom = updateRooms[roomId];
-      if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
+    let selectedChannel = oldChannels[channelId];
+    let updateRooms = selectedChannel.channelRooms;
+    let updateRoom = updateRooms[roomId];
+    if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
 
-      // if room available, handle new channel, room, and socket value
-      const newSockets = {
-        ...oldChannels[channelId].channelRooms[roomId]
-          .roomSockets,
-        [targetUser.userId]: {
-          ...targetUser,
-        },
-      };
-      return {
-        ...oldChannels,
-        [channelId]: {
-          ...oldChannels[channelId],
-          channelRooms: {
-            ...oldChannels[channelId].channelRooms,
-            [roomId]: {
-              ...oldChannels[channelId].channelRooms[
-                roomId
-              ],
-              roomSockets: {
-                ...newSockets,
-              },
+    console.log(targetUsers);
+    // if room available, handle new channel, room, and socket value
+    const newSockets = Object.entries(targetUsers).reduce(
+      (acc, [key, val]) => {
+        return {
+          ...acc,
+          [key]: {
+            ...val,
+          },
+        };
+      },
+      {}
+    );
+    console.log(newSockets);
+
+    return {
+      ...oldChannels,
+      [channelId]: {
+        ...oldChannels[channelId],
+        channelRooms: {
+          ...oldChannels[channelId].channelRooms,
+          [roomId]: {
+            ...oldChannels[channelId].channelRooms[roomId],
+            roomSockets: {
+              ...oldChannels[channelId].channelRooms[roomId]
+                .roomSockets,
+              ...newSockets,
             },
           },
         },
-      };
-    });
-  }
+      },
+    };
+  };
 
   async function handleRoomSocketCleanUp(joinedRoom) {
     // set room with the new value
@@ -840,10 +888,13 @@ export default function CreativeStore() {
   function handleJoinRoom(room, channel) {
     // find the room that the socket join
     // if the room is available then push the new socket user info
-    handleAddSocketFromChannel(
-      channel.channelId,
-      room.roomId,
-      login.user
+    setChannels((oldChannels) =>
+      handleAddSocketToChannel(
+        oldChannels,
+        channel.channelId,
+        room.roomId,
+        { [login.user.userId]: login.user }
+      )
     );
 
     // set room with the new value and new channel id
@@ -860,7 +911,7 @@ export default function CreativeStore() {
   }
 
   const listenJoinRoom = useCallback(
-    (channel, room, joinedRoom) => {
+    async (channel, room, joinedRoom) => {
       // handle WebRTC Socket connection to the signaler service,
       // and store it to webRTCref
       // once it connect it will process the ICE establishment
@@ -869,7 +920,6 @@ export default function CreativeStore() {
       // validate the connecting state, the desired room type, the login,
       // whether user connected to the room already,
       // and do some cleanups if user want to change room
-      console.log(joinedStatus);
       if (
         joinedStatus === CONNECTING ||
         joinedStatus === DISCONNECTING
@@ -894,7 +944,7 @@ export default function CreativeStore() {
       )
         return;
       if (joinedStatus === CONNECTED)
-        handleRoomSocketCleanUp(joinedRoom);
+        await handleRoomSocketCleanUp(joinedRoom);
 
       // proceed altering room state and join status state
       setJoinedStatus(CONNECTING);
@@ -904,7 +954,7 @@ export default function CreativeStore() {
       mediaSignaler.joinedRoom = selectedRoom;
       mediaSignaler.getLocalStream();
     },
-    [joinedRoom, joinedStatus]
+    [joinedRoom, joinedStatus, mediaSignaler]
   );
 
   function handleBottomSheet() {
@@ -1033,13 +1083,22 @@ export default function CreativeStore() {
 
   // INITIAL RENDER AND INITIALIZATION
   useEffect(() => {
-    smoothScrollTop();
-    handleInitialize();
+    setSocket(
+      connectWebsocket(
+        process.env.REACT_APP_WG_SIGNALER_SERVICE
+      )
+    );
+  }, []);
+  useEffect(() => {
+    if (connectionStatus.webRTCSocketConnected) {
+      smoothScrollTop();
+      handleInitialize();
+    }
 
     return () => {
-      if (webRTCref.current) webRTCref.current.disconnect();
+      if (socket) socket.disconnect();
     };
-  }, []);
+  }, [connectionStatus.webRTCSocketConnected]);
 
   // Placeholder message while redirecting to home page
   if (!storeId) {
@@ -1055,6 +1114,7 @@ export default function CreativeStore() {
     );
   }
 
+  // TODO: Make a retry function of websocket and render the loading screen of reconnecting
   return (
     <Fragment>
       <PageLoading
