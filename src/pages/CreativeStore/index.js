@@ -49,7 +49,6 @@ import {
   DISCONNECTING,
 } from "../../variables/constants/creativeStore";
 import { cookies } from "../../config/cookie";
-import { trackPromise } from "react-promise-tracker";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { videoConfig } from "../../config/mediasoup/config";
 import { connectWebsocket } from "../../config/websocket/websocket";
@@ -164,10 +163,26 @@ export default function CreativeStore() {
         console.log(`already joined the room`)
       );
 
-      this.peerRef.on("user-already-joined", () => {
-        alert(`already joined the room`);
-        handleRoomSocketCleanUp(this.joinedRoom);
-      });
+      this.peerRef.on(
+        "user-already-joined",
+        ({ JoinedRoomId, wantToJoinRoomId }) => {
+          alert(`already joined the room`);
+          if (JoinedRoomId !== wantToJoinRoomId) {
+            setJoinedRoom(null);
+            setJoinedStatus(DISCONNECTED);
+            handleChangeStatus(NO_STRING);
+            handleDeleteSocketFromChannel(
+              this.joinedRoom.channelId,
+              this.joinedRoom.roomId,
+              login.user
+            );
+          } else {
+            setJoinedRoom(null);
+            setJoinedStatus(DISCONNECTED);
+            handleChangeStatus(NO_STRING);
+          }
+        }
+      );
 
       // CLEANUP EVENTS
       // this will trigger when the local producer(user) leave the room
