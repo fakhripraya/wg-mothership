@@ -130,20 +130,26 @@ export default function CreativeStore() {
 
       // SOCKET EVENTS LISTENER//
       // server informs the client of user joining the room
-      this.peerRef.on(
-        "connection-success",
-        ({ socketId }) => {
-          setConnectionStatus((val) => {
-            return {
-              ...val,
-              webRTCSocketConnected: true,
-            };
-          });
-        }
-      );
+      this.peerRef.on("connection-success", (callback) => {
+        setConnectionStatus((val) => {
+          return {
+            ...val,
+            webRTCSocketConnected: true,
+          };
+        });
+        callback(storeId);
+      });
 
+      // GENERAL EVENTS
       this.peerRef.on("new-producer", ({ producerId }) =>
         this.signalNewConsumerTransport(producerId)
+      );
+
+      this.peerRef.on(
+        "receive-channels-data",
+        (socketsInTheStore) => {
+          handleSignaledChannelsRender(socketsInTheStore);
+        }
       );
 
       // ERROR EVENTS
@@ -214,6 +220,7 @@ export default function CreativeStore() {
     get joinedRoom() {
       return this._joinedRoom;
     }
+
     set joinedRoom(joinedRoom) {
       if (typeof joinedRoom === "undefined")
         throw new Error(
@@ -426,6 +433,9 @@ export default function CreativeStore() {
       if (audioProducer) {
         setJoinedStatus(CONNECTED);
         handleChangeStatus(`Connected`);
+        this.peerRef.emit("signal-channels-data", {
+          storeId,
+        });
       } else {
         handleChangeStatus(`Connection Failed`);
       }
@@ -695,54 +705,8 @@ export default function CreativeStore() {
     if (socket) return new WGSignaler(socket);
   }, [socket]);
 
-  function handleInitialChannelsRender(initialValue) {
-    // do something about rendering
-    socket.emit(
-      "get-render-data",
-      {
-        storeId: storeId,
-      },
-      (socketsInTheStore) => {
-        setChannels(() => {
-          let newChannels = { ...initialValue };
-          // iterate through the room from the ws response
-          Object.entries(socketsInTheStore).forEach(
-            ([roomKey, room]) => {
-              // find room from the channel by room key
-              const findChannel = Object.entries(
-                newChannels
-              ).find(([, channel]) => {
-                // iteratte through the room in the current channel
-                const foundKey = Object.entries(
-                  channel.channelRooms
-                ).find(([k, e]) => {
-                  // return if room found
-                  return k.includes(roomKey);
-                });
-                // return the channel if room is found inside the channel after iterate through it
-                if (foundKey) return channel;
-              });
-              // if channel not found, something is definitely wrong
-              if (!findChannel)
-                throw new Error(
-                  "Fatal error: No channel found when initial render"
-                );
-              // add socket to the channel based on findings
-              newChannels = handleAddSocketToChannel(
-                newChannels,
-                findChannel[0],
-                roomKey,
-                room.remotePeers
-              );
-            }
-          );
-          return { ...newChannels };
-        });
-      }
-    );
-  }
-
   // FUNCTION SPECIFICS
+
   function handleInitialize() {
     zeusService
       .getData({
@@ -770,18 +734,127 @@ export default function CreativeStore() {
       });
   }
 
-  const handleChangeStatus = (newStatus) =>
+  function handleClearChannel(channels) {
+    const newChannels = (function selfInvoke(
+      obj,
+      alterKey,
+      isContinueInvoke
+    ) {
+      return Object.entries(obj).reduce(
+        (acc, [key, val]) => {
+          return {
+            ...acc,
+            [key]: {
+              ...val,
+              [alterKey]: isContinueInvoke
+                ? selfInvoke(
+                    val[alterKey],
+                    "roomSockets",
+                    false
+                  )
+                : {},
+            },
+          };
+        },
+        {}
+      );
+    })(channels, "channelRooms", true);
+
+    return { ...newChannels };
+  }
+
+  function handleChannelRender(
+    channels,
+    socketsInTheStore
+  ) {
+    // iterate through the room from the ws response
+    let newChannels = { ...channels };
+    if (Object.entries(socketsInTheStore).length === 0)
+      return handleClearChannel(newChannels);
+    else {
+      newChannels = (function selfInvoke(
+        obj,
+        alterKey,
+        isContinueInvoke
+      ) {
+        return Object.entries(obj).reduce(
+          (acc, [key, val]) => {
+            const findRoom = (() => {
+              if (isContinueInvoke) return;
+              return Object.entries(socketsInTheStore).find(
+                ([roomKey, socketVal]) => {
+                  return roomKey === key;
+                }
+              );
+            })();
+
+            return {
+              ...acc,
+              [key]: {
+                ...val,
+                [alterKey]: isContinueInvoke
+                  ? selfInvoke(
+                      val[alterKey],
+                      "roomSockets",
+                      false
+                    )
+                  : typeof findRoom !== "undefined"
+                  ? findRoom[1].remotePeers
+                  : {},
+              },
+            };
+          },
+          {}
+        );
+      })(channels, "channelRooms", true);
+    }
+
+    return { ...newChannels };
+  }
+
+  function handleInitialChannelsRender(initialValue) {
+    // do something about rendering
+    socket.emit(
+      "get-channels-data",
+      {
+        storeId: storeId,
+      },
+      (socketsInTheStore) => {
+        setChannels(() => {
+          return handleChannelRender(
+            initialValue,
+            socketsInTheStore
+          );
+        });
+      }
+    );
+  }
+
+  function handleSignaledChannelsRender(socketsInTheStore) {
+    // do something about rendering
+    // socketInTheStore comes from the receiving signal that got emitted from the server
+    // the flow supposed to be like:
+    /* 
+    - (source) emit signal to the server -> socket.emit("signal-channels-data", storeId) 
+    - this function is the same as "get-render-data", the differences is just the callback
+    - (server) server will process the signal and broadcast to the peer by -> (peer socket).emit("receive-channels-data",...)
+    - (other peers) and the other peer will retrieve the signal by -> socket.on("receive-channels-data",...)
+    */
+    setChannels((oldChannels) => {
+      return handleChannelRender(
+        oldChannels,
+        socketsInTheStore
+      );
+    });
+  }
+
+  function handleChangeStatus(newStatus) {
     setConnectionStatus((oldStatus) => {
       return {
         ...oldStatus,
         webRTCStatus: newStatus,
       };
     });
-
-  async function handleJoinAudio(id) {
-    const audioElement = document.getElementById(id);
-    audioElement.currentTime = 0;
-    audioElement.play();
   }
 
   function handleJoinTextRoom() {}
@@ -824,12 +897,13 @@ export default function CreativeStore() {
     });
   }
 
-  const handleAddSocketToChannel = (
+  function handleAddorUpdateSocketOfChannel(
     oldChannels,
     channelId,
     roomId,
-    targetUsers
-  ) => {
+    targetUsers,
+    isUpdate
+  ) {
     // find the room that the socket join
     // if the room is available then push the new socket user info
     let selectedChannel = oldChannels[channelId];
@@ -850,6 +924,16 @@ export default function CreativeStore() {
       {}
     );
 
+    const roomSockets = isUpdate
+      ? {
+          ...newSockets,
+        }
+      : {
+          ...oldChannels[channelId].channelRooms[roomId]
+            .roomSockets,
+          ...newSockets,
+        };
+
     return {
       ...oldChannels,
       [channelId]: {
@@ -858,16 +942,52 @@ export default function CreativeStore() {
           ...oldChannels[channelId].channelRooms,
           [roomId]: {
             ...oldChannels[channelId].channelRooms[roomId],
-            roomSockets: {
-              ...oldChannels[channelId].channelRooms[roomId]
-                .roomSockets,
-              ...newSockets,
-            },
+            roomSockets: roomSockets,
           },
         },
       },
     };
-  };
+  }
+
+  function handleJoinRoom(room, channel) {
+    // find the room that the socket join
+    // if the room is available then push the new socket user info
+    setChannels((oldChannels) =>
+      handleAddorUpdateSocketOfChannel(
+        oldChannels,
+        channel.channelId,
+        room.roomId,
+        { [login.user.userId]: login.user },
+        false
+      )
+    );
+
+    // set room with the new value and new channel id
+    let selectedRoom = {
+      channelId: channel.channelId,
+      ...room,
+    };
+
+    // set the state and set joined status
+    setJoinedRoom({ ...selectedRoom });
+    setJoinedStatus(CONNECTING);
+    // return the new selected room to be processed
+    return selectedRoom;
+  }
+
+  function handleBottomSheet() {
+    setToggle(!toggle);
+  }
+
+  function handleOpenModal(setToggle, toggleValue) {
+    setToggle(!toggleValue);
+  }
+
+  async function handleJoinAudio(id) {
+    const audioElement = document.getElementById(id);
+    audioElement.currentTime = 0;
+    audioElement.play();
+  }
 
   async function handleRoomSocketCleanUp(joinedRoom) {
     // set room with the new value
@@ -889,31 +1009,6 @@ export default function CreativeStore() {
       // set new connection status
       handleChangeStatus(NO_STRING);
     });
-  }
-
-  function handleJoinRoom(room, channel) {
-    // find the room that the socket join
-    // if the room is available then push the new socket user info
-    setChannels((oldChannels) =>
-      handleAddSocketToChannel(
-        oldChannels,
-        channel.channelId,
-        room.roomId,
-        { [login.user.userId]: login.user }
-      )
-    );
-
-    // set room with the new value and new channel id
-    let selectedRoom = {
-      channelId: channel.channelId,
-      ...room,
-    };
-
-    // set the state and set joined status
-    setJoinedRoom({ ...selectedRoom });
-    setJoinedStatus(CONNECTING);
-    // return the new selected room to be processed
-    return selectedRoom;
   }
 
   const listenJoinRoom = useCallback(
@@ -962,14 +1057,6 @@ export default function CreativeStore() {
     },
     [joinedRoom, joinedStatus, mediaSignaler]
   );
-
-  function handleBottomSheet() {
-    setToggle(!toggle);
-  }
-
-  function handleOpenModal(setToggle, toggleValue) {
-    setToggle(!toggleValue);
-  }
 
   // COMPONENTS SPECIFIC //
   const ShowNewOrders = (props) => {
@@ -1095,6 +1182,7 @@ export default function CreativeStore() {
       )
     );
   }, []);
+
   useEffect(() => {
     if (connectionStatus.webRTCSocketConnected) {
       smoothScrollTop();

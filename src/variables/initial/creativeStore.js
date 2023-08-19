@@ -51,14 +51,14 @@ export const initialLeftPanelDatas = {
         roomType: "VOICE",
         roomMaxSocket: 10,
         roomSockets: {
-          "dummy-1": {
-            userId: "dummy-1",
-            username: "fakhripraya@gmail.com",
-            fullName: "fakhripraya@gmail.com",
-            phoneNumber: null,
-            email: "fakhripraya@gmail.com",
-            OTPVerified: true,
-          },
+          // "dummy-1": {
+          //   userId: "dummy-1",
+          //   username: "fakhripraya@gmail.com",
+          //   fullName: "fakhripraya@gmail.com",
+          //   phoneNumber: null,
+          //   email: "fakhripraya@gmail.com",
+          //   OTPVerified: true,
+          // },
         },
       },
     },
