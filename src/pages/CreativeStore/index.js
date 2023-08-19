@@ -133,7 +133,6 @@ export default function CreativeStore() {
       this.peerRef.on(
         "connection-success",
         ({ socketId }) => {
-          console.log(`peer connection success `);
           setConnectionStatus((val) => {
             return {
               ...val,
@@ -704,27 +703,36 @@ export default function CreativeStore() {
         storeId: storeId,
       },
       (socketsInTheStore) => {
-        console.log(socketsInTheStore);
         setChannels(() => {
           let newChannels = { ...initialValue };
+          // iterate through the room from the ws response
           Object.entries(socketsInTheStore).forEach(
-            ([key, val], index) => {
+            ([roomKey, room]) => {
+              // find room from the channel by room key
               const findChannel = Object.entries(
                 newChannels
-              ).find(([key, val]) => {
+              ).find(([, channel]) => {
+                // iteratte through the room in the current channel
                 const foundKey = Object.entries(
-                  val.channelRooms
+                  channel.channelRooms
                 ).find(([k, e]) => {
-                  return k.includes("Lounge-3");
+                  // return if room found
+                  return k.includes(roomKey);
                 });
-                if (foundKey) return val;
+                // return the channel if room is found inside the channel after iterate through it
+                if (foundKey) return channel;
               });
-              console.log(findChannel);
+              // if channel not found, something is definitely wrong
+              if (!findChannel)
+                throw new Error(
+                  "Fatal error: No channel found when initial render"
+                );
+              // add socket to the channel based on findings
               newChannels = handleAddSocketToChannel(
                 newChannels,
                 findChannel[0],
-                key,
-                val.remotePeers
+                roomKey,
+                room.remotePeers
               );
             }
           );
@@ -829,7 +837,6 @@ export default function CreativeStore() {
     let updateRoom = updateRooms[roomId];
     if (!updateRoom) throw new Error(ROOM_UNAVAILABLE);
 
-    console.log(targetUsers);
     // if room available, handle new channel, room, and socket value
     const newSockets = Object.entries(targetUsers).reduce(
       (acc, [key, val]) => {
@@ -842,7 +849,6 @@ export default function CreativeStore() {
       },
       {}
     );
-    console.log(newSockets);
 
     return {
       ...oldChannels,
