@@ -24,6 +24,7 @@ import {
   LOGIN,
   NO_DATA,
   URL_GET_DASHBOARD_STORES,
+  X_SID,
 } from "../../variables/global";
 import DashboardTransaction from "../DashboardTransaction";
 import DashboardChat from "../DashboardChat";
@@ -70,6 +71,7 @@ export default function Dashboard() {
           {
             headers: {
               authorization: `Bearer ${login.credentialToken.accessToken}`,
+              [X_SID]: `${login.sid}`,
             },
             endpoint: process.env.REACT_APP_ZEUS_SERVICE,
             url: URL_GET_DASHBOARD_STORES(

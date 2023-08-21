@@ -230,6 +230,7 @@ export default function AddStore() {
             url: URL_POST_ADD_USER_STORE(login.user.userId),
             headers: {
               authorization: `Bearer ${login.credentialToken.accessToken}`,
+              [X_SID]: `${login.sid}`,
             },
             data: data,
           },

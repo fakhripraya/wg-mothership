@@ -76,6 +76,7 @@ export default function AddCatalogue() {
     {
       headers: {
         authorization: `Bearer ${login.credentialToken.accessToken}`,
+        [X_SID]: `${login.sid}`,
       },
       endpoint: process.env.REACT_APP_ZEUS_SERVICE,
       url: URL_GET_ADD_CATALOGUE_DATA(storeCode),
@@ -83,6 +84,7 @@ export default function AddCatalogue() {
     {
       headers: {
         authorization: `Bearer ${login.credentialToken.accessToken}`,
+        [X_SID]: `${login.sid}`,
       },
       endpoint: process.env.REACT_APP_ZEUS_SERVICE,
       url: URL_GET_CATEGORIES,
@@ -90,6 +92,7 @@ export default function AddCatalogue() {
     {
       headers: {
         authorization: `Bearer ${login.credentialToken.accessToken}`,
+        [X_SID]: `${login.sid}`,
       },
       endpoint: process.env.REACT_APP_ZEUS_SERVICE,
       url: URL_GET_COURIERS,
@@ -266,6 +269,7 @@ export default function AddCatalogue() {
             url: URL_POST_ADD_STORE_CATALOGUE(storeCode),
             headers: {
               authorization: `Bearer ${login.credentialToken.accessToken}`,
+              [X_SID]: `${login.sid}`,
               "Content-Type": "multipart/form-data",
             },
             data: formData,
