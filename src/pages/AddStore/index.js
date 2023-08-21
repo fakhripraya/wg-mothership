@@ -15,6 +15,7 @@ import {
   NO_DATA,
   NO_STRING,
   URL_POST_ADD_USER_STORE,
+  X_SID,
 } from "../../variables/global";
 import {
   handleError500,

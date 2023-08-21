@@ -27,6 +27,7 @@ import {
   URL_GET_CATEGORIES,
   URL_GET_COURIERS,
   URL_POST_ADD_STORE_CATALOGUE,
+  X_SID,
 } from "../../variables/global";
 import AgreementIcon from "../../assets/svg/agreement-icon.svg";
 import "./style.scss";
