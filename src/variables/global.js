@@ -55,7 +55,7 @@ export const PATCH = "PATCH";
 export const DELETE = "DELETE";
 
 // HEADER NAME
-export const X_SID = "X-SID";
+export const X_SID = "x-sid";
 
 // SIGNALER SERVICE ROUTE
 export const URL_ROOM_CHECK = "/v1/room/check";
