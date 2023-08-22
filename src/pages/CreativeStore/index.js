@@ -64,7 +64,6 @@ import ShowBottomStatus from "./ModularComponents/ShowBottomStatus";
 import Modal from "../../components/Modal";
 import { ShowErrorModal } from "./ModularComponents/ShowModals";
 import PageLoading from "../PageLoading";
-import { iceConfig } from "../../config/rtc/ice";
 
 export default function CreativeStore() {
   // REFS //
@@ -359,10 +358,8 @@ export default function CreativeStore() {
           );
           // creating SEND PRODUCER TRANSPORT
           try {
-            producerTransport = device.createSendTransport({
-              iceServers: iceConfig.iceServers,
-              ...params,
-            });
+            producerTransport =
+              device.createSendTransport(params);
           } catch (error) {
             handleChangeStatus(
               `there is an error while creating SEND PRODUCER TRANSPORT\n error: ${error}`
@@ -520,10 +517,8 @@ export default function CreativeStore() {
           );
           let consumerTransport;
           try {
-            consumerTransport = device.createRecvTransport({
-              iceServers: iceConfig.iceServers,
-              ...params,
-            });
+            consumerTransport =
+              device.createRecvTransport(params);
           } catch (error) {
             console.error(
               `there is an error while creating RECV CONSUMER TRANSPORT\n error: ${error}`
