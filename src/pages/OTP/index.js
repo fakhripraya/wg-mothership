@@ -11,6 +11,7 @@ import {
   OTP_PAGE,
   URL_POST_OTP,
   CLIENT_USER_INFO,
+  X_SID,
 } from "../../variables/global";
 import { useAxios } from "../../utils/hooks/useAxios";
 import Modal from "../../components/Modal";
@@ -53,6 +54,7 @@ export default function OTP(props) {
         .postData({
           endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
           headers: {
+            [X_SID]: `${login.sid}`,
             authorization: `Bearer ${postOTPDataInitialValue.credentialToken.accessToken}`,
           },
           url: URL_POST_OTP,

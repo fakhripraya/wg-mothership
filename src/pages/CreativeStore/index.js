@@ -1321,7 +1321,7 @@ export default function CreativeStore() {
                   />
                 </div>
               </div>
-              {login && (
+              {login && login.user && (
                 <div className="creative-store-sub-container creative-store-user-avatar">
                   <div className="creative-store-user-avatar-container">
                     <div className="creative-store-user-identifier-img-wrapper">
