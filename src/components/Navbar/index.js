@@ -29,9 +29,9 @@ import {
   CLIENT_USER_INFO,
   URL_POST_LOGOUT,
   NEW_PASSWORD,
-  URL_POST_RECOVERY_TOKEN_CHECK,
   URL_POST_GOOGLE_CALLBACK,
   DASHBOARD,
+  X_SID,
 } from "../../variables/global";
 import { ShowNavbar } from "../Global";
 import { navbarInitialStyle } from "../../variables/styles/navbar";
@@ -78,26 +78,6 @@ export default function Navbar() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // FUNCTIONS SPECIFIC //
-  function handleRecoveryTokenListener(recoveryToken) {
-    trackPromise(
-      credentialService
-        .postData({
-          endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
-          url: URL_POST_RECOVERY_TOKEN_CHECK,
-          data: {
-            recoveryToken: recoveryToken,
-          },
-        })
-        .then(() => {
-          setError(false);
-          window.handleOpenOverriding(NEW_PASSWORD);
-        })
-        .catch((error) => {
-          catchPromiseErrors(error, navigate);
-        })
-    );
-  }
-
   function handleGoogleAuthListener() {
     const queryString = window.location.search;
     trackPromise(
@@ -161,11 +141,13 @@ export default function Navbar() {
     trackPromise(
       credentialService
         .postData({
+          headers: {
+            [X_SID]: cookies.get(CLIENT_USER_INFO, {
+              path: "/",
+            }).sid,
+          },
           endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
           url: URL_POST_LOGOUT,
-          data: cookies.get(CLIENT_USER_INFO, {
-            path: "/",
-          }),
         })
         .then(() => {
           window.handleOpenOverriding(NO_STRING);
@@ -386,7 +368,7 @@ export default function Navbar() {
     const toggleOpenWindow = searchParams.get("openWindow");
     // Navbar initialization to check the authentication
     if (recoveryToken)
-      handleRecoveryTokenListener(recoveryToken);
+      window.handleOpenOverriding(NEW_PASSWORD);
     else if (
       searchParamScopes &&
       searchParamScopes.includes("googleapis")

@@ -185,11 +185,12 @@ export default function Register(props) {
           <div className="register-container">
             <div className="register-wrapper">
               <h2 className="margin-bottom-12-18">
-                Join To Become A Member
+                Bergabung Bersama Kami Dan Jadi Member !
               </h2>
               <h3 className="margin-top-0 margin-bottom-12-18">
-                Gain maximum profitability by rentaling your
-                device to others virtually or physically
+                Dapatkan keuntungan maksimum dengan
+                bergabung bersama kami, biar kita bisa
+                ngobrol bareng !
               </h3>
               <div className="register-textinput-box">
                 <label className="register-input-title">
@@ -232,7 +233,7 @@ export default function Register(props) {
               </div>
               <div className="register-textinput-box">
                 <label className="register-input-title">
-                  Confirm
+                  Konfirmasi
                 </label>
                 <TextInput
                   value={postRegisterData.confirmPassword}
@@ -246,18 +247,18 @@ export default function Register(props) {
               <h3
                 onClick={() => handleOpenForgotPassword()}
                 className="register-forgot-pass link-color cursor-pointer">
-                Forgot your password
+                Lupa password
               </h3>
               <Button
                 onClick={() => handlePostRegister()}
                 className="register-button dark-bg-color">
                 <h3 className="register-button-text">
-                  Sign Up
+                  Daftar
                 </h3>
               </Button>
               <br></br>
               <h3 className="register-middle-text">
-                Or continue with
+                atau lanjut dengan
               </h3>
               <div className="register-open-auths">
                 <Button className="register-open-auths-button light-bg-color">
@@ -271,11 +272,11 @@ export default function Register(props) {
               <br></br>
               <br></br>
               <h3 className="register-middle-text">
-                Already have an account ?{" "}
+                Sudah punya akun ?{" "}
                 <span
                   onClick={() => handleOpenLogin()}
                   className="link-color cursor-pointer">
-                  Sign in now
+                  Login sekarang
                 </span>
               </h3>
             </div>

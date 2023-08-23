@@ -11,6 +11,7 @@ import {
   FORGOT_PASSWORD,
   LOGIN,
   URL_POST_FORGOT_PW,
+  CLIENT_USER_INFO,
 } from "../../variables/global";
 import { trackPromise } from "react-promise-tracker";
 import { useAxios } from "../../utils/hooks/useAxios";
@@ -20,6 +21,7 @@ import {
   handleErrorMessage,
   handleOpenModal,
 } from "../../utils/functions/global";
+import { cookies } from "../../config/cookie";
 
 export default function ForgotPassword(props) {
   // HOOKS //
@@ -47,7 +49,12 @@ export default function ForgotPassword(props) {
           data: postForgotPWData,
         })
         .then((result) => {
-          callback(result);
+          cookies.set(
+            CLIENT_USER_INFO,
+            result.responseData,
+            { path: "/" }
+          );
+          callback();
         })
         .catch((error) => {
           setSuccess(false);
@@ -65,7 +72,7 @@ export default function ForgotPassword(props) {
     props.handleOpen(LOGIN);
   }
 
-  function handleAfterSubmitEmail(result) {
+  function handleAfterSubmitEmail() {
     setSuccess(true);
     handleOpenModal(setModalToggle, modalToggle);
   }
@@ -172,8 +179,8 @@ export default function ForgotPassword(props) {
               </h3>
               <Button
                 onClick={() =>
-                  handleForgotPWRequest((result) =>
-                    handleAfterSubmitEmail(result)
+                  handleForgotPWRequest(() =>
+                    handleAfterSubmitEmail()
                   )
                 }
                 className="forgot-password-button dark-bg-color">

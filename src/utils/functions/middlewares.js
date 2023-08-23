@@ -1,7 +1,9 @@
 import { USER_UNAUTHORIZED } from "../../variables/errorMessages/global";
 import {
+  AUTHORIZATION,
   CLIENT_USER_INFO,
   URL_CHECK_AUTH_AND_REFRESH_TOKEN,
+  X_SID,
 } from "../../variables/global";
 
 export async function checkAuthAndRefresh(
@@ -21,7 +23,8 @@ export async function checkAuthAndRefresh(
   const result = await services
     .postData({
       headers: {
-        authorization: `Bearer ${login.credentialToken.accessToken}`,
+        [X_SID]: `${login.sid}`,
+        [AUTHORIZATION]: `Bearer ${login.credentialToken.accessToken}`,
       },
       endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
       url: URL_CHECK_AUTH_AND_REFRESH_TOKEN,

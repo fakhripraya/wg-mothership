@@ -16,6 +16,7 @@ import BottomSheet from "../../components/BottomSheet";
 import DashboardHome from "../DashboardHome";
 import DashboardCatalogue from "../DashboardCatalogue";
 import {
+  AUTHORIZATION,
   CLIENT_USER_INFO,
   DASHBOARD_CATALOG,
   DASHBOARD_CHATS,
@@ -70,8 +71,14 @@ export default function Dashboard() {
         .getDataWithOnRequestInterceptors(
           {
             headers: {
-              authorization: `Bearer ${login.credentialToken.accessToken}`,
-              [X_SID]: `${login.sid}`,
+              [AUTHORIZATION]: `Bearer ${
+                cookies.get(CLIENT_USER_INFO, {
+                  path: "/",
+                }).credentialToken.accessToken
+              }`,
+              [X_SID]: cookies.get(CLIENT_USER_INFO, {
+                path: "/",
+              }).sid,
             },
             endpoint: process.env.REACT_APP_ZEUS_SERVICE,
             url: URL_GET_DASHBOARD_STORES(

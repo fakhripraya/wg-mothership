@@ -12,6 +12,7 @@ import {
   URL_POST_OTP,
   CLIENT_USER_INFO,
   X_SID,
+  AUTHORIZATION,
 } from "../../variables/global";
 import { useAxios } from "../../utils/hooks/useAxios";
 import Modal from "../../components/Modal";
@@ -26,10 +27,11 @@ import { cookies } from "../../config/cookie";
 export default function OTP(props) {
   // VARIABLES
   const userInfo = cookies.get(CLIENT_USER_INFO);
-  if (userInfo)
-    postOTPDataInitialValue.credentialToken = cookies.get(
-      CLIENT_USER_INFO
-    ).credentialToken;
+  if (userInfo) {
+    postOTPDataInitialValue.credentialToken =
+      userInfo.credentialToken;
+    postOTPDataInitialValue.sid = userInfo.sid;
+  }
 
   // HOOKS //
   const credentialService = useAxios();
@@ -54,8 +56,14 @@ export default function OTP(props) {
         .postData({
           endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
           headers: {
-            [X_SID]: `${login.sid}`,
-            authorization: `Bearer ${postOTPDataInitialValue.credentialToken.accessToken}`,
+            [X_SID]: cookies.get(CLIENT_USER_INFO, {
+              path: "/",
+            }).sid,
+            [AUTHORIZATION]: `Bearer ${
+              cookies.get(CLIENT_USER_INFO, {
+                path: "/",
+              }).credentialToken.accessToken
+            }`,
           },
           url: URL_POST_OTP,
           data: postOTPData,

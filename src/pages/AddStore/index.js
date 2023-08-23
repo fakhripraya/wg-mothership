@@ -10,6 +10,7 @@ import Modal from "../../components/Modal";
 import { trackPromise } from "react-promise-tracker";
 import { useAxios } from "../../utils/hooks/useAxios";
 import {
+  AUTHORIZATION,
   CLIENT_USER_INFO,
   LOGIN,
   NO_DATA,
@@ -230,8 +231,14 @@ export default function AddStore() {
             endpoint: process.env.REACT_APP_ZEUS_SERVICE,
             url: URL_POST_ADD_USER_STORE(login.user.userId),
             headers: {
-              authorization: `Bearer ${login.credentialToken.accessToken}`,
-              [X_SID]: `${login.sid}`,
+              [AUTHORIZATION]: `Bearer ${
+                cookies.get(CLIENT_USER_INFO, {
+                  path: "/",
+                }).credentialToken.accessToken
+              }`,
+              [X_SID]: cookies.get(CLIENT_USER_INFO, {
+                path: "/",
+              }).sid,
             },
             data: data,
           },

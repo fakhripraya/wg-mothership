@@ -127,7 +127,7 @@ export default function Login(props) {
           <div className="login-container">
             <div className="login-wrapper">
               <h2 className="margin-bottom-12-18">
-                Sign In Untuk Mengakses
+                Login Untuk Mengakses
               </h2>
               <h3 className="margin-top-0 margin-bottom-12-18">
                 Mulai bisnis lelangmu sekarang, tunggu apa
@@ -171,9 +171,7 @@ export default function Login(props) {
                   })
                 }
                 className="login-button dark-bg-color">
-                <h3 className="login-button-text">
-                  Sign In
-                </h3>
+                <h3 className="login-button-text">Login</h3>
               </Button>
               <br></br>
               <h3 className="login-middle-text">
@@ -199,7 +197,7 @@ export default function Login(props) {
                 <span
                   onClick={() => handleOpenRegister()}
                   className="link-color cursor-pointer">
-                  Sign up now
+                  Daftar akun Sekarang
                 </span>
               </h3>
             </div>

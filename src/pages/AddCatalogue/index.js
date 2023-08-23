@@ -19,6 +19,7 @@ import {
 } from "../../variables/initial/addCatalogue";
 import {
   ADD_CATALOGUE_FORM,
+  AUTHORIZATION,
   CLIENT_USER_INFO,
   LOGIN,
   NO_DATA,
@@ -73,28 +74,29 @@ export default function AddCatalogue() {
   // VARIABLES
   const storeCode = searchParams.get("code");
   let login = cookies.get(CLIENT_USER_INFO, { path: "/" });
+  const headers = {
+    [AUTHORIZATION]: `Bearer ${
+      cookies.get(CLIENT_USER_INFO, {
+        path: "/",
+      }).credentialToken.accessToken
+    }`,
+    [X_SID]: cookies.get(CLIENT_USER_INFO, {
+      path: "/",
+    }).sid,
+  };
   const endpoints = [
     {
-      headers: {
-        authorization: `Bearer ${login.credentialToken.accessToken}`,
-        [X_SID]: `${login.sid}`,
-      },
+      headers: headers,
       endpoint: process.env.REACT_APP_ZEUS_SERVICE,
       url: URL_GET_ADD_CATALOGUE_DATA(storeCode),
     },
     {
-      headers: {
-        authorization: `Bearer ${login.credentialToken.accessToken}`,
-        [X_SID]: `${login.sid}`,
-      },
+      headers: headers,
       endpoint: process.env.REACT_APP_ZEUS_SERVICE,
       url: URL_GET_CATEGORIES,
     },
     {
-      headers: {
-        authorization: `Bearer ${login.credentialToken.accessToken}`,
-        [X_SID]: `${login.sid}`,
-      },
+      headers: headers,
       endpoint: process.env.REACT_APP_ZEUS_SERVICE,
       url: URL_GET_COURIERS,
     },
@@ -269,8 +271,7 @@ export default function AddCatalogue() {
             endpoint: process.env.REACT_APP_ZEUS_SERVICE,
             url: URL_POST_ADD_STORE_CATALOGUE(storeCode),
             headers: {
-              authorization: `Bearer ${login.credentialToken.accessToken}`,
-              [X_SID]: `${login.sid}`,
+              ...headers,
               "Content-Type": "multipart/form-data",
             },
             data: formData,

@@ -11,6 +11,8 @@ import {
   LOGIN,
   NEW_PASSWORD,
   URL_POST_NEW_PW,
+  CLIENT_USER_INFO,
+  X_SID,
 } from "../../variables/global";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { trackPromise } from "react-promise-tracker";
@@ -21,6 +23,7 @@ import {
   handleOpenModal,
 } from "../../utils/functions/global";
 import { useSearchParams } from "react-router-dom";
+import { cookies } from "../../config/cookie";
 
 export default function NewPassword(props) {
   // HOOKS //
@@ -33,6 +36,12 @@ export default function NewPassword(props) {
   // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // VARIABLES
+  const recoveryToken = searchParams.get("recoveryToken");
+  const cookie = cookies.get(CLIENT_USER_INFO, {
+    path: "/",
+  });
+
   // FUNCTIONS SPECIFIC //
   function handleTextChange(field, event) {
     const temp = { ...postNewPWData };
@@ -41,11 +50,15 @@ export default function NewPassword(props) {
   }
 
   function handleNewPWRequest(callback) {
-    const recoveryToken = searchParams.get("recoveryToken");
     if (recoveryToken) {
       trackPromise(
         credentialService
           .postData({
+            headers: {
+              [X_SID]: cookies.get(CLIENT_USER_INFO, {
+                path: "/",
+              }).sid,
+            },
             endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
             url: URL_POST_NEW_PW,
             data: {
