@@ -78,7 +78,8 @@ export default function CreativeStore() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // STATES //
-  const [socket, setSocket] = useState(null);
+  const [chatSocket, setChatSocket] = useState(null);
+  const [webRTCSocket, setWebRTCSocket] = useState(null);
   const [rendered, setRendered] = useState(false);
   const [channels, setChannels] = useState([]);
   const [joinedRoom, setJoinedRoom] = useState(null);
@@ -93,7 +94,7 @@ export default function CreativeStore() {
   const [connectionStatus, setConnectionStatus] = useState({
     webRTCSocketConnected: false,
     webRTCStatus: NO_STRING,
-    chatSocketStatus: "Ready",
+    chatSocketStatus: NO_STRING,
   });
 
   // VARIABLES //
@@ -156,7 +157,7 @@ export default function CreativeStore() {
         console.error(
           `connection error due to ${error.message}`
         );
-        socket.connect();
+        this.peerRef.connect();
       });
 
       this.peerRef.on("webrtc-error", () =>
@@ -165,22 +166,8 @@ export default function CreativeStore() {
 
       this.peerRef.on(
         "user-already-joined",
-        ({ JoinedRoomId, wantToJoinRoomId }) => {
-          alert(`already joined the room`);
-          if (JoinedRoomId !== wantToJoinRoomId) {
-            setJoinedRoom(null);
-            setJoinedStatus(DISCONNECTED);
-            handleChangeStatus(NO_STRING);
-            handleDeleteSocketFromChannel(
-              this.joinedRoom.channelId,
-              this.joinedRoom.roomId,
-              login.user
-            );
-          } else {
-            setJoinedRoom(null);
-            setJoinedStatus(DISCONNECTED);
-            handleChangeStatus(NO_STRING);
-          }
+        ({ JoinedRoom }) => {
+          handleRoomSocketCleanUp(JoinedRoom);
         }
       );
 
@@ -717,8 +704,8 @@ export default function CreativeStore() {
   }
 
   const mediaSignaler = useMemo(() => {
-    if (socket) return new WGSignaler(socket);
-  }, [socket]);
+    if (webRTCSocket) return new WGSignaler(webRTCSocket);
+  }, [webRTCSocket]);
 
   // FUNCTION SPECIFICS
 
@@ -829,7 +816,7 @@ export default function CreativeStore() {
 
   function handleInitialChannelsRender(initialValue) {
     // do something about rendering
-    socket.emit(
+    webRTCSocket.emit(
       "get-channels-data",
       {
         storeId: storeId,
@@ -1009,6 +996,11 @@ export default function CreativeStore() {
     if (!joinedRoom) return;
     setJoinedStatus(DISCONNECTING);
     handleChangeStatus("Leaving...");
+    console.log(
+      joinedRoom.channelId,
+      joinedRoom.roomId,
+      login.user
+    );
     handleDeleteSocketFromChannel(
       joinedRoom.channelId,
       joinedRoom.roomId,
@@ -1190,8 +1182,16 @@ export default function CreativeStore() {
   }, [selectedRightPanel, visitor]);
 
   // INITIAL RENDER AND INITIALIZATION
+  // useEffect(() => {
+  //   setWebRTCSocket(
+  //     connectWebsocket(
+  //       process.env.REACT_APP_WG_SIGNALER_SERVICE
+  //     )
+  //   );
+  // }, []);
+
   useEffect(() => {
-    setSocket(
+    setWebRTCSocket(
       connectWebsocket(
         process.env.REACT_APP_WG_SIGNALER_SERVICE
       )
@@ -1205,7 +1205,7 @@ export default function CreativeStore() {
     }
 
     return () => {
-      if (socket) socket.disconnect();
+      if (webRTCSocket) webRTCSocket.disconnect();
     };
   }, [connectionStatus.webRTCSocketConnected]);
 
