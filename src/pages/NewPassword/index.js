@@ -38,9 +38,6 @@ export default function NewPassword(props) {
 
   // VARIABLES
   const recoveryToken = searchParams.get("recoveryToken");
-  const cookie = cookies.get(CLIENT_USER_INFO, {
-    path: "/",
-  });
 
   // FUNCTIONS SPECIFIC //
   function handleTextChange(field, event) {

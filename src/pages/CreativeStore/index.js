@@ -47,6 +47,7 @@ import {
   CONNECTED,
   CONNECTING,
   DISCONNECTING,
+  TEXT,
 } from "../../variables/constants/creativeStore";
 import { cookies } from "../../config/cookie";
 import { useAxios } from "../../utils/hooks/useAxios";
@@ -64,13 +65,15 @@ import ShowBottomStatus from "./ModularComponents/ShowBottomStatus";
 import Modal from "../../components/Modal";
 import { ShowErrorModal } from "./ModularComponents/ShowModals";
 import PageLoading from "../PageLoading";
+import { creativeStoreDb as db } from "../../config/dexie";
+import moment from "moment/moment";
+import ShowChatWrappers from "./ModularComponents/ShowChats";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CreativeStore() {
   // REFS //
-  // const webRTCref = useRef();
-  // socket = connectWebsocket(
-  //   process.env.REACT_APP_WG_SIGNALER_SERVICE
-  // );
+  const chatInputRef = useRef();
+  const chatBodyContainerRef = useRef();
 
   // HOOKS //
   const zeusService = useAxios();
@@ -81,19 +84,25 @@ export default function CreativeStore() {
   const [chatSocket, setChatSocket] = useState(null);
   const [webRTCSocket, setWebRTCSocket] = useState(null);
   const [rendered, setRendered] = useState(false);
-  const [channels, setChannels] = useState([]);
-  const [joinedRoom, setJoinedRoom] = useState(null);
-  const [joinedStatus, setJoinedStatus] =
-    useState(DISCONNECTED);
+  const [chatPagination, setChatPagination] = useState(0);
+  const [channels, setChannels] = useState({});
+  const [chats, setChats] = useState({});
   const [visitor, setVisitors] = useState([]);
+  const [joinedRoom, setJoinedRoom] = useState(null);
+  const [joinedChatRoom, setJoinedChatRoom] =
+    useState(null);
   const [toggle, setToggle] = useState(false);
   const [selectedRightPanel, setSelectedRightPanel] =
     useState(VISITORS);
   const [modalToggle, setModalToggle] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [joinedStatus, setJoinedStatus] =
+    useState(DISCONNECTED);
   const [connectionStatus, setConnectionStatus] = useState({
-    webRTCSocketConnected: false,
+    webRTCSocketFirstConnected: false,
+    webRTCSocketStatus: NO_STRING,
     webRTCStatus: NO_STRING,
+    chatSocketFirstConnected: false,
     chatSocketStatus: NO_STRING,
   });
 
@@ -134,7 +143,7 @@ export default function CreativeStore() {
         setConnectionStatus((val) => {
           return {
             ...val,
-            webRTCSocketConnected: true,
+            webRTCSocketFirstConnected: true,
           };
         });
         callback(storeId);
@@ -703,37 +712,213 @@ export default function CreativeStore() {
     };
   }
 
-  const mediaSignaler = useMemo(() => {
+  class ChatSignaler {
+    constructor(peerRef) {
+      this.peerRef = peerRef;
+      this.joinedRoom = null;
+
+      // SOCKET EVENTS LISTENER//
+      // server informs the client of user joining the room
+      this.peerRef.on("connection-success", (callback) => {
+        handleInitialVisitorRender(initialVisitors);
+        setConnectionStatus((val) => {
+          return {
+            ...val,
+            chatSocketStatus: CONNECTED,
+            chatSocketFirstConnected: true,
+          };
+        });
+        callback(storeId);
+      });
+
+      this.peerRef.on(
+        "receive-chat",
+        ({ content, roomId, channelId }) => {
+          this.saveChatToDatabase({
+            content,
+            roomId,
+            channelId,
+          });
+        }
+      );
+
+      // CLEANUP EVENTS
+      // this will trigger when the local producer(user) leave the room
+      this.peerRef.on("disconnect", () => {});
+    }
+
+    async getChatFromDatabase(joinedChatRoom) {
+      const chats = await db.creative_store_chats
+        .orderBy(":id")
+        .filter(
+          (filter) =>
+            filter.roomId === joinedChatRoom.roomId
+        )
+        .offset(25 * chatPagination) // offset the record first
+        .reverse() // reverse it cause we want it from last to first
+        .limit(25)
+        .toArray();
+
+      return chats;
+    }
+
+    saveChatToDatabase({ content, roomId, channelId }) {
+      // Do some application logic on the database:
+      // do some local db for storing the newly signaled chat
+      // let it run asynchronously
+      db.transaction(
+        "rw",
+        db.creative_store_chats,
+        async () => {
+          const id = await db.creative_store_chats.add({
+            channelId,
+            roomId,
+            chatContent: content.chatContent,
+            imageURI: content.imageURI,
+            isChat: content.isChat,
+            isImage: content.isImage,
+            senderId: content.senderId,
+            senderFullName: content.senderFullName,
+            senderProfilePictureUri:
+              content.senderProfilePictureUri,
+            createdAt: moment(new Date())
+              .format("dddd, MMMM Do YYYY, h:mm:ss a")
+              .toString(),
+            updatedAt: null,
+            deletedAt: null,
+          });
+
+          const chat = await db.creative_store_chats.get({
+            id,
+          });
+          // if the chat is intended to be send to user current joined room, render it
+          // if the chat is from the sender, update the sender chat checkmark
+          handleNewSendedChatRender(chat);
+        }
+      ).catch(function (e) {
+        console.error(e.stack || e);
+      });
+    }
+
+    sendChat(
+      { chat, imageURI, isChat, isImage },
+      joinedChatRoom
+    ) {
+      const content = {
+        chatContent: chat,
+        imageURI: imageURI,
+        isChat: isChat,
+        isImage: isImage,
+        senderId: login.user.userId,
+        senderFullName: login.user.fullName,
+        senderProfilePictureUri:
+          login.user.profilePictureUri,
+      };
+
+      const chatData = {
+        content: content,
+        roomId: joinedChatRoom.roomId,
+        channelId: joinedChatRoom.channelId,
+      };
+      this.saveChatToDatabase(chatData);
+      this.peerRef.emit(
+        "chat-send",
+        storeId,
+        chatData,
+        () => {
+          // set sending chat delay
+          // TODO: add chat delay function
+        }
+      );
+    }
+  }
+
+  let mediaSignaler = useMemo(() => {
     if (webRTCSocket) return new WGSignaler(webRTCSocket);
   }, [webRTCSocket]);
 
+  let chatSignaler = useMemo(() => {
+    if (chatSocket) return new ChatSignaler(chatSocket);
+  }, [chatSocket]);
+
   // FUNCTION SPECIFICS
 
-  function handleInitialize() {
-    zeusService
-      .getData({
+  async function handleInitialize() {
+    let result;
+    try {
+      result = await zeusService.getData({
         endpoint: process.env.REACT_APP_ZEUS_SERVICE,
         url: URL_GET_SERVER_INFO(`?storeId=${storeId}`),
-      })
-      .then((result) => {
-        if (result.responseStatus === 200) {
-          handleInitialChannelsRender(
-            initialLeftPanelDatas
-          );
-          setVisitors(initialVisitors);
-          setRendered(true);
-        }
-      })
-      .catch((error) => {
-        if (error.responseStatus === 500) handleError500();
-        else
-          handleErrorMessage(
-            error,
-            setErrorMessage,
-            setModalToggle,
-            modalToggle
-          );
       });
+    } catch (error) {
+      handleModalError(error);
+    }
+
+    // render all the left panel datas
+    // and set the initial joined chat room
+    handleInitialChannelsRender(initialLeftPanelDatas);
+    const joinedChatRoom = handleInitialJoinChatRoom(
+      initialLeftPanelDatas
+    );
+
+    if (result.responseStatus === 200) {
+      try {
+        const chats =
+          await chatSignaler.getChatFromDatabase(
+            joinedChatRoom
+          );
+        // render currently joined chat room body
+        // and set render to true so the page can exit the loading screen
+        handleChatsRender(chats);
+        setRendered(true);
+      } catch (e) {
+        console.error(e.stack || e);
+      }
+    }
+  }
+
+  async function handleJoinAudio(id) {
+    const audioElement = document.getElementById(id);
+    audioElement.currentTime = 0;
+    audioElement.play();
+  }
+
+  async function handleRoomSocketCleanUp(joinedRoom) {
+    // set room with the new value
+    if (!joinedRoom) return;
+    setJoinedStatus(DISCONNECTING);
+    handleChangeStatus("Leaving...");
+    console.log(
+      joinedRoom.channelId,
+      joinedRoom.roomId,
+      login.user
+    );
+    handleDeleteSocketFromChannel(
+      joinedRoom.channelId,
+      joinedRoom.roomId,
+      login.user
+    );
+
+    // clear the joined room value
+    setJoinedRoom(null);
+    // signal the socket to leave the room and do some cleanup on the server side
+    await mediaSignaler.leaveRoom().then(() => {
+      // set joined status
+      setJoinedStatus(DISCONNECTED);
+      // set new connection status
+      handleChangeStatus(NO_STRING);
+    });
+  }
+
+  function handleModalError(error) {
+    if (error.responseStatus === 500) handleError500();
+    else
+      handleErrorMessage(
+        error,
+        setErrorMessage,
+        setModalToggle,
+        modalToggle
+      );
   }
 
   function handleClearChannel(channels) {
@@ -814,8 +999,113 @@ export default function CreativeStore() {
     return { ...newChannels };
   }
 
-  function handleInitialChannelsRender(initialValue) {
-    // do something about rendering
+  function handleNewSendedChatRender(addingChat) {
+    if (addingChat.length === 0) return;
+    setChats((oldChats) => {
+      let newChats = { ...oldChats };
+      const previousChatObjects = Object.entries(newChats);
+      const previousChatObjectsLastIndex =
+        previousChatObjects.length - 1;
+      const lastSenderId =
+        previousChatObjects[previousChatObjectsLastIndex][1]
+          .sender.id;
+      const lastSenderObjectKey =
+        previousChatObjects[
+          previousChatObjectsLastIndex
+        ][0];
+      if (lastSenderId === login.user.userId) {
+        newChats = {
+          ...newChats,
+          [lastSenderObjectKey]: {
+            ...newChats[lastSenderObjectKey],
+            chats: {
+              ...newChats[lastSenderObjectKey].chats,
+              [addingChat.id]: addingChat,
+            },
+          },
+        };
+      } else {
+        const newChatObjectKey = uuidv4();
+        let newChat = createNewChat(addingChat);
+        let tempNewChatObject = {
+          ...createNewTempChatObject(addingChat),
+        };
+        tempNewChatObject.chats = {
+          [newChat.id]: newChat,
+        };
+        newChats = {
+          [newChatObjectKey]: tempNewChatObject,
+        };
+      }
+
+      return { ...newChats };
+    });
+  }
+
+  // do something about chat rendering
+  function handleChatsRender(addingChats) {
+    if (addingChats.length === 0) return;
+    setChats((oldChats) => {
+      let newChats = { ...oldChats };
+      let tempChat = null;
+      for (const [key, chat] of Object.entries(
+        addingChats
+      )) {
+        let newChat = createNewChat(chat);
+        if (!tempChat)
+          tempChat = { ...createNewTempChatObject(chat) };
+        else if (
+          tempChat &&
+          tempChat.sender.id !== chat.senderId
+        ) {
+          newChats = {
+            ...newChats,
+            [uuidv4()]: tempChat,
+          };
+          tempChat = { ...createNewTempChatObject(chat) };
+        }
+        tempChat.chats = {
+          ...tempChat.chats,
+          [newChat.id]: newChat,
+        };
+      }
+      // push last tempChat to newChats object
+      newChats = {
+        ...newChats,
+        [uuidv4()]: tempChat,
+      };
+
+      return { ...newChats };
+    });
+  }
+
+  function handleInitialJoinChatRoom(initialChannels) {
+    let joinedChatRoom = null;
+    for (const [key, value] of Object.entries(
+      initialChannels
+    )) {
+      const found = Object.entries(value.channelRooms).find(
+        ([key, value]) => value.roomType === TEXT
+      );
+
+      if (found) {
+        joinedChatRoom = {
+          channelId: key,
+          ...found[1],
+        };
+        break;
+      }
+    }
+
+    if (joinedChatRoom)
+      setJoinedChatRoom({ ...joinedChatRoom });
+
+    return joinedChatRoom;
+  }
+
+  // do something about channel rendering
+  // emit the initial channel socket data to be rendered
+  function handleInitialChannelsRender(initialChannels) {
     webRTCSocket.emit(
       "get-channels-data",
       {
@@ -824,12 +1114,19 @@ export default function CreativeStore() {
       (socketsInTheStore) => {
         setChannels(() => {
           return handleChannelRender(
-            initialValue,
+            initialChannels,
             socketsInTheStore
           );
         });
       }
     );
+  }
+
+  // do something about rendering
+  function handleInitialVisitorRender(initialVisitors) {
+    setVisitors(() => {
+      return [...initialVisitors];
+    });
   }
 
   function handleSignaledChannelsRender(socketsInTheStore) {
@@ -858,8 +1155,6 @@ export default function CreativeStore() {
       };
     });
   }
-
-  function handleJoinTextRoom() {}
 
   function handleDeleteSocketFromChannel(
     channelId,
@@ -985,38 +1280,55 @@ export default function CreativeStore() {
     setToggle(!toggleValue);
   }
 
-  async function handleJoinAudio(id) {
-    const audioElement = document.getElementById(id);
-    audioElement.currentTime = 0;
-    audioElement.play();
-  }
+  const handleOnSendMessage = useCallback(() => {
+    if (!login) return window.handleOpenOverriding(LOGIN);
+    if (!chatInputRef.current) return;
 
-  async function handleRoomSocketCleanUp(joinedRoom) {
-    // set room with the new value
-    if (!joinedRoom) return;
-    setJoinedStatus(DISCONNECTING);
-    handleChangeStatus("Leaving...");
-    console.log(
-      joinedRoom.channelId,
-      joinedRoom.roomId,
-      login.user
-    );
-    handleDeleteSocketFromChannel(
-      joinedRoom.channelId,
-      joinedRoom.roomId,
-      login.user
-    );
+    let isChat = false;
+    let isImage = false;
+    if (
+      chatInputRef.current &&
+      chatInputRef.current.value.length > 0
+    )
+      isChat = true;
 
-    // clear the joined room value
-    setJoinedRoom(null);
-    // signal the socket to leave the room and do some cleanup on the server side
-    await mediaSignaler.leaveRoom().then(() => {
-      // set joined status
-      setJoinedStatus(DISCONNECTED);
-      // set new connection status
-      handleChangeStatus(NO_STRING);
-    });
-  }
+    //TODO: later add imageURI support
+    console.log(chatInputRef.current.value);
+    chatSignaler.sendChat(
+      {
+        chat: chatInputRef.current.value,
+        imageURI: null,
+        isChat: isChat,
+        isImage: isImage,
+      },
+      joinedChatRoom
+    );
+    chatInputRef.current.value = null;
+  }, [joinedChatRoom]);
+
+  // this process will only render the user client side chat body, not the other peer
+  const listenJoinChatRoom = useCallback(
+    async (channel, room) => {
+      const newJoinedChatRoom = {
+        channelId: channel.channelId,
+        ...room,
+      };
+
+      // set the new joined chat room state
+      setJoinedChatRoom(() => {
+        return { ...newJoinedChatRoom };
+      });
+
+      // get the joined chat room datas from the database
+      const chats = await chatSignaler.getChatFromDatabase(
+        newJoinedChatRoom
+      );
+
+      // set the chat body state with the newly joined chat room datas
+      handleChatsRender(chats);
+    },
+    [joinedChatRoom]
+  );
 
   const listenJoinRoom = useCallback(
     async (channel, room, joinedRoom) => {
@@ -1028,6 +1340,7 @@ export default function CreativeStore() {
       // validate the connecting state, the desired room type, the login,
       // whether user connected to the room already,
       // and do some cleanups if user want to change room
+      if (room.roomType !== VOICE) return;
       if (
         joinedStatus === CONNECTING ||
         joinedStatus === DISCONNECTING
@@ -1042,8 +1355,6 @@ export default function CreativeStore() {
           modalToggle
         );
       }
-      if (room.roomType !== VOICE)
-        return handleJoinTextRoom();
       if (!login) return window.handleOpenOverriding(LOGIN);
       if (!room.roomId) return;
       if (
@@ -1064,6 +1375,29 @@ export default function CreativeStore() {
     },
     [joinedRoom, joinedStatus, mediaSignaler]
   );
+
+  const createNewChat = (chat) => {
+    return {
+      id: chat.id,
+      chatContent: chat.chatContent,
+      imageURI: chat.imageURI,
+      isChat: chat.isChat,
+      isImage: chat.isImage,
+      createdAt: chat.createdAt,
+      updatedAt: chat.updatedAt,
+    };
+  };
+
+  const createNewTempChatObject = (chat) => {
+    return {
+      sender: {
+        id: chat.senderId,
+        fullName: chat.senderFullName,
+        profilePictureURI: chat.senderProfilePictureUri,
+      },
+      chats: {},
+    };
+  };
 
   // COMPONENTS SPECIFIC //
   const ShowNewOrders = (props) => {
@@ -1128,52 +1462,7 @@ export default function CreativeStore() {
     );
   };
 
-  const ShowChatTexts = (props) => {
-    return props.datas.map((obj1, index1) => {
-      return (
-        <div
-          key={`creative-store-chattext-container-${index1}`}
-          className="creative-store-chattext-container">
-          <div className="creative-store-chattext-avatar">
-            <Avatar
-              style={{ cursor: "pointer" }}
-              round={true}
-              size={50}
-              src={obj1.user.profilePictureURI}
-              title={obj1.user.fullname}
-              name={obj1.user.fullname}
-            />
-          </div>
-          <div className="creative-store-chattext-wrapper">
-            <div>
-              <h4 className="creative-store-chattext-username">
-                {obj1.user.fullname}
-              </h4>
-              <small>
-                {
-                  obj1.chats[obj1.chats.length - 1]
-                    .createdAt
-                }
-              </small>
-            </div>
-            {obj1.chats.map((obj2, index2) => {
-              return (
-                <p
-                  key={`creative-store-chattext-p-${index2}`}>
-                  {obj2.content}
-                </p>
-              );
-            })}
-          </div>
-        </div>
-      );
-    });
-  };
-
   // MEMOIZE COMPONENTS
-  const showChats = useMemo(() => {
-    return <ShowChatTexts datas={initialChatTexts} />;
-  }, [initialChatTexts]);
 
   const showRightSidePanel = useMemo(() => {
     if (selectedRightPanel === TRANSACTION_ORDERS)
@@ -1181,33 +1470,45 @@ export default function CreativeStore() {
     return <ShowVisitors datas={visitor} />;
   }, [selectedRightPanel, visitor]);
 
-  // INITIAL RENDER AND INITIALIZATION
-  // useEffect(() => {
-  //   setWebRTCSocket(
-  //     connectWebsocket(
-  //       process.env.REACT_APP_WG_SIGNALER_SERVICE
-  //     )
-  //   );
-  // }, []);
+  useEffect(() => {
+    if (chatBodyContainerRef.current) {
+      const scrollHeight =
+        chatBodyContainerRef.current.scrollHeight;
+      chatBodyContainerRef.current.scrollTop = scrollHeight;
+    }
+  }, [chats]);
 
+  // INITIAL PEERS CONNECTION
   useEffect(() => {
     setWebRTCSocket(
       connectWebsocket(
         process.env.REACT_APP_WG_SIGNALER_SERVICE
       )
     );
+    setChatSocket(
+      connectWebsocket(
+        process.env.REACT_APP_FOREFRONT_HERMES_SERVICE
+      )
+    );
+    return () => {
+      if (webRTCSocket) webRTCSocket.disconnect();
+      if (chatSocket) chatSocket.disconnect();
+    };
   }, []);
 
+  // INITIAL RENDER AND INITIALIZATION
   useEffect(() => {
-    if (connectionStatus.webRTCSocketConnected) {
+    if (
+      connectionStatus.webRTCSocketFirstConnected &&
+      connectionStatus.chatSocketFirstConnected
+    ) {
       smoothScrollTop();
       handleInitialize();
     }
-
-    return () => {
-      if (webRTCSocket) webRTCSocket.disconnect();
-    };
-  }, [connectionStatus.webRTCSocketConnected]);
+  }, [
+    connectionStatus.webRTCSocketFirstConnected,
+    connectionStatus.chatSocketFirstConnected,
+  ]);
 
   // Placeholder message while redirecting to home page
   if (!storeId) {
@@ -1314,10 +1615,11 @@ export default function CreativeStore() {
               <div className="creative-store-sub-container creative-store-scrollable-menu-body">
                 <div className="creative-store-scrollable-menu-container">
                   <ShowChannels
-                    uniqueKey="desktop"
+                    uniqueKey="channels"
                     channels={channels}
                     joinedRoom={joinedRoom}
                     listenJoinRoom={listenJoinRoom}
+                    listenJoinChatRoom={listenJoinChatRoom}
                   />
                 </div>
               </div>
@@ -1353,12 +1655,20 @@ export default function CreativeStore() {
                     onClick={() => handleBottomSheet()}
                     className="creative-store-filter-button"
                   />
-                  <h4>📢︱announcement</h4>
+                  <h4>
+                    {joinedChatRoom &&
+                      joinedChatRoom.roomTitle}
+                  </h4>
                 </div>
               </div>
-              <div className="creative-store-chatbody-container dark-bg-color">
+              <div
+                ref={chatBodyContainerRef}
+                className="creative-store-chatbody-container dark-bg-color">
                 <div className="creative-store-chatbody-wrapper">
-                  {showChats}
+                  <ShowChatWrappers
+                    uniqueKey={"chats"}
+                    chats={chats}
+                  />
                 </div>
               </div>
               <div className="creative-store-chat-container dark-bg-color">
@@ -1370,8 +1680,12 @@ export default function CreativeStore() {
                   onClick={() => {}}
                   className="creative-store-chat-leftside-textinput-button creative-store-chat-leftside-textinput-button-gif"
                 />
-                <TextInput className="creative-store-chat-textinput light-color darker-bg-color"></TextInput>
-                <Button>Send</Button>
+                <TextInput
+                  ref={chatInputRef}
+                  className="creative-store-chat-textinput light-color darker-bg-color"></TextInput>
+                <Button onClick={handleOnSendMessage}>
+                  Send
+                </Button>
               </div>
             </div>
             <div className="creative-store-right-panel-container">

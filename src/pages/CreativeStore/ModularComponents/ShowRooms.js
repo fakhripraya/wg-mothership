@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import ShowSockets from "./ShowSockets";
+import { TEXT } from "../../../variables/constants/creativeStore";
 
 const ShowRoom = (props) => {
   return useMemo(() => {
@@ -7,13 +8,20 @@ const ShowRoom = (props) => {
       <button
         key={`${props.uniqueKey}-dynamic-accordion-${props.value[1].roomTitle}-${props.index}`}
         className="dynamic-accordion-button creative-store-dynamic-accordion-button"
-        onClick={() =>
-          props.listenJoinRoom(
+        onClick={() => {
+          // if the room is chat room, it will process the middle panel render (chat body)
+          // else the room is voice room, it will process the left panel render
+          if (props.value[1].roomType === TEXT)
+            return props.listenJoinChatRoom(
+              props.parentValue[1],
+              props.value[1]
+            );
+          return props.listenJoinRoom(
             props.parentValue[1],
             props.value[1],
             props.joinedRoom
-          )
-        }>
+          );
+        }}>
         <h6 className="dynamic-accordion-subtitle light-color">
           {props.value[1].roomTitle}
         </h6>
@@ -39,6 +47,7 @@ const ShowRooms = (props) => {
             joinedRoom={props.joinedRoom}
             parentValue={props.value}
             listenJoinRoom={props.listenJoinRoom}
+            listenJoinChatRoom={props.listenJoinChatRoom}
           />
         );
       }

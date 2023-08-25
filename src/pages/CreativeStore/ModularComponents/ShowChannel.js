@@ -19,6 +19,7 @@ const ShowChannel = (props) => {
             value={props.value}
             joinedRoom={props.joinedRoom}
             listenJoinRoom={props.listenJoinRoom}
+            listenJoinChatRoom={props.listenJoinChatRoom}
           />
         </DynamicAccordion>
         {props.channels.length - 1 !== props.index && (
@@ -41,6 +42,7 @@ const ShowChannels = (props) => {
             channels={props.channels}
             joinedRoom={props.joinedRoom}
             listenJoinRoom={props.listenJoinRoom}
+            listenJoinChatRoom={props.listenJoinChatRoom}
           />
         );
       }
