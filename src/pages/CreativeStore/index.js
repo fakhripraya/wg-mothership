@@ -1006,14 +1006,12 @@ export default function CreativeStore() {
       const previousChatObjects = Object.entries(newChats);
       const previousChatObjectsLastIndex =
         previousChatObjects.length - 1;
+      const lastSenderObject =
+        previousChatObjects[previousChatObjectsLastIndex];
       const lastSenderId =
-        previousChatObjects[previousChatObjectsLastIndex][1]
-          .sender.id;
-      const lastSenderObjectKey =
-        previousChatObjects[
-          previousChatObjectsLastIndex
-        ][0];
-      if (lastSenderId === login.user.userId) {
+        lastSenderObject && lastSenderObject[1].sender.id;
+      if (lastSenderId === addingChat.senderId) {
+        const lastSenderObjectKey = lastSenderObject[0];
         newChats = {
           ...newChats,
           [lastSenderObjectKey]: {
@@ -1031,9 +1029,11 @@ export default function CreativeStore() {
           ...createNewTempChatObject(addingChat),
         };
         tempNewChatObject.chats = {
+          ...tempNewChatObject.chats,
           [newChat.id]: newChat,
         };
         newChats = {
+          ...newChats,
           [newChatObjectKey]: tempNewChatObject,
         };
       }
@@ -1044,9 +1044,9 @@ export default function CreativeStore() {
 
   // do something about chat rendering
   function handleChatsRender(addingChats) {
-    if (addingChats.length === 0) return;
     setChats((oldChats) => {
-      let newChats = { ...oldChats };
+      if (addingChats.length === 0) return {};
+      let newChats = {};
       let tempChat = null;
       for (const [key, chat] of Object.entries(
         addingChats
