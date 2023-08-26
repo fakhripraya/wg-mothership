@@ -81,6 +81,9 @@ export default function CreativeStore() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // STATES //
+  const [storeId, setStoreId] = useState(
+    searchParams.get("id")
+  );
   const [chatSocket, setChatSocket] = useState(null);
   const [webRTCSocket, setWebRTCSocket] = useState(null);
   const [rendered, setRendered] = useState(false);
@@ -107,7 +110,6 @@ export default function CreativeStore() {
   });
 
   // VARIABLES //
-  const storeId = searchParams.get("id");
   let login = cookies.get(CLIENT_USER_INFO);
   // device variable used to store device
   // to create send/consume transport with the given rtpCapabilities
@@ -157,6 +159,7 @@ export default function CreativeStore() {
       this.peerRef.on(
         "receive-channels-data",
         (socketsInTheStore) => {
+          console.log("test");
           handleSignaledChannelsRender(socketsInTheStore);
         }
       );
@@ -715,7 +718,7 @@ export default function CreativeStore() {
   class ChatSignaler {
     constructor(peerRef) {
       this.peerRef = peerRef;
-      this.joinedRoom = null;
+      this.joinedChatRoom = null;
 
       // SOCKET EVENTS LISTENER//
       // server informs the client of user joining the room
@@ -747,6 +750,18 @@ export default function CreativeStore() {
       this.peerRef.on("disconnect", () => {});
     }
 
+    get joinedChatRoom() {
+      return this._joinedChatRoom;
+    }
+
+    set joinedChatRoom(joinedChatRoom) {
+      if (typeof joinedChatRoom === "undefined")
+        throw new Error(
+          "Unable to set 'joinedChatRoom' property with undefined value"
+        );
+      this._joinedChatRoom = joinedChatRoom;
+    }
+
     async getChatFromDatabase(joinedChatRoom) {
       const chats = await db.creative_store_chats
         .orderBy(":id")
@@ -755,7 +770,7 @@ export default function CreativeStore() {
             filter.roomId === joinedChatRoom.roomId
         )
         .offset(25 * chatPagination) // offset the record first
-        .reverse() // reverse it cause we want it from last to first
+        //.reverse() // reverse it cause we want it from last to first
         .limit(25)
         .toArray();
 
@@ -763,6 +778,7 @@ export default function CreativeStore() {
     }
 
     saveChatToDatabase({ content, roomId, channelId }) {
+      console.log(roomId);
       // Do some application logic on the database:
       // do some local db for storing the newly signaled chat
       // let it run asynchronously
@@ -815,6 +831,7 @@ export default function CreativeStore() {
           login.user.profilePictureUri,
       };
 
+      console.log(joinedChatRoom);
       const chatData = {
         content: content,
         roomId: joinedChatRoom.roomId,
@@ -852,6 +869,13 @@ export default function CreativeStore() {
       });
     } catch (error) {
       handleModalError(error);
+    }
+
+    if (result.responseStatus === 204) {
+      chatSocket.disconnect();
+      webRTCSocket.disconnect();
+      setStoreId(null);
+      return;
     }
 
     // render all the left panel datas
@@ -999,7 +1023,13 @@ export default function CreativeStore() {
     return { ...newChannels };
   }
 
-  function handleNewSendedChatRender(addingChat) {
+  const handleNewSendedChatRender = (addingChat) => {
+    console.log(chatSignaler.joinedChatRoom);
+    if (
+      addingChat.roomId !==
+      chatSignaler.joinedChatRoom.roomId
+    )
+      return;
     if (addingChat.length === 0) return;
     setChats((oldChats) => {
       let newChats = { ...oldChats };
@@ -1040,11 +1070,11 @@ export default function CreativeStore() {
 
       return { ...newChats };
     });
-  }
+  };
 
   // do something about chat rendering
   function handleChatsRender(addingChats) {
-    setChats((oldChats) => {
+    setChats(() => {
       if (addingChats.length === 0) return {};
       let newChats = {};
       let tempChat = null;
@@ -1058,6 +1088,9 @@ export default function CreativeStore() {
           tempChat &&
           tempChat.sender.id !== chat.senderId
         ) {
+          // TODO: chat arent rendered in order,
+          // presumably because of it didnt get from the database when render
+          // or presumably because of the key being uuid
           newChats = {
             ...newChats,
             [uuidv4()]: tempChat,
@@ -1075,6 +1108,8 @@ export default function CreativeStore() {
         [uuidv4()]: tempChat,
       };
 
+      console.log(newChats);
+
       return { ...newChats };
     });
   }
@@ -1085,7 +1120,7 @@ export default function CreativeStore() {
       initialChannels
     )) {
       const found = Object.entries(value.channelRooms).find(
-        ([key, value]) => value.roomType === TEXT
+        ([, value]) => value.roomType === TEXT
       );
 
       if (found) {
@@ -1097,8 +1132,15 @@ export default function CreativeStore() {
       }
     }
 
-    if (joinedChatRoom)
+    console.log(joinedChatRoom);
+    if (joinedChatRoom) {
+      // set the joined chat room state
       setJoinedChatRoom({ ...joinedChatRoom });
+      // set the chatSignaler joinedChatRoom properties to a new value
+      chatSignaler.joinedChatRoom = {
+        ...joinedChatRoom,
+      };
+    }
 
     return joinedChatRoom;
   }
@@ -1307,28 +1349,29 @@ export default function CreativeStore() {
   }, [joinedChatRoom]);
 
   // this process will only render the user client side chat body, not the other peer
-  const listenJoinChatRoom = useCallback(
-    async (channel, room) => {
-      const newJoinedChatRoom = {
-        channelId: channel.channelId,
-        ...room,
-      };
+  const listenJoinChatRoom = async (channel, room) => {
+    const newJoinedChatRoom = {
+      channelId: channel.channelId,
+      ...room,
+    };
 
-      // set the new joined chat room state
-      setJoinedChatRoom(() => {
-        return { ...newJoinedChatRoom };
-      });
+    // set the new joined chat room state
+    setJoinedChatRoom(() => {
+      return { ...newJoinedChatRoom };
+    });
+    // set the chatSignaler joinedChatRoom properties to a new value
+    chatSignaler.joinedChatRoom = {
+      ...newJoinedChatRoom,
+    };
 
-      // get the joined chat room datas from the database
-      const chats = await chatSignaler.getChatFromDatabase(
-        newJoinedChatRoom
-      );
+    // get the joined chat room datas from the database
+    const chats = await chatSignaler.getChatFromDatabase(
+      newJoinedChatRoom
+    );
 
-      // set the chat body state with the newly joined chat room datas
-      handleChatsRender(chats);
-    },
-    [joinedChatRoom]
-  );
+    // set the chat body state with the newly joined chat room datas
+    handleChatsRender(chats);
+  };
 
   const listenJoinRoom = useCallback(
     async (channel, room, joinedRoom) => {
@@ -1602,7 +1645,7 @@ export default function CreativeStore() {
               <div className="creative-store-sub-container creative-store-add-menu">
                 <div className="creative-store-add-menu-wording">
                   <h4 className="white-color">
-                    Tambah Kategori
+                    Setting Toko
                   </h4>
                   <span className="creative-store-plus-button" />
                 </div>
@@ -1610,6 +1653,9 @@ export default function CreativeStore() {
               <div className="creative-store-sub-container creative-store-scrollable-menu-header">
                 <Button className="creative-store-scrollable-menu-button">
                   Katalog
+                </Button>
+                <Button className="creative-store-scrollable-menu-button">
+                  Tambah Kategori
                 </Button>
               </div>
               <div className="creative-store-sub-container creative-store-scrollable-menu-body">
@@ -1681,6 +1727,7 @@ export default function CreativeStore() {
                   className="creative-store-chat-leftside-textinput-button creative-store-chat-leftside-textinput-button-gif"
                 />
                 <TextInput
+                  onEnter={handleOnSendMessage}
                   ref={chatInputRef}
                   className="creative-store-chat-textinput light-color darker-bg-color"></TextInput>
                 <Button onClick={handleOnSendMessage}>

@@ -6,6 +6,11 @@ const TextInput = React.forwardRef((props, ref) => (
     ref={ref}
     value={props.value}
     style={props.style}
+    onKeyUp={(e) => {
+      if (e.key === "Enter" || e.keyCode === 13) {
+        props.onEnter();
+      }
+    }}
     onChange={props.onChange}
     maxLength={props.maxLength}
     type={props.type}
