@@ -81,7 +81,7 @@ function App() {
         // Your scroll handling logic here
         // Update your state or perform any necessary actions
         handleStyleChange();
-      }, 300); // Adjust the delay as needed (300 milliseconds in this example)
+      }, 150); // Adjust the delay as needed (300 milliseconds in this example)
     };
 
     window.addEventListener("scroll", handleScroll);

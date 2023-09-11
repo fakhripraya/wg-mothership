@@ -360,6 +360,8 @@ export default function Navbar() {
     else return <ShowLogoutModal />;
   };
 
+  console.log("a");
+
   // RENDERS SPECIFIC //
   useEffect(() => {
     const handleScroll = () => {
@@ -371,7 +373,7 @@ export default function Navbar() {
         // Your scroll handling logic here
         // Update your state or perform any necessary actions
         handleNavbarHide();
-      }, 300); // Adjust the delay as needed (300 milliseconds in this example)
+      }, 150); // Adjust the delay as needed (300 milliseconds in this example)
     };
     window.addEventListener("scroll", handleScroll);
     // Get the query param from the url
