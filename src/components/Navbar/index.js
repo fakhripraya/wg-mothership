@@ -54,6 +54,7 @@ export default function Navbar() {
   const credentialService = useAxios();
 
   // VARIABLES
+  let timer = null;
   let navbarDisplayAdditionalClassName = "";
   const isRender = window.location.pathname.includes(
     "creative-store"
@@ -361,7 +362,18 @@ export default function Navbar() {
 
   // RENDERS SPECIFIC //
   useEffect(() => {
-    window.addEventListener("scroll", handleNavbarHide);
+    const handleScroll = () => {
+      // Clear the previous timer if it exists
+      if (timer) clearTimeout(timer);
+
+      // Set a new timer to execute the scroll handling function after a delay
+      timer = setTimeout(() => {
+        // Your scroll handling logic here
+        // Update your state or perform any necessary actions
+        handleNavbarHide();
+      }, 300); // Adjust the delay as needed (300 milliseconds in this example)
+    };
+    window.addEventListener("scroll", handleScroll);
     // Get the query param from the url
     const recoveryToken = searchParams.get("recoveryToken");
     const searchParamScopes = searchParams.get("scope");
@@ -377,10 +389,7 @@ export default function Navbar() {
     else if (toggleOpenWindow)
       window.handleOpenOverriding(toggleOpenWindow);
     return () =>
-      window.removeEventListener(
-        "scroll",
-        handleNavbarHide
-      );
+      window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (

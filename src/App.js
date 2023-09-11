@@ -2,6 +2,7 @@ import "./App.scss";
 import React, {
   Fragment,
   Suspense,
+  useCallback,
   useEffect,
   useState,
 } from "react";
@@ -23,10 +24,17 @@ import {
 import { styleInitialState } from "./variables/styles/app";
 import { Cache, ConfigProvider } from "react-avatar";
 import Spinner from "./components/Spinner";
+import {
+  SHOW_HELP,
+  SHOW_MENU_SCROLL_TOP,
+} from "./variables/global";
 
 function App() {
+  // STATE
   const [style, setStyle] = useState(styleInitialState);
 
+  // VARIABLES
+  let timer = null;
   const history = createBrowserHistory({
     forceRefresh: true,
   });
@@ -38,6 +46,7 @@ function App() {
     sourceSize: 20,
   });
 
+  // POLLYFILLS
   // kick off the polyfill!
   // smoothen scrolling on iphone
   smoothscroll.polyfill();
@@ -48,27 +57,37 @@ function App() {
   }
 
   function handleStyleChange() {
-    if (window.scrollY > 200)
-      setStyle({
-        floatButton: { transform: "scale(0)" },
-        ScrollTopButton: { transform: "scale(1)" },
-      });
-    else
-      setStyle({
+    setStyle(() => {
+      if (window.scrollY > 200)
+        return {
+          floatButton: { transform: "scale(0)" },
+          ScrollTopButton: { transform: "scale(1)" },
+        };
+
+      return {
         floatButton: { transform: "scale(1)" },
         ScrollTopButton: { transform: "scale(0)" },
-      });
+      };
+    });
   }
 
-  //COMPONENT FUNCTION
-
   useEffect(() => {
-    window.addEventListener("scroll", handleStyleChange);
+    const handleScroll = () => {
+      // Clear the previous timer if it exists
+      if (timer) clearTimeout(timer);
+
+      // Set a new timer to execute the scroll handling function after a delay
+      timer = setTimeout(() => {
+        // Your scroll handling logic here
+        // Update your state or perform any necessary actions
+        handleStyleChange();
+      }, 300); // Adjust the delay as needed (300 milliseconds in this example)
+    };
+
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener(
-        "scroll",
-        handleStyleChange
-      );
+      window.removeEventListener("scroll", handleScroll);
+      if (timer) clearTimeout(timer);
     };
   }, []);
 
