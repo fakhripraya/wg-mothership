@@ -130,7 +130,6 @@ export default function Navbar() {
   function handleNavbarHide() {
     if (window.scrollY > 80)
       setNavbarStyle({ transform: "translateY(-100%)" });
-    else setNavbarStyle({ transform: "translateY(0)" });
   }
 
   function handlePageNavigation(navMenu) {
@@ -367,7 +366,8 @@ export default function Navbar() {
     const handleScroll = () => {
       // Clear the previous timer if it exists
       if (timer) clearTimeout(timer);
-
+      if (window.scrollY <= 80)
+        setNavbarStyle({ transform: "translateY(0)" });
       // Set a new timer to execute the scroll handling function after a delay
       timer = setTimeout(() => {
         // Your scroll handling logic here
