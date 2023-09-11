@@ -66,63 +66,58 @@ export default function Dashboard() {
 
   // FUNCTIONS
   function handleInitialize() {
-    trackPromise(
-      zeusService
-        .getDataWithOnRequestInterceptors(
-          {
-            headers: {
-              [AUTHORIZATION]: `Bearer ${
-                cookies.get(CLIENT_USER_INFO, {
-                  path: "/",
-                }).credentialToken.accessToken
-              }`,
-              [X_SID]: cookies.get(CLIENT_USER_INFO, {
+    zeusService
+      .getDataWithOnRequestInterceptors(
+        {
+          headers: {
+            [AUTHORIZATION]: `Bearer ${
+              cookies.get(CLIENT_USER_INFO, {
                 path: "/",
-              }).sid,
-            },
-            endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-            url: URL_GET_DASHBOARD_STORES(
-              login.user.userId
-            ),
+              }).credentialToken.accessToken
+            }`,
+            [X_SID]: cookies.get(CLIENT_USER_INFO, {
+              path: "/",
+            }).sid,
           },
-          async () => {
-            const result = await checkAuthAndRefresh(
-              zeusService,
-              cookies
-            );
-            if (result.responseStatus === 200)
-              login = cookies.get(CLIENT_USER_INFO);
-            return result;
-          }
-        )
-        .then((result) => {
-          if (result.responseStatus === 200) {
-            setUserStores(result.responseData);
-            if (result.responseData.length <= 0) {
-              let temp = { ...selectedStore };
-              temp.storeName = "Buat Toko";
-              setSelectedStore(temp);
-            } else setSelectedStore(result.responseData[0]);
-          }
-        })
-        .catch((error) => {
-          if (error.responseStatus === 500)
-            handleError500();
-          if (
-            error.responseStatus === 401 ||
-            error.responseStatus === 403
-          ) {
-            cookies.remove(CLIENT_USER_INFO, { path: "/" });
-            handleOpenOverridingHome(LOGIN);
-          } else
-            handleErrorMessage(
-              error,
-              setErrorMessage,
-              setModalToggle,
-              modalToggle
-            );
-        })
-    );
+          endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+          url: URL_GET_DASHBOARD_STORES(login.user.userId),
+        },
+        async () => {
+          const result = await checkAuthAndRefresh(
+            zeusService,
+            cookies
+          );
+          if (result.responseStatus === 200)
+            login = cookies.get(CLIENT_USER_INFO);
+          return result;
+        }
+      )
+      .then((result) => {
+        if (result.responseStatus === 200) {
+          setUserStores(result.responseData);
+          if (result.responseData.length <= 0) {
+            let temp = { ...selectedStore };
+            temp.storeName = "Buat Toko";
+            setSelectedStore(temp);
+          } else setSelectedStore(result.responseData[0]);
+        }
+      })
+      .catch((error) => {
+        if (error.responseStatus === 500) handleError500();
+        if (
+          error.responseStatus === 401 ||
+          error.responseStatus === 403
+        ) {
+          cookies.remove(CLIENT_USER_INFO, { path: "/" });
+          handleOpenOverridingHome(LOGIN);
+        } else
+          handleErrorMessage(
+            error,
+            setErrorMessage,
+            setModalToggle,
+            modalToggle
+          );
+      });
   }
 
   function handleBottomSheet() {

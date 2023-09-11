@@ -499,92 +499,18 @@ export const initialChatTexts = [
 export const initialVisitors = [
   {
     fullname: "Fullan",
-    userRank: "Newcomer",
+    statusMessage: "",
   },
   {
     fullname: "Wulling",
-    userRank: "Veteran",
+    statusMessage: "Sedang menjalin cinta",
   },
   {
     fullname: "BagasMetalica",
-    userRank: "Master",
+    statusMessage: "",
   },
   {
     fullname: "John Doe",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "Alice Johnson",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "Michael Smith",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "Emily Williams",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "David Brown",
-    userRank: "Newcomer",
-  },
-  // ... 45 more objects ...
-
-  {
-    fullname: "Sophia Lee",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "John Doe",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "Alice Johnson",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "Michael Smith",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "Emily Williams",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "David Brown",
-    userRank: "Newcomer",
-  },
-  // ... 45 more objects ...
-
-  {
-    fullname: "Sophia Lee",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "John Doe",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "Alice Johnson",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "Michael Smith",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "Emily Williams",
-    userRank: "Newcomer",
-  },
-  {
-    fullname: "David Brown",
-    userRank: "Newcomer",
-  },
-  // ... 45 more objects ...
-
-  {
-    fullname: "Sophia Lee",
-    userRank: "Newcomer",
+    statusMessage: "Gatau ah",
   },
 ];

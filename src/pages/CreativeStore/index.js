@@ -17,7 +17,6 @@ import {
 import FloatButton from "../../components/FloatButton";
 import BottomSheet from "../../components/BottomSheet";
 import {
-  initialChatTexts,
   initialLeftPanelDatas,
   initialVisitors,
 } from "../../variables/initial/creativeStore";
@@ -723,7 +722,10 @@ export default function CreativeStore() {
       // SOCKET EVENTS LISTENER//
       // server informs the client of user joining the room
       this.peerRef.on("connection-success", (callback) => {
-        handleInitialVisitorRender(initialVisitors);
+        handleRightSideRender(
+          initialVisitors,
+          initialVisitors
+        );
         setConnectionStatus((val) => {
           return {
             ...val,
@@ -1154,9 +1156,15 @@ export default function CreativeStore() {
   }
 
   // do something about rendering
-  function handleInitialVisitorRender(initialVisitors) {
+  function handleRightSideRender(
+    initialVisitors,
+    initialPurchaseOrders
+  ) {
     setVisitors(() => {
       return [...initialVisitors];
+    });
+    setPurchaseOrders(() => {
+      return [...initialPurchaseOrders];
     });
   }
 
@@ -1452,7 +1460,7 @@ export default function CreativeStore() {
                     <label className="light-color">
                       {obj.fullname}
                     </label>
-                    <small>{obj.userRank}</small>
+                    <small>{obj.statusMessage}</small>
                   </div>
                 </div>
               );
@@ -1483,7 +1491,7 @@ export default function CreativeStore() {
                     <label className="light-color cursor-pointer">
                       {obj.fullname}
                     </label>
-                    <small>{obj.userRank}</small>
+                    <small>{obj.statusMessage}</small>
                   </div>
                 </div>
               );
