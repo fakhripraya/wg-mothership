@@ -91,6 +91,7 @@ export default function CreativeStore() {
   const [channels, setChannels] = useState({});
   const [chats, setChats] = useState({});
   const [visitor, setVisitors] = useState([]);
+  const [purchaseOrders, setPurchaseOrders] = useState([]);
   const [joinedRoom, setJoinedRoom] = useState(null);
   const [joinedChatRoom, setJoinedChatRoom] =
     useState(null);
@@ -159,7 +160,6 @@ export default function CreativeStore() {
       this.peerRef.on(
         "receive-channels-data",
         (socketsInTheStore) => {
-          console.log("test");
           handleSignaledChannelsRender(socketsInTheStore);
         }
       );
@@ -778,7 +778,6 @@ export default function CreativeStore() {
     }
 
     saveChatToDatabase({ content, roomId, channelId }) {
-      console.log(roomId);
       // Do some application logic on the database:
       // do some local db for storing the newly signaled chat
       // let it run asynchronously
@@ -831,7 +830,6 @@ export default function CreativeStore() {
           login.user.profilePictureUri,
       };
 
-      console.log(joinedChatRoom);
       const chatData = {
         content: content,
         roomId: joinedChatRoom.roomId,
@@ -912,11 +910,6 @@ export default function CreativeStore() {
     if (!joinedRoom) return;
     setJoinedStatus(DISCONNECTING);
     handleChangeStatus("Leaving...");
-    console.log(
-      joinedRoom.channelId,
-      joinedRoom.roomId,
-      login.user
-    );
     handleDeleteSocketFromChannel(
       joinedRoom.channelId,
       joinedRoom.roomId,
@@ -1024,7 +1017,6 @@ export default function CreativeStore() {
   }
 
   const handleNewSendedChatRender = (addingChat) => {
-    console.log(chatSignaler.joinedChatRoom);
     if (
       addingChat.roomId !==
       chatSignaler.joinedChatRoom.roomId
@@ -1108,8 +1100,6 @@ export default function CreativeStore() {
         [uuidv4()]: tempChat,
       };
 
-      console.log(newChats);
-
       return { ...newChats };
     });
   }
@@ -1132,7 +1122,6 @@ export default function CreativeStore() {
       }
     }
 
-    console.log(joinedChatRoom);
     if (joinedChatRoom) {
       // set the joined chat room state
       setJoinedChatRoom({ ...joinedChatRoom });
@@ -1335,7 +1324,6 @@ export default function CreativeStore() {
       isChat = true;
 
     //TODO: later add imageURI support
-    console.log(chatInputRef.current.value);
     chatSignaler.sendChat(
       {
         chat: chatInputRef.current.value,
@@ -1443,7 +1431,7 @@ export default function CreativeStore() {
   };
 
   // COMPONENTS SPECIFIC //
-  const ShowNewOrders = (props) => {
+  const ShowNewPurchaseOrders = (props) => {
     return (
       <Fragment>
         <div className="creative-store-scrollable-visitor-container">
@@ -1509,7 +1497,9 @@ export default function CreativeStore() {
 
   const showRightSidePanel = useMemo(() => {
     if (selectedRightPanel === TRANSACTION_ORDERS)
-      return <ShowNewOrders datas={visitor} />;
+      return (
+        <ShowNewPurchaseOrders datas={purchaseOrders} />
+      );
     return <ShowVisitors datas={visitor} />;
   }, [selectedRightPanel, visitor]);
 
@@ -1569,7 +1559,7 @@ export default function CreativeStore() {
 
   // TODO: Make a retry function of websocket and render the loading screen of reconnecting
   return (
-    <Fragment>
+    <div className="creative-store">
       <PageLoading
         className={
           rendered ? "hidden no-height" : "visible"
@@ -1782,6 +1772,6 @@ export default function CreativeStore() {
         clicked={handleBottomSheet}>
         <div className="creative-store-mobile-tools-container"></div>
       </BottomSheet>
-    </Fragment>
+    </div>
   );
 }

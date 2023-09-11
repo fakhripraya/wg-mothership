@@ -126,7 +126,6 @@ export default function Navbar() {
       )[0].style.overflow = "hidden";
   }
 
-  // TODO: FIX SCROLL RERENDER PLS
   function handleNavbarHide() {
     if (window.scrollY > 80)
       setNavbarStyle({ transform: "translateY(-100%)" });
