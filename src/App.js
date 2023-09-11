@@ -57,25 +57,22 @@ function App() {
   }
 
   function handleStyleChange() {
-    setStyle(() => {
-      if (window.scrollY > 200)
-        return {
-          floatButton: { transform: "scale(0)" },
-          ScrollTopButton: { transform: "scale(1)" },
-        };
-
-      return {
-        floatButton: { transform: "scale(1)" },
-        ScrollTopButton: { transform: "scale(0)" },
-      };
-    });
+    if (window.scrollY > 200)
+      setStyle({
+        floatButton: { transform: "scale(0)" },
+        ScrollTopButton: { transform: "scale(1)" },
+      });
   }
 
   useEffect(() => {
     const handleScroll = () => {
       // Clear the previous timer if it exists
       if (timer) clearTimeout(timer);
-
+      if (window.scrollY <= 80)
+        setStyle({
+          floatButton: { transform: "scale(1)" },
+          ScrollTopButton: { transform: "scale(0)" },
+        });
       // Set a new timer to execute the scroll handling function after a delay
       timer = setTimeout(() => {
         // Your scroll handling logic here
