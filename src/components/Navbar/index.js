@@ -358,8 +358,6 @@ export default function Navbar() {
     else return <ShowLogoutModal />;
   };
 
-  console.log("a");
-
   // RENDERS SPECIFIC //
   useEffect(() => {
     const handleScroll = () => {

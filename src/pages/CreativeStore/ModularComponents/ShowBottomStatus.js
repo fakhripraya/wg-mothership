@@ -1,16 +1,32 @@
 import { Fragment, useMemo } from "react";
 import { CONNECTED } from "../../../variables/constants/creativeStore";
 
-const ShowBottomStatus = (props) => {
+export const ShowFullName = (props) => {
+  return useMemo(() => {
+    return (
+      <div className="creative-store-store-text-container">
+        <h4 className="creative-store-store-text text-ellipsis">
+          {props.fullName}
+        </h4>
+        <div className="creative-store-store-text-container">
+          <small className="creative-store-store-text text-ellipsis">
+            {props.statusMessage}
+          </small>
+        </div>
+      </div>
+    );
+  }, [props.connectionStatus]);
+};
+
+export const ShowBottomStatus = (props) => {
   return useMemo(() => {
     return (
       <Fragment>
         <div className="creative-store-user-avatar-side-container">
-          <div className="creative-store-store-text-container">
-            <h4 className="creative-store-store-text text-ellipsis">
-              {props.login.user.fullName}
-            </h4>
-          </div>
+          <ShowFullName
+            connectionStatus={props.connectionStatus}
+            fullName={props.login.user.fullName}
+          />
           <div className="creative-store-store-text-container">
             <small className="creative-store-store-text text-ellipsis">
               {props.connectionStatus.webRTCStatus}
@@ -40,5 +56,3 @@ const ShowBottomStatus = (props) => {
     );
   }, [props.connectionStatus]);
 };
-
-export default ShowBottomStatus;

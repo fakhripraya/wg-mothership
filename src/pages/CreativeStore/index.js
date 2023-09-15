@@ -12,13 +12,14 @@ import {
   handleError500,
   handleErrorMessage,
   removeAllChildNodes,
+  showDisplayName,
   smoothScrollTop,
 } from "../../utils/functions/global";
 import FloatButton from "../../components/FloatButton";
 import BottomSheet from "../../components/BottomSheet";
 import {
   initialLeftPanelDatas,
-  initialVisitors,
+  initialPurchaseOrders,
 } from "../../variables/initial/creativeStore";
 import Avatar from "react-avatar";
 import TextInput from "../../components/TextInput";
@@ -60,7 +61,10 @@ import {
 import { Device } from "mediasoup-client";
 import ErrorHandling from "../ErrorHandling";
 import ShowChannels from "./ModularComponents/ShowChannel";
-import ShowBottomStatus from "./ModularComponents/ShowBottomStatus";
+import {
+  ShowBottomStatus,
+  ShowFullName,
+} from "./ModularComponents/ShowBottomStatus";
 import Modal from "../../components/Modal";
 import { ShowErrorModal } from "./ModularComponents/ShowModals";
 import PageLoading from "../PageLoading";
@@ -68,6 +72,8 @@ import { creativeStoreDb as db } from "../../config/dexie";
 import moment from "moment/moment";
 import ShowChatWrappers from "./ModularComponents/ShowChats";
 import { v4 as uuidv4 } from "uuid";
+import ShowVisitors from "./ModularComponents/ShowVisitors";
+import ShowNewPurchaseOrders from "./ModularComponents/ShowPurchaseOrders";
 
 export default function CreativeStore() {
   // REFS //
@@ -80,6 +86,7 @@ export default function CreativeStore() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // STATES //
+  const [userJoin, setUserJoin] = useState(null);
   const [storeId, setStoreId] = useState(
     searchParams.get("id")
   );
@@ -722,19 +729,26 @@ export default function CreativeStore() {
       // SOCKET EVENTS LISTENER//
       // server informs the client of user joining the room
       this.peerRef.on("connection-success", (callback) => {
-        handleRightSideRender(
-          initialVisitors,
-          initialVisitors
-        );
-        setConnectionStatus((val) => {
-          return {
-            ...val,
-            chatSocketStatus: CONNECTED,
-            chatSocketFirstConnected: true,
-          };
+        callback({
+          storeId: storeId,
+          user: login && login.user,
         });
-        callback(storeId);
       });
+
+      this.peerRef.on(
+        "new-connection-render",
+        ({ allJoinedUsers, user }) => {
+          if (user) setUserJoin(user);
+          handleVisitorsRender(allJoinedUsers);
+          setConnectionStatus((val) => {
+            return {
+              ...val,
+              chatSocketStatus: CONNECTED,
+              chatSocketFirstConnected: true,
+            };
+          });
+        }
+      );
 
       this.peerRef.on(
         "receive-chat",
@@ -783,6 +797,7 @@ export default function CreativeStore() {
       // Do some application logic on the database:
       // do some local db for storing the newly signaled chat
       // let it run asynchronously
+      // TODO: add server ID to accurately save the identifier
       db.transaction(
         "rw",
         db.creative_store_chats,
@@ -880,6 +895,8 @@ export default function CreativeStore() {
 
     // render all the left panel datas
     // and set the initial joined chat room
+    // also handle the purchase orders render here
+    handlePurchaseOrdersRender(initialPurchaseOrders);
     handleInitialChannelsRender(initialLeftPanelDatas);
     const joinedChatRoom = handleInitialJoinChatRoom(
       initialLeftPanelDatas
@@ -938,6 +955,15 @@ export default function CreativeStore() {
         setModalToggle,
         modalToggle
       );
+  }
+
+  function handleSelectRightPanel(code) {
+    setSelectedRightPanel(code);
+  }
+
+  function handleSelectedRightPanelClassname(code) {
+    if (code === selectedRightPanel) return "-active";
+    else return "";
   }
 
   function handleClearChannel(channels) {
@@ -1156,17 +1182,20 @@ export default function CreativeStore() {
   }
 
   // do something about rendering
-  function handleRightSideRender(
-    initialVisitors,
-    initialPurchaseOrders
-  ) {
+  function handleVisitorsRender(joinedUsers) {
+    console.log(joinedUsers);
     setVisitors(() => {
-      return [...initialVisitors];
-    });
-    setPurchaseOrders(() => {
-      return [...initialPurchaseOrders];
+      return { ...joinedUsers };
     });
   }
+
+  function handlePurchaseOrdersRender(purchaseOrders) {
+    setPurchaseOrders(() => {
+      return [...purchaseOrders];
+    });
+  }
+
+  function handleAddPurchaseOrder(newPurchaseOrder) {}
 
   function handleSignaledChannelsRender(socketsInTheStore) {
     // do something about rendering
@@ -1438,78 +1467,14 @@ export default function CreativeStore() {
     };
   };
 
-  // COMPONENTS SPECIFIC //
-  const ShowNewPurchaseOrders = (props) => {
-    return (
-      <Fragment>
-        <div className="creative-store-scrollable-visitor-container">
-          {props.datas &&
-            props.datas.map((obj, index) => {
-              return (
-                <div
-                  className="creative-store-visitor-user"
-                  key={`creative-store-visitor-user-${index}`}>
-                  <Avatar
-                    style={{ cursor: "pointer" }}
-                    size={40}
-                    round={true}
-                    title={obj.fullname}
-                    name={obj.fullname}
-                  />
-                  <div className="creative-store-visitor-user-text-container">
-                    <label className="light-color">
-                      {obj.fullname}
-                    </label>
-                    <small>{obj.statusMessage}</small>
-                  </div>
-                </div>
-              );
-            })}
-        </div>
-      </Fragment>
-    );
-  };
-
-  const ShowVisitors = (props) => {
-    return (
-      <Fragment>
-        <div className="creative-store-scrollable-visitor-container">
-          {props.datas &&
-            props.datas.map((obj, index) => {
-              return (
-                <div
-                  className="creative-store-visitor-user cursor-pointer"
-                  key={`creative-store-visitor-user-${index}`}>
-                  <Avatar
-                    style={{ cursor: "pointer" }}
-                    size={40}
-                    round={true}
-                    title={obj.fullname}
-                    name={obj.fullname}
-                  />
-                  <div className="creative-store-visitor-user-text-container">
-                    <label className="light-color cursor-pointer">
-                      {obj.fullname}
-                    </label>
-                    <small>{obj.statusMessage}</small>
-                  </div>
-                </div>
-              );
-            })}
-        </div>
-      </Fragment>
-    );
-  };
-
   // MEMOIZE COMPONENTS
-
   const showRightSidePanel = useMemo(() => {
     if (selectedRightPanel === TRANSACTION_ORDERS)
       return (
         <ShowNewPurchaseOrders datas={purchaseOrders} />
       );
-    return <ShowVisitors datas={visitor} />;
-  }, [selectedRightPanel, visitor]);
+    else return <ShowVisitors datas={visitor} />;
+  }, [selectedRightPanel, visitor, purchaseOrders]);
 
   useEffect(() => {
     if (chatBodyContainerRef.current) {
@@ -1667,6 +1632,34 @@ export default function CreativeStore() {
                   />
                 </div>
               </div>
+              {!login && (
+                <div className="creative-store-sub-container creative-store-user-avatar">
+                  <div className="creative-store-user-avatar-container">
+                    <div className="creative-store-user-identifier-img-wrapper">
+                      <Avatar
+                        style={{ cursor: "pointer" }}
+                        round={true}
+                        size={50}
+                        title={showDisplayName(
+                          userJoin && userJoin
+                        )}
+                        name={showDisplayName(
+                          userJoin && userJoin
+                        )}
+                      />
+                    </div>
+                  </div>
+                  <div className="creative-store-user-avatar-side-container">
+                    <ShowFullName
+                      connectionStatus={connectionStatus}
+                      fullName={showDisplayName(
+                        userJoin && userJoin
+                      )}
+                      statusMessage={"Guest User"}
+                    />
+                  </div>
+                </div>
+              )}
               {login && login.user && (
                 <div className="creative-store-sub-container creative-store-user-avatar">
                   <div className="creative-store-user-avatar-container">
@@ -1738,17 +1731,21 @@ export default function CreativeStore() {
                 <div className="creative-store-right-panel-left-header">
                   <FloatButton
                     onClick={() =>
-                      setSelectedRightPanel(VISITORS)
+                      handleSelectRightPanel(VISITORS)
                     }
-                    className="creative-store-rightside-menu-button-active creative-store-rightside-menu-people-button"
+                    className={`creative-store-rightside-menu-button${handleSelectedRightPanelClassname(
+                      VISITORS
+                    )} creative-store-rightside-menu-people-button`}
                   />
                   <FloatButton
                     onClick={() =>
-                      setSelectedRightPanel(
+                      handleSelectRightPanel(
                         TRANSACTION_ORDERS
                       )
                     }
-                    className="creative-store-rightside-menu-button creative-store-rightside-menu-pinned-button"
+                    className={`creative-store-rightside-menu-button${handleSelectedRightPanelClassname(
+                      TRANSACTION_ORDERS
+                    )} creative-store-rightside-menu-pinned-button`}
                   />
                 </div>
                 <div className="creative-store-right-panel-right-header">
@@ -1762,13 +1759,15 @@ export default function CreativeStore() {
                   />
                 </div>
               </div>
-              <div className="creative-store-sub-container creative-store-scrollable-visitor-header">
-                <h3 className="creative-store-scrollable-visitor-title">
-                  Visitor
+              <div className="creative-store-sub-container creative-store-scrollable-rightside-panel-header">
+                <h3 className="creative-store-scrollable-rightside-panel-title">
+                  {selectedRightPanel === VISITORS
+                    ? "Visitor"
+                    : "Purchase Orders"}
                 </h3>
                 <hr className="creative-store-linebreak"></hr>
               </div>
-              <div className="creative-store-sub-container creative-store-scrollable-visitor-body">
+              <div className="creative-store-sub-container creative-store-scrollable-rightside-panel-body">
                 {showRightSidePanel}
               </div>
             </div>

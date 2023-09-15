@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import "./style.scss";
 import Button from "../Button";
 import { getSocialMedia } from "../../variables/path/footer";
+import { useLocation } from "react-router-dom";
 
 export default function Footer() {
   // VARIABLES
   const [isRender, setIsRender] = useState(false);
+  let location = useLocation();
 
   // COMPONENT SPECIFIC
   const StyledButton = (props) => {
@@ -19,13 +21,11 @@ export default function Footer() {
     );
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsRender(() => {
-      return !window.location.pathname.includes(
-        "creative-store"
-      );
+      return !location.pathname.includes("creative-store");
     });
-  }, []);
+  }, [location]);
 
   return (
     isRender && (

@@ -133,3 +133,10 @@ export function removeAllChildNodes(parent) {
 
 export const delayInMilliSecond = (ms) =>
   new Promise((res) => setTimeout(res, ms));
+
+export const showDisplayName = (obj) => {
+  if (obj)
+    return obj.details
+      ? obj.details.fullName
+      : `Guest-${obj.socketId}`;
+};
