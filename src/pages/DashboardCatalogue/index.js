@@ -16,7 +16,7 @@ import { DASHBOARD_CATALOG } from "../../variables/global";
 import {
   defaultPrice,
   pricePeriodValues,
-} from "../../variables/initial/addCatalogue";
+} from "../../variables/initial/catalogue";
 
 export default function DashboardCatalogue(props) {
   // HOOK

@@ -13,8 +13,6 @@ import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
   LOGIN,
-  NO_DATA,
-  NO_STRING,
   URL_POST_ADD_USER_STORE,
   X_SID,
 } from "../../variables/global";
@@ -24,7 +22,7 @@ import {
   handleOpenOverridingHome,
 } from "../../utils/functions/global";
 import { handleOpenModal } from "../../utils/functions/global";
-import { initialValue } from "../../variables/initial/addStore";
+import { initialValue } from "../../variables/initial/store";
 import {
   provinces as initialProvinces,
   regencies as initialRegencies,
@@ -32,10 +30,16 @@ import {
   villages as initialVillages,
 } from "../../variables/initial/global";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
-import { AGREEMENT_CHECKBOX_UNCHECKED } from "../../variables/errorMessages/addStore";
+import { AGREEMENT_CHECKBOX_UNCHECKED } from "../../variables/errorMessages/store";
 import Dropdown from "../../components/DynamicDropdown";
-import territories from "territory-indonesia";
 import { cookies } from "../../config/cookie";
+import {
+  handleShowDistrict,
+  handleShowProvinces,
+  handleShowRegencies,
+  handleShowVillages,
+} from "../../utils/functions/asynchronous";
+import Avatar from "react-avatar";
 
 export default function AddStore() {
   // HOOK
@@ -64,6 +68,21 @@ export default function AddStore() {
   const [success, setSuccess] = useState(false);
 
   // FUNCTIONS SPECIFIC //
+  const dataHandler = () => {
+    return {
+      data,
+      initialValue,
+    };
+  };
+
+  const errorHandler = () => {
+    return {
+      setErrorMessage,
+      setModalToggle,
+      modalToggle,
+    };
+  };
+
   function handleGoBackDashboard(navigate) {
     navigate(`/dashboard`);
   }
@@ -78,138 +97,6 @@ export default function AddStore() {
     const temp = { ...data };
     temp[field] = value;
     setData(temp);
-  }
-
-  async function handleChangeProvince(
-    provinceId,
-    provinceName
-  ) {
-    await territories
-      .getRegenciesOfProvinceId(provinceId)
-      .then((res) => {
-        const regencies = res.map((obj) => obj.name);
-        const temp = { ...data };
-        temp.storeProvince = provinceName;
-        temp.storeRegency = initialValue.storeRegency;
-        temp.storeDistrict = NO_STRING;
-        temp.storeVillage = NO_STRING;
-        setVillages([]);
-        setDistricts([]);
-        if (regencies.length === 0) setRegencies([NO_DATA]);
-        else setRegencies(regencies);
-        setData(temp);
-      })
-      .catch((err) =>
-        handleErrorMessage(
-          err,
-          setErrorMessage,
-          setModalToggle,
-          modalToggle
-        )
-      );
-  }
-
-  async function handleChangeRegency(
-    regencyId,
-    regencyName
-  ) {
-    await territories
-      .getDistrictsOfRegencyId(regencyId)
-      .then((res) => {
-        const districts = res.map((obj) => obj.name);
-        const temp = { ...data };
-        temp.storeRegency = regencyName;
-        temp.storeDistrict = initialValue.storeDistrict;
-        temp.storeVillage = NO_STRING;
-        setVillages([]);
-        if (districts.length === 0) setDistricts([NO_DATA]);
-        else setDistricts(districts);
-        setData(temp);
-      })
-      .catch((err) =>
-        handleErrorMessage(
-          err,
-          setErrorMessage,
-          setModalToggle,
-          modalToggle
-        )
-      );
-  }
-
-  async function handleChangeDistrict(
-    districtId,
-    districtName
-  ) {
-    await territories
-      .getVillagesOfDistrictId(districtId)
-      .then((res) => {
-        const villages = res.map((obj) => obj.name);
-        const temp = { ...data };
-        temp.storeDistrict = districtName;
-        temp.storeVillage = initialValue.storeVillage;
-        if (villages.length === 0) setVillages([NO_DATA]);
-        else setVillages(villages);
-        setData(temp);
-      })
-      .catch((err) =>
-        handleErrorMessage(
-          err,
-          setErrorMessage,
-          setModalToggle,
-          modalToggle
-        )
-      );
-  }
-
-  async function handleShowRegencies(value) {
-    await territories
-      .getProvinceByName(value)
-      .then(
-        async (res) =>
-          await handleChangeProvince(res.id, value)
-      )
-      .catch((err) =>
-        handleErrorMessage(
-          err,
-          setErrorMessage,
-          setModalToggle,
-          modalToggle
-        )
-      );
-  }
-
-  async function handleShowDistrict(value) {
-    await territories
-      .getRegencyByName(value)
-      .then(
-        async (res) =>
-          await handleChangeRegency(res.id, value)
-      )
-      .catch((err) =>
-        handleErrorMessage(
-          err,
-          setErrorMessage,
-          setModalToggle,
-          modalToggle
-        )
-      );
-  }
-
-  async function handleShowVillages(value) {
-    await territories
-      .getDistrictByName(value)
-      .then(
-        async (res) =>
-          await handleChangeDistrict(res.id, value)
-      )
-      .catch((err) =>
-        handleErrorMessage(
-          err,
-          setErrorMessage,
-          setModalToggle,
-          modalToggle
-        )
-      );
   }
 
   function handleAgreementCheck() {
@@ -332,43 +219,34 @@ export default function AddStore() {
   };
 
   useEffect(() => {
-    async function init() {
-      const result = await checkAuthAndRefresh(
-        zeusService,
-        cookies
-      );
-      if (result.responseStatus === 200)
-        login = cookies.get(CLIENT_USER_INFO);
-      if (result.responseStatus === 500) handleError500();
-      if (
-        result.responseStatus === 401 ||
-        result.responseStatus === 403
-      ) {
-        cookies.remove(CLIENT_USER_INFO, { path: "/" });
-        handleOpenOverridingHome(LOGIN);
-      } else if (result.responseStatus >= 400)
-        handleErrorMessage(
-          result,
-          setErrorMessage,
-          setModalToggle,
-          modalToggle
+    trackPromise(
+      (async () => {
+        const result = await checkAuthAndRefresh(
+          zeusService,
+          cookies
         );
-      await territories
-        .getAllProvinces()
-        .then((res) => {
-          const provinces = res.map((obj) => obj.name);
-          setProvinces(provinces);
-        })
-        .catch((err) => {
-          return handleErrorMessage(
-            err,
+        if (result.responseStatus === 200)
+          login = cookies.get(CLIENT_USER_INFO);
+        if (result.responseStatus === 500) handleError500();
+        if (
+          result.responseStatus === 401 ||
+          result.responseStatus === 403
+        ) {
+          cookies.remove(CLIENT_USER_INFO, { path: "/" });
+          handleOpenOverridingHome(LOGIN);
+        } else if (result.responseStatus >= 400)
+          handleErrorMessage(
+            result,
             setErrorMessage,
             setModalToggle,
             modalToggle
           );
-        });
-    }
-    trackPromise(init());
+        await handleShowProvinces(
+          setProvinces,
+          errorHandler()
+        );
+      })()
+    );
   }, []);
 
   return (
@@ -431,6 +309,29 @@ export default function AddStore() {
                 </span>{" "}
                 toko
               </h2>
+              <h3 className="margin-top-0">
+                Kamu juga harus masukin{" "}
+                <span className="main-color">
+                  profile picture
+                </span>{" "}
+                toko ya !
+              </h3>
+              <div className="add-store-avatar-container align-self-start">
+                <div className="add-store-identifier-img-wrapper">
+                  <Avatar
+                    style={{ cursor: "pointer" }}
+                    round={true}
+                    size={150}
+                    title={data.storeName}
+                    name={data.storeName}
+                  />
+                  <br />
+                  <br />
+                  <Button>Ubah</Button>
+                </div>
+              </div>
+              <br />
+              <br />
               <h3 className="margin-top-0 margin-bottom-12-18">
                 Silahkan input{" "}
                 <span className="main-color">
@@ -438,6 +339,19 @@ export default function AddStore() {
                 </span>{" "}
                 tokomu
               </h3>
+              <div className="add-store-textinput-box">
+                <label className="add-store-input-title">
+                  Deskripsi
+                </label>
+                <TextInput
+                  value={data.pickupSubdistrict}
+                  onChange={(e) =>
+                    handleTextChange("storePhone", e)
+                  }
+                  type="text"
+                  className="add-store-textinput"
+                />
+              </div>
               <div className="add-store-textinput-box">
                 <label className="add-store-input-title">
                   No HP
@@ -497,7 +411,17 @@ export default function AddStore() {
               </h3>
               <Dropdown
                 onChange={(value) =>
-                  handleShowRegencies(value)
+                  handleShowRegencies(
+                    value,
+                    dataHandler(),
+                    {
+                      setVillages,
+                      setDistricts,
+                      setRegencies,
+                      setData,
+                    },
+                    errorHandler()
+                  )
                 }
                 style={{
                   width: "150px",
@@ -521,7 +445,16 @@ export default function AddStore() {
                 </h3>
                 <Dropdown
                   onChange={(value) =>
-                    handleShowDistrict(value)
+                    handleShowDistrict(
+                      value,
+                      dataHandler(),
+                      {
+                        setVillages,
+                        setDistricts,
+                        setData,
+                      },
+                      errorHandler()
+                    )
                   }
                   style={{
                     width: "150px",
@@ -548,7 +481,12 @@ export default function AddStore() {
                 </h3>
                 <Dropdown
                   onChange={(value) =>
-                    handleShowVillages(value)
+                    handleShowVillages(
+                      value,
+                      dataHandler(),
+                      { setVillages, setData },
+                      errorHandler()
+                    )
                   }
                   style={{
                     width: "150px",

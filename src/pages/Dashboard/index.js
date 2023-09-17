@@ -37,9 +37,8 @@ import {
 import ErrorHandling from "../ErrorHandling";
 import Button from "../../components/Button";
 import { useAxios } from "../../utils/hooks/useAxios";
-import { trackPromise } from "react-promise-tracker";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
-import { initialValue } from "../../variables/initial/addStore";
+import { initialValue } from "../../variables/initial/store";
 import { cookies } from "../../config/cookie";
 import PageLoading from "../PageLoading";
 

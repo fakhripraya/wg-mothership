@@ -157,7 +157,7 @@
   background-color: #0da34d;
 }
 
-.creative-store-plus-button {
+.creative-store-gear-button {
   margin-left: 10px;
   display: flex;
   content: "";
@@ -171,7 +171,7 @@
 }
 
 .creative-store-add-menu-wording:hover
-  .creative-store-plus-button {
+  .creative-store-gear-button {
   color: #fff;
   background-image: url("../../assets/svg/gear-icon.svg");
 }
@@ -510,6 +510,62 @@
 
 .creative-store-chat-leftside-textinput-button-gif {
   background-image: url("../../assets/svg/gif-icon.svg");
+}
+
+// SETTING TAB ELEMENTS //
+.creative-store-setting-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+  height: stretch;
+  padding: 12px;
+  overflow-y: hidden;
+  padding-bottom: 0px !important;
+  border-top-left-radius: 1em;
+  border-bottom-left-radius: 1em;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
+}
+
+.creative-store-setting-container:hover {
+  overflow-y: scroll;
+}
+
+.creative-store-setting-button {
+  margin-top: 12px;
+  text-align: center;
+  justify-self: center;
+  align-self: center;
+}
+
+.creative-store-setting-button-text {
+  margin: 6px !important;
+}
+
+.creative-store-setting-input-title {
+  width: 120px;
+  margin: 10px 10px 0px 0px;
+}
+
+.creative-store-setting-textinput-box {
+  margin-top: 12px;
+  width: 100%;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+
+.creative-store-setting-textinput {
+  padding: 6px;
+  border-radius: 8px;
+  width: 100%;
+  max-height: 20px;
+  text-decoration: none;
+  outline: none;
+  text-align: start;
+  font-size: large;
+  background-color: rgb(29, 29, 29);
+  color: #fff;
 }
 
 // RIGHT SIDE ELEMENTS //

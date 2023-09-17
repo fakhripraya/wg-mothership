@@ -16,11 +16,12 @@ import {
   bidMultiplicationPeriodValues,
   bidPeriodValues,
   initialFetchedDatas,
-} from "../../variables/initial/addCatalogue";
+} from "../../variables/initial/catalogue";
 import {
   ADD_CATALOGUE_FORM,
   AUTHORIZATION,
   CLIENT_USER_INFO,
+  JPEG_PNG,
   LOGIN,
   NO_DATA,
   NO_STRING,
@@ -39,13 +40,14 @@ import {
   b64toBlob,
   handleError500,
   handleErrorMessage,
+  handleOpenModal,
   handleOpenOverridingHome,
 } from "../../utils/functions/global";
 import { trackPromise } from "react-promise-tracker";
 import {
   AGREEMENT_CHECKBOX_UNCHECKED,
   INPUT_NEW_CATALOGUE_VALUE,
-} from "../../variables/errorMessages/addCatalogue";
+} from "../../variables/errorMessages/catalogue";
 import { v4 as uuidv4 } from "uuid";
 import { cookies } from "../../config/cookie";
 
@@ -105,10 +107,6 @@ export default function AddCatalogue() {
   // FUNCTIONS SPECIFIC //
   function handleGoBackDashboard(navigate) {
     navigate(`/dashboard`);
-  }
-
-  function handleOpenModal(setToggle, toggleValue) {
-    setToggle(!toggleValue);
   }
 
   function handleAddComponent(field, defaultValue) {
@@ -413,16 +411,15 @@ export default function AddCatalogue() {
           </Button>
           <br />
           <h2 className="margin-top-0 margin-bottom-12-18">
-            Upload the{" "}
-            <span className="main-color">pictures</span> for
-            the product here
+            Upload <span className="main-color">foto</span>{" "}
+            untuk produkmu disini
           </h2>
           <MultiUpload
             formName={ADD_CATALOGUE_FORM}
             base64s={base64s}
             setBase64s={setBase64s}
             maxLength={5}
-            extensions="image/jpeg, image/png"
+            extensions={JPEG_PNG}
             label="Geser file dan masukkan file ke box ini atau klik untuk pilih file"
             subLabel="Mohon hanya upload extension .jpeg atau .png saja"
             additionalElement={
@@ -942,7 +939,7 @@ export default function AddCatalogue() {
                 base64s={additionalBase64s}
                 setBase64s={setAdditionalBase64s}
                 maxLength={5}
-                extensions="image/jpeg, image/png"
+                extensions={JPEG_PNG}
                 label="Geser file dan masukkan file ke box ini atau klik untuk pilih file"
                 subLabel="Mohon hanya upload extension .pdf saja"
               />

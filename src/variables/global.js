@@ -93,6 +93,12 @@ export const PEER = "PEER";
 
 // FORM NAME
 export const ADD_CATALOGUE_FORM = "ADD_CATALOGUE_FORM";
+export const ADD_STORE_FORM = "ADD_STORE_FORM";
 
 // COOKIES NAME
 export const CLIENT_USER_INFO = "CLIENT_USER_INFO";
+
+// UPLOAD FILE EXTENSION
+export const JPEG = "image/jpeg";
+export const PNG = "image/png";
+export const JPEG_PNG = "image/jpeg, image/png";

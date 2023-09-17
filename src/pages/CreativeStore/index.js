@@ -17,10 +17,7 @@ import {
 } from "../../utils/functions/global";
 import FloatButton from "../../components/FloatButton";
 import BottomSheet from "../../components/BottomSheet";
-import {
-  initialLeftPanelDatas,
-  initialPurchaseOrders,
-} from "../../variables/initial/creativeStore";
+import { initialPurchaseOrders } from "../../variables/initial/creativeStore";
 import Avatar from "react-avatar";
 import TextInput from "../../components/TextInput";
 import {
@@ -74,6 +71,7 @@ import ShowChatWrappers from "./ModularComponents/ShowChats";
 import { v4 as uuidv4 } from "uuid";
 import ShowVisitors from "./ModularComponents/ShowVisitors";
 import ShowNewPurchaseOrders from "./ModularComponents/ShowPurchaseOrders";
+import { ShowSettingTab } from "./ModularComponents/ShowSettingTab";
 
 export default function CreativeStore() {
   // REFS //
@@ -90,6 +88,8 @@ export default function CreativeStore() {
   const [storeId, setStoreId] = useState(
     searchParams.get("id")
   );
+  const [storeInfo, setStoreInfo] = useState(null);
+  const [isOpenSetting, setIsOpenSetting] = useState(false);
   const [chatSocket, setChatSocket] = useState(null);
   const [webRTCSocket, setWebRTCSocket] = useState(null);
   const [rendered, setRendered] = useState(false);
@@ -874,7 +874,6 @@ export default function CreativeStore() {
   }, [chatSocket]);
 
   // FUNCTION SPECIFICS
-
   async function handleInitialize() {
     let result;
     try {
@@ -893,13 +892,26 @@ export default function CreativeStore() {
       return;
     }
 
+    // if we got the value and its not and error, map it
+    const initialMappedChannels =
+      result.responseData.MasterStoreChannels.sort(
+        (a, b) => a.channelsOrder - b.channelsOrder
+      ).reduce((acc, value) => {
+        return {
+          ...acc,
+          ...value.channelsJSON,
+        };
+      }, {});
+
+    // set the store info
     // render all the left panel datas
     // and set the initial joined chat room
     // also handle the purchase orders render here
+    setStoreInfo(result.responseData);
     handlePurchaseOrdersRender(initialPurchaseOrders);
-    handleInitialChannelsRender(initialLeftPanelDatas);
+    handleInitialChannelsRender(initialMappedChannels);
     const joinedChatRoom = handleInitialJoinChatRoom(
-      initialLeftPanelDatas
+      initialMappedChannels
     );
 
     if (result.responseStatus === 200) {
@@ -1467,6 +1479,10 @@ export default function CreativeStore() {
     };
   };
 
+  const openSettingTab = () => {
+    setIsOpenSetting((state) => !state);
+  };
+
   // MEMOIZE COMPONENTS
   const showRightSidePanel = useMemo(() => {
     if (selectedRightPanel === TRANSACTION_ORDERS)
@@ -1591,26 +1607,22 @@ export default function CreativeStore() {
                 </div>
                 <div className="creative-store-header">
                   <h3 className="creative-store-store-title">
-                    Bahari One Stop
+                    {storeInfo && storeInfo.storeName}
                   </h3>
                   <label className="creative-store-store-label">
-                    Kita adalah toko terbaik di muka bumi
-                    Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Veritatis,
-                    dignissimos! Obcaecati, magni temporibus
-                    soluta atque nesciunt ipsam velit
-                    explicabo eligendi earum ullam nemo,
-                    voluptate nam totam iusto culpa optio
-                    repudiandae?
+                    {storeInfo &&
+                      storeInfo.storeDescription}
                   </label>
                 </div>
               </div>
               <div className="creative-store-sub-container creative-store-add-menu">
-                <div className="creative-store-add-menu-wording">
+                <div
+                  onClick={openSettingTab}
+                  className="creative-store-add-menu-wording">
                   <h4 className="white-color">
                     Setting Toko
                   </h4>
-                  <span className="creative-store-plus-button" />
+                  <span className="creative-store-gear-button" />
                 </div>
               </div>
               <div className="creative-store-sub-container creative-store-scrollable-menu-header">
@@ -1685,47 +1697,57 @@ export default function CreativeStore() {
                 </div>
               )}
             </div>
-            <div className="creative-store-body-container">
-              <div className="creative-store-body-header-container">
-                <div className="creative-store-body-header-left">
+            {!isOpenSetting && (
+              <div className="creative-store-body-container">
+                <div className="creative-store-body-header-container">
+                  <div className="creative-store-body-header-left">
+                    <FloatButton
+                      onClick={() => handleBottomSheet()}
+                      className="creative-store-filter-button"
+                    />
+                    <h4>
+                      {joinedChatRoom &&
+                        joinedChatRoom.roomTitle}
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  ref={chatBodyContainerRef}
+                  className="creative-store-chatbody-container dark-bg-color">
+                  <div className="creative-store-chatbody-wrapper">
+                    <ShowChatWrappers
+                      uniqueKey={"chats"}
+                      chats={chats}
+                    />
+                  </div>
+                </div>
+                <div className="creative-store-chat-container dark-bg-color">
                   <FloatButton
-                    onClick={() => handleBottomSheet()}
-                    className="creative-store-filter-button"
+                    onClick={() => {}}
+                    className="creative-store-chat-leftside-textinput-button creative-store-chat-leftside-textinput-button-emoji"
                   />
-                  <h4>
-                    {joinedChatRoom &&
-                      joinedChatRoom.roomTitle}
-                  </h4>
+                  <FloatButton
+                    onClick={() => {}}
+                    className="creative-store-chat-leftside-textinput-button creative-store-chat-leftside-textinput-button-gif"
+                  />
+                  <TextInput
+                    onEnter={handleOnSendMessage}
+                    ref={chatInputRef}
+                    className="creative-store-chat-textinput light-color darker-bg-color"></TextInput>
+                  <Button onClick={handleOnSendMessage}>
+                    Send
+                  </Button>
                 </div>
               </div>
-              <div
-                ref={chatBodyContainerRef}
-                className="creative-store-chatbody-container dark-bg-color">
-                <div className="creative-store-chatbody-wrapper">
-                  <ShowChatWrappers
-                    uniqueKey={"chats"}
-                    chats={chats}
-                  />
-                </div>
-              </div>
-              <div className="creative-store-chat-container dark-bg-color">
-                <FloatButton
-                  onClick={() => {}}
-                  className="creative-store-chat-leftside-textinput-button creative-store-chat-leftside-textinput-button-emoji"
-                />
-                <FloatButton
-                  onClick={() => {}}
-                  className="creative-store-chat-leftside-textinput-button creative-store-chat-leftside-textinput-button-gif"
-                />
-                <TextInput
-                  onEnter={handleOnSendMessage}
-                  ref={chatInputRef}
-                  className="creative-store-chat-textinput light-color darker-bg-color"></TextInput>
-                <Button onClick={handleOnSendMessage}>
-                  Send
-                </Button>
-              </div>
-            </div>
+            )}
+            {isOpenSetting && (
+              <ShowSettingTab
+                isOpenSettingTab={isOpenSetting}
+                functions={{
+                  openSettingTab,
+                }}
+              />
+            )}
             <div className="creative-store-right-panel-container">
               <div className="creative-store-sub-container creative-store-right-panel-tools">
                 <div className="creative-store-right-panel-left-header">
