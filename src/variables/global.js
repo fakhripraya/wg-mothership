@@ -57,6 +57,7 @@ export const DELETE = "DELETE";
 // HEADER NAME
 export const X_SID = "x-sid";
 export const AUTHORIZATION = "authorization";
+export const CONTENT_TYPE = "Content-Type";
 
 // SIGNALER SERVICE ROUTE
 export const URL_ROOM_CHECK = "/v1/room/check";
@@ -94,6 +95,7 @@ export const PEER = "PEER";
 // FORM NAME
 export const ADD_CATALOGUE_FORM = "ADD_CATALOGUE_FORM";
 export const ADD_STORE_FORM = "ADD_STORE_FORM";
+export const SETTING_STORE_FORM = "SETTING_STORE_FORM";
 
 // COOKIES NAME
 export const CLIENT_USER_INFO = "CLIENT_USER_INFO";

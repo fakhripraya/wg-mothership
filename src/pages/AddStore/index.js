@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,11 +12,14 @@ import { useAxios } from "../../utils/hooks/useAxios";
 import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
+  CONTENT_TYPE,
   LOGIN,
   URL_POST_ADD_USER_STORE,
   X_SID,
 } from "../../variables/global";
 import {
+  b64toBlob,
+  getBase64,
   handleError500,
   handleErrorMessage,
   handleOpenOverridingHome,
@@ -40,21 +43,30 @@ import {
   handleShowVillages,
 } from "../../utils/functions/asynchronous";
 import Avatar from "react-avatar";
+import {
+  ShowErrorModal,
+  ShowSuccessModal,
+} from "./ModularComponents/ShowModals";
 
 export default function AddStore() {
   // HOOK
   const navigate = useNavigate();
   const zeusService = useAxios();
+  // Create a reference to the hidden file input element
+  const hiddenFileInput = useRef(null);
 
   // VARIABLES
   let login = cookies.get(CLIENT_USER_INFO, { path: "/" });
 
   // STATES
   const [data, setData] = useState(initialValue);
+  const [profilePicture, setProfilePicture] =
+    useState(null);
   const [agreementCheckbox, setAgreementCheckbox] =
     useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [modalToggle, setModalToggle] = useState(false);
+  const [errorModalToggle, setErrorModalToggle] =
+    useState(false);
   const [provinces, setProvinces] = useState(
     initialProvinces
   );
@@ -78,12 +90,37 @@ export default function AddStore() {
   const errorHandler = () => {
     return {
       setErrorMessage,
-      setModalToggle,
-      modalToggle,
+      setErrorModalToggle,
+      errorModalToggle,
     };
   };
 
-  function handleGoBackDashboard(navigate) {
+  // Call a function (passed as a prop from the parent component)
+  // to handle the user-selected file
+  async function handleUploadChange(event) {
+    const fileUploaded = event.target.files[0];
+    const converted = await getBase64(fileUploaded);
+    setProfilePicture({
+      name: fileUploaded.name,
+      size: fileUploaded.size,
+      base64: converted,
+    });
+  }
+
+  // Programatically click the hidden file input element
+  // when the Button component is clicked
+  function handleUploadClick(event) {
+    hiddenFileInput.current.click();
+  }
+
+  function handleErrorModal() {
+    return handleOpenModal(
+      setErrorModalToggle,
+      errorModalToggle
+    );
+  }
+
+  function handleGoBackDashboard() {
     navigate(`/dashboard`);
   }
 
@@ -103,14 +140,49 @@ export default function AddStore() {
     setAgreementCheckbox(!agreementCheckbox);
   }
 
+  function handleCreateFormData() {
+    const formData = new FormData();
+    formData.append("storeName", data.storeName);
+    formData.append("storeCode", data.storeCode);
+    formData.append(
+      "storeDescription",
+      data.storeDescription
+    );
+    formData.append("storePhone", data.storePhone);
+    formData.append("storeWhatsapp", data.storeWhatsapp);
+    formData.append("storeEmail", data.storeEmail);
+    formData.append("storeProvince", data.storeProvince);
+    formData.append("storeRegency", data.storeRegency);
+    formData.append("storeDistrict", data.storeDistrict);
+    formData.append("storeVillage", data.storeVillage);
+    formData.append("storeAddress", data.storeAddress);
+    formData.append(
+      "storePostalCode",
+      data.storePostalCode
+    );
+    formData.append(
+      "uploadedStoreProfilePicture",
+      b64toBlob(profilePicture.base64),
+      profilePicture.name
+    );
+
+    return formData;
+  }
+
   function handleSubmit() {
+    // do some validation before the request
     if (!agreementCheckbox)
       return handleErrorMessage(
         { errorContent: AGREEMENT_CHECKBOX_UNCHECKED },
         setErrorMessage,
-        setModalToggle,
-        modalToggle
+        setErrorModalToggle,
+        errorModalToggle
       );
+
+    // create multipart/form-data object for the request body
+    const formData = handleCreateFormData();
+
+    // track promise and do the axios request
     trackPromise(
       zeusService
         .postDataWithOnRequestInterceptors(
@@ -126,8 +198,9 @@ export default function AddStore() {
               [X_SID]: cookies.get(CLIENT_USER_INFO, {
                 path: "/",
               }).sid,
+              [CONTENT_TYPE]: "multipart/form-data",
             },
-            data: data,
+            data: formData,
           },
           async () => {
             const result = await checkAuthAndRefresh(
@@ -143,8 +216,9 @@ export default function AddStore() {
           if (res.responseStatus === 200) setSuccess(true);
         })
         .catch((error) => {
-          if (error.responseStatus === 500)
-            handleError500();
+          if (error.responseStatus === 500) {
+            //handleError500();
+          }
           if (
             error.responseStatus === 401 ||
             error.responseStatus === 403
@@ -155,68 +229,12 @@ export default function AddStore() {
             return handleErrorMessage(
               error,
               setErrorMessage,
-              setModalToggle,
-              modalToggle
+              setErrorModalToggle,
+              errorModalToggle
             );
         })
     );
   }
-
-  // COMPONENT SPECIFIC
-  const ShowErrorModal = () => {
-    return (
-      <div className="add-store-modal-container dark-bg-color">
-        <div className="add-store-modal-wrapper">
-          <Button
-            onClick={() =>
-              handleOpenModal(setModalToggle, modalToggle)
-            }
-            className="align-self-end add-store-modal-button red-bg-color">
-            <h4 className="add-store-modal-button-text">
-              X
-            </h4>
-          </Button>
-          <br />
-          <h3 className="margin-top-0 margin-bottom-12-18">
-            There is an{" "}
-            <span className="red-color">ERROR</span>
-          </h3>
-          <br />
-          <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
-            {errorMessage}
-          </label>
-        </div>
-      </div>
-    );
-  };
-
-  const ShowSuccessModal = () => {
-    return (
-      <div className="add-store-modal-container dark-bg-color">
-        <div className="add-store-modal-wrapper">
-          <h3 className="margin-top-0 margin-bottom-12-18">
-            <span className="main-color">SUKSES</span>
-          </h3>
-          <br />
-          <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
-            Wah selamat, kamu berhasil membuat toko lelangmu
-            !
-          </label>
-          <br />
-          <div
-            style={{ padding: "0px", width: "30%" }}
-            className="align-self-center add-store-modal-button">
-            <Button
-              onClick={() =>
-                handleGoBackDashboard(navigate)
-              }>
-              OK
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   useEffect(() => {
     trackPromise(
@@ -238,8 +256,8 @@ export default function AddStore() {
           handleErrorMessage(
             result,
             setErrorMessage,
-            setModalToggle,
-            modalToggle
+            setErrorModalToggle,
+            errorModalToggle
           );
         await handleShowProvinces(
           setProvinces,
@@ -253,16 +271,19 @@ export default function AddStore() {
     <Fragment>
       <Modal
         className="dark-bg-color"
-        clicked={() =>
-          handleOpenModal(setModalToggle, modalToggle)
-        }
-        toggle={modalToggle}>
-        <ShowErrorModal />
+        toggle={success}>
+        <ShowSuccessModal
+          handleGoBackDashboard={handleGoBackDashboard}
+        />
       </Modal>
       <Modal
         className="dark-bg-color"
-        toggle={success}>
-        <ShowSuccessModal />
+        clicked={handleErrorModal}
+        toggle={errorModalToggle}>
+        <ShowErrorModal
+          handleOpenModal={handleErrorModal}
+          errorMessage={errorMessage}
+        />
       </Modal>
       <div className="add-store-container">
         <div className="add-store-wrapper">
@@ -319,15 +340,29 @@ export default function AddStore() {
               <div className="add-store-avatar-container align-self-start">
                 <div className="add-store-identifier-img-wrapper">
                   <Avatar
+                    onClick={handleUploadClick}
                     style={{ cursor: "pointer" }}
                     round={true}
+                    src={
+                      profilePicture &&
+                      profilePicture.base64
+                    }
                     size={150}
                     title={data.storeName}
                     name={data.storeName}
                   />
                   <br />
                   <br />
-                  <Button>Ubah</Button>
+                  <Button onClick={handleUploadClick}>
+                    Ganti ah !
+                  </Button>
+                  <input
+                    type="file"
+                    accept=".jpg, .png, .jpeg"
+                    onChange={handleUploadChange}
+                    ref={hiddenFileInput}
+                    style={{ display: "none" }}
+                  />
                 </div>
               </div>
               <br />

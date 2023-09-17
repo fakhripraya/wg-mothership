@@ -21,6 +21,7 @@ import {
   ADD_CATALOGUE_FORM,
   AUTHORIZATION,
   CLIENT_USER_INFO,
+  CONTENT_TYPE,
   JPEG_PNG,
   LOGIN,
   NO_DATA,
@@ -174,17 +175,7 @@ export default function AddCatalogue() {
     setAgreementCheckbox(!agreementCheckbox);
   }
 
-  async function handleSubmit() {
-    // Validate the form submission
-    if (!agreementCheckbox)
-      return handleErrorMessage(
-        { errorContent: AGREEMENT_CHECKBOX_UNCHECKED },
-        setErrorMessage,
-        setErrorModalToggle,
-        errorModalToggle
-      );
-
-    // Process raw data and base64s to be sent via POST request
+  function handleCreateFormData() {
     const formData = new FormData();
     const formProductCategory =
       fetchedDatas.datas.categories.responseData.filter(
@@ -242,25 +233,48 @@ export default function AddCatalogue() {
         fetchedDatas.datas.catalogues.responseData
       )
     );
-    for (var i = 0; base64s.length > i; i++) {
-      formData.append(
-        "uploadedImageFiles",
-        b64toBlob(base64s[i].base64),
-        base64s[i].name
-      );
-    }
-    for (var i = 0; additionalBase64s.length > i; i++) {
-      formData.append(
-        "uploadedAdditionalFiles",
-        b64toBlob(additionalBase64s[i].base64),
-        additionalBase64s[i].name
-      );
+
+    const maxLengthUpload =
+      base64s.length >= additionalBase64s
+        ? base64s.length
+        : additionalBase64s.length;
+
+    for (var i = 0; maxLengthUpload > i; i++) {
+      base64s[i] &&
+        formData.append(
+          "uploadedImageFiles",
+          b64toBlob(base64s[i].base64),
+          base64s[i].name
+        );
+      additionalBase64s[i] &&
+        formData.append(
+          "uploadedAdditionalFiles",
+          b64toBlob(additionalBase64s[i].base64),
+          additionalBase64s[i].name
+        );
     }
     console.log(
       JSON.stringify(
         fetchedDatas.datas.catalogues.responseData
       )
     );
+
+    return formData;
+  }
+
+  async function handleSubmit() {
+    // Validate the form submission
+    if (!agreementCheckbox)
+      return handleErrorMessage(
+        { errorContent: AGREEMENT_CHECKBOX_UNCHECKED },
+        setErrorMessage,
+        setErrorModalToggle,
+        errorModalToggle
+      );
+
+    // Process raw data and base64s to be sent via POST request
+    const formData = handleCreateFormData();
+
     // Post data
     trackPromise(
       zeusService
@@ -270,7 +284,7 @@ export default function AddCatalogue() {
             url: URL_POST_ADD_STORE_CATALOGUE(storeCode),
             headers: {
               ...headers,
-              "Content-Type": "multipart/form-data",
+              [CONTENT_TYPE]: "multipart/form-data",
             },
             data: formData,
           },

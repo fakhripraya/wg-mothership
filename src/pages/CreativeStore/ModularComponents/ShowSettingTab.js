@@ -16,6 +16,11 @@ import {
   handleShowVillages,
 } from "../../../utils/functions/asynchronous";
 import { useEffect, useState } from "react";
+import MultiUpload from "../../../components/MultiUpload";
+import {
+  JPEG_PNG,
+  SETTING_STORE_FORM,
+} from "../../../variables/global";
 
 const ShowUploadModal = (props) => {
   return (
@@ -32,7 +37,7 @@ const ShowUploadModal = (props) => {
           untuk profile picture toko kamu disini
         </h2>
         <MultiUpload
-          formName={ADD_STORE_FORM}
+          formName={SETTING_STORE_FORM}
           base64s={props.base64s}
           setBase64s={props.setBase64s}
           maxLength={1}
