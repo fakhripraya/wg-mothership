@@ -310,119 +310,121 @@ export default function Home() {
           </div>
           <div className="home-company-section home-section">
             <div className="home-company-profile lighter-color">
-              <h1>Kenapa sih pilih Oksyen ?</h1>
+              <h1 className="main-color">
+                Kenapa sih pilih LIVEJB ?
+              </h1>
               <h3>
-                Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Natus, nostrum odit beatae
-                inventore quia quidem sequi recusandae error
-                ut quae repellendus optio cupiditate
-                necessitatibus et, delectus velit pariatur
-                dolor animi. Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Natus, nostrum
-                odit beatae inventore quia quidem sequi
-                recusandae error ut quae repellendus optio
-                cupiditate necessitatibus et, delectus velit
-                pariatur dolor animi.
+                Apakah Anda mencari platform all-in-one yang
+                mengintegrasikan komunikasi, perdagangan,
+                dan keterlibatan komunitas dengan lancar?
+                Tidak perlu mencari lebih jauh daripada
+                LIVEJB! Platform kami dirancang dengan Anda
+                dalam pikiran, menawarkan berbagai fitur dan
+                manfaat yang membuatnya pilihan yang
+                sempurna untuk kebutuhan B2C Anda.
               </h3>
+              <h2>Terhubung Dengan Lancar</h2>
               <h3>
-                Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Natus, nostrum odit beatae
-                inventore quia quidem sequi recusandae error
-                ut quae repellendus optio cupiditate
-                necessitatibus et, delectus velit pariatur
-                dolor animi.Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Natus, nostrum
-                odit beatae inventore quia quidem sequi
-                recusandae error ut quae repellendus optio
-                cupiditate necessitatibus et, delectus velit
-                pariatur dolor animi.
+                LIVEJB menyediakan aplikasi VoIP yang kuat,
+                memungkinkan Anda tetap terhubung dengan
+                pelanggan, mitra, dan pengguna Anda dengan
+                mudah. Baik itu obrolan cepat atau diskusi
+                panjang, layanan VoIP kami memastikan
+                komunikasi yang jernih.
               </h3>
+              <h2>Beli dan Jual Dengan Mudah</h2>
               <h3>
-                Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Natus, nostrum odit beatae
-                inventore quia quidem sequi recusandae error
-                ut quae repellendus optio cupiditate
-                necessitatibus et, delectus velit pariatur
-                dolor animi. Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Natus, nostrum
-                odit beatae inventore quia quidem sequi
-                recusandae error ut quae repellendus optio
-                cupiditate necessitatibus et, delectus velit
-                pariatur dolor animi.
+                Bosan dengan navigasi situs web berbeda
+                untuk membeli dan menjual? Dengan LIVEJB,
+                Anda dapat dengan mudah mencantumkan produk
+                Anda, menemukan barang-barang baru, dan
+                melakukan transaksi dengan mudah. Antarmuka
+                yang ramah pengguna kami menyederhanakan
+                proses ini, membuatnya mudah untuk mengelola
+                bisnis online Anda.
               </h3>
+              <h2>Diskusi Dengan Suara</h2>
               <h3>
-                Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Natus, nostrum odit beatae
-                inventore quia quidem sequi recusandae error
-                ut quae repellendus optio cupiditate
-                necessitatibus et, delectus velit pariatur
-                dolor animi.
+                Tingkatkan interaksi Anda dengan LIVEJB
+                melalui saluran suara. Terlibat dalam
+                diskusi real-time tentang produk Anda,
+                kumpulkan umpan balik, dan bangun rasa
+                komunitas di antara pengguna Anda. Ini
+                adalah tempat yang sempurna untuk memupuk
+                kepercayaan dan loyalitas.
               </h3>
+              <h2>Aman dan Terjamin</h2>
               <h3>
-                Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Natus, nostrum odit beatae
-                inventore quia quidem sequi recusandae error
-                ut quae repellendus optio cupiditate
-                necessitatibus et, delectus velit pariatur
-                dolor animi.
+                Kepercayaan adalah hal yang penting dalam
+                transaksi online. Itulah mengapa LIVEJB
+                menjamin langkah-langkah keamanan terbaik
+                untuk melindungi data dan transaksi Anda.
+                Belanja dan berjualan dengan percaya diri,
+                dengan mengetahui bahwa informasi Anda
+                berada di tangan yang aman.
               </h3>
             </div>
             <div className="home-company-profile lighter-color">
-              <h1>Kembangin usaha kalian !</h1>
+              <h1 className="main-color">
+                Bagaimana LIVEJB Dapat Mengembangkan Bisnis
+                Anda?
+              </h1>
               <h3>
-                Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Natus, nostrum odit beatae
-                inventore quia quidem sequi recusandae error
-                ut quae repellendus optio cupiditate
-                necessitatibus et, delectus velit pariatur
-                dolor animi.
+                Apakah Anda siap untuk meningkatkan
+                pertumbuhan bisnis Anda? LIVEJB adalah
+                senjata rahasia Anda! Berikut cara platform
+                kami dapat membantu Anda mengembangkan
+                bisnis B2C Anda seperti belum pernah
+                sebelumnya:
               </h3>
+              <h2>Jangkauan Se-Indonesia</h2>
               <h3>
-                Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Natus, nostrum odit beatae
-                inventore quia quidem sequi recusandae error
-                ut quae repellendus optio cupiditate
-                necessitatibus et, delectus velit pariatur
-                dolor animi.
+                Dengan LIVEJB, Anda tidak terbatas oleh
+                batasan geografis. Capai audiens
+                Se-Indonesia dan tembus ke pasar-pasar baru,
+                memberikan bisnis Anda kehadiran di
+                Indonesia.
               </h3>
+              <h2>Keterlibatan Pelanggan</h2>
               <h3>
-                Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Natus, nostrum odit beatae
-                inventore quia quidem sequi recusandae error
-                ut quae repellendus optio cupiditate
-                necessitatibus et, delectus velit pariatur
-                dolor animi.Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Natus, nostrum
-                odit beatae inventore quia quidem sequi
-                recusandae error ut quae repellendus optio
-                cupiditate necessitatibus et, delectus velit
-                pariatur dolor animi.
+                Platform kami meningkatkan keterlibatan
+                pelanggan dengan memfasilitasi diskusi suara
+                real-time. Terlibat dengan audiens Anda
+                secara langsung, jawab pertanyaan mereka,
+                dan bangun basis pelanggan yang setia.
               </h3>
+              <h2>Penjualan Meningkat</h2>
               <h3>
-                Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Natus, nostrum odit beatae
-                inventore quia quidem sequi recusandae error
-                ut quae repellendus optio cupiditate
-                necessitatibus et, delectus velit pariatur
-                dolor animi.Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Natus, nostrum
-                odit beatae inventore quia quidem sequi
-                recusandae error ut quae repellendus optio
-                cupiditate necessitatibus et, delectus velit
-                pariatur dolor animi.Lorem ipsum dolor sit
-                amet consectetur adipisicing elit. Natus,
-                nostrum odit beatae inventore quia quidem
-                sequi recusandae error ut quae repellendus
-                optio cupiditate necessitatibus et, delectus
-                velit pariatur dolor animi.
+                Antarmuka yang ramah pengguna dan fitur
+                e-commerce terintegrasi membuat lebih mudah
+                daripada sebelumnya untuk memamerkan produk
+                Anda. Nikmati peningkatan penjualan dan
+                pendapatan saat Anda dengan mudah terhubung
+                dengan calon pembeli.
               </h3>
+              <h2>Membangun Komunitas</h2>
               <h3>
-                Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Natus, nostrum odit beatae
-                inventore quia quidem sequi recusandae error
-                ut quae repellendus optio cupiditate
-                necessitatibus et, delectus velit pariatur
-                dolor animi.
+                Fosteringa rasa komunitas yang kuat di
+                antara pengguna Anda melalui saluran suara
+                kami. Dorong diskusi, kumpulkan umpan balik,
+                dan bangun pengikut setia yang dapat menjadi
+                pendukung merek.
+              </h3>
+              <h2>Wawasan Berbasis Data</h2>
+              <h3>
+                Akses data dan analisis berharga untuk
+                memahami pelanggan Anda dengan lebih baik.
+                Buat keputusan yang berdasarkan informasi,
+                sesuaikan penawaran Anda, dan tetap unggul
+                dari pesaing.
+              </h3>
+              <h2>Operasi yang Tersusun</h2>
+              <h3>
+                Kelola semua aspek bisnis B2C Anda dari satu
+                platform. Dari komunikasi hingga penjualan
+                dan pembangunan komunitas, LIVEJB
+                menyederhanakan operasi Anda, menghemat
+                waktu dan usaha Anda.
               </h3>
             </div>
           </div>

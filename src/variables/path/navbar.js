@@ -12,10 +12,5 @@ export const getMenus = () => {
       name: "Dashboard",
       route: "/dashboard",
     },
-    {
-      key: RENTAL_MARKET,
-      name: "Rental Market",
-      route: "/search",
-    },
   ];
 };

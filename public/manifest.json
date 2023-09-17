@@ -1,20 +1,20 @@
 {
-  "short_name": "WG - Your Trusted Rental Market",
-  "name": "Warunk Gaming",
+  "short_name": "LIVEJB - Jual beli ngobrol aja dulu",
+  "name": "LIVEJB",
   "icons": [
     {
-      "src": "ic_new_wg_logo.ico",
+      "src": "baru2.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "ic_new_wg_logo.png",
-      "type": "image/png",
+      "src": "baru2.svg",
+      "type": "image/svg",
       "sizes": "192x192"
     },
     {
-      "src": "ic_new_wg_logo.png",
-      "type": "image/png",
+      "src": "baru2.svg",
+      "type": "image/svg",
       "sizes": "512x512"
     }
   ],
