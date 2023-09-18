@@ -92,36 +92,16 @@ export const FileRejectionItems = (props) => {
 };
 
 export default function MultiUpload(props) {
-  let {
-    acceptedFiles,
-    fileRejections,
-    getRootProps,
-    getInputProps,
-  } = useDropzone({
+  let { getRootProps, getInputProps } = useDropzone({
+    onDrop: props.onDrop,
+    onDropAccepted,
+    onDropRejected,
     validator: multiFileValidator,
   });
 
-  function multiFileValidator(file) {
-    if (
-      (file.type.length === 0) |
-      !props.extensions.includes(file.type)
-    )
-      return {
-        code: "invalid-extension",
-        message: `Tipe file: ${file.type} tidak dapat diterima`,
-      };
-    if (file.size > props.maxSize)
-      return {
-        code: "size-too-large",
-        message: `Size lebih besar dari pada ${formattedNumber(
-          props.maxSize
-        )} byte`,
-      };
-    return null;
-  }
-
-  React.useEffect(() => {
+  function onDropRejected(rejectedFiles) {
     (async function () {
+      const fileRejections = rejectedFiles;
       const proceed =
         fileRejections.length > 0 ? true : false;
       const temp = [];
@@ -141,9 +121,9 @@ export default function MultiUpload(props) {
       }
       if (proceed) props.setRejected([...temp]);
     })();
-  }, [acceptedFiles]);
+  }
 
-  React.useEffect(() => {
+  function onDropAccepted(acceptedFiles) {
     (async function () {
       const proceed =
         acceptedFiles.length > 0 ? true : false;
@@ -160,7 +140,26 @@ export default function MultiUpload(props) {
       }
       if (proceed) props.setBase64s(temp);
     })();
-  }, [acceptedFiles]);
+  }
+
+  function multiFileValidator(file) {
+    if (
+      (file.type.length === 0) |
+      !props.extensions.includes(file.type)
+    )
+      return {
+        code: "invalid-extension",
+        message: `Tipe file: ${file.type} tidak dapat diterima`,
+      };
+    if (file.size > props.maxSize)
+      return {
+        code: "size-too-large",
+        message: `Size lebih besar dari pada ${formattedNumber(
+          props.maxSize
+        )} byte`,
+      };
+    return null;
+  }
 
   return (
     <div className="multi-upload-picture-box darker-bg-color">

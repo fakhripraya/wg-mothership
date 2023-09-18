@@ -455,6 +455,9 @@ export default function AddCatalogue() {
             additionalElement={
               <span className="red-color">MAX 5 FILE</span>
             }
+            onDrop={() => {
+              handleOpenModal(setModalToggle, modalToggle);
+            }}
           />
         </div>
       </div>
@@ -983,6 +986,11 @@ export default function AddCatalogue() {
                 extensions={PDF}
                 label={GENERAL_MULTIUPLOAD_LABEL}
                 subLabel={GENERAL_MULTIUPLOAD_SUBLABEL(PDF)}
+                additionalElement={
+                  <span className="red-color">
+                    MAX 5 FILE
+                  </span>
+                }
               />
               <br />
               <br />
