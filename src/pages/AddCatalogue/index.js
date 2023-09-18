@@ -16,8 +16,6 @@ import TextInput from "../../components/TextInput";
 import {
   defaultCourier,
   initialValue,
-  bidMultiplicationPeriodValues,
-  bidPeriodValues,
   initialFetchedDatas,
 } from "../../variables/initial/catalogue";
 import {
@@ -57,6 +55,7 @@ import {
 } from "../../variables/errorMessages/catalogue";
 import { v4 as uuidv4 } from "uuid";
 import { cookies } from "../../config/cookie";
+import TextArea from "../../components/TextArea";
 
 // TODO: Fix input lag caused by uploaded file re rendered
 export default function AddCatalogue() {
@@ -92,7 +91,6 @@ export default function AddCatalogue() {
 
   // VARIABLES
   const storeCode = searchParams.get("code");
-  let login = cookies.get(CLIENT_USER_INFO, { path: "/" });
   const headers = {
     [AUTHORIZATION]: `Bearer ${
       cookies.get(CLIENT_USER_INFO, {
@@ -218,27 +216,12 @@ export default function AddCatalogue() {
       data.productCondition
     );
     formData.append("productWeight", data.productWeight);
-    formData.append(
-      "productBidPrice",
-      data.productBidPrice
-    );
-    formData.append(
-      "productBINPrice",
-      data.productBINPrice
-    );
-    formData.append(
-      "productBidMultiplication",
-      data.productBidMultiplication
-    );
-    formData.append(
-      "productBidMultiplicationPeriod",
-      data.productBidMultiplicationPeriod
-    );
-    formData.append(
-      "productBidPeriod",
-      data.productBidPeriod
-    );
+    formData.append("productPrice", data.productPrice);
     formData.append("productStocks", data.productStocks);
+    formData.append(
+      "productSafetyStocks",
+      data.productSafetyStocks
+    );
     formData.append(
       "courierChoosen",
       JSON.stringify(data.courierChoosen)
@@ -304,8 +287,7 @@ export default function AddCatalogue() {
               zeusService,
               cookies
             );
-            if (result.responseStatus === 200)
-              login = cookies.get(CLIENT_USER_INFO);
+
             return result;
           }
         )
@@ -505,8 +487,7 @@ export default function AddCatalogue() {
                 zeusService,
                 cookies
               );
-              if (result.responseStatus === 200)
-                login = cookies.get(CLIENT_USER_INFO);
+
               return result;
             }
           )
@@ -721,7 +702,8 @@ export default function AddCatalogue() {
                 <label className="add-catalogue-input-title">
                   Deskripsi
                 </label>
-                <TextInput
+                <TextArea
+                  className="add-catalogue-longtext-area"
                   value={data.productDescription}
                   onChange={(e) =>
                     handleTextChange(
@@ -730,7 +712,6 @@ export default function AddCatalogue() {
                     )
                   }
                   type="text"
-                  className="add-catalogue-textinput"
                 />
               </div>
               <div className="add-catalogue-textinput-box">
@@ -786,97 +767,17 @@ export default function AddCatalogue() {
               </h2>
               <h3 className="margin-top-0 margin-bottom-12-18">
                 Kira-kira{" "}
-                <span className="main-color">
-                  harga lelang
-                </span>{" "}
+                <span className="main-color">harga</span>{" "}
                 produkmu berapa nih ?
               </h3>
               <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
-                  Harga Awal
-                </label>
                 <TextInput
-                  value={data.productBidPrice}
+                  value={data.productPrice}
                   onChange={(e) =>
-                    handleTextChange("productBidPrice", e)
+                    handleTextChange("productPrice", e)
                   }
                   type="text"
                   className="add-catalogue-textinput"
-                />
-              </div>
-              <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
-                  Buy It Now
-                </label>
-                <TextInput
-                  value={data.productBINPrice}
-                  onChange={(e) =>
-                    handleTextChange("productBINPrice", e)
-                  }
-                  type="text"
-                  className="add-catalogue-textinput"
-                />
-              </div>
-              <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
-                  Harga Kelipatan
-                </label>
-                <TextInput
-                  value={data.productBidMultiplication}
-                  onChange={(e) =>
-                    handleTextChange(
-                      "productBidMultiplication",
-                      e
-                    )
-                  }
-                  type="text"
-                  className="add-catalogue-textinput"
-                />
-              </div>
-              <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
-                  Periode Kelipatan
-                </label>
-                <Dropdown
-                  onChange={(value) =>
-                    handleValueChange(
-                      "productBidMultiplicationPeriod",
-                      value
-                    )
-                  }
-                  style={{
-                    marginLeft: "8px",
-                    width: "75px",
-                    maxWidth: "75px",
-                  }}
-                  showTitle={false}
-                  toggle={true}
-                  value={
-                    data.productBidMultiplicationPeriod
-                  }
-                  values={bidMultiplicationPeriodValues}
-                />
-              </div>
-              <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
-                  Periode Lelang
-                </label>
-                <Dropdown
-                  onChange={(value) =>
-                    handleValueChange(
-                      "productBidPeriod",
-                      value
-                    )
-                  }
-                  style={{
-                    marginLeft: "8px",
-                    width: "75px",
-                    maxWidth: "75px",
-                  }}
-                  showTitle={false}
-                  toggle={true}
-                  value={data.productBidPeriod}
-                  values={bidPeriodValues}
                 />
               </div>
               <br />
@@ -898,6 +799,22 @@ export default function AddCatalogue() {
                   value={data.productStocks}
                   onChange={(e) =>
                     handleTextChange("productStocks", e)
+                  }
+                  type="text"
+                  className="add-catalogue-textinput"
+                />
+              </div>
+              <div className="add-catalogue-textinput-box">
+                <label className="add-catalogue-input-title">
+                  Safety Stok
+                </label>
+                <TextInput
+                  value={data.productSafetyStocks}
+                  onChange={(e) =>
+                    handleTextChange(
+                      "productSafetyStocks",
+                      e
+                    )
                   }
                   type="text"
                   className="add-catalogue-textinput"

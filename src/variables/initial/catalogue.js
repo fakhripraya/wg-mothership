@@ -6,12 +6,9 @@ export const initialValue = {
   productHashtag: "",
   productCondition: "",
   productWeight: "",
-  productBidPrice: "",
-  productBINPrice: "",
-  productBidMultiplication: "",
-  productBidMultiplicationPeriod: "/ Menit",
-  productBidPeriod: "/ Hari",
+  productPrice: "",
   productStocks: "",
+  productSafetyStocks: "",
   courierChoosen: ["Pilih Kurir"],
   newCatalogues: [],
 };
@@ -29,24 +26,6 @@ export const initialFetchedDatas = {
   },
 };
 
-export const defaultPrice = {
-  price: 0,
-  period: "/ Hari",
-};
-
-export const defaultCourier = "Pilih Kurir";
-export const bidMultiplicationPeriodValues = [
-  "/ Menit",
-  "/ Jam",
-  "/ Hari",
-];
-export const bidPeriodValues = [
-  "/ Hari",
-  "/ 3 Hari",
-  "/ 7 Hari",
-  "/ 15 Hari",
-  "/ 30 Hari",
-];
 export const pricePeriodValues = [
   "/ Hari",
   "/ 3 Hari",
@@ -54,6 +33,13 @@ export const pricePeriodValues = [
   "/ 15 Hari",
   "/ 30 Hari",
 ];
+
+export const defaultPrice = {
+  price: 0,
+  period: "/ Hari",
+};
+
+export const defaultCourier = "Pilih Kurir";
 
 export const filterCheckboxes = [
   {

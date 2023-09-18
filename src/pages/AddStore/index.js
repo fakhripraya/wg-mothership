@@ -47,6 +47,7 @@ import {
   ShowErrorModal,
   ShowSuccessModal,
 } from "./ModularComponents/ShowModals";
+import TextArea from "../../components/TextArea";
 
 export default function AddStore() {
   // HOOK
@@ -379,13 +380,13 @@ export default function AddStore() {
                 <label className="add-store-input-title">
                   Deskripsi
                 </label>
-                <TextInput
+                <TextArea
                   value={data.pickupSubdistrict}
                   onChange={(e) =>
                     handleTextChange("storeDescription", e)
                   }
                   type="text"
-                  className="add-store-textinput"
+                  className="add-store-longtext-area"
                 />
               </div>
               <div className="add-store-textinput-box">
