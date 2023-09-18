@@ -1,6 +1,24 @@
 // GLOBAL STRING
 export const NO_STRING = "";
 export const NO_DATA = "No Data";
+export const GENERAL_MULTIUPLOAD_LABEL =
+  "Geser file dan masukkan file ke box ini atau klik untuk pilih file";
+export const GENERAL_MULTIUPLOAD_SUBLABEL = (extensions) =>
+  `Mohon hanya upload extension ${extensions} saja`;
+
+// ARRAY
+export const IMAGE_MIME_TYPE = [
+  "image/apng",
+  "image/avif",
+  "image/bmp",
+  "image/gif",
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/svg+xml",
+  "image/tiff",
+  "image/webp",
+];
 
 // MENU
 export const MENU_MOBILE = "MENU_MOBILE";
@@ -100,7 +118,8 @@ export const SETTING_STORE_FORM = "SETTING_STORE_FORM";
 // COOKIES NAME
 export const CLIENT_USER_INFO = "CLIENT_USER_INFO";
 
-// UPLOAD FILE EXTENSION
+// UPLOAD FILE EXTENSION MIME TYPE
 export const JPEG = "image/jpeg";
 export const PNG = "image/png";
 export const JPEG_PNG = "image/jpeg, image/png";
+export const PDF = "application/pdf";

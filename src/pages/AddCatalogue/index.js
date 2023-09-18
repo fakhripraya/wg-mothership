@@ -8,7 +8,10 @@ import {
 import Button from "../../components/Button";
 import Dropdown from "../../components/DynamicDropdown";
 import Modal from "../../components/Modal";
-import MultiUpload from "../../components/MultiUpload";
+import MultiUpload, {
+  AcceptedFileItems,
+  FileRejectionItems,
+} from "../../components/MultiUpload";
 import TextInput from "../../components/TextInput";
 import {
   defaultCourier,
@@ -22,10 +25,13 @@ import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
   CONTENT_TYPE,
+  GENERAL_MULTIUPLOAD_LABEL,
+  GENERAL_MULTIUPLOAD_SUBLABEL,
   JPEG_PNG,
   LOGIN,
   NO_DATA,
   NO_STRING,
+  PDF,
   URL_GET_ADD_CATALOGUE_DATA,
   URL_GET_CATEGORIES,
   URL_GET_COURIERS,
@@ -69,9 +75,19 @@ export default function AddCatalogue() {
     useState(false);
   const [errorModalToggle, setErrorModalToggle] =
     useState(false);
-  const [base64s, setBase64s] = useState([]);
-  const [additionalBase64s, setAdditionalBase64s] =
+  const [productPictures, setProductPictures] = useState(
+    []
+  );
+  const [
+    rejectedProductPictures,
+    setRejectedProductPictures,
+  ] = useState([]);
+  const [additionalDocuments, setAdditionalDocuments] =
     useState([]);
+  const [
+    rejectedAdditionalDocuments,
+    setRejectedAdditionalDocuments,
+  ] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // VARIABLES
@@ -235,29 +251,24 @@ export default function AddCatalogue() {
     );
 
     const maxLengthUpload =
-      base64s.length >= additionalBase64s
-        ? base64s.length
-        : additionalBase64s.length;
+      productPictures.length >= additionalDocuments
+        ? productPictures.length
+        : additionalDocuments.length;
 
     for (var i = 0; maxLengthUpload > i; i++) {
-      base64s[i] &&
+      productPictures[i] &&
         formData.append(
           "uploadedImageFiles",
-          b64toBlob(base64s[i].base64),
-          base64s[i].name
+          b64toBlob(productPictures[i].base64),
+          productPictures[i].name
         );
-      additionalBase64s[i] &&
+      additionalDocuments[i] &&
         formData.append(
           "uploadedAdditionalFiles",
-          b64toBlob(additionalBase64s[i].base64),
-          additionalBase64s[i].name
+          b64toBlob(additionalDocuments[i].base64),
+          additionalDocuments[i].name
         );
     }
-    console.log(
-      JSON.stringify(
-        fetchedDatas.datas.catalogues.responseData
-      )
-    );
 
     return formData;
   }
@@ -430,12 +441,17 @@ export default function AddCatalogue() {
           </h2>
           <MultiUpload
             formName={ADD_CATALOGUE_FORM}
-            base64s={base64s}
-            setBase64s={setBase64s}
+            base64s={productPictures}
+            setBase64s={setProductPictures}
+            rejected={rejectedProductPictures}
+            setRejected={setRejectedProductPictures}
             maxLength={5}
+            maxSize={5 * 1000 * 1000} //5mb
             extensions={JPEG_PNG}
-            label="Geser file dan masukkan file ke box ini atau klik untuk pilih file"
-            subLabel="Mohon hanya upload extension .jpeg atau .png saja"
+            label={GENERAL_MULTIUPLOAD_LABEL}
+            subLabel={GENERAL_MULTIUPLOAD_SUBLABEL(
+              JPEG_PNG
+            )}
             additionalElement={
               <span className="red-color">MAX 5 FILE</span>
             }
@@ -665,6 +681,13 @@ export default function AddCatalogue() {
                 <span className="main-color">disini</span>{" "}
                 ya
               </h3>
+              <AcceptedFileItems
+                base64s={productPictures}
+                setBase64s={setProductPictures}
+              />
+              <FileRejectionItems
+                rejected={rejectedProductPictures}
+              />
               <div className="add-catalogue-textinput-box margin-top-0">
                 <Button
                   onClick={() =>
@@ -949,13 +972,17 @@ export default function AddCatalogue() {
                 </span>
               </h3>
               <MultiUpload
+                formName={ADD_CATALOGUE_FORM}
                 customIcon={AgreementIcon}
-                base64s={additionalBase64s}
-                setBase64s={setAdditionalBase64s}
+                base64s={additionalDocuments}
+                setBase64s={setAdditionalDocuments}
+                rejected={rejectedAdditionalDocuments}
+                setRejected={setRejectedAdditionalDocuments}
                 maxLength={5}
-                extensions={JPEG_PNG}
-                label="Geser file dan masukkan file ke box ini atau klik untuk pilih file"
-                subLabel="Mohon hanya upload extension .pdf saja"
+                maxSize={5 * 1000 * 1000} //5mb
+                extensions={PDF}
+                label={GENERAL_MULTIUPLOAD_LABEL}
+                subLabel={GENERAL_MULTIUPLOAD_SUBLABEL(PDF)}
               />
               <br />
               <br />

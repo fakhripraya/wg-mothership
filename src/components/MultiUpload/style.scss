@@ -52,8 +52,14 @@
   font-weight: bold;
 }
 
-.multi-upload-file-list {
+.multi-upload-file-list-container {
   margin-bottom: 12px;
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
+.multi-upload-file-list {
   list-style: none;
   justify-content: flex-start;
   align-items: center;
@@ -67,4 +73,15 @@
 
 .multi-upload-red {
   color: #d32f2f;
+}
+
+.multi-upload-button {
+  margin-top: 12px;
+  text-align: center;
+  justify-self: center;
+  align-self: center;
+}
+
+.multi-upload-button-text {
+  margin: 6px !important;
 }

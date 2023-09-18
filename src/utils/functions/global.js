@@ -1,4 +1,5 @@
 import { Buffer } from "buffer";
+import { IMAGE_MIME_TYPE } from "../../variables/global";
 
 // Whatsapp sender
 export function sendWACS() {
@@ -140,3 +141,10 @@ export const showDisplayName = (obj) => {
       ? obj.details.fullName
       : `Guest-${obj.socketId}`;
 };
+
+export const isImageType = (type) => {
+  return IMAGE_MIME_TYPE.includes(type);
+};
+
+export const formattedNumber = (number) =>
+  new Intl.NumberFormat().format(number);

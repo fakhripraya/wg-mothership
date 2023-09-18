@@ -160,11 +160,12 @@ export default function AddStore() {
       "storePostalCode",
       data.storePostalCode
     );
-    formData.append(
-      "uploadedStoreProfilePicture",
-      b64toBlob(profilePicture.base64),
-      profilePicture.name
-    );
+    profilePicture &&
+      formData.append(
+        "uploadedStoreProfilePicture",
+        b64toBlob(profilePicture.base64),
+        profilePicture.name
+      );
 
     return formData;
   }
@@ -381,7 +382,7 @@ export default function AddStore() {
                 <TextInput
                   value={data.pickupSubdistrict}
                   onChange={(e) =>
-                    handleTextChange("storePhone", e)
+                    handleTextChange("storeDescription", e)
                   }
                   type="text"
                   className="add-store-textinput"

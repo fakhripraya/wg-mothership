@@ -73,6 +73,8 @@ import ShowVisitors from "./ModularComponents/ShowVisitors";
 import ShowNewPurchaseOrders from "./ModularComponents/ShowPurchaseOrders";
 import { ShowSettingTab } from "./ModularComponents/ShowSettingTab";
 
+// TODO: Creative store needs to be standalone so when both socket need to disconnect on page close it will disconnect properly
+// test result shows that it could still produce some anomaly that caused by unproper disconnection
 export default function CreativeStore() {
   // REFS //
   const chatInputRef = useRef();
@@ -1195,7 +1197,6 @@ export default function CreativeStore() {
 
   // do something about rendering
   function handleVisitorsRender(joinedUsers) {
-    console.log(joinedUsers);
     setVisitors(() => {
       return { ...joinedUsers };
     });
@@ -1512,10 +1513,6 @@ export default function CreativeStore() {
         process.env.REACT_APP_FOREFRONT_HERMES_SERVICE
       )
     );
-    return () => {
-      if (webRTCSocket) webRTCSocket.disconnect();
-      if (chatSocket) chatSocket.disconnect();
-    };
   }, []);
 
   // INITIAL RENDER AND INITIALIZATION
