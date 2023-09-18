@@ -316,7 +316,7 @@ export default function AddCatalogue() {
   }
 
   // COMPONENTS SPECIFIC //
-  const ShowSubmitNewModal = (props) => {
+  const ShowAddNewCatalogueModal = (props) => {
     // COMPONENT HOOKS
     const [tempCatalogue, setTempCatalogue] =
       useState(NO_STRING);
@@ -530,7 +530,7 @@ export default function AddCatalogue() {
           )
         }
         toggle={modalCatalogueToggle}>
-        <ShowSubmitNewModal
+        <ShowAddNewCatalogueModal
           title="Katalog"
           setModalToggle={setModalCatalogueToggle}
           modalToggle={modalCatalogueToggle}
