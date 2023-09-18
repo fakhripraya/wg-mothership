@@ -19,6 +19,7 @@ import Modal from "../../components/Modal";
 import { postOTPDataInitialValue } from "../../variables/initial/otp";
 import { trackPromise } from "react-promise-tracker";
 import {
+  acceptNumericOnly,
   handleErrorMessage,
   handleOpenModal,
 } from "../../utils/functions/global";
@@ -42,9 +43,9 @@ export default function OTP(props) {
   const [errorMessage, setErrorMessage] = useState(null);
 
   // FUNCTIONS SPECIFIC //
-  function handleTextChange(field, event) {
+  function handleNumericChange(field, event) {
     const temp = { ...postOTPData };
-    temp[field] = event.target.value;
+    temp[field] = acceptNumericOnly(event.target.value);
     setPostOTPData(temp);
   }
 
@@ -151,7 +152,7 @@ export default function OTP(props) {
                 <TextInput
                   value={postOTPData.OTPInput}
                   onChange={(e) =>
-                    handleTextChange("OTPInput", e)
+                    handleNumericChange("OTPInput", e)
                   }
                   maxLength="6"
                   type="password"

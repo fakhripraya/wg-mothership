@@ -17,6 +17,7 @@ import {
   defaultCourier,
   initialValue,
   initialFetchedDatas,
+  weightList,
 } from "../../variables/initial/catalogue";
 import {
   ADD_CATALOGUE_FORM,
@@ -42,6 +43,7 @@ import Checkbox from "../../components/Checkbox";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import {
+  acceptNumericOnly,
   b64toBlob,
   handleError500,
   handleErrorMessage,
@@ -133,6 +135,12 @@ export default function AddCatalogue() {
   function handleTextChange(field, event) {
     const temp = { ...data };
     temp[field] = event.target.value;
+    setData(temp);
+  }
+
+  function handleNumericChange(field, event) {
+    const temp = { ...data };
+    temp[field] = acceptNumericOnly(event.target.value);
     setData(temp);
   }
 
@@ -734,9 +742,6 @@ export default function AddCatalogue() {
                 produkmu gimana nih sekarang ?
               </h3>
               <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
-                  Kondisi
-                </label>
                 <TextInput
                   value={data.productCondition}
                   onChange={(e) =>
@@ -746,17 +751,36 @@ export default function AddCatalogue() {
                   className="add-catalogue-textinput"
                 />
               </div>
+              <br />
+              <h3 className="margin-top-0 margin-bottom-12-18">
+                Kalau{" "}
+                <span className="main-color">berat</span>{" "}
+                produkmu ?
+              </h3>
               <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
-                  Berat
-                </label>
                 <TextInput
                   value={data.productWeight}
                   onChange={(e) =>
-                    handleTextChange("productWeight", e)
+                    handleNumericChange("productWeight", e)
                   }
                   type="text"
                   className="add-catalogue-textinput"
+                />
+                <Dropdown
+                  onChange={(value) =>
+                    handleValueChange(
+                      "productWeightUnit",
+                      value
+                    )
+                  }
+                  style={{
+                    width: "fit-content",
+                    marginLeft: "8px",
+                  }}
+                  showTitle={false}
+                  toggle={true}
+                  value={data.productWeightUnit}
+                  values={weightList}
                 />
               </div>
               <br />
@@ -774,7 +798,7 @@ export default function AddCatalogue() {
                 <TextInput
                   value={data.productPrice}
                   onChange={(e) =>
-                    handleTextChange("productPrice", e)
+                    handleNumericChange("productPrice", e)
                   }
                   type="text"
                   className="add-catalogue-textinput"
@@ -798,7 +822,7 @@ export default function AddCatalogue() {
                 <TextInput
                   value={data.productStocks}
                   onChange={(e) =>
-                    handleTextChange("productStocks", e)
+                    handleNumericChange("productStocks", e)
                   }
                   type="text"
                   className="add-catalogue-textinput"
@@ -811,7 +835,7 @@ export default function AddCatalogue() {
                 <TextInput
                   value={data.productSafetyStocks}
                   onChange={(e) =>
-                    handleTextChange(
+                    handleNumericChange(
                       "productSafetyStocks",
                       e
                     )

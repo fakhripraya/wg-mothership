@@ -6,6 +6,7 @@ export const initialValue = {
   productHashtag: "",
   productCondition: "",
   productWeight: "",
+  productWeightUnit: "/ Kilogram",
   productPrice: "",
   productStocks: "",
   productSafetyStocks: "",
@@ -26,13 +27,7 @@ export const initialFetchedDatas = {
   },
 };
 
-export const pricePeriodValues = [
-  "/ Hari",
-  "/ 3 Hari",
-  "/ 7 Hari",
-  "/ 15 Hari",
-  "/ 30 Hari",
-];
+export const weightList = ["/ Gram", "/ Kilogram"];
 
 export const defaultPrice = {
   price: 0,
@@ -48,6 +43,14 @@ export const filterCheckboxes = [
   {
     title: "Non Active",
   },
+];
+
+export const pricePeriodValues = [
+  "/ Hari",
+  "/ 3 Hari",
+  "/ 7 Hari",
+  "/ 15 Hari",
+  "/ 30 Hari",
 ];
 
 export const filterDropdowns = [

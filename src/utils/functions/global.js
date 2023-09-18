@@ -148,3 +148,9 @@ export const isImageType = (type) => {
 
 export const formattedNumber = (number) =>
   new Intl.NumberFormat().format(number);
+
+export const acceptNumericOnly = (input) => {
+  // Remove any non-numeric characters
+  input = input.replace(/[^0-9]/g, "");
+  return input;
+};
