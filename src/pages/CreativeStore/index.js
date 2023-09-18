@@ -1603,9 +1603,9 @@ export default function CreativeStore() {
                   </div>
                 </div>
                 <div className="creative-store-header">
-                  <h3 className="creative-store-store-title">
+                  <h4 className="creative-store-store-title">
                     {storeInfo && storeInfo.storeName}
-                  </h3>
+                  </h4>
                   <label className="creative-store-store-label">
                     {storeInfo &&
                       storeInfo.storeDescription}
