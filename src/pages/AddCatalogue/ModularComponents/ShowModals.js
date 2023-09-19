@@ -146,3 +146,27 @@ export const ShowErrorModal = (props) => {
     </div>
   );
 };
+
+export const ShowSuccessModal = (props) => {
+  return (
+    <div className="add-store-modal-container dark-bg-color">
+      <div className="add-store-modal-wrapper">
+        <h3 className="margin-top-0 margin-bottom-12-18">
+          <span className="main-color">SUKSES</span>
+        </h3>
+        <br />
+        <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
+          Sukses menambah display item !
+        </label>
+        <br />
+        <div
+          style={{ padding: "0px", width: "30%" }}
+          className="align-self-center add-store-modal-button">
+          <Button onClick={props.handleGoBackDashboard}>
+            OK
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};

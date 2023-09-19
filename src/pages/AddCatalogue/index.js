@@ -43,6 +43,7 @@ import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import {
   acceptNumericOnly,
   b64toBlob,
+  formattedNumber,
   handleError500,
   handleErrorMessage,
   handleOpenModal,
@@ -60,6 +61,7 @@ import { PAGE_REDIRECTING_MESSAGE } from "../../variables/errorMessages/dashboar
 import {
   ShowAddNewCatalogueModal,
   ShowErrorModal,
+  ShowSuccessModal,
   ShowUploadModal,
 } from "./ModularComponents/ShowModals";
 
@@ -94,6 +96,7 @@ export default function AddCatalogue() {
     rejectedAdditionalDocuments,
     setRejectedAdditionalDocuments,
   ] = useState([]);
+  const [success, setSuccess] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // VARIABLES
@@ -128,7 +131,7 @@ export default function AddCatalogue() {
   ];
 
   // FUNCTIONS SPECIFIC //
-  function handleGoBackDashboard(navigate) {
+  function handleGoBackDashboard() {
     navigate(`/dashboard`);
   }
 
@@ -257,6 +260,10 @@ export default function AddCatalogue() {
       data.productCondition
     );
     formData.append("productWeight", data.productWeight);
+    formData.append(
+      "productWeightUnit",
+      data.productWeightUnit
+    );
     formData.append("productPrice", data.productPrice);
     formData.append("productStocks", data.productStocks);
     formData.append(
@@ -275,7 +282,7 @@ export default function AddCatalogue() {
     );
 
     const maxLengthUpload =
-      productPictures.length >= additionalDocuments
+      productPictures.length >= additionalDocuments.length
         ? productPictures.length
         : additionalDocuments.length;
 
@@ -333,8 +340,7 @@ export default function AddCatalogue() {
           }
         )
         .then((res) => {
-          if (res.responseStatus === 200) {
-          }
+          if (res.responseStatus === 200) setSuccess(true);
         })
         .catch((error) => {
           if (error.responseStatus === 500)
@@ -414,6 +420,13 @@ export default function AddCatalogue() {
 
   return (
     <Fragment>
+      <Modal
+        className="dark-bg-color"
+        toggle={success}>
+        <ShowSuccessModal
+          handleGoBackDashboard={handleGoBackDashboard}
+        />
+      </Modal>
       <Modal
         className="dark-bg-color"
         clicked={handleOpenModalAddCatalogue}
@@ -642,7 +655,9 @@ export default function AddCatalogue() {
               </h3>
               <div className="add-catalogue-textinput-box">
                 <TextInput
-                  value={data.productWeight}
+                  value={formattedNumber(
+                    data.productWeight
+                  )}
                   onChange={(e) =>
                     handleNumericChange("productWeight", e)
                   }
@@ -678,8 +693,11 @@ export default function AddCatalogue() {
                 produkmu berapa nih ?
               </h3>
               <div className="add-catalogue-textinput-box">
+                <label className="add-catalogue-input-title">
+                  Rp.
+                </label>
                 <TextInput
-                  value={data.productPrice}
+                  value={formattedNumber(data.productPrice)}
                   onChange={(e) =>
                     handleNumericChange("productPrice", e)
                   }
@@ -703,7 +721,9 @@ export default function AddCatalogue() {
                   Stok
                 </label>
                 <TextInput
-                  value={data.productStocks}
+                  value={formattedNumber(
+                    data.productStocks
+                  )}
                   onChange={(e) =>
                     handleNumericChange("productStocks", e)
                   }
@@ -716,7 +736,9 @@ export default function AddCatalogue() {
                   Safety Stok
                 </label>
                 <TextInput
-                  value={data.productSafetyStocks}
+                  value={formattedNumber(
+                    data.productSafetyStocks
+                  )}
                   onChange={(e) =>
                     handleNumericChange(
                       "productSafetyStocks",

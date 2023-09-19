@@ -112,7 +112,7 @@ export default function AddStore() {
 
   // Programatically click the hidden file input element
   // when the Button component is clicked
-  function handleUploadClick(event) {
+  function handleUploadClick() {
     hiddenFileInput.current.click();
   }
 
