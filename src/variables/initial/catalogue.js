@@ -6,7 +6,7 @@ export const initialValue = {
   productHashtag: "",
   productCondition: "",
   productWeight: "",
-  productWeightUnit: "/ Kilogram",
+  productWeightUnit: "Kilogram",
   productPrice: "",
   productStocks: "",
   productSafetyStocks: "",
@@ -27,7 +27,7 @@ export const initialFetchedDatas = {
   },
 };
 
-export const weightList = ["/ Gram", "/ Kilogram"];
+export const weightList = ["Gram", "Kilogram"];
 
 export const defaultPrice = {
   price: 0,
