@@ -48,6 +48,8 @@ import {
   ShowSuccessModal,
 } from "./ModularComponents/ShowModals";
 import TextArea from "../../components/TextArea";
+import { PAGE_REDIRECTING_MESSAGE } from "../../variables/errorMessages/dashboard";
+import PageLoading from "../PageLoading";
 
 export default function AddStore() {
   // HOOK
@@ -268,6 +270,18 @@ export default function AddStore() {
       })()
     );
   }, []);
+
+  if (!login)
+    (() => {
+      // Executing asynchronous call for redirecting to home page
+      handleOpenOverridingHome(LOGIN);
+      // Placeholder message while redirecting to home page
+      return (
+        <PageLoading
+          loadingMessage={PAGE_REDIRECTING_MESSAGE}
+        />
+      );
+    })();
 
   return (
     <Fragment>

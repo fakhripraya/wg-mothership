@@ -26,10 +26,8 @@ import {
   CONTENT_TYPE,
   GENERAL_MULTIUPLOAD_LABEL,
   GENERAL_MULTIUPLOAD_SUBLABEL,
-  JPEG_PNG,
   LOGIN,
   NO_DATA,
-  NO_STRING,
   PDF,
   URL_GET_ADD_CATALOGUE_DATA,
   URL_GET_CATEGORIES,
@@ -55,9 +53,15 @@ import {
   AGREEMENT_CHECKBOX_UNCHECKED,
   INPUT_NEW_CATALOGUE_VALUE,
 } from "../../variables/errorMessages/catalogue";
-import { v4 as uuidv4 } from "uuid";
 import { cookies } from "../../config/cookie";
 import TextArea from "../../components/TextArea";
+import PageLoading from "../PageLoading";
+import { PAGE_REDIRECTING_MESSAGE } from "../../variables/errorMessages/dashboard";
+import {
+  ShowAddNewCatalogueModal,
+  ShowErrorModal,
+  ShowUploadModal,
+} from "./ModularComponents/ShowModals";
 
 // TODO: Fix input lag caused by uploaded file re rendered
 export default function AddCatalogue() {
@@ -71,7 +75,8 @@ export default function AddCatalogue() {
   const [agreementCheckbox, setAgreementCheckbox] =
     useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [modalToggle, setModalToggle] = useState(false);
+  const [modalUploadToggle, setModalUploadToggle] =
+    useState(false);
   const [modalCatalogueToggle, setModalCatalogueToggle] =
     useState(false);
   const [errorModalToggle, setErrorModalToggle] =
@@ -92,6 +97,7 @@ export default function AddCatalogue() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // VARIABLES
+  let login = cookies.get(CLIENT_USER_INFO);
   const storeCode = searchParams.get("code");
   const headers = {
     [AUTHORIZATION]: `Bearer ${
@@ -154,6 +160,33 @@ export default function AddCatalogue() {
     const temp = { ...data };
     temp.courierChoosen[index] = value;
     setData(temp);
+  }
+
+  function handleAddCatalogueError() {
+    handleErrorMessage(
+      { errorContent: INPUT_NEW_CATALOGUE_VALUE },
+      setErrorMessage,
+      setErrorModalToggle,
+      errorModalToggle
+    );
+  }
+
+  function handleOpenModalError() {
+    handleOpenModal(setErrorModalToggle, errorModalToggle);
+  }
+
+  function handleOpenModalUpload() {
+    handleOpenModal(
+      setModalUploadToggle,
+      modalUploadToggle
+    );
+  }
+
+  function handleOpenModalAddCatalogue() {
+    handleOpenModal(
+      setModalCatalogueToggle,
+      modalCatalogueToggle
+    );
   }
 
   function handleSetFetchedDatas(array) {
@@ -323,167 +356,6 @@ export default function AddCatalogue() {
     );
   }
 
-  // COMPONENTS SPECIFIC //
-  const ShowAddNewCatalogueModal = (props) => {
-    // COMPONENT HOOKS
-    const [tempCatalogue, setTempCatalogue] =
-      useState(NO_STRING);
-
-    // COMPONENT FUNCTIONS
-    function handleCatalogueSubmit() {
-      if (!tempCatalogue)
-        return handleErrorMessage(
-          { errorContent: INPUT_NEW_CATALOGUE_VALUE },
-          setErrorMessage,
-          setErrorModalToggle,
-          errorModalToggle
-        );
-
-      let newFetchedDatas = { ...fetchedDatas };
-      let newDropdowns =
-        newFetchedDatas.dropdowns.catalogues.filter(
-          (val) => val !== NO_DATA
-        );
-      newDropdowns.push(tempCatalogue);
-      newFetchedDatas.dropdowns.catalogues = newDropdowns;
-      newFetchedDatas.datas.catalogues.responseData.push({
-        id: uuidv4(),
-        catalogueName: tempCatalogue,
-      });
-      setFetchedDatas(newFetchedDatas);
-      handleOpenModal(
-        props.setModalToggle,
-        props.modalToggle
-      );
-    }
-
-    // RENDER
-    return (
-      <div className="add-catalogue-modal-container dark-bg-color">
-        <div className="add-catalogue-modal-wrapper">
-          <Button
-            onClick={() =>
-              handleOpenModal(
-                props.setModalToggle,
-                props.modalToggle
-              )
-            }
-            className="align-self-end add-catalogue-button red-bg-color">
-            <h4 className="add-catalogue-button-text">X</h4>
-          </Button>
-          <br />
-          <h2 className="margin-top-0 margin-bottom-12-18">
-            Tambah{" "}
-            <span className="main-color">
-              {props.title}
-            </span>
-          </h2>
-          <h3 className="margin-top-0">
-            Belum ada{" "}
-            <span className="main-color">katalog</span> yang
-            pas buat{" "}
-            <span className="main-color">produk</span> di
-            tokomu? <br />{" "}
-            <span className="main-color">tambahin</span>{" "}
-            dulu yuk !
-          </h3>
-          <div className="add-catalogue-textinput-box">
-            <label className="add-catalogue-input-title margin-0">
-              Nama Katalog
-            </label>
-            <TextInput
-              value={tempCatalogue}
-              onChange={(e) =>
-                setTempCatalogue(e.target.value)
-              }
-              type="text"
-              className="align-self-center add-catalogue-textinput darker-bg-color"
-            />
-          </div>
-          <br />
-          <Button
-            onClick={() => handleCatalogueSubmit()}
-            className="align-self-center add-catalogue-button main-bg-color">
-            <h4 className="add-catalogue-button-text">
-              Submit
-            </h4>
-          </Button>
-        </div>
-      </div>
-    );
-  };
-
-  const ShowUploadModal = () => {
-    return (
-      <div className="add-catalogue-modal-container dark-bg-color">
-        <div className="add-catalogue-modal-wrapper">
-          <Button
-            onClick={() =>
-              handleOpenModal(setModalToggle, modalToggle)
-            }
-            className="align-self-end add-catalogue-button red-bg-color">
-            <h4 className="add-catalogue-button-text">X</h4>
-          </Button>
-          <br />
-          <h2 className="margin-top-0 margin-bottom-12-18">
-            Upload <span className="main-color">foto</span>{" "}
-            untuk produkmu disini
-          </h2>
-          <MultiUpload
-            formName={ADD_CATALOGUE_FORM}
-            base64s={productPictures}
-            setBase64s={setProductPictures}
-            rejected={rejectedProductPictures}
-            setRejected={setRejectedProductPictures}
-            maxLength={5}
-            maxSize={5 * 1000 * 1000} //5mb
-            extensions={JPEG_PNG}
-            label={GENERAL_MULTIUPLOAD_LABEL}
-            subLabel={GENERAL_MULTIUPLOAD_SUBLABEL(
-              JPEG_PNG
-            )}
-            additionalElement={
-              <span className="red-color">MAX 5 FILE</span>
-            }
-            onDrop={() => {
-              handleOpenModal(setModalToggle, modalToggle);
-            }}
-          />
-        </div>
-      </div>
-    );
-  };
-
-  const ShowErrorModal = () => {
-    return (
-      <div className="add-catalogue-modal-container dark-bg-color">
-        <div className="add-catalogue-modal-wrapper">
-          <Button
-            onClick={() =>
-              handleOpenModal(
-                setErrorModalToggle,
-                errorModalToggle
-              )
-            }
-            className="align-self-end add-catalogue-modal-button red-bg-color">
-            <h4 className="add-catalogue-modal-button-text">
-              X
-            </h4>
-          </Button>
-          <br />
-          <h3 className="margin-top-0 margin-bottom-12-18">
-            There is an{" "}
-            <span className="red-color">ERROR</span>
-          </h3>
-          <br />
-          <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
-            {errorMessage}
-          </label>
-        </div>
-      </div>
-    );
-  };
-
   useEffect(() => {
     async function init() {
       trackPromise(
@@ -495,7 +367,8 @@ export default function AddCatalogue() {
                 zeusService,
                 cookies
               );
-
+              if (result.responseStatus === 200)
+                login = cookies.get(CLIENT_USER_INFO);
               return result;
             }
           )
@@ -527,41 +400,56 @@ export default function AddCatalogue() {
     trackPromise(init());
   }, []);
 
+  if (!login)
+    (() => {
+      // Executing asynchronous call for redirecting to home page
+      handleOpenOverridingHome(LOGIN);
+      // Placeholder message while redirecting to home page
+      return (
+        <PageLoading
+          loadingMessage={PAGE_REDIRECTING_MESSAGE}
+        />
+      );
+    })();
+
   return (
     <Fragment>
       <Modal
         className="dark-bg-color"
-        clicked={() =>
-          handleOpenModal(
-            setModalCatalogueToggle,
-            modalCatalogueToggle
-          )
-        }
+        clicked={handleOpenModalAddCatalogue}
         toggle={modalCatalogueToggle}>
         <ShowAddNewCatalogueModal
           title="Katalog"
-          setModalToggle={setModalCatalogueToggle}
-          modalToggle={modalCatalogueToggle}
+          fetchedDatas={fetchedDatas}
+          setFetchedDatas={setFetchedDatas}
+          handleOpenModalAddCatalogue={
+            handleOpenModalAddCatalogue
+          }
+          handleAddCatalogueError={handleAddCatalogueError}
         />
       </Modal>
       <Modal
         className="dark-bg-color"
-        clicked={() =>
-          handleOpenModal(setModalToggle, modalToggle)
-        }
-        toggle={modalToggle}>
-        <ShowUploadModal />
+        clicked={handleOpenModalUpload}
+        toggle={modalUploadToggle}>
+        <ShowUploadModal
+          handleOpenModalUpload={handleOpenModalUpload}
+          productPictures={productPictures}
+          setProductPictures={setProductPictures}
+          rejectedProductPictures={rejectedProductPictures}
+          setRejectedProductPictures={
+            setRejectedProductPictures
+          }
+        />
       </Modal>
       <Modal
         className="dark-bg-color"
-        clicked={() =>
-          handleOpenModal(
-            setErrorModalToggle,
-            errorModalToggle
-          )
-        }
+        clicked={handleOpenModalError}
         toggle={errorModalToggle}>
-        <ShowErrorModal />
+        <ShowErrorModal
+          errorMessage={errorMessage}
+          handleOpenModalError={handleOpenModalError}
+        />
       </Modal>
       <div className="add-catalogue-container">
         <div className="add-catalogue-wrapper">
@@ -682,12 +570,7 @@ export default function AddCatalogue() {
               />
               <div className="add-catalogue-textinput-box margin-top-0">
                 <Button
-                  onClick={() =>
-                    handleOpenModal(
-                      setModalToggle,
-                      modalToggle
-                    )
-                  }
+                  onClick={handleOpenModalUpload}
                   className="align-self-end add-catalogue-button main-bg-color">
                   <h4 className="add-catalogue-button-text">
                     +
