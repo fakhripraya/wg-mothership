@@ -180,45 +180,38 @@ export default function Navbar() {
 
   // COMPONENTS SPECIFIC //
   const ShowProfile = () => {
-    if (!login)
-      return (
-        <Button
-          onClick={() =>
-            window.handleOpenOverriding(LOGIN)
-          }>
-          Login
-        </Button>
-      );
-    else if (login.user && login.credentialToken)
-      return (
-        <Fragment>
-          <FloatButton className="navbar-icon-button navbar-icon-button-bell" />
-          <FloatButton
-            onClick={() => {
-              setError(false);
-              handleOpenModal(setModalToggle, modalToggle);
-            }}
-            className="navbar-icon-button navbar-icon-button-logout"
-          />
-          <Avatar
-            style={{ cursor: "pointer" }}
-            onClick={() => {}}
-            size={"60px"}
-            round={true}
-            title={login.user.fullName}
-            name={login.user.fullName}
-          />
-        </Fragment>
-      );
-    else
-      return (
-        <Button
-          onClick={() =>
-            window.handleOpenOverriding(LOGIN)
-          }>
-          Login
-        </Button>
-      );
+    // Check if the user is logged in
+    const isLoggedIn =
+      login && login.user && login.credentialToken;
+
+    const handleLoginClick = () => {
+      window.handleOpenOverriding(LOGIN);
+    };
+
+    const handleLogoutClick = () => {
+      setError(false);
+      handleOpenModal(setModalToggle, modalToggle);
+    };
+
+    return isLoggedIn ? (
+      <Fragment>
+        <FloatButton className="navbar-icon-button navbar-icon-button-bell" />
+        <FloatButton
+          onClick={handleLogoutClick}
+          className="navbar-icon-button navbar-icon-button-logout"
+        />
+        <Avatar
+          style={{ cursor: "pointer" }}
+          onClick={() => {}}
+          size={"60px"}
+          round={true}
+          title={login.user.fullName}
+          name={login.user.fullName}
+        />
+      </Fragment>
+    ) : (
+      <Button onClick={handleLoginClick}>Login</Button>
+    );
   };
 
   const ShowSearchBar = () => {

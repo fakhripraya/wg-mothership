@@ -207,8 +207,8 @@ export default function Dashboard() {
     if (login) handleInitialize();
   }, []);
 
-  if (!login) {
-    return () => {
+  if (!login)
+    (() => {
       // Executing asynchronous call for redirecting to home page
       handleOpenOverridingHome(LOGIN);
       // Placeholder message while redirecting to home page
@@ -217,8 +217,7 @@ export default function Dashboard() {
           loadingMessage={PAGE_REDIRECTING_MESSAGE}
         />
       );
-    };
-  }
+    })();
 
   return (
     <Fragment>
