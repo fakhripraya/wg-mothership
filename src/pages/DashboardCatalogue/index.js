@@ -88,7 +88,7 @@ export default function DashboardCatalogue(props) {
     });
   };
 
-  const ShowAddButton = () => {
+  const ShowAlterButton = (props) => {
     // HOOK
     const navigate = useNavigate();
 
@@ -96,8 +96,8 @@ export default function DashboardCatalogue(props) {
     return (
       <div
         onClick={() => handleGoToAddCatalogue(navigate)}
-        className="dashboard-catalogue-add-button margin-top-12-18 dark-bg-color justify-center">
-        <span className="main-color">Add +</span>
+        className={`dashboard-catalogue-alter-button margin-top-12-18 justify-center ${props.className}`}>
+        {props.children}
       </div>
     );
   };
@@ -135,7 +135,14 @@ export default function DashboardCatalogue(props) {
             </div>
           </div>
         </div>
-        <ShowAddButton />
+        <div className="dashboard-catalogue-alter-button-container">
+          <ShowAlterButton className="dashboard-catalogue-add-button dark-bg-color">
+            <span className="main-color">Add +</span>
+          </ShowAlterButton>
+          <ShowAlterButton className="dashboard-catalogue-update-button main-bg-color">
+            <span className="light-color">Update</span>
+          </ShowAlterButton>
+        </div>
         {data.map((item, index) => {
           return (
             <div
@@ -284,26 +291,19 @@ export default function DashboardCatalogue(props) {
                 <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title">
                   <span className="light-color">Opsi</span>
                 </h3>
-                <h5
-                  onClick={() =>
-                    handleOpenDetail(item, navigate)
-                  }
-                  className="margin-bottom-0 light-color darker-bg-color dashboard-catalogue-body-rent-button">
-                  Edit
-                </h5>
-                <h5
-                  onClick={() =>
-                    handleOpenDetail(item, navigate)
-                  }
-                  className="margin-bottom-0 dark-color light-bg-color dashboard-catalogue-body-rent-button">
-                  Details
-                </h5>
-                <h5 className="main-bg-color dashboard-catalogue-body-rent-detail-status">
+                <p className="main-bg-color margin-bottom-0 dashboard-catalogue-body-rent-detail-status">
                   Status : {item.rentDetail.status}
-                </h5>
-                <h5 className="margin-top-0 margin-bottom-0 red-bg-color dashboard-catalogue-body-rent-button">
-                  Cancel
-                </h5>
+                </p>
+                <p
+                  onClick={() =>
+                    handleOpenDetail(item, navigate)
+                  }
+                  className="dark-color light-bg-color dashboard-catalogue-body-rent-button">
+                  Details
+                </p>
+                <p className="margin-top-0 margin-bottom-0 red-bg-color dashboard-catalogue-body-rent-button">
+                  Remove
+                </p>
               </div>
             </div>
           );
