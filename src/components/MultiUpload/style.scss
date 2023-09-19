@@ -4,7 +4,7 @@
   cursor: pointer;
   height: fit-content;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-self: center;
   align-self: center;
   margin: 12px;
@@ -12,10 +12,6 @@
   text-overflow: ellipsis;
   white-space: break-spaces;
   overflow: hidden;
-
-  @media screen and (max-width: 1280px) {
-    flex-direction: column;
-  }
 }
 
 .multi-upload-picture-field {
