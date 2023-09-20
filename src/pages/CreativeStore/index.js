@@ -449,8 +449,9 @@ export default function CreativeStore() {
       // to send audio media to the Router
       // this action will trigger the 'connect' and 'produce' events above
 
-      audioProducer =
-        await producerTransport.produce(audioParams);
+      audioProducer = await producerTransport.produce(
+        audioParams
+      );
       if (audioProducer) {
         setJoinedStatus(CONNECTED);
         handleChangeStatus(`Connected`);
@@ -883,14 +884,11 @@ export default function CreativeStore() {
         url: URL_GET_SERVER_INFO(`?storeId=${storeId}`),
       });
     } catch (error) {
-      handleModalError(error);
-    }
-
-    if (result.responseStatus === 204) {
-      chatSocket.disconnect();
-      webRTCSocket.disconnect();
-      setStoreId(null);
-      return;
+      if (error.responseStatus === 404) {
+        chatSocket.disconnect();
+        webRTCSocket.disconnect();
+        return setStoreId(null);
+      } else handleModalError(error);
     }
 
     // if we got the value and its not and error, map it
