@@ -32,7 +32,7 @@ import {
   URL_GET_ADD_CATALOGUE_DATA,
   URL_GET_CATEGORIES,
   URL_GET_COURIERS,
-  URL_POST_ADD_STORE_CATALOGUE,
+  URL_POST_ADD_STORE_PRODUCT_CATALOGUE,
   X_SID,
 } from "../../variables/global";
 import AgreementIcon from "../../assets/svg/agreement-icon.svg";
@@ -66,7 +66,7 @@ import {
 } from "./ModularComponents/ShowModals";
 
 // TODO: Fix input lag caused by uploaded file re rendered
-export default function AddCatalogue() {
+export default function AddProduct() {
   // HOOK
   const navigate = useNavigate();
   const zeusService = useAxios();
@@ -323,7 +323,9 @@ export default function AddCatalogue() {
         .postDataWithOnRequestInterceptors(
           {
             endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-            url: URL_POST_ADD_STORE_CATALOGUE(storeCode),
+            url: URL_POST_ADD_STORE_PRODUCT_CATALOGUE(
+              storeCode
+            ),
             headers: {
               ...headers,
               [CONTENT_TYPE]: "multipart/form-data",

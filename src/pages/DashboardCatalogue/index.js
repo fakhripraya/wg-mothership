@@ -28,9 +28,9 @@ export default function DashboardCatalogue(props) {
     navigate(`/detail?itemId=${item.ID}`);
   }
 
-  function handleGoToAddCatalogue(navigate) {
+  function handleGoToAddProduct() {
     navigate(
-      `/dashboard/add/catalogue?code=${props.data.selectedStore.storeCode}`
+      `/dashboard/add/product?code=${props.data.selectedStore.storeCode}`
     );
   }
 
@@ -95,7 +95,7 @@ export default function DashboardCatalogue(props) {
     // RENDER
     return (
       <div
-        onClick={() => handleGoToAddCatalogue(navigate)}
+        onClick={() => handleGoToAddProduct()}
         className={`dashboard-catalogue-alter-button margin-top-12-18 justify-center ${props.className}`}>
         {props.children}
       </div>

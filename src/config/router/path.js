@@ -9,9 +9,9 @@ import RDPRoom from "../../pages/RDPRoom";
 import RDPRoomError from "../../pages/RDPRoomError";
 import Dashboard from "../../pages/Dashboard";
 import CreativeStore from "../../pages/CreativeStore";
-import AddCatalogue from "../../pages/AddCatalogue";
 import AddStore from "../../pages/AddStore";
 import ErrorHandling from "../../pages/ErrorHandling";
+import AddProduct from "../../pages/AddProduct";
 
 export const routes = [
   {
@@ -39,8 +39,8 @@ export const routes = [
     component: <ProductSearch />,
   },
   {
-    path: "/dashboard/add/catalogue",
-    component: <AddCatalogue />,
+    path: "/dashboard/add/product",
+    component: <AddProduct />,
   },
   {
     path: "/dashboard/add/store",

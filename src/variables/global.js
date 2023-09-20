@@ -93,8 +93,10 @@ export const URL_POST_OTP = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/
 export const URL_CHECK_AUTH_AND_REFRESH_TOKEN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/token`;
 
 // ZEUS SERVICE ROUTE
-export const URL_POST_ADD_STORE_CATALOGUE = (storeCode) =>
-  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues/add?code=${storeCode}`;
+export const URL_POST_ADD_STORE_PRODUCT_CATALOGUE = (
+  storeCode
+) =>
+  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/product/add?code=${storeCode}`;
 export const URL_POST_ADD_USER_STORE = (userId) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores/add`;
 export const URL_GET_DASHBOARD_STORES = (userId) =>
