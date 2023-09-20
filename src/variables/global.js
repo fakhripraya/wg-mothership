@@ -94,15 +94,15 @@ export const URL_CHECK_AUTH_AND_REFRESH_TOKEN = `/v${process.env.REACT_APP_OLYMP
 
 // ZEUS SERVICE ROUTE
 export const URL_POST_ADD_STORE_PRODUCT_CATALOGUE = (
-  storeCode
+  storeId
 ) =>
-  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/product/add?code=${storeCode}`;
+  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/product/add?storeId=${storeId}`;
 export const URL_POST_ADD_USER_STORE = (userId) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores/add`;
 export const URL_GET_DASHBOARD_STORES = (userId) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores`;
-export const URL_GET_ADD_CATALOGUE_DATA = (storeCode) =>
-  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues?code=${storeCode}`;
+export const URL_GET_ADD_CATALOGUE_DATA = (storeId) =>
+  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues?storeId=${storeId}`;
 export const URL_GET_SERVER_INFO = (query) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/stores${query}`;
 export const URL_GET_CATEGORIES = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/category`;

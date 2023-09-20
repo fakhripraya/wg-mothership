@@ -30,7 +30,7 @@ export default function DashboardCatalogue(props) {
 
   function handleGoToAddProduct() {
     navigate(
-      `/dashboard/add/product?code=${props.data.selectedStore.storeCode}`
+      `/dashboard/add/product?storeId=${props.data.selectedStore.id}`
     );
   }
 

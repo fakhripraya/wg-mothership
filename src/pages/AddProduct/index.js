@@ -101,7 +101,7 @@ export default function AddProduct() {
 
   // VARIABLES
   let login = cookies.get(CLIENT_USER_INFO);
-  const storeCode = searchParams.get("code");
+  const storeId = searchParams.get("storeId");
   const headers = {
     [AUTHORIZATION]: `Bearer ${
       cookies.get(CLIENT_USER_INFO, {
@@ -116,7 +116,7 @@ export default function AddProduct() {
     {
       headers: headers,
       endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-      url: URL_GET_ADD_CATALOGUE_DATA(storeCode),
+      url: URL_GET_ADD_CATALOGUE_DATA(storeId),
     },
     {
       headers: headers,
@@ -324,7 +324,7 @@ export default function AddProduct() {
           {
             endpoint: process.env.REACT_APP_ZEUS_SERVICE,
             url: URL_POST_ADD_STORE_PRODUCT_CATALOGUE(
-              storeCode
+              storeId
             ),
             headers: {
               ...headers,
