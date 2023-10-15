@@ -130,8 +130,8 @@ export default function Login(props) {
                 Login Untuk Mengakses
               </h2>
               <h3 className="margin-top-0 margin-bottom-12-18">
-                Mulai bisnis lelangmu sekarang, tunggu apa
-                lagi?
+                Mulai bisnis dan komunitasmu sekarang,
+                tunggu apa lagi?
               </h3>
               <div className="login-textinput-box">
                 <label className="login-input-title">
