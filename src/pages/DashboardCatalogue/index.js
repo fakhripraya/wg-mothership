@@ -110,23 +110,23 @@ export default function DashboardCatalogue(props) {
       setData(cloneDeep(array[0].responseData.result));
     }
 
-    let fetchedCatalogues =
+    const fetchedCatalogues =
       array[0].responseData.catalogues.map(
         (obj) => obj.catalogueName
       );
-    let fetchedCategories = array[1].responseData.map(
+    const fetchedCategories = array[1].responseData.map(
       (obj) => obj.categoryName
     );
-    let fetchedCouriers = array[2].responseData.map(
+    const fetchedCouriers = array[2].responseData.map(
       (obj) => obj.courierName
     );
 
     let newFetchedDatas = { ...fetchedDatas };
     newFetchedDatas = {
       datas: {
-        catalogues: array[0],
-        categories: array[1],
-        couriers: array[2],
+        catalogues: array[0].responseData.catalogues,
+        categories: array[1].responseData,
+        couriers: array[2].responseData,
       },
       dropdowns: {
         catalogues:
@@ -185,9 +185,29 @@ export default function DashboardCatalogue(props) {
     setDataAndUpdate(temp);
   }
 
-  function handleTextChange(index, field, event) {
+  function handleTextChange(index, field, value) {
     const temp = [...data];
-    temp[index][field] = event.target.value;
+    temp[index][field] = value;
+    setDataAndUpdate(temp);
+  }
+
+  function handleDropdownChange(
+    index,
+    field,
+    fromValueField,
+    dropdownField,
+    value
+  ) {
+    const temp = [...data];
+    const dropdownValues = [
+      ...fetchedDatas.datas[dropdownField],
+    ];
+
+    const found = dropdownValues.find(
+      (val) => val[fromValueField] === value
+    );
+
+    temp[index][field] = found.id;
     setDataAndUpdate(temp);
   }
 
@@ -197,7 +217,6 @@ export default function DashboardCatalogue(props) {
     targetIndex,
     value
   ) {
-    console.log(value);
     let temp = [...data];
     let targetVal = JSON.parse(temp[parentIndex][field]);
 
@@ -408,6 +427,7 @@ export default function DashboardCatalogue(props) {
                 formatDateID={formatDateID}
                 formattedNumber={formattedNumber}
                 handleTextChange={handleTextChange}
+                handleDropdownChange={handleDropdownChange}
                 handleNumberChange={handleNumberChange}
                 handleOpenDetail={handleOpenDetail}
                 handleAddComponent={handleAddComponent}

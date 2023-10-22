@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import Dropdown from "../../../components/Dropdown";
+import Dropdown from "../../../components/DynamicDropdown";
 import TextInput from "../../../components/TextInput";
 import {
   defaultCourier,
@@ -8,6 +8,14 @@ import {
 } from "../../../variables/initial/catalogue";
 import TextArea from "../../../components/TextArea";
 import Button from "../../../components/Button";
+import { NO_DATA } from "../../../variables/global";
+
+function handleFormatDropdownFromID(id, array) {
+  const found = array.find((val) => val.id === id);
+
+  if (found) return found;
+  else return null;
+}
 
 const ShowDisplayItem = ({
   item,
@@ -15,6 +23,7 @@ const ShowDisplayItem = ({
   formatDateID,
   formattedNumber,
   handleTextChange,
+  handleDropdownChange,
   handleNumberChange,
   handleOpenDetail,
   handleAddComponent,
@@ -136,12 +145,14 @@ const ShowDisplayItem = ({
             style={{
               marginTop: "8px",
             }}
-            value={item.productStockType}
-            onChange={(e) => {
+            value={() => {
+              return item.productStockType || NO_DATA;
+            }}
+            onChange={(value) => {
               handleTextChange(
                 index,
                 "productStockType",
-                e
+                value
               );
             }}
             showTitle={false}
@@ -174,7 +185,9 @@ const ShowDisplayItem = ({
                     }
                     showTitle={false}
                     toggle={true}
-                    value={val}
+                    value={() => {
+                      return val || NO_DATA;
+                    }}
                     values={[
                       ...arrayDataValues.dropdowns.couriers,
                     ]}
@@ -222,12 +235,22 @@ const ShowDisplayItem = ({
               marginTop: "8px",
               marginBottom: "8px",
             }}
-            value={item.productStockType}
-            onChange={(e) => {
-              handleTextChange(
+            value={() => {
+              let result = handleFormatDropdownFromID(
+                item.catalogueId,
+                arrayDataValues.datas.catalogues
+              );
+              return result
+                ? result.catalogueName
+                : NO_DATA;
+            }}
+            onChange={(value) => {
+              handleDropdownChange(
                 index,
-                "productStockType",
-                e
+                "catalogueId",
+                "catalogueName",
+                "catalogues",
+                value
               );
             }}
             showTitle={false}
@@ -242,12 +265,20 @@ const ShowDisplayItem = ({
               marginTop: "8px",
               marginBottom: "8px",
             }}
-            value={item.productStockType}
-            onChange={(e) => {
-              handleTextChange(
+            value={() => {
+              let result = handleFormatDropdownFromID(
+                item.categoryId,
+                arrayDataValues.datas.categories
+              );
+              return result ? result.categoryName : NO_DATA;
+            }}
+            onChange={(value) => {
+              handleDropdownChange(
                 index,
-                "productStockType",
-                e
+                "categoryId",
+                "categoryName",
+                "categories",
+                value
               );
             }}
             showTitle={false}
@@ -277,12 +308,14 @@ const ShowDisplayItem = ({
               style={{
                 marginLeft: "8px",
               }}
-              value={item.productWeightUnit}
-              onChange={(e) => {
+              value={() => {
+                return item.productWeightUnit || NO_DATA;
+              }}
+              onChange={(value) => {
                 handleTextChange(
                   index,
                   "productWeightUnit",
-                  e
+                  value
                 );
               }}
               showTitle={false}
@@ -303,7 +336,7 @@ const ShowDisplayItem = ({
                 handleTextChange(
                   index,
                   "productCondition",
-                  e
+                  e.target.value
                 )
               }
               className="dashboard-catalogue-longtext-area"
@@ -312,21 +345,22 @@ const ShowDisplayItem = ({
         </div>
         <br />
         <div className="dashboard-catalogue-items dashboard-catalogue-body-description">
-          <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title">
+          <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title dashboard-catalogue-description-title">
             <span className="light-color">Deskripsi</span>
           </h3>
-          <br />
-          <TextArea
-            value={item.productDescription}
-            onChange={(e) =>
-              handleTextChange(
-                index,
-                "productDescription",
-                e
-              )
-            }
-            className="dashboard-catalogue-longtext-area"
-          />
+          <div className="dashboard-catalogue-description-longtext-area-box">
+            <TextArea
+              value={item.productDescription}
+              onChange={(e) =>
+                handleTextChange(
+                  index,
+                  "productDescription",
+                  e.target.value
+                )
+              }
+              className="dashboard-catalogue-longtext-area"
+            />
+          </div>
         </div>
         <br />
         <div className="dashboard-catalogue-items dashboard-catalogue-body-option-detail">
