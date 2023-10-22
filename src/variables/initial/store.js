@@ -1,4 +1,5 @@
 export const initialValue = {
+  id: "",
   storeName: "",
   storeCode: "",
   storeDescription: "",

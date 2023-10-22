@@ -30,10 +30,12 @@ export const ShowAddNewCatalogueModal = (props) => {
       );
     newDropdowns.push(tempCatalogue);
     newFetchedDatas.dropdowns.catalogues = newDropdowns;
-    newFetchedDatas.datas.catalogues.responseData.push({
-      id: uuidv4(),
-      catalogueName: tempCatalogue,
-    });
+    newFetchedDatas.datas.catalogues.responseData.result.push(
+      {
+        id: uuidv4(),
+        catalogueName: tempCatalogue,
+      }
+    );
     props.setFetchedDatas(newFetchedDatas);
     props.handleOpenModalAddCatalogue();
   }

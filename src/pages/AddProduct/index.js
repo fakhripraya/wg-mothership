@@ -29,7 +29,7 @@ import {
   LOGIN,
   NO_DATA,
   PDF,
-  URL_GET_ADD_CATALOGUE_DATA,
+  URL_GET_CATALOGUE_DATA,
   URL_GET_CATEGORIES,
   URL_GET_COURIERS,
   URL_POST_ADD_STORE_PRODUCT_CATALOGUE,
@@ -102,30 +102,34 @@ export default function AddProduct() {
   // VARIABLES
   let login = cookies.get(CLIENT_USER_INFO);
   const storeId = searchParams.get("storeId");
-  const headers = {
-    [AUTHORIZATION]: `Bearer ${
-      cookies.get(CLIENT_USER_INFO, {
+  const defaultConfigs = {
+    headers: {
+      [AUTHORIZATION]: `Bearer ${
+        cookies.get(CLIENT_USER_INFO, {
+          path: "/",
+        }).credentialToken.accessToken
+      }`,
+      [X_SID]: cookies.get(CLIENT_USER_INFO, {
         path: "/",
-      }).credentialToken.accessToken
-    }`,
-    [X_SID]: cookies.get(CLIENT_USER_INFO, {
-      path: "/",
-    }).sid,
+      }).sid,
+    },
+    endpoint: process.env.REACT_APP_ZEUS_SERVICE,
   };
+
+  // API ENDPOINTS
   const endpoints = [
     {
-      headers: headers,
-      endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-      url: URL_GET_ADD_CATALOGUE_DATA(storeId),
+      ...defaultConfigs,
+      url: URL_GET_CATALOGUE_DATA({
+        storeId: storeId,
+      }),
     },
     {
-      headers: headers,
-      endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+      ...defaultConfigs,
       url: URL_GET_CATEGORIES,
     },
     {
-      headers: headers,
-      endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+      ...defaultConfigs,
       url: URL_GET_COURIERS,
     },
   ];
@@ -194,9 +198,10 @@ export default function AddProduct() {
 
   function handleSetFetchedDatas(array) {
     let newFetchedDatas = { ...fetchedDatas };
-    let fetchedCatalogues = array[0].responseData.map(
-      (obj) => obj.catalogueName
-    );
+    let fetchedCatalogues =
+      array[0].responseData.result.map(
+        (obj) => obj.catalogueName
+      );
     let fetchedCategories = array[1].responseData.map(
       (obj) => obj.categoryName
     );
@@ -327,7 +332,7 @@ export default function AddProduct() {
               storeId
             ),
             headers: {
-              ...headers,
+              ...defaultConfigs.headers,
               [CONTENT_TYPE]: "multipart/form-data",
             },
             data: formData,

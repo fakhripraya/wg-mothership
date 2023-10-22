@@ -117,6 +117,19 @@
   margin-left: 8px;
 }
 
+.dashboard-catalogue-plus-button {
+  margin-left: 0px;
+  margin-top: 8px;
+  max-height: 40px;
+  max-width: 40px;
+}
+
+.dashboard-catalogue-delete-button {
+  max-height: 40px;
+  max-width: 40px;
+  margin-left: 8px;
+}
+
 .dashboard-catalogue-alter-button {
   display: flex;
   height: auto;
@@ -148,10 +161,17 @@
 .dashboard-catalogue-body {
   width: 100%;
   display: flex;
+  flex-direction: column;
+  height: auto;
+  border-radius: 1em;
+}
+
+.dashboard-catalogue-body-sections {
+  width: 100%;
+  display: flex;
   flex-direction: row;
   height: auto;
   padding: 12px;
-  border-radius: 1em;
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
@@ -181,24 +201,39 @@
   min-width: 40px;
   height: 36px;
   list-style: none;
-  text-align: center;
+  text-align: left;
   display: flex;
   flex-direction: row;
+  padding-left: 12px;
+
+  @media screen and (max-width: 2500px) {
+    max-width: 100%;
+  }
 }
 
-.dashboard-catalogue-pricelist {
-  justify-content: flex-start;
-  flex-direction: column;
+.dashboard-catalogue-dropdown-box {
+  margin-top: 8px;
+  width: fit-content;
+  list-style: none;
   display: flex;
+}
+
+.dashboard-catalogue-longtext-area {
+  border-radius: 6px !important;
+  background-color: #151515 !important;
+  color: white;
+  text-align: start;
+  overflow-y: hidden;
+  height: 100%;
+}
+
+.dashboard-catalogue-longtext-area:hover {
   overflow-y: scroll;
 }
 
 /* Scrollbar */
 /* width */
-.dashboard-catalogue-pricelist::-webkit-scrollbar {
-  display: none;
-}
-
+// Upper sections
 .dashboard-catalogue-body-identifier {
   flex: 20%;
   flex-wrap: wrap;
@@ -233,7 +268,7 @@
 }
 
 .dashboard-catalogue-body-statistic {
-  flex: 20%;
+  flex: 15%;
   flex-wrap: wrap;
   height: auto;
   @include text-ellipsis();
@@ -247,36 +282,62 @@
   flex: 20%;
   flex-wrap: wrap;
   height: auto;
-  @include text-ellipsis();
+  margin-right: 8px;
 }
 
-.dashboard-catalogue-body-stock * {
-  @include text-ellipsis();
+.dashboard-catalogue-pricelist {
+  justify-content: flex-start;
+  flex-direction: column;
+  display: flex;
+  flex: 20%;
+  margin-right: 8px;
 }
 
-.dashboard-catalogue-body-pricing {
+.dashboard-catalogue-expedition {
+  flex: 25%;
+  flex-wrap: wrap;
+  height: auto;
+
+  @media screen and (min-width: 768px) {
+    margin-right: 8px;
+  }
+}
+
+// Lower sections
+.dashboard-catalogue-body-info {
   flex: 20%;
   flex-wrap: wrap;
   height: auto;
-  //@include text-ellipsis();
+
+  @media screen and (min-width: 768px) {
+    margin-right: 8px;
+  }
 }
 
-.dashboard-catalogue-body-pricing * {
-  //@include text-ellipsis();
+.dashboard-catalogue-body-description {
+  flex: 60%;
+  flex-wrap: wrap;
+  height: auto;
+  @include text-ellipsis();
+  height: auto;
+
+  @media screen and (min-width: 768px) {
+    margin-right: 8px;
+  }
 }
 
-.dashboard-catalogue-body-rent-detail {
+.dashboard-catalogue-body-option-detail {
   flex: 20%;
   flex-wrap: wrap;
   height: auto;
   @include text-ellipsis();
 }
 
-.dashboard-catalogue-body-rent-detail * {
+.dashboard-catalogue-body-option-detail * {
   @include text-ellipsis();
 }
 
-.dashboard-catalogue-body-rent-detail-status {
+.dashboard-catalogue-body-option-detail-status {
   padding: 6px;
   text-align: center;
   margin-bottom: 18px;
@@ -287,7 +348,7 @@
   }
 }
 
-.dashboard-catalogue-body-rent-button {
+.dashboard-catalogue-body-option-button {
   border-radius: 8px;
   cursor: pointer;
   text-align: center;
@@ -295,7 +356,7 @@
   transition: all 0.3s ease-in-out;
 }
 
-.dashboard-catalogue-body-rent-button:hover {
+.dashboard-catalogue-body-option-button:hover {
   opacity: 0.65;
 }
 
@@ -310,7 +371,7 @@
 
 .dashboard-catalogue-paging-button {
   cursor: pointer;
-  padding: 6px;
+  padding: 10px 12px;
   border-radius: 8px;
   margin-right: 6px;
   transition: all 0.25s ease-in-out;

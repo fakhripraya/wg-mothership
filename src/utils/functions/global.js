@@ -146,11 +146,73 @@ export const isImageType = (type) => {
   return IMAGE_MIME_TYPE.includes(type);
 };
 
-export const formattedNumber = (number) =>
-  new Intl.NumberFormat().format(number);
+export const formattedNumber = (number) => {
+  if (isNaN(number)) number = 0;
+  return new Intl.NumberFormat().format(number);
+};
+
+export const unformattedNumber = (formattedString) => {
+  // Remove any non-numeric characters and parse the string to a number
+  const unformattedString = formattedString.replace(
+    /[^\d.-]/g,
+    ""
+  );
+  return parseFloat(unformattedString);
+};
 
 export const acceptNumericOnly = (input) => {
   // Remove any non-numeric characters
   input = input.replace(/[^0-9]/g, "");
   return input;
+};
+
+export const formatDateID = (date) => {
+  const inputDate = new Date(date);
+
+  // Indonesian days of the week
+  const indonesianDaysOfWeek = [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu",
+  ];
+
+  const dayName =
+    indonesianDaysOfWeek[inputDate.getUTCDay()];
+  const day = inputDate.getUTCDate();
+  const month = inputDate.getUTCMonth() + 1;
+  const year = inputDate.getUTCFullYear();
+
+  const formattedDate = `${dayName}, ${day
+    .toString()
+    .padStart(2, "0")}-${month
+    .toString()
+    .padStart(2, "0")}-${year}`;
+
+  return formattedDate;
+};
+
+export const addValueToArray = (
+  field,
+  defaultValue,
+  data,
+  setData
+) => {
+  const temp = { ...data };
+  temp[field].push(defaultValue);
+  setData(temp);
+};
+
+export const removeValueFromArray = (
+  field,
+  index,
+  data,
+  setData
+) => {
+  const temp = { ...data };
+  temp[field].splice(index, 1);
+  setData(temp);
 };

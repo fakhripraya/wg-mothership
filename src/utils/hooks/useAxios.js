@@ -39,15 +39,30 @@ export const useAxios = () => {
     });
   };
 
-  const getAllData = async (reqConfigs, spreadCallback) => {
+  const getAllData = async (reqConfigs) => {
     // Start timing now
     console.time("Load Time");
     return new Promise(async (resolve, reject) => {
-      await axios
+      // Initial Value
+      var result = { ...initialValue };
+
+      const axiosInstance = axios;
+      await axiosInstance
         .all(
           reqConfigs.map((reqConfig) => getData(reqConfig))
         )
-        .then(axios.spread(spreadCallback()))
+        .then(
+          axiosInstance.spread((...datas) => {
+            return resolve({
+              ...result,
+              responseStatus: 200,
+              responseData: datas,
+            });
+          })
+        )
+        .catch((error) => {
+          return reject(error);
+        })
         .finally(() => {
           console.timeEnd("Load Time");
         });
@@ -56,7 +71,6 @@ export const useAxios = () => {
 
   const getAllDataWithOnRequestInterceptors = async (
     reqConfigs,
-    spreadCallback,
     callbackInterceptors
   ) => {
     // Start timing now

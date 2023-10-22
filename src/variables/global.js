@@ -101,18 +101,31 @@ export const URL_POST_ADD_USER_STORE = (userId) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores/add`;
 export const URL_GET_DASHBOARD_STORES = (userId) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores`;
-export const URL_GET_ADD_CATALOGUE_DATA = (storeId) =>
-  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues?storeId=${storeId}`;
 export const URL_GET_CATALOGUE_DATA = ({
   storeId,
   isWithProducts,
   isProductOnly,
   offset,
   limit,
-  itemLimit,
-  itemOffset,
+  itemPage,
+  itemPerPage,
 }) =>
-  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/catalogues?storeId=${storeId}&isWithProducts=${isWithProducts}&isProductOnly=${isProductOnly}&offset=${offset}&limit=${limit}&itemOffset=${itemOffset}&itemLimit=${itemLimit}`;
+  `/v${
+    process.env.REACT_APP_ZEUS_SERVICE_VERSION
+  }/store/catalogues${
+    storeId ? `?storeId=${storeId}` : ""
+  }${
+    isWithProducts
+      ? `&isWithProducts=${isWithProducts}`
+      : ""
+  }${
+    isProductOnly ? `&isProductOnly=${isProductOnly}` : ""
+  }${offset ? `&offset=${offset}` : ""}${
+    limit ? `&limit=${limit}` : ""
+  }${itemPage ? `&itemPage=${itemPage}` : ""}${
+    itemPerPage ? `&itemPerPage=${itemPerPage}` : ""
+  }`;
+
 export const URL_GET_SERVER_INFO = (query) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/stores${query}`;
 export const URL_GET_CATEGORIES = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/category`;

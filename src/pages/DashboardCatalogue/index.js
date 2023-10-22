@@ -8,49 +8,158 @@ import "./style.scss";
 import {
   filterCheckboxes,
   filterDropdowns,
-  dumnmyValue,
+  initialFetchedDatas,
 } from "../../variables/initial/catalogue";
 import { useEffect } from "react";
 import {
+  formatDateID,
+  formattedNumber,
   handleError500,
   handleErrorMessage,
   handleOpenModal,
   handleOpenOverridingHome,
   smoothScrollTop,
+  unformattedNumber,
 } from "../../utils/functions/global";
-import {
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
   DASHBOARD_CATALOG,
   LOGIN,
+  NO_DATA,
   URL_GET_CATALOGUE_DATA,
+  URL_GET_CATEGORIES,
+  URL_GET_COURIERS,
   X_SID,
 } from "../../variables/global";
-import {
-  defaultPrice,
-  pricePeriodValues,
-} from "../../variables/initial/catalogue";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { cookies } from "../../config/cookie";
 import { ShowErrorModal } from "./ModularComponents/ShowModals";
+import ShowDisplayItem from "./ModularComponents/ShowDisplayItem";
+import cloneDeep from "lodash-es/cloneDeep";
 
 export default function DashboardCatalogue(props) {
   // HOOK
   const navigate = useNavigate();
-  const [data, setData] = useState(dumnmyValue);
+  const itemPerPage = 5;
+  const [page, setPage] = useState(0);
+  const [data, setData] = useState([]);
+  const [fetchedDatas, setFetchedDatas] = useState(
+    initialFetchedDatas
+  );
+  const [defaultResponse, setDefaultResponse] = useState(
+    []
+  );
+  const [isNextShow, setIsNextShow] = useState(true);
+  const [isPrevShow, setIsPrevShow] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const zeusService = useAxios();
-  const [searchParams, setSearchParams] = useSearchParams();
   const [modalToggle, setModalToggle] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const storeId = searchParams.get("storeId");
+
+  // VARIABLES
+  const storeId = props.data.selectedStore.id;
+  const defaultConfigs = {
+    headers: {
+      [AUTHORIZATION]: `Bearer ${
+        cookies.get(CLIENT_USER_INFO, {
+          path: "/",
+        }).credentialToken.accessToken
+      }`,
+      [X_SID]: cookies.get(CLIENT_USER_INFO, {
+        path: "/",
+      }).sid,
+    },
+    endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+  };
+
+  // API ENDPOINTS
+  const endpoints = [
+    {
+      ...defaultConfigs,
+      url: URL_GET_CATALOGUE_DATA({
+        storeId: storeId,
+        isWithProducts: true,
+        isProductOnly: false,
+        itemPage: page,
+        itemPerPage: itemPerPage,
+      }),
+    },
+    {
+      ...defaultConfigs,
+      url: URL_GET_CATEGORIES,
+    },
+    {
+      ...defaultConfigs,
+      url: URL_GET_COURIERS,
+    },
+  ];
 
   // FUNCTIONS SPECIFIC //
+  function handleMapResponses(array) {
+    // set loading false after recieving the response
+    setIsLoading(false);
+
+    // map the responses to the states
+    if (array[0].responseData.result.length > 0) {
+      setDefaultResponse(
+        cloneDeep(array[0].responseData.result)
+      );
+      setData(cloneDeep(array[0].responseData.result));
+    }
+
+    let fetchedCatalogues =
+      array[0].responseData.catalogues.map(
+        (obj) => obj.catalogueName
+      );
+    let fetchedCategories = array[1].responseData.map(
+      (obj) => obj.categoryName
+    );
+    let fetchedCouriers = array[2].responseData.map(
+      (obj) => obj.courierName
+    );
+
+    let newFetchedDatas = { ...fetchedDatas };
+    newFetchedDatas = {
+      datas: {
+        catalogues: array[0],
+        categories: array[1],
+        couriers: array[2],
+      },
+      dropdowns: {
+        catalogues:
+          fetchedCatalogues.length === 0
+            ? [NO_DATA]
+            : fetchedCatalogues,
+        categories:
+          fetchedCategories.length === 0
+            ? [NO_DATA]
+            : fetchedCategories,
+        couriers:
+          fetchedCouriers.length === 0
+            ? [NO_DATA]
+            : fetchedCouriers,
+      },
+    };
+
+    setFetchedDatas(newFetchedDatas);
+    setIsNextShow(
+      array[0].responseData.instructions.isNext
+    );
+    setIsPrevShow(
+      array[0].responseData.instructions.isPrev
+    );
+  }
+
+  function setDataAndUpdate(value) {
+    setIsUpdating(true);
+    setData(value);
+  }
+
   function handleOpenDetail(item, navigate) {
-    navigate(`/detail?itemId=${item.ID}`);
+    navigate(`/detail?itemId=${item.id}`);
   }
 
   function handleGoToAddProduct() {
@@ -59,29 +168,78 @@ export default function DashboardCatalogue(props) {
     );
   }
 
-  function handleTextChange(field, event) {
-    const temp = { ...data };
-    temp[field] = event.target.value;
-    setData(temp);
+  function handleUpdateProducts() {
+    setIsUpdating(false);
   }
 
-  function handlePriceChange(parentIndex, index, event) {
+  function handleCancelUpdateProducts() {
+    setData(cloneDeep(defaultResponse));
+    setIsUpdating(false);
+  }
+
+  function handleNumberChange(index, field, event) {
     const temp = [...data];
-    temp[parentIndex].productPrices[index].price =
-      event.target.value;
-    setData(temp);
+    temp[index][field] = unformattedNumber(
+      event.target.value
+    );
+    setDataAndUpdate(temp);
   }
 
-  function handlePricesUnit(value, index) {
-    const temp = { ...data };
-    temp.productPrices[index].period = value;
-    setData(temp);
-  }
-
-  function handleAddComponent(index, field, defaultValue) {
+  function handleTextChange(index, field, event) {
     const temp = [...data];
-    temp[index][field].push(defaultValue);
-    setData(temp);
+    temp[index][field] = event.target.value;
+    setDataAndUpdate(temp);
+  }
+
+  function handleEditComponent(
+    field,
+    parentIndex,
+    targetIndex,
+    value
+  ) {
+    console.log(value);
+    let temp = [...data];
+    let targetVal = JSON.parse(temp[parentIndex][field]);
+
+    targetVal[targetIndex] = value;
+    temp[parentIndex][field] = JSON.stringify(targetVal);
+    setDataAndUpdate(temp);
+  }
+
+  function handleAddComponent(
+    field,
+    parentIndex,
+    defaultValue
+  ) {
+    let temp = [...data];
+    let targetVal = JSON.parse(temp[parentIndex][field]);
+    targetVal.push(defaultValue);
+
+    temp[parentIndex][field] = JSON.stringify(targetVal);
+    setDataAndUpdate(temp);
+  }
+
+  function handleRemoveComponent(
+    field,
+    parentIndex,
+    targetIndex
+  ) {
+    let temp = [...data];
+    let targetVal = JSON.parse(temp[parentIndex][field]);
+    targetVal.splice(targetIndex, 1);
+
+    temp[parentIndex][field] = JSON.stringify(targetVal);
+    setDataAndUpdate(temp);
+  }
+
+  function handleNextPage() {
+    setPage(page + 1);
+    setIsUpdating(false);
+  }
+
+  function handlePrevPage() {
+    if (page > 0) setPage(page - 1);
+    setIsUpdating(false);
   }
 
   // COMPONENTS SPECIFIC //
@@ -114,13 +272,9 @@ export default function DashboardCatalogue(props) {
   };
 
   const ShowAlterButton = (props) => {
-    // HOOK
-    const navigate = useNavigate();
-
-    // RENDER
     return (
       <div
-        onClick={() => handleGoToAddProduct()}
+        onClick={() => props.onClick()}
         className={`dashboard-catalogue-alter-button margin-top-12-18 justify-center ${props.className}`}>
         {props.children}
       </div>
@@ -132,32 +286,12 @@ export default function DashboardCatalogue(props) {
     smoothScrollTop();
     (async () => {
       await zeusService
-        .getData({
-          headers: {
-            [AUTHORIZATION]: `Bearer ${
-              cookies.get(CLIENT_USER_INFO, {
-                path: "/",
-              }).credentialToken.accessToken
-            }`,
-            [X_SID]: cookies.get(CLIENT_USER_INFO, {
-              path: "/",
-            }).sid,
-          },
-          endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-          url: URL_GET_CATALOGUE_DATA({
-            storeId: storeId,
-            isWithProducts: true,
-            isProductOnly: true,
-            offset: 0,
-            limit: 5,
-            itemLimit: 5,
-            itemOffset: 0,
-          }),
-        })
+        .getAllData(endpoints)
         .then((result) => {
-          setData([...result]);
+          handleMapResponses(result.responseData);
         })
         .catch((error) => {
+          setIsLoading(false);
           if (error.responseStatus === 500)
             handleError500();
           if (
@@ -175,7 +309,28 @@ export default function DashboardCatalogue(props) {
             );
         });
     })();
-  }, []);
+  }, [page]);
+
+  const ShowResultMessage = () => {
+    const messageStyle = {
+      color: "white",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "stretch",
+      textAlign: "center",
+    };
+    if (!isLoading && data.length > 0) return;
+    return (
+      <div
+        className="dashboard-catalogue-body margin-top-12-18"
+        style={messageStyle}>
+        {isLoading && <p>Loading Bentar...</p>}
+        {!isLoading && data.length <= 0 && (
+          <p>Belum Ada Barang nih, tambahin dulu gih !</p>
+        )}
+      </div>
+    );
+  };
 
   return (
     <Fragment>
@@ -220,201 +375,74 @@ export default function DashboardCatalogue(props) {
             </div>
           </div>
           <div className="dashboard-catalogue-alter-button-container">
-            <ShowAlterButton className="dashboard-catalogue-add-button dark-bg-color">
+            <ShowAlterButton
+              onClick={handleGoToAddProduct}
+              className="dashboard-catalogue-add-button dark-bg-color">
               <span className="main-color">Add +</span>
             </ShowAlterButton>
-            <ShowAlterButton className="dashboard-catalogue-update-button main-bg-color">
-              <span className="light-color">Update</span>
-            </ShowAlterButton>
+            {isUpdating && (
+              <Fragment>
+                <ShowAlterButton
+                  onClick={handleUpdateProducts}
+                  className="dashboard-catalogue-update-button main-bg-color">
+                  <span className="light-color">
+                    Update
+                  </span>
+                </ShowAlterButton>
+                <ShowAlterButton
+                  onClick={handleCancelUpdateProducts}
+                  className="dashboard-catalogue-update-button red-bg-color">
+                  <span className="light-color">
+                    Cancel
+                  </span>
+                </ShowAlterButton>
+              </Fragment>
+            )}
           </div>
           {data.map((item, index) => {
             return (
-              <div
-                key={`dashboard-catalogue-items-${index}`}
-                className="dashboard-catalogue-body margin-top-12-18 dark-bg-color">
-                <div className="dashboard-catalogue-items dashboard-catalogue-body-identifier">
-                  <h3 className="margin-top-0 dashboard-catalogue-body-title">
-                    <span className="light-color">
-                      {item.productName}
-                    </span>
-                  </h3>
-                  <label className="margin-top-0 margin-bottom-0">
-                    Code: {item.productCode}
-                  </label>
-                  <br />
-                  <label className="margin-top-0 margin-bottom-0">
-                    Tanggal List: {item.CreatedAt}
-                  </label>
-                  <div className="dashboard-catalogue-identifier-img-wrapper">
-                    <img
-                      className="dashboard-catalogue-identifier-img"
-                      src={item.productImg.src}
-                      alt={item.productImg.alt}
-                    />
-                  </div>
-                </div>
-                <div className="dashboard-catalogue-items dashboard-catalogue-body-statistic">
-                  <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title">
-                    <span className="light-color">
-                      Statistik
-                    </span>
-                  </h3>
-                  <br />
-                  <label className="margin-bottom-0">
-                    Views:{" "}
-                    <span className="main-color">
-                      {item.rentDetail.views}
-                    </span>
-                  </label>
-                  <br />
-                  <label className="margin-top-0">
-                    Total Penyewaan:{" "}
-                    <span className="main-color">
-                      {item.rentDetail.totalRentedCounts}
-                    </span>
-                  </label>
-                  <br />
-                  <br />
-                </div>
-                <div className="dashboard-catalogue-items dashboard-catalogue-body-stock">
-                  <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title">
-                    <span className="light-color">
-                      Stok
-                    </span>
-                  </h3>
-                  <br />
-                  <label className="margin-bottom-0">
-                    Tersedia:{" "}
-                    <span className="main-color">
-                      {item.productStocks -
-                        item.rentDetail.rented}
-                    </span>
-                  </label>
-                  <br />
-                  <label className="margin-top-0 margin-bottom-0">
-                    Tersewa:{" "}
-                    <span className="main-color">
-                      {item.rentDetail.rented}
-                    </span>
-                  </label>
-                  <br />
-                  <br />
-                  <div className="dashboard-catalogue-textinput-box">
-                    <TextInput
-                      value={item.productStocks}
-                      onChange={(e) =>
-                        handleTextChange("productStocks", e)
-                      }
-                      className="dashboard-catalogue-textinput"></TextInput>
-                    <label>
-                      &nbsp;&nbsp;
-                      <span className="main-color">
-                        Stok
-                      </span>
-                    </label>
-                  </div>
-                  <br />
-                </div>
-                <div className="dashboard-catalogue-items dashboard-catalogue-pricelist">
-                  <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title">
-                    <span className="light-color">
-                      Pricing
-                    </span>
-                  </h3>
-                  {item.productPrices.map(
-                    (item, indexPrice) => {
-                      return (
-                        <Fragment
-                          key={`dashboard-catalogue-pricelist-${indexPrice}`}>
-                          <br />
-                          <div className="margin-top-bottom-0 dashboard-catalogue-textinput-box">
-                            <TextInput
-                              value={item.price}
-                              onChange={(e) =>
-                                handlePriceChange(
-                                  index,
-                                  indexPrice,
-                                  e
-                                )
-                              }
-                              className="dashboard-catalogue-textinput"></TextInput>
-                            <Dropdown
-                              value={item.period}
-                              onChange={(value) =>
-                                handlePricesUnit(
-                                  value,
-                                  indexPrice
-                                )
-                              }
-                              style={{
-                                marginLeft: "8px",
-                                width: "75px",
-                                maxWidth: "75px",
-                              }}
-                              showTitle={false}
-                              toggle={true}
-                              values={pricePeriodValues}
-                            />
-                          </div>
-                        </Fragment>
-                      );
-                    }
-                  )}
-                  <Button
-                    onClick={() =>
-                      handleAddComponent(
-                        index,
-                        "productPrices",
-                        { ...defaultPrice }
-                      )
-                    }
-                    className="align-self-start add-catalogue-button main-bg-color">
-                    <h4 className="add-catalogue-button-text">
-                      +
-                    </h4>
-                  </Button>
-                  <br />
-                </div>
-                <div className="dashboard-catalogue-items dashboard-catalogue-body-rent-detail">
-                  <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title">
-                    <span className="light-color">
-                      Opsi
-                    </span>
-                  </h3>
-                  <p className="main-bg-color margin-bottom-0 dashboard-catalogue-body-rent-detail-status">
-                    Status : {item.rentDetail.status}
-                  </p>
-                  <p
-                    onClick={() =>
-                      handleOpenDetail(item, navigate)
-                    }
-                    className="dark-color light-bg-color dashboard-catalogue-body-rent-button">
-                    Details
-                  </p>
-                  <p className="margin-top-0 margin-bottom-0 red-bg-color dashboard-catalogue-body-rent-button">
-                    Remove
-                  </p>
-                </div>
-              </div>
+              <ShowDisplayItem
+                key={index}
+                item={item}
+                index={index}
+                formatDateID={formatDateID}
+                formattedNumber={formattedNumber}
+                handleTextChange={handleTextChange}
+                handleNumberChange={handleNumberChange}
+                handleOpenDetail={handleOpenDetail}
+                handleAddComponent={handleAddComponent}
+                handleEditComponent={handleEditComponent}
+                handleRemoveComponent={
+                  handleRemoveComponent
+                }
+                arrayDataValues={fetchedDatas}
+                navigate={navigate}
+              />
             );
           })}
-          <div className="dashboard-catalogue-paging margin-top-12-18 justify-center">
-            <div className="dark-bg-color dashboard-catalogue-paging-button">
-              Prev
+          <ShowResultMessage />
+          {!isLoading && data.length > 0 && (
+            <div className="dashboard-catalogue-paging justify-center">
+              {isPrevShow && (
+                <Button
+                  onClick={handlePrevPage}
+                  className="dark-bg-color dashboard-catalogue-paging-button">
+                  <span className="red-color">
+                    {"◄ Prev"}
+                  </span>
+                </Button>
+              )}
+              {isNextShow && (
+                <Button
+                  onClick={handleNextPage}
+                  className="dark-bg-color dashboard-catalogue-paging-button">
+                  <span className="main-color">
+                    {"Next ►"}
+                  </span>
+                </Button>
+              )}
             </div>
-            <div className="dark-bg-color dashboard-catalogue-paging-button">
-              1
-            </div>
-            <div className="dark-bg-color dashboard-catalogue-paging-button">
-              2
-            </div>
-            <div className="dark-bg-color dashboard-catalogue-paging-button">
-              3
-            </div>
-            <div className="dark-bg-color dashboard-catalogue-paging-button">
-              Next
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </Fragment>
