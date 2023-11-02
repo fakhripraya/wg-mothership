@@ -101,6 +101,12 @@ export const URL_POST_ADD_USER_STORE = (userId) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores/add`;
 export const URL_GET_DASHBOARD_STORES = (userId) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores`;
+export const URL_GET_PRODUCT_DETAILS = (productId) =>
+  `/v${
+    process.env.REACT_APP_ZEUS_SERVICE_VERSION
+  }/store/catalogues/product-details${
+    productId ? `?productId=${productId}` : ""
+  }`;
 export const URL_GET_CATALOGUE_DATA = ({
   storeId,
   isWithProducts,

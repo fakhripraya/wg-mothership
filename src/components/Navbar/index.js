@@ -13,8 +13,9 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import OverridingContainer from "../OveriddingContainer";
-import WGLogo from "../../assets/images/baru2.png";
+import WGLogo from "../../assets/svg/LIVEJB_V1_LOGO.svg";
 import ICHamburger from "../../assets/svg/ic_hamburg_3.svg";
+import ICCart from "../../assets/svg/cart-icon.svg";
 import { getMenus } from "../../variables/path/navbar";
 import Dropdown from "../Dropdown";
 import Login from "../../pages/Login";
@@ -346,6 +347,24 @@ export default function Navbar() {
     );
   };
 
+  const ShowCartCount = (props) => {
+    return (
+      <div
+        style={{
+          verticalAlign: "super",
+        }}>
+        <span
+          style={{
+            color: props.isGreen ? "#0DA34D" : "#fff",
+            fontSize: "0.8em",
+            fontWeight: "bold",
+          }}>
+          15
+        </span>
+      </div>
+    );
+  };
+
   const ShowModal = () => {
     if (error) return <ShowErrorModal />;
     else return <ShowLogoutModal />;
@@ -407,6 +426,16 @@ export default function Navbar() {
                 src={WGLogo}
                 alt="WG_LOGO"></img>
             </div>
+            <ShowCartCount isGreen={true} />
+            <img
+              onClick={() =>
+                handlePageNavigation("/transaction/cart")
+              }
+              style={{ marginRight: "12px" }}
+              className="navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view"
+              src={ICCart}
+              alt="ic_cart"
+            />
             <img
               onClick={() =>
                 window.handleOpenOverriding(MENU_MOBILE)
@@ -422,6 +451,16 @@ export default function Navbar() {
         toggle={toggleOverride === MENU_MOBILE}>
         <div className="sticky-top">
           <ShowNavbar>
+            <ShowCartCount isGreen={false} />
+            <img
+              onClick={() =>
+                handlePageNavigation("/transaction/cart")
+              }
+              style={{ marginRight: "12px" }}
+              className="navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view"
+              src={ICCart}
+              alt="ic_cart"
+            />
             <img
               onClick={() =>
                 window.handleOpenOverriding(NO_STRING)

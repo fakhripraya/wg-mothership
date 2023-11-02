@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "baru2.svg",
+      "src": "favicon.svg",
       "type": "image/svg",
       "sizes": "192x192"
     },
     {
-      "src": "baru2.svg",
+      "src": "favicon.svg",
       "type": "image/svg",
       "sizes": "512x512"
     }

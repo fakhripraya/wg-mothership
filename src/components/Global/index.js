@@ -1,5 +1,3 @@
-import WGLogo from "../../assets/images/baru2.png";
-
 export const ShowNavbar = (props) => {
   function handleGoToHome() {
     window.location.href = "/";

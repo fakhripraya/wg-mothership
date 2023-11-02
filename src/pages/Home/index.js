@@ -16,6 +16,7 @@ import {
 } from "../../variables/initial/home";
 import Tag from "../../components/Tag";
 import Card from "../../components/Card";
+import WGLogo from "../../assets/svg/LIVEJB_V1_LOGO.svg";
 import { useNavigate } from "react-router-dom";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { CLIENT_USER_INFO } from "../../variables/global";
@@ -61,7 +62,7 @@ export default function Home() {
   }
 
   function handleGoToDetail(navigate) {
-    navigate(`/detail`);
+    navigate(`/product-detail`);
   }
 
   // COMPONENTS SPECIFIC //
@@ -147,17 +148,18 @@ export default function Home() {
             ref={heroRef}
             className="home-section home-hero-section darker-bg-color">
             <div className="home-hero-container justify-center">
-              <h1>
+              {/* <h1>
                 LIVE{" "}
                 <span className="hero-span-text">JB</span>
-              </h1>
+              </h1> */}
+              <img src={WGLogo} />
               <label>
                 Jualan? beli barang? sambil voice call aja
-                negonya wkwkwk...
+                negonya
               </label>
               <div
                 onClick={() => handleScrollToFirstSection()}
-                className="hero-round-button">
+                className="hero-round-button main-bg-color">
                 <span className="hero-round-button-icon" />
               </div>
             </div>

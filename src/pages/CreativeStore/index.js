@@ -73,7 +73,12 @@ import ShowVisitors from "./ModularComponents/ShowVisitors";
 import ShowNewPurchaseOrders from "./ModularComponents/ShowPurchaseOrders";
 import { ShowSettingTab } from "./ModularComponents/ShowSettingTab";
 
-// TODO: Creative store needs to be standalone so when both socket need to disconnect on page close it will disconnect properly
+// FIXME: The bug is: whenever user navigate (react navigation) to other page, it will cause crash in the backend
+// FIXME: REPRODUCE:
+// - Open creative-store
+// - After successfully load, navigate to other page via navbar only
+// TODO: Creative store needs to be standalone so when both socket need to disconnect on page close it will disconnect/cleanup properly
+
 // test result shows that it could still produce some anomaly that caused by unproper disconnection
 export default function CreativeStore() {
   // REFS //
@@ -1581,7 +1586,12 @@ export default function CreativeStore() {
         src={UNMUTE_AUDIO_URL}
       />
       <div className="creative-store-audio-media-container"></div>
-      <div className="creative-store-container">
+      <div
+        className={
+          rendered
+            ? "visible creative-store-container"
+            : "hidden no-height"
+        }>
         <div className="creative-store-wrapper">
           <div className="creative-store-flex-container">
             <div className="creative-store-left-panel-container">

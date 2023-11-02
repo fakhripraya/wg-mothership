@@ -159,7 +159,7 @@ export default function DashboardCatalogue(props) {
   }
 
   function handleOpenDetail(item, navigate) {
-    navigate(`/detail?itemId=${item.id}`);
+    navigate(`/product-detail?productId=${item.id}`);
   }
 
   function handleGoToAddProduct() {
@@ -170,6 +170,7 @@ export default function DashboardCatalogue(props) {
 
   function handleUpdateProducts() {
     setIsUpdating(false);
+    console.log(data);
   }
 
   function handleCancelUpdateProducts() {
@@ -300,6 +301,27 @@ export default function DashboardCatalogue(props) {
     );
   };
 
+  const ShowResultMessage = () => {
+    const messageStyle = {
+      color: "white",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "stretch",
+      textAlign: "center",
+    };
+    if (!isLoading && data.length > 0) return;
+    return (
+      <div
+        className="dashboard-catalogue-body margin-top-12-18"
+        style={messageStyle}>
+        {isLoading && <p>Loading Bentar...</p>}
+        {!isLoading && data.length <= 0 && (
+          <p>Belum Ada Barang nih, tambahin dulu gih !</p>
+        )}
+      </div>
+    );
+  };
+
   // INITIAL RENDER
   useEffect(() => {
     smoothScrollTop();
@@ -329,27 +351,6 @@ export default function DashboardCatalogue(props) {
         });
     })();
   }, [page]);
-
-  const ShowResultMessage = () => {
-    const messageStyle = {
-      color: "white",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "stretch",
-      textAlign: "center",
-    };
-    if (!isLoading && data.length > 0) return;
-    return (
-      <div
-        className="dashboard-catalogue-body margin-top-12-18"
-        style={messageStyle}>
-        {isLoading && <p>Loading Bentar...</p>}
-        {!isLoading && data.length <= 0 && (
-          <p>Belum Ada Barang nih, tambahin dulu gih !</p>
-        )}
-      </div>
-    );
-  };
 
   return (
     <Fragment>

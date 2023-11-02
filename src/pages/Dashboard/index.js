@@ -170,9 +170,10 @@ export default function Dashboard() {
       );
     else if (typeof userStore[0].storeName === "undefined")
       return (
-        <ErrorHandling
+        <PageLoading
           containerStyle={{ width: "auto" }}
-          errorMessage={"Loading data..."}
+          loadingMessage={"Loading data..."}
+          noLogo={true}
         />
       );
     else if (login && userStore.length > 0)

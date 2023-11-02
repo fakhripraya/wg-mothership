@@ -18,7 +18,7 @@ import TextArea from "../../components/TextArea";
 export default function DashboardTransaction(props) {
   // FUNCTIONS SPECIFIC //
   function handleOpenDetail(item, navigate) {
-    navigate(`/detail?itemId=${item.ID}`);
+    navigate(`/product-detail?productId=${item.ID}`);
   }
 
   // COMPONENTS SPECIFIC //

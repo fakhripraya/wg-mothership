@@ -18,7 +18,7 @@ import { DASHBOARD_CHATS } from "../../variables/global";
 export default function MyRDPList(props) {
   // FUNCTIONS SPECIFIC //
   function handleOpenDetail(item, navigate) {
-    navigate(`/detail?itemId=${item.ID}`);
+    navigate(`/product-detail?productId=${item.ID}`);
   }
 
   // COMPONENTS SPECIFIC //

@@ -77,7 +77,7 @@ export default function Footer() {
           <div className="footer-column-2">
             <div className="footer-column-2-wrapper">
               {/* <img className="footer-logo-img" src={WGLogo} alt="WG_LOGO"></img> */}
-              <p>© {"2022"} All Rights Reserved, LiveJB</p>
+              <p>© {"2022"} All Rights Reserved, LIVEJB</p>
             </div>
           </div>
         </div>
