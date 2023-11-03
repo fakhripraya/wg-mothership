@@ -154,3 +154,9 @@ export const JPEG = "image/jpeg";
 export const PNG = "image/png";
 export const JPEG_PNG = "image/jpeg, image/png";
 export const PDF = "application/pdf";
+
+// FILE TYPES
+export const PRODUCT_CATALOGUE_IMAGE =
+  "PRODUCT_CATALOGUE_IMAGE";
+export const PRODUCT_CATALOGUE_ADDITIONAL_FILES =
+  "PRODUCT_CATALOGUE_ADDITIONAL_FILES";

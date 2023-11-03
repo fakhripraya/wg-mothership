@@ -73,17 +73,23 @@ import ShowVisitors from "./ModularComponents/ShowVisitors";
 import ShowNewPurchaseOrders from "./ModularComponents/ShowPurchaseOrders";
 import { ShowSettingTab } from "./ModularComponents/ShowSettingTab";
 
-// FIXME: The bug is: whenever user navigate (react navigation) to other page, it will cause crash in the backend
-// FIXME: REPRODUCE:
+// FIXME: BUG-1: whenever user navigate (react navigation) to other page,
+// it will cause crash in the backend
+// step to reproduce:
 // - Open creative-store
-// - After successfully load, navigate to other page via navbar only
-// TODO: Creative store needs to be standalone so when both socket need to disconnect on page close it will disconnect/cleanup properly
-
+// - After successfully load, navigate to other page via navbar
 // test result shows that it could still produce some anomaly that caused by unproper disconnection
+// TODO: Creative store needs to be standalone
+// so when both socket need to disconnect on page close
+// it will disconnect/cleanup properly
+// TODO: Make a retry function of websocket
+// and render the loading screen of reconnecting
+
 export default function CreativeStore() {
   // REFS //
   const chatInputRef = useRef();
   const chatBodyContainerRef = useRef();
+  const audioParams = useRef();
 
   // HOOKS //
   const zeusService = useAxios();
@@ -137,7 +143,6 @@ export default function CreativeStore() {
   let consumerTransports = [];
   // audio and video parameter for mediasoup producer configuration
   let audioProducer;
-  let audioParams;
   let videoProducer;
   let videoParams = { videoConfig };
   // this variable will store all remote audio/video producer
@@ -262,9 +267,9 @@ export default function CreativeStore() {
         "assigning stream recieved to the audio/video param"
       );
       // the video/audio param will later be used to create the producer transport
-      audioParams = {
+      audioParams.current = {
         track: stream.getAudioTracks()[0],
-        ...audioParams,
+        ...audioParams.current,
       };
       this.joinRoom();
     };
@@ -455,7 +460,7 @@ export default function CreativeStore() {
       // this action will trigger the 'connect' and 'produce' events above
 
       audioProducer = await producerTransport.produce(
-        audioParams
+        audioParams.current
       );
       if (audioProducer) {
         setJoinedStatus(CONNECTED);
@@ -696,34 +701,7 @@ export default function CreativeStore() {
 
     leaveRoom = async () => {
       await this.peerRef.emit("leave-room", () => {
-        // handling user leaving audio , this indicates the user is leaving the room
-        handleJoinAudio(LEAVING_AUDIO);
-        // set array variables to empty array
-        // set the variables to undefined so it can be garbage collected
-        consumerTransports = [];
-        consumedTransports = [];
-        device = undefined;
-        rtpCapabilities = undefined;
-        producerTransport = undefined;
-        audioProducer = undefined;
-        // stop audio/video tracks
-        audioParams.track.stop();
-        // delete reference to the variable
-        delete audioParams.track;
-        // get containers
-        const audioContainer =
-          document.getElementsByClassName(
-            "creative-store-audio-media-container"
-          )[0];
-        const videoContainer =
-          document.getElementsByClassName(
-            `creative-store-video-media-container-${this.joinedRoom.roomId}`
-          )[0];
-        // remove all media element child
-        if (audioContainer)
-          removeAllChildNodes(audioContainer);
-        if (videoContainer)
-          removeAllChildNodes(videoContainer);
+        handleCleanUp(this.joinedRoom, true);
       });
     };
   }
@@ -960,6 +938,33 @@ export default function CreativeStore() {
       // set new connection status
       handleChangeStatus(NO_STRING);
     });
+  }
+
+  function handleCleanUp(joinedRoom, withAudio) {
+    // handling user leaving audio , this indicates the user is leaving the room
+    if (withAudio) handleJoinAudio(LEAVING_AUDIO);
+    // set array variables to empty array
+    // set the variables to undefined so it can be garbage collected
+    consumerTransports = [];
+    consumedTransports = [];
+    device = undefined;
+    rtpCapabilities = undefined;
+    producerTransport = undefined;
+    audioProducer = undefined;
+    // stop audio/video tracks
+    audioParams.current.track.stop();
+    // delete reference to the variable
+    delete audioParams.current.track;
+    // get containers
+    const audioContainer = document.getElementsByClassName(
+      "creative-store-audio-media-container"
+    )[0];
+    const videoContainer = document.getElementsByClassName(
+      `creative-store-video-media-container-${joinedRoom.roomId}`
+    )[0];
+    // remove all media element child
+    if (audioContainer) removeAllChildNodes(audioContainer);
+    if (videoContainer) removeAllChildNodes(videoContainer);
   }
 
   function handleModalError(error) {
@@ -1526,6 +1531,18 @@ export default function CreativeStore() {
       smoothScrollTop();
       handleInitialize();
     }
+
+    // FIXME: This could be the fix for BUG-1 problem
+    // still need to test it periodically
+    return async () => {
+      if (
+        window.location.pathname.includes("creative-store")
+      )
+        return;
+      if (chatSignaler) chatSignaler.peerRef.disconnect();
+      if (mediaSignaler) mediaSignaler.peerRef.disconnect();
+      handleCleanUp(mediaSignaler.joinedRoom, false);
+    };
   }, [
     connectionStatus.webRTCSocketFirstConnected,
     connectionStatus.chatSocketFirstConnected,
@@ -1545,7 +1562,6 @@ export default function CreativeStore() {
     );
   }
 
-  // TODO: Make a retry function of websocket and render the loading screen of reconnecting
   return (
     <div className="creative-store">
       <PageLoading
