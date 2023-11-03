@@ -22,6 +22,7 @@ import Avatar from "react-avatar";
 import TextInput from "../../components/TextInput";
 import {
   CLIENT_USER_INFO,
+  IS_OTP_VERIFIED,
   LOGIN,
   MENU_MOBILE,
   NO_STRING,
@@ -1369,7 +1370,8 @@ export default function CreativeStore() {
   }
 
   const handleOnSendMessage = useCallback(() => {
-    if (!login) return window.handleOpenOverriding(LOGIN);
+    if (!IS_OTP_VERIFIED(login))
+      return window.handleOpenOverriding(LOGIN);
     if (!chatInputRef.current) return;
 
     let isChat = false;
@@ -1443,7 +1445,8 @@ export default function CreativeStore() {
           modalToggle
         );
       }
-      if (!login) return window.handleOpenOverriding(LOGIN);
+      if (!IS_OTP_VERIFIED(login))
+        return window.handleOpenOverriding(LOGIN);
       if (!room.roomId) return;
       if (
         joinedStatus === CONNECTED &&
@@ -1664,7 +1667,7 @@ export default function CreativeStore() {
                   />
                 </div>
               </div>
-              {!login && (
+              {!IS_OTP_VERIFIED(login) && (
                 <div className="creative-store-sub-container creative-store-user-avatar">
                   <div className="creative-store-user-avatar-container">
                     <div className="creative-store-user-identifier-img-wrapper">

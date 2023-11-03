@@ -6,6 +6,17 @@ export const GENERAL_MULTIUPLOAD_LABEL =
 export const GENERAL_MULTIUPLOAD_SUBLABEL = (extensions) =>
   `Mohon hanya upload extension ${extensions} saja`;
 
+// GLOBAL VALIDATION
+export const IS_INPUT_OTP_ELIGIBLE = (userInfo) => {
+  return (
+    userInfo && userInfo.credentialToken && userInfo.sid
+  );
+};
+
+export const IS_OTP_VERIFIED = (login) => {
+  return login && login.user && login.user.OTPVerified;
+};
+
 // ARRAY
 export const IMAGE_MIME_TYPE = [
   "image/apng",

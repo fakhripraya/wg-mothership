@@ -19,7 +19,10 @@ import Card from "../../components/Card";
 import WGLogo from "../../assets/svg/LIVEJB_V1_LOGO.svg";
 import { useNavigate } from "react-router-dom";
 import { useAxios } from "../../utils/hooks/useAxios";
-import { CLIENT_USER_INFO } from "../../variables/global";
+import {
+  CLIENT_USER_INFO,
+  IS_OTP_VERIFIED,
+} from "../../variables/global";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import { trackPromise } from "react-promise-tracker";
 import { cookies } from "../../config/cookie";
@@ -137,7 +140,8 @@ export default function Home() {
     smoothScrollTop();
     // home page initialization
     // here we will check the user authentication first
-    if (login) trackPromise(handleInitialize());
+    if (IS_OTP_VERIFIED(login))
+      trackPromise(handleInitialize());
   }, []);
 
   return (

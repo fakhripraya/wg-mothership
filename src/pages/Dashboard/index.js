@@ -22,6 +22,7 @@ import {
   DASHBOARD_CHATS,
   DASHBOARD_HOME,
   DASHBOARD_TRANSACTIONS,
+  IS_OTP_VERIFIED,
   LOGIN,
   NO_DATA,
   URL_GET_DASHBOARD_STORES,
@@ -45,6 +46,7 @@ import PageLoading from "../PageLoading";
 export default function Dashboard() {
   // VARIABLES //
   let login = cookies.get(CLIENT_USER_INFO);
+  console.log(login);
 
   // HOOKS //
   const zeusService = useAxios();
@@ -205,10 +207,10 @@ export default function Dashboard() {
     // scroll to top on entering
     smoothScrollTop();
     // dashboard initialization
-    if (login) handleInitialize();
+    if (IS_OTP_VERIFIED(login)) handleInitialize();
   }, []);
 
-  if (!login)
+  if (!IS_OTP_VERIFIED(login))
     (() => {
       // Executing asynchronous call for redirecting to home page
       handleOpenOverridingHome(LOGIN);

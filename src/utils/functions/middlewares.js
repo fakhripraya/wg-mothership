@@ -2,6 +2,7 @@ import { USER_UNAUTHORIZED } from "../../variables/errorMessages/global";
 import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
+  IS_OTP_VERIFIED,
   URL_CHECK_AUTH_AND_REFRESH_TOKEN,
   X_SID,
 } from "../../variables/global";
@@ -14,7 +15,7 @@ export async function checkAuthAndRefresh(
     path: "/",
   });
 
-  if (!login)
+  if (!IS_OTP_VERIFIED(login))
     return {
       message: USER_UNAUTHORIZED,
       responseStatus: 401,

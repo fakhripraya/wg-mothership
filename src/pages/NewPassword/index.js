@@ -37,6 +37,9 @@ export default function NewPassword(props) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // VARIABLES
+  const userInfo = cookies.get(CLIENT_USER_INFO, {
+    path: "/",
+  });
   const recoveryToken = searchParams.get("recoveryToken");
 
   // FUNCTIONS SPECIFIC //
@@ -47,14 +50,13 @@ export default function NewPassword(props) {
   }
 
   function handleNewPWRequest(callback) {
+    if (!userInfo && !userInfo.sid) return;
     if (recoveryToken) {
       trackPromise(
         credentialService
           .postData({
             headers: {
-              [X_SID]: cookies.get(CLIENT_USER_INFO, {
-                path: "/",
-              }).sid,
+              [X_SID]: userInfo.sid,
             },
             endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
             url: URL_POST_NEW_PW,
@@ -134,7 +136,11 @@ export default function NewPassword(props) {
           <div className="new-password-container">
             <div className="new-password-wrapper">
               <h2 className="margin-bottom-12-18">
-                Ternyata beneran kamu ! Nice !!
+                Ternyata&nbsp;
+                <span className="main-color">
+                  Beneran Kamu !
+                </span>
+                &nbsp;Nice !!
               </h2>
               <h3 className="margin-top-0 margin-bottom-12-18">
                 Nicely done bro, sekarang tinggal input
@@ -142,7 +148,7 @@ export default function NewPassword(props) {
               </h3>
               <div className="new-password-textinput-box">
                 <label className="new-password-input-title">
-                  New Pass
+                  Pass baru
                 </label>
                 <TextInput
                   value={postNewPWData.newPassword}
@@ -155,7 +161,7 @@ export default function NewPassword(props) {
               </div>
               <div className="new-password-textinput-box">
                 <label className="new-password-input-title">
-                  Confirm
+                  Konfirmasi
                 </label>
                 <TextInput
                   value={postNewPWData.confirmPassword}
@@ -168,7 +174,7 @@ export default function NewPassword(props) {
               </div>
               <h3
                 onClick={() => handleOpenLogin()}
-                className="new-password-forgot-pass link-color cursor-pointer">
+                className="new-password-forgot-pass main-color cursor-pointer">
                 Gak jadi deh, aku ingat passwordku
               </h3>
               <Button
@@ -177,14 +183,14 @@ export default function NewPassword(props) {
                     handleOpenLogin()
                   )
                 }
-                className="new-password-button dark-bg-color">
+                className="new-password-button">
                 <h3 className="new-password-button-text">
                   Submit
                 </h3>
               </Button>
             </div>
           </div>
-          <Footer />
+          <Footer isOverriding={true} />
         </div>
       </OverridingContainer>
     </Fragment>

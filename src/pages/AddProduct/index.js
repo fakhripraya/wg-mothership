@@ -26,6 +26,7 @@ import {
   CONTENT_TYPE,
   GENERAL_MULTIUPLOAD_LABEL,
   GENERAL_MULTIUPLOAD_SUBLABEL,
+  IS_OTP_VERIFIED,
   LOGIN,
   NO_DATA,
   PDF,
@@ -413,7 +414,7 @@ export default function AddProduct() {
     trackPromise(init());
   }, []);
 
-  if (!login)
+  if (!IS_OTP_VERIFIED(login))
     (() => {
       // Executing asynchronous call for redirecting to home page
       handleOpenOverridingHome(LOGIN);

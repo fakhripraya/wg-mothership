@@ -13,6 +13,7 @@ import {
   CLIENT_USER_INFO,
   X_SID,
   AUTHORIZATION,
+  IS_INPUT_OTP_ELIGIBLE,
 } from "../../variables/global";
 import { useAxios } from "../../utils/hooks/useAxios";
 import Modal from "../../components/Modal";
@@ -28,7 +29,7 @@ import { cookies } from "../../config/cookie";
 export default function OTP(props) {
   // VARIABLES
   const userInfo = cookies.get(CLIENT_USER_INFO);
-  if (userInfo) {
+  if (IS_INPUT_OTP_ELIGIBLE(userInfo)) {
     postOTPDataInitialValue.credentialToken =
       userInfo.credentialToken;
     postOTPDataInitialValue.sid = userInfo.sid;
@@ -50,8 +51,7 @@ export default function OTP(props) {
   }
 
   function handleSubmitOTP() {
-    if (!userInfo) return;
-    if (!postOTPDataInitialValue.credentialToken) return;
+    if (!IS_INPUT_OTP_ELIGIBLE(userInfo)) return;
     trackPromise(
       credentialService
         .postData({
@@ -102,7 +102,7 @@ export default function OTP(props) {
           </Button>
           <br />
           <h3 className="margin-top-0 margin-bottom-12-18">
-            There is an{" "}
+            There is an&nbsp;
             <span className="red-color">ERROR</span>
           </h3>
           <br />
@@ -138,12 +138,16 @@ export default function OTP(props) {
           <div className="otp-container">
             <div className="otp-wrapper">
               <h2 className="margin-bottom-12-18">
-                Input Kode OTP
+                Input Kode&nbsp;
+                <span className="main-color">OTP</span>
               </h2>
               <h3 className="margin-top-0 margin-bottom-12-18">
-                Kami telah mengirimi kode OTP melalui email
-                anda, input disini agar kami bisa
-                memverifikasi data anda
+                Kami telah mengirimi kode&nbsp;
+                <span className="main-color">
+                  OTP (One Time Password)
+                </span>
+                &nbsp;melalui email anda, input disini agar
+                kami bisa memverifikasi data anda
               </h3>
               <div className="otp-textinput-box">
                 <label className="otp-input-title">
@@ -161,12 +165,12 @@ export default function OTP(props) {
               </div>
               <Button
                 onClick={() => handleSubmitOTP()}
-                className="otp-button dark-bg-color">
+                className="otp-button">
                 <h3 className="otp-button-text">Submit</h3>
               </Button>
             </div>
           </div>
-          <Footer />
+          <Footer isOverriding={true} />
         </div>
       </OverridingContainer>
     </Fragment>

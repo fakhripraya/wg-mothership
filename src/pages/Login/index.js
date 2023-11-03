@@ -127,7 +127,8 @@ export default function Login(props) {
           <div className="login-container">
             <div className="login-wrapper">
               <h2 className="margin-bottom-12-18">
-                Login Untuk Mengakses
+                <span className="main-color">Login</span>{" "}
+                Untuk Mengakses
               </h2>
               <h3 className="margin-top-0 margin-bottom-12-18">
                 Mulai bisnis dan komunitasmu sekarang,
@@ -161,7 +162,7 @@ export default function Login(props) {
               </div>
               <h3
                 onClick={() => handleOpenForgotPassword()}
-                className="login-forgot-pass link-color cursor-pointer">
+                className="login-forgot-pass main-color cursor-pointer">
                 Lupa password
               </h3>
               <Button
@@ -170,7 +171,7 @@ export default function Login(props) {
                     props.handleOpen(OTP_PAGE);
                   })
                 }
-                className="login-button dark-bg-color">
+                className="login-button">
                 <h3 className="login-button-text">Login</h3>
               </Button>
               <br></br>
@@ -196,13 +197,13 @@ export default function Login(props) {
                 Belum jadi member ?{" "}
                 <span
                   onClick={() => handleOpenRegister()}
-                  className="link-color cursor-pointer">
+                  className="main-color cursor-pointer">
                   Daftar akun Sekarang
                 </span>
               </h3>
             </div>
           </div>
-          <Footer />
+          <Footer isOverriding={true} />
         </div>
       </OverridingContainer>
     </Fragment>

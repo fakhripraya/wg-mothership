@@ -90,8 +90,8 @@ export default function ForgotPassword(props) {
   const ShowSuccessTitle = () => {
     return (
       <h3 className="margin-top-0 margin-bottom-12-18">
-        <span className="main-color">Successfully</span>{" "}
-        sent a mail to your email
+        <span className="main-color">Berhasil</span>
+        &nbsp;mengirim recovery email
       </h3>
     );
   };
@@ -119,7 +119,7 @@ export default function ForgotPassword(props) {
           <br />
           <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
             {success
-              ? "Password recovery email has been sent"
+              ? "Kami sudah berhasil kirimin kamu recovery email ke kamu, tolong dicek ya"
               : errorMessage}
           </label>
         </div>
@@ -153,11 +153,12 @@ export default function ForgotPassword(props) {
           <div className="forgot-password-container">
             <div className="forgot-password-wrapper">
               <h2 className="margin-bottom-12-18">
-                Lupa password kamu ?
+                <span className="main-color">Lupa</span>{" "}
+                Password Kamu ?
               </h2>
               <h3 className="margin-top-0 margin-bottom-12-18">
                 Jangan khawatir, kita bakal kirimin kamu
-                email recovery password
+                email recovery
               </h3>
               <div className="forgot-password-textinput-box">
                 <label className="forgot-password-input-title">
@@ -174,7 +175,7 @@ export default function ForgotPassword(props) {
               </div>
               <h3
                 onClick={() => handleOpenLogin()}
-                className="forgot-password-forgot-pass link-color cursor-pointer">
+                className="forgot-password-forgot-pass main-color cursor-pointer">
                 Gak jadi deh, aku ingat passwordku
               </h3>
               <Button
@@ -183,14 +184,14 @@ export default function ForgotPassword(props) {
                     handleAfterSubmitEmail()
                   )
                 }
-                className="forgot-password-button dark-bg-color">
+                className="forgot-password-button">
                 <h3 className="forgot-password-button-text">
                   Send Email
                 </h3>
               </Button>
             </div>
           </div>
-          <Footer />
+          <Footer isOverriding={true} />
         </div>
       </OverridingContainer>
     </Fragment>

@@ -66,14 +66,31 @@
   border: 1.5px solid #fff;
 }
 
+.footer-button-outlined:hover {
+  transform: scale(1.03) !important;
+}
+
+.footer-button-outlined-overriding {
+  background-color: #0da34d !important;
+  border-color: #0da34d;
+  color: #fff;
+}
+
 .footer-button-block {
   background-color: #151515 !important;
 }
 
 .footer-button-block:hover {
-  transform: scale(1) !important;
   background-color: #fff !important;
   color: #151515 !important;
+}
+
+.footer-button-block-overriding {
+  background-color: #0da34d !important;
+}
+
+.footer-button-block-overriding:hover {
+  transform: scale(1.01) !important;
 }
 
 // GRID //

@@ -33,6 +33,7 @@ import {
   URL_POST_GOOGLE_CALLBACK,
   DASHBOARD,
   X_SID,
+  IS_OTP_VERIFIED,
 } from "../../variables/global";
 import { ShowNavbar } from "../Global";
 import { navbarInitialStyle } from "../../variables/styles/navbar";
@@ -182,9 +183,7 @@ export default function Navbar() {
   // COMPONENTS SPECIFIC //
   const ShowProfile = () => {
     // Check if the user is logged in
-    const isLoggedIn =
-      login && login.user && login.credentialToken;
-
+    const isLoggedIn = IS_OTP_VERIFIED(login);
     const handleLoginClick = () => {
       window.handleOpenOverriding(LOGIN);
     };
@@ -259,7 +258,7 @@ export default function Navbar() {
 
   const ShowMenuButtons = () => {
     let renderMenus = menus;
-    if (!login) {
+    if (!IS_OTP_VERIFIED(login)) {
       const dashboardButtonInfo = renderMenus.find(
         (item) => item.key === DASHBOARD
       );
@@ -268,6 +267,7 @@ export default function Navbar() {
       );
       renderMenus.splice(dashboardButtonIndex, 1);
     }
+
     return renderMenus.map((menu, index) => {
       return (
         <ShowMenuRow key={`mobile-button-${index}`}>
@@ -451,7 +451,7 @@ export default function Navbar() {
         toggle={toggleOverride === MENU_MOBILE}>
         <div className="sticky-top">
           <ShowNavbar>
-            <ShowCartCount isGreen={false} />
+            <ShowCartCount isGreen={true} />
             <img
               onClick={() =>
                 handlePageNavigation("/transaction/cart")
@@ -477,7 +477,7 @@ export default function Navbar() {
             <ShowProfile />
           </ShowMenuRow>
           <ShowMenuButtons />
-          <Footer />
+          <Footer isOverriding={true} />
         </div>
       </OverridingContainer>
       <Login

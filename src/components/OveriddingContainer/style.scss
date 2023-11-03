@@ -7,9 +7,29 @@
   z-index: -1;
   top: 0;
   left: 0;
-  transform: translateY(-100%);
+  opacity: 0;
   visibility: hidden;
   transition: all 0.55s ease-in-out;
+  background-color: transparent;
+}
+
+.overriding-blurry {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  transition: all 0.55s ease-in-out;
+  background-color: transparent;
+  filter: blur(0); /* Start with no blur */
+  backdrop-filter: blur(0) brightness(100%) saturate(100%); /* Start with no backdrop filter */
+}
+
+.overriding-blurry.blur {
+  filter: blur(10px); /* Apply blur */
+  backdrop-filter: blur(10px) brightness(70%) saturate(120%); /* Apply backdrop filter */
 }
 
 /* width */
@@ -35,9 +55,15 @@
 
 .overriding-container-view {
   z-index: 1002 !important;
-  // opacity: 1 !important;
+  opacity: 1 !important;
   visibility: visible !important;
-  transform: translateY(0%) !important;
+}
+
+.overriding-blurry-view {
+  z-index: 1001 !important;
+  visibility: visible !important;
+  filter: blur(10px) !important; /* Apply blur */
+  backdrop-filter: blur(10px) brightness(70%) saturate(120%) !important; /* Apply backdrop filter */
 }
 
 .overriding-wrapper {

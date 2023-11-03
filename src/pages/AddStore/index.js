@@ -13,6 +13,7 @@ import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
   CONTENT_TYPE,
+  IS_OTP_VERIFIED,
   LOGIN,
   URL_POST_ADD_USER_STORE,
   X_SID,
@@ -271,7 +272,7 @@ export default function AddStore() {
     );
   }, []);
 
-  if (!login)
+  if (!IS_OTP_VERIFIED(login))
     (() => {
       // Executing asynchronous call for redirecting to home page
       handleOpenOverridingHome(LOGIN);

@@ -185,7 +185,10 @@ export default function Register(props) {
           <div className="register-container">
             <div className="register-wrapper">
               <h2 className="margin-bottom-12-18">
-                Bergabung Bersama Kami Dan Jadi Member !
+                <span className="main-color">
+                  Bergabung
+                </span>
+                &nbsp;Bersama Kami Dan Jadi Member !
               </h2>
               <h3 className="margin-top-0 margin-bottom-12-18">
                 Dapatkan keuntungan maksimum dengan
@@ -246,12 +249,12 @@ export default function Register(props) {
               </div>
               <h3
                 onClick={() => handleOpenForgotPassword()}
-                className="register-forgot-pass link-color cursor-pointer">
+                className="register-forgot-pass main-color cursor-pointer">
                 Lupa password
               </h3>
               <Button
                 onClick={() => handlePostRegister()}
-                className="register-button dark-bg-color">
+                className="register-button">
                 <h3 className="register-button-text">
                   Daftar
                 </h3>
@@ -272,16 +275,16 @@ export default function Register(props) {
               <br></br>
               <br></br>
               <h3 className="register-middle-text">
-                Sudah punya akun ?{" "}
+                Sudah punya akun ?&nbsp;
                 <span
                   onClick={() => handleOpenLogin()}
-                  className="link-color cursor-pointer">
+                  className="main-color cursor-pointer">
                   Login sekarang
                 </span>
               </h3>
             </div>
           </div>
-          <Footer />
+          <Footer isOverriding={true} />
         </div>
       </OverridingContainer>
     </Fragment>
