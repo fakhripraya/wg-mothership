@@ -64,6 +64,11 @@
   }
 }
 
+.home-hero-title {
+  width: 100vw;
+  height: 60vh;
+}
+
 .home-fullwidth-img {
   margin: 2.5vw 0px;
   width: 100%;
@@ -180,8 +185,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  transition:
-    transform 50ms ease 0s,
+  transition: transform 50ms ease 0s,
     background-color 0.12s ease 0s;
   background-image: url("../../assets/svg/caret-down-solid.svg");
 }

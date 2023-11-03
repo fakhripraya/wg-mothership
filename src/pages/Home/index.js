@@ -156,7 +156,10 @@ export default function Home() {
                 LIVE{" "}
                 <span className="hero-span-text">JB</span>
               </h1> */}
-              <img src={WGLogo} />
+              <img
+                className="home-hero-title"
+                src={WGLogo}
+              />
               <label>
                 Jualan? beli barang? sambil voice call aja
                 negonya

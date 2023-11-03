@@ -1572,7 +1572,7 @@ export default function CreativeStore() {
           rendered ? "hidden no-height" : "visible"
         }
         loadingMessage={
-          "Kita lagi nyiapin tokonya dulu ya, harap tunggu :)"
+          "Tunggu bentar ya \n Kita lagi siapin tokonya..."
         }
       />
       <Modal
