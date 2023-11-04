@@ -18,7 +18,7 @@ export const ShowNavbar = (props) => {
 export const ShowBreadcrumbs = (props) => {
   let breadCrumbTexts = "";
   props.trails.forEach(
-    (item) => (breadCrumbTexts += `${item} - `)
+    (item) => (breadCrumbTexts += `${item} / `)
   );
   breadCrumbTexts = breadCrumbTexts.slice(0, -2);
   return <h3>{breadCrumbTexts}</h3>;

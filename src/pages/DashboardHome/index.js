@@ -8,7 +8,6 @@ import ProductIcon from "../../assets/svg/bag-shopping-solid.svg";
 import {
   DASHBOARD_CATALOG,
   DASHBOARD_HOME,
-  DASHBOARD_NOTES,
   DASHBOARD_TRANSACTIONS,
 } from "../../variables/global";
 import { useNavigate } from "react-router-dom";

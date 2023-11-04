@@ -12,7 +12,6 @@
   display: flex;
   align-items: center;
   -webkit-box-align: center;
-  justify-content: center;
 
   @media screen and (max-width: 1000px) {
     min-width: 175px;
@@ -33,7 +32,7 @@
 }
 
 .footer-button {
-  max-width: 150px;
+  max-width: 125px;
   width: 100%;
   min-height: 50px;
   border-radius: 100px;

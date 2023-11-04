@@ -4,14 +4,123 @@
   min-width: 100vw;
   padding-bottom: 10vh;
   padding-top: 80px;
+  width: 80vw;
 }
 
 .transaction-cart-wrapper {
-  width: 80vw;
+  width: inherit;
+  height: inherit;
+  min-height: inherit;
   margin: 0px auto;
   position: relative;
   align-items: center;
   -webkit-box-align: center;
   display: flex;
   flex-direction: column;
+}
+
+.transaction-cart-header {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.transaction-cart-title {
+  align-items: center;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.transaction-cart-title-btn {
+  height: fit-content !important;
+
+  &:first-child {
+    margin-right: 6px;
+  }
+}
+
+.transaction-cart-item-container {
+  height: inherit;
+  min-height: inherit;
+  width: 100%;
+  max-width: 100%;
+}
+
+.transaction-cart-item-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-cart-item {
+  min-height: 200px;
+  width: inherit;
+  display: flex;
+  flex-direction: row;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.transaction-cart-item > div {
+  padding: 12px;
+}
+
+.transaction-cart-item-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.transaction-cart-item-image {
+  height: 200px;
+  width: 200px;
+  border-radius: 8px;
+}
+
+.transaction-cart-item-body {
+  flex: 2;
+}
+
+.transaction-cart-item-other {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.transaction-cart-other-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.transaction-cart-input-text {
+  border-radius: 6px !important;
+  width: 50%;
+  background-color: #1c1d1d;
+  color: white;
+  padding: 6px;
+}
+
+.transaction-cart-longtext-area {
+  border-radius: 6px !important;
+  color: white;
+  text-align: start;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  resize: none;
+  height: 200px;
+}
+
+.transaction-cart-longtext-area:hover {
+  overflow-y: scroll;
+}
+
+.transaction-cart-icon {
+  width: 40px;
+  height: 40px;
 }
