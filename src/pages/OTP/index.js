@@ -76,6 +76,7 @@ export default function OTP(props) {
             { path: "/" }
           );
           props.handleOpen(NO_STRING);
+          window.location.href = "/";
         })
         .catch((error) => {
           return handleErrorMessage(

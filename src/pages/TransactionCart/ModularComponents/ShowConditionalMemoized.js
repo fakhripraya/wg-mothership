@@ -3,9 +3,28 @@ import ErrorHandling from "../../ErrorHandling";
 import Button from "../../../components/Button";
 import { EMPTY_CART } from "../../../variables/errorMessages/transactionCart";
 import ShowItems from "./ShowItems";
+import {
+  IS_OTP_VERIFIED,
+  LOGIN,
+} from "../../../variables/global";
+import { handleOpenOverridingHome } from "../../../utils/functions/global";
+import PageLoading from "../../PageLoading";
+import { PAGE_REDIRECTING_MESSAGE } from "../../../variables/errorMessages/dashboard";
 
 export default function ShowConditionalMemoized(props) {
-  if (!props.datas || props.datas.length <= 0)
+  if (!IS_OTP_VERIFIED(props.login))
+    return (() => {
+      // Executing asynchronous call for redirecting to home page
+      handleOpenOverridingHome(LOGIN);
+      // Placeholder message while redirecting to home page
+      return (
+        <PageLoading
+          loadingMessage={PAGE_REDIRECTING_MESSAGE}
+        />
+      );
+    })();
+
+  if (!props.datas || props.datas.length <= 0) {
     return (
       <ErrorHandling errorMessage={EMPTY_CART}>
         <Button
@@ -15,6 +34,7 @@ export default function ShowConditionalMemoized(props) {
         </Button>
       </ErrorHandling>
     );
+  }
 
   return (
     <div className="transaction-cart-container">

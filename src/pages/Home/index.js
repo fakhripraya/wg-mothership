@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { useAxios } from "../../utils/hooks/useAxios";
 import {
   CLIENT_USER_INFO,
+  IS_NOT_AUTHENTICATE,
   IS_OTP_VERIFIED,
 } from "../../variables/global";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
@@ -50,10 +51,7 @@ export default function Home() {
       credentialService,
       cookies
     );
-    if (
-      result.responseStatus === 401 ||
-      result.responseStatus === 403
-    )
+    if (IS_NOT_AUTHENTICATE(result))
       cookies.remove(CLIENT_USER_INFO, { path: "/" });
   }
 

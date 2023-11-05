@@ -17,6 +17,13 @@ export const IS_OTP_VERIFIED = (login) => {
   return login && login.user && login.user.OTPVerified;
 };
 
+export const IS_NOT_AUTHENTICATE = (result) => {
+  return (
+    result.responseStatus === 401 ||
+    result.responseStatus === 403
+  );
+};
+
 // ARRAY
 export const IMAGE_MIME_TYPE = [
   "image/apng",

@@ -64,11 +64,11 @@ export default function Navbar() {
   if (isRender)
     navbarDisplayAdditionalClassName = "display-none";
   const menus = getMenus();
-  const login = cookies.get(CLIENT_USER_INFO, {
-    path: "/",
-  });
 
   // STATES
+  const [login, setLogin] = useState(
+    cookies.get(CLIENT_USER_INFO, { path: "/" })
+  );
   const [toggleOverride, setToggleOverride] =
     useState(NO_STRING);
   const [modalToggle, setModalToggle] = useState(false);
@@ -94,6 +94,10 @@ export default function Navbar() {
             CLIENT_USER_INFO,
             result.responseData,
             { path: "/" }
+          );
+
+          setLogin(
+            cookies.get(CLIENT_USER_INFO, { path: "/" })
           );
         })
         .catch((error) => {
@@ -167,6 +171,9 @@ export default function Navbar() {
         })
         .finally(() => {
           cookies.remove(CLIENT_USER_INFO, { path: "/" });
+          setLogin(
+            cookies.get(CLIENT_USER_INFO, { path: "/" })
+          );
         })
     );
   }
@@ -365,6 +372,25 @@ export default function Navbar() {
     );
   };
 
+  const ShowCart = () => {
+    return (
+      IS_OTP_VERIFIED(login) && (
+        <Fragment>
+          <ShowCartCount isGreen={true} />
+          <img
+            onClick={() =>
+              handlePageNavigation("/transaction/cart")
+            }
+            style={{ marginRight: "12px" }}
+            className="navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view"
+            src={ICCart}
+            alt="ic_cart"
+          />
+        </Fragment>
+      )
+    );
+  };
+
   const ShowModal = () => {
     if (error) return <ShowErrorModal />;
     else return <ShowLogoutModal />;
@@ -379,8 +405,8 @@ export default function Navbar() {
         setNavbarStyle({ transform: "translateY(0)" });
       // Set a new timer to execute the scroll handling function after a delay
       timer = setTimeout(() => {
-        // Your scroll handling logic here
-        // Update your state or perform any necessary actions
+        // Scroll handling logic here
+        // Update state or perform any necessary actions
         handleNavbarHide();
       }, 150); // Adjust the delay as needed (300 milliseconds in this example)
     };
@@ -426,16 +452,7 @@ export default function Navbar() {
                 src={WGLogo}
                 alt="WG_LOGO"></img>
             </div>
-            <ShowCartCount isGreen={true} />
-            <img
-              onClick={() =>
-                handlePageNavigation("/transaction/cart")
-              }
-              style={{ marginRight: "12px" }}
-              className="navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view"
-              src={ICCart}
-              alt="ic_cart"
-            />
+            <ShowCart />
             <img
               onClick={() =>
                 window.handleOpenOverriding(MENU_MOBILE)
@@ -451,16 +468,7 @@ export default function Navbar() {
         toggle={toggleOverride === MENU_MOBILE}>
         <div className="sticky-top">
           <ShowNavbar>
-            <ShowCartCount isGreen={true} />
-            <img
-              onClick={() =>
-                handlePageNavigation("/transaction/cart")
-              }
-              style={{ marginRight: "12px" }}
-              className="navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view"
-              src={ICCart}
-              alt="ic_cart"
-            />
+            <ShowCart />
             <img
               onClick={() =>
                 window.handleOpenOverriding(NO_STRING)

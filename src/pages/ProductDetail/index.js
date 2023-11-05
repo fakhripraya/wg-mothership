@@ -19,6 +19,7 @@ import TextArea from "../../components/TextArea";
 import { useAxios } from "../../utils/hooks/useAxios";
 import {
   CLIENT_USER_INFO,
+  KEY_CART,
   LOGIN,
   PRODUCT_CATALOGUE_ADDITIONAL_FILES,
   PRODUCT_CATALOGUE_IMAGE,
@@ -81,6 +82,26 @@ export default function ProductDetail() {
 
   function handleToggleCourierListModal() {
     setToggleCourierListModal((val) => !val);
+  }
+
+  function handleAddItemToCart() {
+    if (buyQty <= 0) return;
+    let temp = JSON.parse(localStorage.getItem(KEY_CART));
+    if (!temp) temp = [];
+
+    let cartItem = {
+      storeId: productData,
+      productId: productData.id,
+      productName: productData.productName,
+      productImageSrc: `${process.env.REACT_APP_CHRONOS_SERVICE}${productImages[0].destination}`,
+      productPrice: productData.productPrice,
+      buyQty: buyQty,
+      buyingNote: buyingNote,
+    };
+
+    temp.push(cartItem);
+    localStorage.setItem(KEY_CART, JSON.stringify(temp));
+    navigate("/transaction/cart");
   }
 
   // COMPONENTS SPECIFIC //
@@ -514,9 +535,7 @@ export default function ProductDetail() {
                 </h2>
               </div>
               <Button
-                onClick={() => {
-                  navigate("/transaction/cart");
-                }}
+                onClick={() => handleAddItemToCart()}
                 className="main-bg-color">
                 Masukkan Keranjang
               </Button>
