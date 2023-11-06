@@ -7,11 +7,23 @@ import {
   IS_OTP_VERIFIED,
   LOGIN,
 } from "../../../variables/global";
-import { handleOpenOverridingHome } from "../../../utils/functions/global";
+import {
+  formattedNumber,
+  handleOpenOverridingHome,
+} from "../../../utils/functions/global";
 import PageLoading from "../../PageLoading";
 import { PAGE_REDIRECTING_MESSAGE } from "../../../variables/errorMessages/dashboard";
 
 export default function ShowConditionalMemoized(props) {
+  function handleDisplayTotal() {
+    const total = props.datas.reduce((acc, current) => {
+      return (
+        acc + Number(current.productPrice * current.buyQty)
+      );
+    }, 0);
+    return total;
+  }
+
   if (!IS_OTP_VERIFIED(props.login))
     return (() => {
       // Executing asynchronous call for redirecting to home page
@@ -44,12 +56,20 @@ export default function ShowConditionalMemoized(props) {
             <h1>Cart</h1>
           </div>
           <div className="transaction-cart-title justify-content-flex-end">
-            <Button className="transaction-cart-title-btn red-bg-color">
-              Clear
-            </Button>{" "}
-            <Button className="transaction-cart-title-btn main-bg-color">
-              Checkout
-            </Button>{" "}
+            <div className="transaction-cart-title-btn-container">
+              <h3>
+                Total: Rp.
+                {formattedNumber(handleDisplayTotal())}
+              </h3>
+              <Button
+                style={{ marginBottom: "8px" }}
+                className="transaction-cart-title-btn red-bg-color">
+                Clear
+              </Button>
+              <Button className="transaction-cart-title-btn main-bg-color">
+                Checkout
+              </Button>
+            </div>
           </div>
         </div>
         <hr

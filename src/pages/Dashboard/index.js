@@ -46,7 +46,6 @@ import PageLoading from "../PageLoading";
 export default function Dashboard() {
   // VARIABLES //
   let login = cookies.get(CLIENT_USER_INFO);
-  console.log(login);
 
   // HOOKS //
   const zeusService = useAxios();

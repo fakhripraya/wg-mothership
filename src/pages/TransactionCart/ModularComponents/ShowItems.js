@@ -7,13 +7,22 @@ import TextInput from "../../../components/TextInput";
 import XMark from "../../../assets/svg/xmark-solid-red.svg";
 import TextArea from "../../../components/TextArea";
 import Button from "../../../components/Button";
-import { formattedNumber } from "../../../utils/functions/global";
+import {
+  formattedNumber,
+  removeLeadingZeros,
+} from "../../../utils/functions/global";
 
 const ShowItem = (props) =>
   useMemo(
     () => (
       <Fragment>
         <br />
+        <label
+          style={{ marginBottom: "8px" }}
+          className="font-bold">
+          Warunk Gaming
+        </label>
+        <label>Jakarta Selatan</label>
         <div className="transaction-cart-item">
           <div className="transaction-cart-item-image-container">
             <img
@@ -40,7 +49,9 @@ const ShowItem = (props) =>
             <div className="transaction-cart-other-wrapper">
               <TextInput
                 className="transaction-cart-input-text"
-                value={props.data.buyQty}
+                value={removeLeadingZeros(
+                  props.data.buyQty
+                )}
               />
               <Button style={{ marginLeft: "8px" }}>
                 Buah
@@ -71,11 +82,11 @@ const ShowItems = (props) => {
       <Fragment>
         {props.datas.map((data, index) => (
           <ShowItem
+            key={`transaction-cart-item-${index}`}
             index={index}
             data={data}
           />
         ))}
-        <h2>Total: Rp.102,000</h2>
       </Fragment>
     ),
     [props.datas]

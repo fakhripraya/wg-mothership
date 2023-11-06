@@ -146,6 +146,11 @@ export const isImageType = (type) => {
   return IMAGE_MIME_TYPE.includes(type);
 };
 
+export const removeLeadingZeros = (str) => {
+  // Use regular expression to remove leading zeros
+  return str.replace(/^0+/, "");
+};
+
 export const formattedNumber = (number) => {
   if (isNaN(number)) number = 0;
   return new Intl.NumberFormat().format(number);

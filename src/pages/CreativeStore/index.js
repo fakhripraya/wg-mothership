@@ -952,10 +952,12 @@ export default function CreativeStore() {
     rtpCapabilities = undefined;
     producerTransport = undefined;
     audioProducer = undefined;
-    // stop audio/video tracks
-    audioParams.current.track.stop();
-    // delete reference to the variable
-    delete audioParams.current.track;
+    if (audioParams.current) {
+      // stop audio/video tracks
+      audioParams.current.track.stop();
+      // delete reference to the variable
+      delete audioParams.current.track;
+    }
     // get containers
     const audioContainer = document.getElementsByClassName(
       "creative-store-audio-media-container"

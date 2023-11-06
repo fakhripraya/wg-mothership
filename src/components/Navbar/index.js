@@ -34,6 +34,7 @@ import {
   DASHBOARD,
   X_SID,
   IS_OTP_VERIFIED,
+  KEY_CART,
 } from "../../variables/global";
 import { ShowNavbar } from "../Global";
 import { navbarInitialStyle } from "../../variables/styles/navbar";
@@ -355,6 +356,7 @@ export default function Navbar() {
   };
 
   const ShowCartCount = (props) => {
+    let cart = JSON.parse(localStorage.getItem(KEY_CART));
     return (
       <div
         style={{
@@ -366,7 +368,7 @@ export default function Navbar() {
             fontSize: "0.8em",
             fontWeight: "bold",
           }}>
-          15
+          {cart && cart.length}
         </span>
       </div>
     );

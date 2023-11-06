@@ -21,7 +21,6 @@ export default function TransactionCart() {
 
   // VARIABLES
   let datas = JSON.parse(localStorage.getItem(KEY_CART));
-  console.log(datas);
   const credentialService = useAxios();
 
   async function handleInitialize() {

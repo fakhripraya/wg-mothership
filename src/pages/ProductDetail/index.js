@@ -85,12 +85,17 @@ export default function ProductDetail() {
   }
 
   function handleAddItemToCart() {
-    if (buyQty <= 0) return;
+    if (buyQty <= 0) return alert("Qty kosong");
     let temp = JSON.parse(localStorage.getItem(KEY_CART));
     if (!temp) temp = [];
 
     let cartItem = {
-      storeId: productData,
+      storeId:
+        productData.MasterStoreCatalogue.MasterStore.id,
+      storeName:
+        productData.MasterStoreCatalogue.MasterStore
+          .storeName,
+      storeImageSrc: `${process.env.REACT_APP_CHRONOS_SERVICE}${productData.MasterStoreCatalogue.MasterStore.MasterFiles.destination}`,
       productId: productData.id,
       productName: productData.productName,
       productImageSrc: `${process.env.REACT_APP_CHRONOS_SERVICE}${productImages[0].destination}`,
@@ -99,7 +104,14 @@ export default function ProductDetail() {
       buyingNote: buyingNote,
     };
 
-    temp.push(cartItem);
+    let foundExisting = temp.findIndex(
+      (val) => val.productId === cartItem.productId
+    );
+
+    if (foundExisting !== -1)
+      temp[foundExisting] = cartItem;
+    else temp.push(cartItem);
+
     localStorage.setItem(KEY_CART, JSON.stringify(temp));
     navigate("/transaction/cart");
   }
