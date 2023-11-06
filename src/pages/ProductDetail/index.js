@@ -97,6 +97,7 @@ export default function ProductDetail() {
           .storeName,
       storeImageSrc: `${process.env.REACT_APP_CHRONOS_SERVICE}${productData.MasterStoreCatalogue.MasterStore.MasterFiles.destination}`,
       productId: productData.id,
+      productCode: productData.productCode,
       productName: productData.productName,
       productImageSrc: `${process.env.REACT_APP_CHRONOS_SERVICE}${productImages[0].destination}`,
       productPrice: productData.productPrice,

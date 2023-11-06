@@ -13,16 +13,27 @@ import {
 } from "../../../utils/functions/global";
 
 const ShowItem = (props) =>
-  useMemo(
-    () => (
+  useMemo(() => {
+    function handleGoToProductPage() {
+      window.location.href = `/product-detail?productId=${props.data.productId}`;
+    }
+
+    function handleGoToCreativeStore() {
+      window.location.href = `/creative-store?id=${props.data.storeId}`;
+    }
+
+    return (
       <Fragment>
         <br />
         <label
+          onClick={() => handleGoToCreativeStore()}
           style={{ marginBottom: "8px" }}
-          className="font-bold">
+          className="font-bold main-color cursor-pointer">
           Warunk Gaming
         </label>
-        <label>Jakarta Selatan</label>
+        <label style={{ marginBottom: "8px" }}>
+          Jakarta Selatan
+        </label>
         <div className="transaction-cart-item">
           <div className="transaction-cart-item-image-container">
             <img
@@ -31,7 +42,17 @@ const ShowItem = (props) =>
             />
           </div>
           <div className="transaction-cart-item-body">
-            <h2>{props.data.productName}</h2>
+            <h2
+              style={{ marginBottom: "8px" }}
+              onClick={() => handleGoToProductPage()}
+              className="main-color cursor-pointer">
+              {props.data.productName}
+            </h2>
+            <label>
+              Kode Produk: {props.data.productCode}
+            </label>
+            <br />
+            <br />
             <TextArea
               className="transaction-cart-longtext-area dark-bg-color"
               value={
@@ -57,7 +78,6 @@ const ShowItem = (props) =>
                 Buah
               </Button>
             </div>
-            <br />
             <h3>
               Subtotal: Rp.
               {formattedNumber(
@@ -72,9 +92,8 @@ const ShowItem = (props) =>
           className="max-width"
         />
       </Fragment>
-    ),
-    [props.data]
-  );
+    );
+  }, [props.data]);
 
 const ShowItems = (props) => {
   const render = useCallback(
