@@ -135,8 +135,7 @@
 .product-search-accordion-lists-container {
   transform: scaleY(1);
   transform-origin: center top;
-  transition:
-    height 240ms ease-out 0s,
+  transition: height 240ms ease-out 0s,
     transform 240ms ease-out 0s;
   width: 100%;
 }

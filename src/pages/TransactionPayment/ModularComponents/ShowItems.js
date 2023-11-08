@@ -8,10 +8,12 @@ import XMark from "../../../assets/svg/xmark-solid-red.svg";
 import TextArea from "../../../components/TextArea";
 import Button from "../../../components/Button";
 import {
+  acceptNumericOnly,
   formattedNumber,
   removeLeadingZeros,
 } from "../../../utils/functions/global";
 import { setItem } from "../../../utils/redux/reducers/cartReducer";
+import { cloneDeep } from "lodash-es";
 
 const ShowItem = (props) =>
   useMemo(() => {
@@ -28,12 +30,11 @@ const ShowItem = (props) =>
         <br />
         <label
           onClick={() => handleGoToCreativeStore()}
-          style={{ marginBottom: "8px" }}
           className="font-bold main-color cursor-pointer">
-          Warunk Gaming
+          {props.data.productName}
         </label>
         <label style={{ marginBottom: "8px" }}>
-          Jakarta Selatan
+          {props.data.productCode}
         </label>
         <div className="transaction-payment-item">
           <div className="transaction-payment-item-image-container">
@@ -43,58 +44,26 @@ const ShowItem = (props) =>
               alt={props.data.productImageSrc}
             />
           </div>
-          <div className="transaction-payment-item-body">
-            <h2
-              style={{ marginBottom: "8px" }}
-              onClick={() => handleGoToProductPage()}
-              className="main-color cursor-pointer">
-              {props.data.productName}
-            </h2>
-            <label>{props.data.productCode}</label>
-            <br />
-            <br />
-            <TextArea
-              onChange={(e) => {
-                const found = props.datas.findIndex(
-                  (val) =>
-                    val.userId !==
-                      props.login.user.userId &&
-                    val.productId === props.data.productId
-                );
-                props.datas[found].buyingNote =
-                  e.target.value;
-                props.dispatch(setItem([...props.datas]));
-              }}
-              className="transaction-payment-longtext-area dark-bg-color"
-              value={
-                props.data.buyingNote ||
-                "Tulis catatan untuk penjual"
-              }
-            />
-          </div>
           <div className="transaction-payment-item-other">
-            <img
-              src={XMark}
-              alt={XMark}
-              className="transaction-payment-icon cursor-pointer"
-            />
-            <br />
             <div className="transaction-payment-other-wrapper">
               <TextInput
                 onChange={(e) => {
-                  const found = props.datas.findIndex(
+                  let temp = cloneDeep(props.datas);
+                  const found = temp.findIndex(
                     (val) =>
-                      val.userId !==
+                      val.userId ===
                         props.login.user.userId &&
                       val.productId === props.data.productId
                   );
-                  props.datas[found].buyQty =
-                    e.target.value;
-                  props.dispatch(setItem([...props.datas]));
+                  temp[found].buyQty = acceptNumericOnly(
+                    e.target.value
+                  );
+                  props.dispatch(setItem(temp));
+                  props.setDatas(temp);
                 }}
                 className="transaction-payment-input-text"
-                value={removeLeadingZeros(
-                  props.data.buyQty
+                value={formattedNumber(
+                  removeLeadingZeros(props.data.buyQty)
                 )}
               />
               <Button style={{ marginLeft: "8px" }}>
@@ -122,12 +91,14 @@ const ShowItems = (props) => {
   const render = useCallback(
     () => (
       <Fragment>
-        {props.datas.map((data, index) => (
+        {[...props.datas].map((data, index) => (
           <ShowItem
             key={`transaction-payment-item-${index}`}
             index={index}
             data={data}
+            login={props.login}
             datas={props.datas}
+            setDatas={props.setDatas}
             dispatch={props.dispatch}
           />
         ))}

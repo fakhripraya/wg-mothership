@@ -15,25 +15,13 @@ import PageLoading from "../../PageLoading";
 import { PAGE_REDIRECTING_MESSAGE } from "../../../variables/errorMessages/dashboard";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {
-  removeItem,
-  setItem,
-} from "../../../utils/redux/reducers/cartReducer";
+import { setItem } from "../../../utils/redux/reducers/cartReducer";
+import { cloneDeep } from "lodash-es";
 
 export default function ShowConditionalMemoized(props) {
   // HOOKS
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // FUNCTION SPECIFIC
-  function handleDisplayTotal() {
-    const total = props.datas.reduce((acc, current) => {
-      return (
-        acc + Number(current.productPrice * current.buyQty)
-      );
-    }, 0);
-    return total;
-  }
 
   if (!IS_OTP_VERIFIED(props.login))
     return (() => {
@@ -68,6 +56,28 @@ export default function ShowConditionalMemoized(props) {
               Checkout
             </h1>
           </div>
+        </div>
+        <br />
+        <hr
+          style={{ opacity: 0.1 }}
+          className="max-width"
+        />
+        <div className="transaction-payment-deliveryopt-container">
+          <h2>Alamat Pengiriman</h2>
+          <label
+            style={{ marginBottom: "8px" }}
+            className="font-bold main-color cursor-pointer">
+            {props.login.user.fullName}
+          </label>
+          <br />
+          <label style={{ marginBottom: "8px" }}>
+            081280111698
+          </label>
+          <br />
+          <label style={{ marginBottom: "8px" }}>
+            jl pelita rt 15 rw 08 Kebayoran Lama, Jakarta
+            Selatan, 12240
+          </label>
         </div>
         <br />
         <hr

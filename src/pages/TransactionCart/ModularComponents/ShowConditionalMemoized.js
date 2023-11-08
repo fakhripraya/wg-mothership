@@ -15,10 +15,8 @@ import PageLoading from "../../PageLoading";
 import { PAGE_REDIRECTING_MESSAGE } from "../../../variables/errorMessages/dashboard";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {
-  removeItem,
-  setItem,
-} from "../../../utils/redux/reducers/cartReducer";
+import { setItem } from "../../../utils/redux/reducers/cartReducer";
+import { cloneDeep } from "lodash-es";
 
 export default function ShowConditionalMemoized(props) {
   // HOOKS
@@ -70,17 +68,15 @@ export default function ShowConditionalMemoized(props) {
           </div>
           <div className="transaction-cart-title justify-content-flex-end">
             <div className="transaction-cart-title-btn-container">
-              <h3>
-                Total: Rp.
-                {formattedNumber(handleDisplayTotal())}
-              </h3>
               <Button
                 onClick={() => {
-                  const temp = props.reduxDatas.filter(
+                  const temp = cloneDeep(
+                    props.reduxDatas
+                  ).filter(
                     (val) =>
                       val.userId !== props.login.user.userId
                   );
-                  dispatch(setItem([...temp]));
+                  dispatch(setItem(temp));
                   props.setDatas(null);
                 }}
                 style={{ marginBottom: "8px" }}
@@ -91,11 +87,16 @@ export default function ShowConditionalMemoized(props) {
                 onClick={() =>
                   navigate("/transaction/payment")
                 }
+                style={{ marginBottom: "8px" }}
                 className="transaction-cart-title-btn
                 main-bg-color">
                 {" "}
                 Checkout
               </Button>
+              <h3 className="text-align-end margin-0">
+                Total: Rp.
+                {formattedNumber(handleDisplayTotal())}
+              </h3>
             </div>
           </div>
         </div>
@@ -104,6 +105,13 @@ export default function ShowConditionalMemoized(props) {
           style={{ opacity: 0.1 }}
           className="max-width"
         />
+        <p className="align-self-start">
+          Pastikan anda sudah membaca{" "}
+          <span className="main-color cursor-pointer">
+            syarat dan ketentuan
+          </span>{" "}
+          yang berlaku
+        </p>
         <div className="transaction-cart-item-container">
           <div className="transaction-cart-item-wrapper">
             <ShowItems

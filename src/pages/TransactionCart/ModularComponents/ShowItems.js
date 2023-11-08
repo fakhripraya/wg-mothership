@@ -8,10 +8,12 @@ import XMark from "../../../assets/svg/xmark-solid-red.svg";
 import TextArea from "../../../components/TextArea";
 import Button from "../../../components/Button";
 import {
+  acceptNumericOnly,
   formattedNumber,
   removeLeadingZeros,
 } from "../../../utils/functions/global";
 import { setItem } from "../../../utils/redux/reducers/cartReducer";
+import { cloneDeep } from "lodash-es";
 
 const ShowItem = (props) =>
   useMemo(() => {
@@ -26,15 +28,24 @@ const ShowItem = (props) =>
     return (
       <Fragment>
         <br />
-        <label
-          onClick={() => handleGoToCreativeStore()}
-          style={{ marginBottom: "8px" }}
-          className="font-bold main-color cursor-pointer">
-          Warunk Gaming
-        </label>
-        <label style={{ marginBottom: "8px" }}>
-          Jakarta Selatan
-        </label>
+        <div className="transaction-cart-item-header">
+          <div className="transaction-cart-item-header-storeinfo">
+            <label
+              onClick={() => handleGoToCreativeStore()}
+              style={{ marginBottom: "8px" }}
+              className="font-bold main-color cursor-pointer">
+              Warunk Gaming
+            </label>
+            <label style={{ marginBottom: "8px" }}>
+              Jakarta Selatan
+            </label>
+          </div>
+          <img
+            src={XMark}
+            alt={XMark}
+            className="transaction-cart-icon cursor-pointer"
+          />
+        </div>
         <div className="transaction-cart-item">
           <div className="transaction-cart-item-image-container">
             <img
@@ -52,56 +63,50 @@ const ShowItem = (props) =>
             </h2>
             <label>{props.data.productCode}</label>
             <br />
-            <br />
             <TextArea
               onChange={(e) => {
-                const found = props.datas.findIndex(
+                let temp = cloneDeep(props.datas);
+                const found = temp.findIndex(
                   (val) =>
-                    val.userId !==
+                    val.userId ===
                       props.login.user.userId &&
                     val.productId === props.data.productId
                 );
-                props.datas[found].buyingNote =
-                  e.target.value;
-                props.dispatch(setItem([...props.datas]));
+                temp[found].buyingNote = e.target.value;
+                props.dispatch(setItem(temp));
+                props.setDatas(temp);
               }}
               className="transaction-cart-longtext-area dark-bg-color"
-              value={
-                props.data.buyingNote ||
-                "Tulis catatan untuk penjual"
-              }
+              value={props.data.buyingNote}
             />
           </div>
           <div className="transaction-cart-item-other">
-            <img
-              src={XMark}
-              alt={XMark}
-              className="transaction-cart-icon cursor-pointer"
-            />
-            <br />
             <div className="transaction-cart-other-wrapper">
               <TextInput
                 onChange={(e) => {
-                  const found = props.datas.findIndex(
+                  let temp = cloneDeep(props.datas);
+                  const found = temp.findIndex(
                     (val) =>
-                      val.userId !==
+                      val.userId ===
                         props.login.user.userId &&
                       val.productId === props.data.productId
                   );
-                  props.datas[found].buyQty =
-                    e.target.value;
-                  props.dispatch(setItem([...props.datas]));
+                  temp[found].buyQty = acceptNumericOnly(
+                    e.target.value
+                  );
+                  props.dispatch(setItem(temp));
+                  props.setDatas(temp);
                 }}
                 className="transaction-cart-input-text"
-                value={removeLeadingZeros(
-                  props.data.buyQty
+                value={formattedNumber(
+                  removeLeadingZeros(props.data.buyQty)
                 )}
               />
               <Button style={{ marginLeft: "8px" }}>
                 Buah
               </Button>
             </div>
-            <h3>
+            <h3 className="text-align-end">
               Subtotal: Rp.
               {formattedNumber(
                 props.data.buyQty * props.data.productPrice
@@ -122,12 +127,14 @@ const ShowItems = (props) => {
   const render = useCallback(
     () => (
       <Fragment>
-        {props.datas.map((data, index) => (
+        {[...props.datas].map((data, index) => (
           <ShowItem
             key={`transaction-cart-item-${index}`}
             index={index}
             data={data}
+            login={props.login}
             datas={props.datas}
+            setDatas={props.setDatas}
             dispatch={props.dispatch}
           />
         ))}

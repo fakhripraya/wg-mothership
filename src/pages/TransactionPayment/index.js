@@ -11,8 +11,8 @@ import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { cookies } from "../../config/cookie";
 import { trackPromise } from "react-promise-tracker";
-import { useDispatch, useSelector } from "react-redux";
-import { setItem } from "../../utils/redux/reducers/cartReducer";
+import { useSelector } from "react-redux";
+import { cloneDeep } from "lodash-es";
 
 export default function TransactionPayment() {
   // HOOKS
@@ -23,8 +23,7 @@ export default function TransactionPayment() {
   const [localDatas, setLocalDatas] = useState(null);
 
   // VARIABLES
-  const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
+  const reduxDatas = useSelector((state) => state.cart);
 
   // FUNCTION SPECIFIC
   async function handleInitialize() {
@@ -37,10 +36,11 @@ export default function TransactionPayment() {
       setLogin(null);
     } else {
       // and then map the cart items by the user id
-      const temp = cart.filter((val) => {
+      var useableData = cloneDeep(reduxDatas);
+      const temp = useableData.filter((val) => {
         if (val.userId === login.user.userId) return val;
       });
-      setLocalDatas([...temp]);
+      setLocalDatas(temp);
     }
   }
 
@@ -55,10 +55,10 @@ export default function TransactionPayment() {
   return useMemo(
     () => (
       <ShowConditionalMemoized
-        reduxDatas={cart}
+        login={login}
+        reduxDatas={reduxDatas}
         datas={localDatas}
         setDatas={setLocalDatas}
-        login={login}
       />
     ),
     [localDatas, login]

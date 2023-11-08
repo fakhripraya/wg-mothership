@@ -58,6 +58,11 @@
   }
 }
 
+.transaction-payment-deliveryopt-container {
+  width: 100%;
+  max-width: 100%;
+}
+
 .transaction-payment-item-container {
   height: inherit;
   min-height: inherit;
@@ -89,8 +94,10 @@
 .transaction-payment-item-image-container {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  margin-left: 0px !important;
+  padding-left: 0px !important;
 }
 
 .transaction-payment-item-image {

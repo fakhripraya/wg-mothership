@@ -14,7 +14,10 @@ import {
 import Button from "../../components/Button";
 import TextInput from "../../components/TextInput";
 import Accordion from "../../components/Accordion";
-import { filterData } from "../../variables/initial/productDetail";
+import {
+  PRODUCT_DETAIL_INITIAL_BUYING_NOTE,
+  filterData,
+} from "../../variables/initial/productDetail";
 import TextArea from "../../components/TextArea";
 import { useAxios } from "../../utils/hooks/useAxios";
 import {
@@ -38,6 +41,7 @@ import { NO_PRODUCT_FOUND } from "../../variables/errorMessages/productDetail";
 import { ShowCourierModal } from "./ModularComponents/ShowModal";
 import Modal from "../../components/Modal";
 import { setItem } from "../../utils/redux/reducers/cartReducer";
+import { cloneDeep } from "lodash-es";
 
 export default function ProductDetail() {
   // HOOKS //
@@ -97,7 +101,7 @@ export default function ProductDetail() {
       return handleOpenOverridingHome(LOGIN);
     if (buyQty <= 0) return alert("Qty kosong");
 
-    let temp = [...cart];
+    let temp = cloneDeep(cart);
     if (!temp) temp = [];
 
     let cartItem = {
@@ -114,7 +118,8 @@ export default function ProductDetail() {
       productImageSrc: `${process.env.REACT_APP_CHRONOS_SERVICE}${productImages[0].destination}`,
       productPrice: productData.productPrice,
       buyQty: buyQty,
-      buyingNote: buyingNote,
+      buyingNote:
+        buyingNote || PRODUCT_DETAIL_INITIAL_BUYING_NOTE,
     };
 
     let foundExisting = temp.findIndex(
