@@ -1,4 +1,4 @@
-import { DASHBOARD, HOME, RENTAL_MARKET } from "../global";
+import { DASHBOARD, HOME } from "../global";
 
 export const getMenus = () => {
   return [

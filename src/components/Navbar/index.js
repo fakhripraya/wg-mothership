@@ -34,7 +34,6 @@ import {
   DASHBOARD,
   X_SID,
   IS_OTP_VERIFIED,
-  KEY_CART,
 } from "../../variables/global";
 import { ShowNavbar } from "../Global";
 import { navbarInitialStyle } from "../../variables/styles/navbar";
@@ -49,6 +48,7 @@ import {
   handleOpenModal,
 } from "../../utils/functions/global";
 import { cookies } from "../../config/cookie";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
   // HOOKS //
@@ -59,6 +59,20 @@ export default function Navbar() {
   // VARIABLES
   let timer = null;
   let navbarDisplayAdditionalClassName = "";
+  const cart = useSelector((state) => {
+    let temp = null;
+    const login = cookies.get(CLIENT_USER_INFO, {
+      path: "/",
+    });
+    if (!IS_OTP_VERIFIED(login)) return;
+    if (state && state.cart)
+      temp = state.cart.filter((val) => {
+        if (val.userId === login.user.userId) return val;
+      });
+
+    return temp && temp.length > 0 && [...temp];
+  });
+
   const isRender = window.location.pathname.includes(
     "creative-store"
   );
@@ -356,7 +370,6 @@ export default function Navbar() {
   };
 
   const ShowCartCount = (props) => {
-    let cart = JSON.parse(localStorage.getItem(KEY_CART));
     return (
       <div
         style={{

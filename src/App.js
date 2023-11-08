@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Spinner from "./components/Spinner";
 import { createBrowserHistory } from "history";
 import {
   BrowserRouter as Router,
@@ -21,7 +22,6 @@ import {
 } from "./utils/functions/global";
 import { styleInitialState } from "./variables/styles/app";
 import { Cache, ConfigProvider } from "react-avatar";
-import Spinner from "./components/Spinner";
 
 // FIXED Implement the IS_OTP_NOT_VERIFIED function to all authentication validation,
 // TODO: Test auth/security leak

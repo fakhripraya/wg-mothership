@@ -958,15 +958,18 @@ export default function CreativeStore() {
       // delete reference to the variable
       delete audioParams.current.track;
     }
+
     // get containers
     const audioContainer = document.getElementsByClassName(
       "creative-store-audio-media-container"
     )[0];
+    if (audioContainer) removeAllChildNodes(audioContainer);
+
+    if (!joinedRoom) return;
     const videoContainer = document.getElementsByClassName(
       `creative-store-video-media-container-${joinedRoom.roomId}`
     )[0];
     // remove all media element child
-    if (audioContainer) removeAllChildNodes(audioContainer);
     if (videoContainer) removeAllChildNodes(videoContainer);
   }
 

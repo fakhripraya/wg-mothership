@@ -1,10 +1,66 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./style.scss";
+import { smoothScrollTop } from "../../utils/functions/global";
+import {
+  CLIENT_USER_INFO,
+  IS_NOT_AUTHENTICATE,
+  IS_OTP_VERIFIED,
+} from "../../variables/global";
+import ShowConditionalMemoized from "./ModularComponents/ShowConditionalMemoized";
+import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
+import { useAxios } from "../../utils/hooks/useAxios";
+import { cookies } from "../../config/cookie";
+import { trackPromise } from "react-promise-tracker";
+import { useDispatch, useSelector } from "react-redux";
+import { setItem } from "../../utils/redux/reducers/cartReducer";
 
 export default function TransactionPayment() {
-  return (
-    <div className="transaction-payment-container">
-      <div className="transaction-payment-wrapper">a</div>
-    </div>
+  // HOOKS
+  const credentialService = useAxios();
+  const [login, setLogin] = useState(
+    cookies.get(CLIENT_USER_INFO, { path: "/" })
+  );
+  const [localDatas, setLocalDatas] = useState(null);
+
+  // VARIABLES
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+
+  // FUNCTION SPECIFIC
+  async function handleInitialize() {
+    const result = await checkAuthAndRefresh(
+      credentialService,
+      cookies
+    );
+    if (IS_NOT_AUTHENTICATE(result)) {
+      cookies.remove(CLIENT_USER_INFO, { path: "/" });
+      setLogin(null);
+    } else {
+      // and then map the cart items by the user id
+      const temp = cart.filter((val) => {
+        if (val.userId === login.user.userId) return val;
+      });
+      setLocalDatas([...temp]);
+    }
+  }
+
+  useEffect(() => {
+    smoothScrollTop();
+    // transaction cart initialization
+    // here we will check the user authentication first
+    if (IS_OTP_VERIFIED(login))
+      trackPromise(handleInitialize());
+  }, []);
+
+  return useMemo(
+    () => (
+      <ShowConditionalMemoized
+        reduxDatas={cart}
+        datas={localDatas}
+        setDatas={setLocalDatas}
+        login={login}
+      />
+    ),
+    [localDatas, login]
   );
 }

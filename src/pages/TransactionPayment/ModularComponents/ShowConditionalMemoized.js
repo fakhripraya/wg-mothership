@@ -60,43 +60,13 @@ export default function ShowConditionalMemoized(props) {
   }
 
   return (
-    <div className="transaction-cart-container">
-      <div className="transaction-cart-wrapper">
-        <div className="transaction-cart-header">
-          <div className="transaction-cart-title">
-            <h1 className="transaction-cart-title-text">
-              Keranjang
+    <div className="transaction-payment-container">
+      <div className="transaction-payment-wrapper">
+        <div className="transaction-payment-header">
+          <div className="transaction-payment-title">
+            <h1 className="transaction-payment-title-text">
+              Checkout
             </h1>
-          </div>
-          <div className="transaction-cart-title justify-content-flex-end">
-            <div className="transaction-cart-title-btn-container">
-              <h3>
-                Total: Rp.
-                {formattedNumber(handleDisplayTotal())}
-              </h3>
-              <Button
-                onClick={() => {
-                  const temp = props.reduxDatas.filter(
-                    (val) =>
-                      val.userId !== props.login.user.userId
-                  );
-                  dispatch(setItem([...temp]));
-                  props.setDatas(null);
-                }}
-                style={{ marginBottom: "8px" }}
-                className="transaction-cart-title-btn red-bg-color">
-                Clear
-              </Button>
-              <Button
-                onClick={() =>
-                  navigate("/transaction/payment")
-                }
-                className="transaction-cart-title-btn
-                main-bg-color">
-                {" "}
-                Checkout
-              </Button>
-            </div>
           </div>
         </div>
         <br />
@@ -104,8 +74,8 @@ export default function ShowConditionalMemoized(props) {
           style={{ opacity: 0.1 }}
           className="max-width"
         />
-        <div className="transaction-cart-item-container">
-          <div className="transaction-cart-item-wrapper">
+        <div className="transaction-payment-item-container">
+          <div className="transaction-payment-item-wrapper">
             <ShowItems
               login={props.login}
               datas={props.datas}

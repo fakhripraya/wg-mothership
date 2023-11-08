@@ -35,15 +35,15 @@ const ShowItem = (props) =>
         <label style={{ marginBottom: "8px" }}>
           Jakarta Selatan
         </label>
-        <div className="transaction-cart-item">
-          <div className="transaction-cart-item-image-container">
+        <div className="transaction-payment-item">
+          <div className="transaction-payment-item-image-container">
             <img
-              className="transaction-cart-item-image"
+              className="transaction-payment-item-image"
               src={props.data.productImageSrc}
               alt={props.data.productImageSrc}
             />
           </div>
-          <div className="transaction-cart-item-body">
+          <div className="transaction-payment-item-body">
             <h2
               style={{ marginBottom: "8px" }}
               onClick={() => handleGoToProductPage()}
@@ -65,21 +65,21 @@ const ShowItem = (props) =>
                   e.target.value;
                 props.dispatch(setItem([...props.datas]));
               }}
-              className="transaction-cart-longtext-area dark-bg-color"
+              className="transaction-payment-longtext-area dark-bg-color"
               value={
                 props.data.buyingNote ||
                 "Tulis catatan untuk penjual"
               }
             />
           </div>
-          <div className="transaction-cart-item-other">
+          <div className="transaction-payment-item-other">
             <img
               src={XMark}
               alt={XMark}
-              className="transaction-cart-icon cursor-pointer"
+              className="transaction-payment-icon cursor-pointer"
             />
             <br />
-            <div className="transaction-cart-other-wrapper">
+            <div className="transaction-payment-other-wrapper">
               <TextInput
                 onChange={(e) => {
                   const found = props.datas.findIndex(
@@ -92,7 +92,7 @@ const ShowItem = (props) =>
                     e.target.value;
                   props.dispatch(setItem([...props.datas]));
                 }}
-                className="transaction-cart-input-text"
+                className="transaction-payment-input-text"
                 value={removeLeadingZeros(
                   props.data.buyQty
                 )}
@@ -124,7 +124,7 @@ const ShowItems = (props) => {
       <Fragment>
         {props.datas.map((data, index) => (
           <ShowItem
-            key={`transaction-cart-item-${index}`}
+            key={`transaction-payment-item-${index}`}
             index={index}
             data={data}
             datas={props.datas}

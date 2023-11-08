@@ -19,7 +19,7 @@ import TextArea from "../../components/TextArea";
 import { useAxios } from "../../utils/hooks/useAxios";
 import {
   CLIENT_USER_INFO,
-  KEY_CART,
+  IS_OTP_VERIFIED,
   LOGIN,
   PRODUCT_CATALOGUE_ADDITIONAL_FILES,
   PRODUCT_CATALOGUE_IMAGE,
@@ -31,15 +31,18 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { trackPromise } from "react-promise-tracker";
+import { useDispatch, useSelector } from "react-redux";
 import Avatar from "react-avatar";
 import ErrorHandling from "../ErrorHandling";
 import { NO_PRODUCT_FOUND } from "../../variables/errorMessages/productDetail";
 import { ShowCourierModal } from "./ModularComponents/ShowModal";
 import Modal from "../../components/Modal";
+import { setItem } from "../../utils/redux/reducers/cartReducer";
 
 export default function ProductDetail() {
   // HOOKS //
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const zeusService = useAxios();
   // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
@@ -64,6 +67,7 @@ export default function ProductDetail() {
   );
 
   // VARIABLES //
+  const cart = useSelector((state) => state.cart);
   const zeusDefaultConfigs = {
     endpoint: process.env.REACT_APP_ZEUS_SERVICE,
   };
@@ -85,11 +89,19 @@ export default function ProductDetail() {
   }
 
   function handleAddItemToCart() {
+    const login = cookies.get(CLIENT_USER_INFO, {
+      path: "/",
+    });
+
+    if (!IS_OTP_VERIFIED(login))
+      return handleOpenOverridingHome(LOGIN);
     if (buyQty <= 0) return alert("Qty kosong");
-    let temp = JSON.parse(localStorage.getItem(KEY_CART));
+
+    let temp = [...cart];
     if (!temp) temp = [];
 
     let cartItem = {
+      userId: login.user.userId,
       storeId:
         productData.MasterStoreCatalogue.MasterStore.id,
       storeName:
@@ -113,7 +125,7 @@ export default function ProductDetail() {
       temp[foundExisting] = cartItem;
     else temp.push(cartItem);
 
-    localStorage.setItem(KEY_CART, JSON.stringify(temp));
+    dispatch(setItem([...temp]));
     navigate("/transaction/cart");
   }
 
