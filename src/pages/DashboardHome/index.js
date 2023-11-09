@@ -135,21 +135,23 @@ export default function DashboardHome(props) {
           <div className="dashboard-home-grid-item dashboard-home-grid-small-1 dashboard-home-grid-item-big dark-bg-color">
             <h3>Pesanan</h3>
             <h2 className="margin-bottom-0">6</h2>
-            <p className="margin-top-0">
+            <p style={{ marginTop: "8px" }}>
               4 belum terkonfirmasi
             </p>
           </div>
           <div className="dashboard-home-grid-item dashboard-home-grid-small-2 dashboard-home-grid-item-big dark-bg-color">
             <h3>Chat</h3>
             <h2 className="margin-bottom-0">12</h2>
-            <p className="margin-top-0">6 Belum Terbaca</p>
+            <p style={{ marginTop: "8px" }}>
+              6 Belum Terbaca
+            </p>
           </div>
           <div className="dashboard-home-grid-item dashboard-home-grid-big-1 dashboard-home-grid-item-big dark-bg-color">
             <h3>Saldo</h3>
             <h2 className="margin-bottom-0">
               Rp.1.232.032.091
             </h2>
-            <p className="margin-top-0">
+            <p style={{ marginTop: "8px" }}>
               2 Rental Berjalan
             </p>
           </div>
