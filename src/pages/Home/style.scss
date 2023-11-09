@@ -296,23 +296,11 @@
 
 // RECOMMENDED STYLES //
 .home-recommend-title {
-  @media screen and (max-width: 768px) {
-    margin-bottom: 0px;
-  }
-
-  @media screen and (max-width: 400px) {
-    margin-bottom: 0px;
-  }
+  margin-bottom: 8px !important;
 }
 
 .home-recommend-subtitle {
-  @media screen and (max-width: 768px) {
-    margin-bottom: 0px;
-  }
-
-  @media screen and (max-width: 400px) {
-    margin-bottom: 0px;
-  }
+  font-weight: 400;
 }
 
 .home-recommend-wrapper {
