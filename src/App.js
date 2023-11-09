@@ -113,7 +113,7 @@ function App() {
           }}
           onClick={() => smoothScrollTop()}
           className="fixed-app-button main-bg-color">
-          <h4 className="light-color">Menu</h4>
+          <p className="light-color">Menu</p>
         </FloatButton>
         {!window.location.pathname.includes(
           "creative-store"
@@ -124,7 +124,7 @@ function App() {
             }}
             onClick={() => sendWA()}
             className="fixed-app-button main-bg-color">
-            <h4 className="light-color">Help</h4>
+            <p className="light-color">Help</p>
           </FloatButton>
         ) : null}
         <Spinner />
