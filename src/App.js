@@ -113,7 +113,9 @@ function App() {
           }}
           onClick={() => smoothScrollTop()}
           className="fixed-app-button main-bg-color">
-          <p className="light-color">Menu</p>
+          <span
+            style={{ transform: "rotate(180deg)" }}
+            className="hero-round-button-icon"></span>
         </FloatButton>
         {!window.location.pathname.includes(
           "creative-store"
