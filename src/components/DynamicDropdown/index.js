@@ -31,7 +31,7 @@ export default function DynamicDropdown(props) {
           display: props.showTitle === false && "none",
         }}
         className="dropdown-title">
-        Sort by :{" "}
+        {props.title || "Sort by : "}
       </span>
       <div
         style={props.style}

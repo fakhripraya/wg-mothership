@@ -34,7 +34,7 @@ const ShowItem = (props) =>
               onClick={() => handleGoToCreativeStore()}
               style={{ marginBottom: "8px" }}
               className="font-bold main-color cursor-pointer">
-              Warunk Gaming
+              {props.data.storeName}
             </label>
             <label style={{ marginBottom: "8px" }}>
               Jakarta Selatan
@@ -106,12 +106,13 @@ const ShowItem = (props) =>
                 Buah
               </Button>
             </div>
-            <h3 className="text-align-end">
+            <br />
+            <label className="text-align-end">
               Subtotal: Rp.
               {formattedNumber(
                 props.data.buyQty * props.data.productPrice
               )}
-            </h3>
+            </label>
           </div>
         </div>
         <br />

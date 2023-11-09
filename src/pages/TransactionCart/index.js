@@ -10,7 +10,6 @@ import ShowConditionalMemoized from "./ModularComponents/ShowConditionalMemoized
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { cookies } from "../../config/cookie";
-import { trackPromise } from "react-promise-tracker";
 import { useSelector } from "react-redux";
 import { cloneDeep } from "lodash-es";
 
@@ -48,8 +47,7 @@ export default function TransactionCart() {
     smoothScrollTop();
     // transaction cart initialization
     // here we will check the user authentication first
-    if (IS_OTP_VERIFIED(login))
-      trackPromise(handleInitialize());
+    if (IS_OTP_VERIFIED(login)) handleInitialize();
   }, []);
 
   return useMemo(

@@ -272,6 +272,7 @@ export default function Dashboard() {
                   <FloatButton className="dashboard-menu-button dashboard-menu-button-no-complaint" />
                   <FloatButton className="dashboard-menu-button dashboard-menu-button-bell" />
                   <Dropdown
+                    title="Toko : "
                     onChange={(value) =>
                       handleSelectedStoreChange(value)
                     }

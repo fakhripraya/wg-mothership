@@ -45,7 +45,17 @@ export default function ShowConditionalMemoized(props) {
       );
     })();
 
-  if (!props.datas || props.datas.length <= 0) {
+  if (!props.datas) {
+    return (
+      <PageLoading
+        loadingMessage={
+          "Tunggu bentar ya \n Kita lagi siapin cartnya..."
+        }
+      />
+    );
+  }
+
+  if (props.datas.length <= 0) {
     return (
       <ErrorHandling errorMessage={EMPTY_CART}>
         <Button
@@ -77,7 +87,7 @@ export default function ShowConditionalMemoized(props) {
                       val.userId !== props.login.user.userId
                   );
                   dispatch(setItem(temp));
-                  props.setDatas(null);
+                  props.setDatas([]);
                 }}
                 style={{ marginBottom: "8px" }}
                 className="transaction-cart-title-btn red-bg-color">
@@ -105,12 +115,16 @@ export default function ShowConditionalMemoized(props) {
           style={{ opacity: 0.1 }}
           className="max-width"
         />
-        <p className="align-self-start">
-          Pastikan anda sudah membaca{" "}
-          <span className="main-color cursor-pointer">
-            syarat dan ketentuan
+        <br />
+        <p className="align-self-start margin-0">
+          Sebelum kamu melakukan{" "}
+          <span className="font-bold main-color">
+            checkout
+          </span>
+          , pastikan kamu sudah memastikan isi{" "}
+          <span className="font-bold main-color">
+            keranjang
           </span>{" "}
-          yang berlaku
         </p>
         <div className="transaction-cart-item-container">
           <div className="transaction-cart-item-wrapper">
