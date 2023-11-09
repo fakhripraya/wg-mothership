@@ -1,6 +1,7 @@
 // GLOBAL STRING
 export const NO_STRING = "";
 export const NO_DATA = "No Data";
+export const ADMIN_FEE = 1500;
 export const GENERAL_MULTIUPLOAD_LABEL =
   "Geser file dan masukkan file ke box ini atau klik untuk pilih file";
 export const GENERAL_MULTIUPLOAD_SUBLABEL = (extensions) =>

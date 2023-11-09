@@ -345,7 +345,9 @@ export const ShowSettingTab = (props) => {
         <Button
           onClick={() => {}}
           className="align-self-start add-store-button main-bg-color">
-          <h4 className="add-store-button-text">Submit</h4>
+          <label className="add-store-button-text">
+            Submit
+          </label>
         </Button>
         <br />
       </div>

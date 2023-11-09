@@ -48,7 +48,7 @@ const UserData = [
 export default function DashboardHome(props) {
   // STATES //
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({
+  const [userData] = useState({
     labels: UserData.map((data) => data.year),
     datasets: [
       {

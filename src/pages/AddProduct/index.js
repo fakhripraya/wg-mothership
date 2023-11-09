@@ -861,7 +861,7 @@ export default function AddProduct() {
               <Button
                 onClick={() => handleSubmit()}
                 className="align-self-start add-catalogue-button main-bg-color">
-                <label className="font-bold add-catalogue-button-text">
+                <label className="add-catalogue-button-text">
                   Submit
                 </label>
               </Button>

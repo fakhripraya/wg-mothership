@@ -4,6 +4,7 @@ import Button from "../../../components/Button";
 import { EMPTY_CART } from "../../../variables/errorMessages/transactionCart";
 import ShowItems from "./ShowItems";
 import {
+  ADMIN_FEE,
   IS_OTP_VERIFIED,
   LOGIN,
 } from "../../../variables/global";
@@ -13,10 +14,7 @@ import {
 } from "../../../utils/functions/global";
 import PageLoading from "../../PageLoading";
 import { PAGE_REDIRECTING_MESSAGE } from "../../../variables/errorMessages/dashboard";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setItem } from "../../../utils/redux/reducers/cartReducer";
-import { cloneDeep } from "lodash-es";
 
 export default function ShowConditionalMemoized(props) {
   // HOOKS
@@ -82,7 +80,7 @@ export default function ShowConditionalMemoized(props) {
             className="max-width"
           />
           <div className="transaction-payment-deliveryopt-container">
-            <h2>Alamat Pengiriman</h2>
+            <h3>Alamat Pengiriman</h3>
             <label
               style={{ marginBottom: "8px" }}
               className="font-bold main-color cursor-pointer">
@@ -128,28 +126,28 @@ export default function ShowConditionalMemoized(props) {
         </div>
         <div className="transaction-payment-pricing-container">
           <div className="transaction-payment-pricing-box dark-bg-color">
-            <h2 className="margin-0">Detail Checkout</h2>
+            <h3 className="margin-0">Detail Checkout</h3>
             <br />
             <br />
             <label>
-              Subtotal :{" "}
-              <span className="main-color">
-                Rp.
-                {formattedNumber(handleSubtotal())}
-              </span>
+              Subtotal : Rp.
+              {formattedNumber(handleSubtotal())}
             </label>
-            <br />
-            <label>Total Biaya Ekspedisi : </label>
             <br />
             <label>
-              Biaya Layanan dan Aplikasi :{" "}
-              <span className="main-color">
-                Rp.
-                {formattedNumber(1500)}
-              </span>
+              Biaya Layanan dan Aplikasi : Rp.
+              {formattedNumber(ADMIN_FEE)}
             </label>
             <br />
-            <h3>Total Pembayaran : </h3>
+            <h3>
+              Total Pembayaran :{" "}
+              <span className="main-color">
+                Rp.
+                {formattedNumber(
+                  handleSubtotal() + ADMIN_FEE
+                )}
+              </span>
+            </h3>
             <hr
               style={{ opacity: 0.1 }}
               className="max-width"

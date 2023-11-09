@@ -622,9 +622,9 @@ export default function AddStore() {
               <Button
                 onClick={() => handleSubmit()}
                 className="align-self-start add-store-button main-bg-color">
-                <h4 className="add-store-button-text">
+                <label className="add-store-button-text">
                   Submit
-                </h4>
+                </label>
               </Button>
             </div>
           </div>
