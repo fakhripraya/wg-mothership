@@ -60,16 +60,16 @@ export default function Footer(props) {
                 Jakarta,&nbsp;
               </h3>
               <h1
-                style={{ fontSize: "2.5em" }}
+                style={{ fontSize: "2em" }}
                 className={`break-word ${
                   props.isOverriding ? "main-color" : ""
                 }`}>
                 Indonesia
               </h1>
-              <h2 className="footer-column-1-email">
-                Drop us a line
-              </h2>
-              <h1 className="break-word">
+              <h3 className="footer-column-1-email">
+                Drop us a line at
+              </h3>
+              <h2 className="break-word">
                 <a
                   className={`footer-column-1-email-text ${
                     props.isOverriding ? "main-color" : ""
@@ -77,7 +77,7 @@ export default function Footer(props) {
                   href="mailto:letmeask@wg.com">
                   letmeask@livejb.com
                 </a>
-              </h1>
+              </h2>
               <div className="footer-column-1-help">
                 <StyledButton
                   className={

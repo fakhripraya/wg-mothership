@@ -241,15 +241,15 @@ export default function Navbar() {
       <Fragment>
         <li className="navbar-search-wrapper">
           <TextInput className="navbar-search"></TextInput>
-          <Button>Search</Button>
+          <Button
+            onClick={() => {
+              navigate("/search");
+              window.handleOpenOverriding(NO_STRING);
+            }}>
+            Search
+          </Button>
         </li>
         <li className="navbar-menu-item-wrapper">
-          <Dropdown
-            onChange={(value) => {}}
-            showTitle={false}
-            toggle={true}
-            values={["Fittest", "Jancokest"]}
-          />
           <Dropdown
             onChange={(value) => {}}
             showTitle={false}

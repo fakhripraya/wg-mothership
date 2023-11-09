@@ -9,22 +9,24 @@ export default function Error500() {
     <div className="error500-container">
       <div className="error500-wrapper">
         <div className="error500-title">
-          <h2 className="margin-bottom-0 red-color">
+          <h3 className="margin-bottom-0 red-color">
             ERROR 500
-          </h2>
-          <h3>
-            Our server is under{" "}
-            <span className="main-color">maintenance</span>{" "}
+          </h3>
+          <br />
+          <label>
+            Waduh server kami sedang{" "}
+            <span className="red-color">bermasalah</span>{" "}
             <br />
-            If this <span className="red-color">
+            kalau <span className="red-color">
               error
             </span>{" "}
-            still showing within{" "}
-            <span className="main-color">an hour</span>,
-            please contact support immediately
-          </h3>
+            ini masih muncul dalam{" "}
+            <span className="red-color">satu jam</span>,
+            segera hubungin kami ya
+          </label>
+          <br />
           <Button onClick={() => navigate("/")}>
-            Back to home
+            Balik ke home
           </Button>
         </div>
       </div>

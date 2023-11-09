@@ -126,14 +126,14 @@ export default function Login(props) {
           </ShowNavbar>
           <div className="login-container">
             <div className="login-wrapper">
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 <span className="main-color">Login</span>{" "}
                 Untuk Mengakses
-              </h2>
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              </h3>
+              <label className="margin-top-0 margin-bottom-12-18">
                 Mulai bisnis dan komunitasmu sekarang,
                 tunggu apa lagi?
-              </h3>
+              </label>
               <div className="login-textinput-box">
                 <label className="login-input-title">
                   ID
@@ -149,7 +149,7 @@ export default function Login(props) {
               </div>
               <div className="login-textinput-box">
                 <label className="login-input-title">
-                  Pass
+                  Sandi
                 </label>
                 <TextInput
                   value={postLoginData.password}
@@ -160,11 +160,12 @@ export default function Login(props) {
                   className="login-textinput text-align-center"
                 />
               </div>
-              <h3
+              <br />
+              <label
                 onClick={() => handleOpenForgotPassword()}
                 className="login-forgot-pass main-color cursor-pointer">
-                Lupa password
-              </h3>
+                Lupa kata sandi ?
+              </label>
               <Button
                 onClick={() =>
                   handleLoginRequest(() => {
@@ -174,10 +175,11 @@ export default function Login(props) {
                 className="login-button">
                 <h3 className="login-button-text">Login</h3>
               </Button>
-              <br></br>
-              <h3 className="login-middle-text">
-                atau lanjut dengan
-              </h3>
+              <br />
+              <br />
+              <label className="login-middle-text">
+                Atau lanjut dengan
+              </label>
               <div className="login-open-auths">
                 <Button
                   onClick={() =>
@@ -190,17 +192,16 @@ export default function Login(props) {
                   />
                 </Button>
               </div>
-              <br></br>
-              <br></br>
-              <br></br>
-              <h3 className="login-middle-text">
+              <br />
+              <br />
+              <label className="login-middle-text">
                 Belum jadi member ?{" "}
                 <span
                   onClick={() => handleOpenRegister()}
                   className="main-color cursor-pointer">
                   Daftar akun Sekarang
                 </span>
-              </h3>
+              </label>
             </div>
           </div>
           <Footer isOverriding={true} />

@@ -135,20 +135,20 @@ export default function NewPassword(props) {
           </ShowNavbar>
           <div className="new-password-container">
             <div className="new-password-wrapper">
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 Ternyata&nbsp;
                 <span className="main-color">
                   Beneran Kamu !
                 </span>
                 &nbsp;Nice !!
-              </h2>
-              <h3 className="margin-top-0 margin-bottom-12-18">
-                Nicely done bro, sekarang tinggal input
-                password barumu aja
               </h3>
+              <label className="margin-top-0 margin-bottom-12-18">
+                Nicely done bro, sekarang tinggal input kata
+                sandi barumu aja
+              </label>
               <div className="new-password-textinput-box">
                 <label className="new-password-input-title">
-                  Pass baru
+                  Sandi baru
                 </label>
                 <TextInput
                   value={postNewPWData.newPassword}
@@ -172,11 +172,12 @@ export default function NewPassword(props) {
                   className="new-password-textinput text-align-center"
                 />
               </div>
-              <h3
+              <br />
+              <label
                 onClick={() => handleOpenLogin()}
                 className="new-password-forgot-pass main-color cursor-pointer">
                 Gak jadi deh, aku ingat passwordku
-              </h3>
+              </label>
               <Button
                 onClick={() =>
                   handleNewPWRequest(() =>

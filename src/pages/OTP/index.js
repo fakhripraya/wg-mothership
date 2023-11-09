@@ -138,18 +138,18 @@ export default function OTP(props) {
           </ShowNavbar>
           <div className="otp-container">
             <div className="otp-wrapper">
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 Input Kode&nbsp;
                 <span className="main-color">OTP</span>
-              </h2>
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              </h3>
+              <label className="margin-top-0 margin-bottom-12-18">
                 Kami telah mengirimi kode&nbsp;
                 <span className="main-color">
                   OTP (One Time Password)
                 </span>
                 &nbsp;melalui email anda, input disini agar
                 kami bisa memverifikasi data anda
-              </h3>
+              </label>
               <div className="otp-textinput-box">
                 <label className="otp-input-title">
                   OTP
@@ -164,6 +164,7 @@ export default function OTP(props) {
                   className="otp-textinput text-align-center"
                 />
               </div>
+              <br />
               <Button
                 onClick={() => handleSubmitOTP()}
                 className="otp-button">

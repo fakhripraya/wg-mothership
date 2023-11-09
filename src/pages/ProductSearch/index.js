@@ -176,7 +176,7 @@ export default function ProductSearch() {
               </div>
               <div className="product-search-cards-button-wrapper">
                 <Button className="product-search-button">
-                  See More
+                  Lihat Lebih
                 </Button>
               </div>
             </div>

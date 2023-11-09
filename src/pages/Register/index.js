@@ -184,17 +184,17 @@ export default function Register(props) {
           </ShowNavbar>
           <div className="register-container">
             <div className="register-wrapper">
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 <span className="main-color">
                   Bergabung
                 </span>
                 &nbsp;Bersama Kami Dan Jadi Member !
-              </h2>
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              </h3>
+              <label className="margin-top-0 margin-bottom-12-18">
                 Dapatkan keuntungan maksimum dengan
                 bergabung bersama kami, biar kita bisa
                 ngobrol bareng !
-              </h3>
+              </label>
               <div className="register-textinput-box">
                 <label className="register-input-title">
                   ID
@@ -223,7 +223,7 @@ export default function Register(props) {
               </div>
               <div className="register-textinput-box">
                 <label className="register-input-title">
-                  Pass
+                  Sandi
                 </label>
                 <TextInput
                   value={postRegisterData.password}
@@ -247,11 +247,12 @@ export default function Register(props) {
                   className="register-textinput text-align-center"
                 />
               </div>
-              <h3
+              <br />
+              <label
                 onClick={() => handleOpenForgotPassword()}
                 className="register-forgot-pass main-color cursor-pointer">
-                Lupa password
-              </h3>
+                Lupa Kata Sandi ?
+              </label>
               <Button
                 onClick={() => handlePostRegister()}
                 className="register-button">
@@ -259,10 +260,11 @@ export default function Register(props) {
                   Daftar
                 </h3>
               </Button>
-              <br></br>
-              <h3 className="register-middle-text">
+              <br />
+              <br />
+              <label className="register-middle-text">
                 atau lanjut dengan
-              </h3>
+              </label>
               <div className="register-open-auths">
                 <Button className="register-open-auths-button light-bg-color">
                   <img
@@ -271,17 +273,16 @@ export default function Register(props) {
                   />
                 </Button>
               </div>
-              <br></br>
-              <br></br>
-              <br></br>
-              <h3 className="register-middle-text">
+              <br />
+              <br />
+              <label className="register-middle-text">
                 Sudah punya akun ?&nbsp;
                 <span
                   onClick={() => handleOpenLogin()}
                   className="main-color cursor-pointer">
                   Login sekarang
                 </span>
-              </h3>
+              </label>
             </div>
           </div>
           <Footer isOverriding={true} />

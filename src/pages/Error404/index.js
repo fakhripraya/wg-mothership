@@ -9,17 +9,21 @@ export default function Error404() {
     <div className="error404-container">
       <div className="error404-wrapper">
         <div className="error404-title">
-          <h2 className="margin-bottom-0 red-color">
+          <h3 className="margin-bottom-0 red-color">
             ERROR 404
-          </h2>
-          <h3>
-            This page is either{" "}
-            <span className="red-color">not found</span> or
-            is under{" "}
-            <span className="red-color">maintenance</span>
           </h3>
+          <br />
+          <label>
+            Mungkin halaman ini sedang{" "}
+            <span className="red-color">maintenance</span>{" "}
+            atau{" "}
+            <span className="red-color">
+              tidak dapat ditemukan
+            </span>
+          </label>
+          <br />
           <Button onClick={() => navigate("/")}>
-            Back to home
+            Balik ke home
           </Button>
         </div>
       </div>
