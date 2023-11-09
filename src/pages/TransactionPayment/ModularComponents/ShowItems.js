@@ -40,6 +40,7 @@ const ShowItem = (props) =>
               style={{
                 width: "80px",
               }}
+              toggle={true}
               title="Pengiriman : "
               values={["a"]}
             />

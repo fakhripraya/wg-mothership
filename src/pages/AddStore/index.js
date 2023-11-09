@@ -317,18 +317,18 @@ export default function AddStore() {
                   Go back
                 </h4>
               </Button>
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 Ayo kita mulai buat toko, kamu isi{" "}
                 <span className="main-color">
                   informasi toko
                 </span>{" "}
                 mu dulu ya
-              </h2>
-              <h3 className="margin-top-0">
+              </h3>
+              <label className="margin-top-0">
                 Boleh tau{" "}
                 <span className="main-color">nama</span>{" "}
                 tokomu dulu gak ?
-              </h3>
+              </label>
               <div className="add-store-textinput-box">
                 <TextInput
                   value={data.productName}
@@ -340,20 +340,20 @@ export default function AddStore() {
                 />
               </div>
               <br />
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 Set{" "}
                 <span className="main-color">
                   informasi
                 </span>{" "}
                 toko
-              </h2>
-              <h3 className="margin-top-0">
+              </h3>
+              <label className="margin-top-0">
                 Kamu juga harus masukin{" "}
                 <span className="main-color">
                   profile picture
                 </span>{" "}
                 toko ya !
-              </h3>
+              </label>
               <div className="add-store-avatar-container align-self-start">
                 <div className="add-store-identifier-img-wrapper">
                   <Avatar
@@ -384,13 +384,13 @@ export default function AddStore() {
               </div>
               <br />
               <br />
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              <label className="margin-top-0 margin-bottom-12-18">
                 Silahkan input{" "}
                 <span className="main-color">
                   informasi
                 </span>{" "}
                 tokomu
-              </h3>
+              </label>
               <div className="add-store-textinput-box">
                 <label className="add-store-input-title">
                   Deskripsi
@@ -444,23 +444,23 @@ export default function AddStore() {
                 />
               </div>
               <br />
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 Set{" "}
                 <span className="main-color">alamat</span>{" "}
                 toko
-              </h2>
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              </h3>
+              <label className="margin-top-0 margin-bottom-12-18">
                 Abis itu kita set{" "}
                 <span className="main-color">
                   alamat tokomu
                 </span>{" "}
                 yuk biar orang-orang tau tempatnya
-              </h3>
+              </label>
               <br />
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              <label className="margin-top-0 margin-bottom-12-18">
                 Pilih{" "}
                 <span className="main-color">provinsi</span>
-              </h3>
+              </label>
               <Dropdown
                 onChange={(value) =>
                   handleShowRegencies(

@@ -487,17 +487,17 @@ export default function AddProduct() {
                   Go back
                 </h4>
               </Button>
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 Ayo beri tahu kami{" "}
                 <span className="main-color">
                   informasi produkmu
                 </span>
-              </h2>
-              <h3 className="margin-top-0">
+              </h3>
+              <label className="margin-top-0">
                 Kita mulai dari{" "}
                 <span className="main-color">nama</span>{" "}
                 produkmu dulu yuk !
-              </h3>
+              </label>
               <div className="add-catalogue-textinput-box">
                 <TextInput
                   value={data.productName}
@@ -510,11 +510,11 @@ export default function AddProduct() {
               </div>
               <br />
               <br />
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              <label className="margin-top-0 margin-bottom-12-18">
                 Produkmu masuk kedalam{" "}
                 <span className="main-color">kategori</span>{" "}
                 apa ?
-              </h3>
+              </label>
               <div className="add-catalogue-textinput-box margin-top-0">
                 <Dropdown
                   onChange={(value) =>
@@ -536,13 +536,13 @@ export default function AddProduct() {
               </div>
               <br />
               <br />
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              <label className="margin-top-0 margin-bottom-12-18">
                 Kamu harus memasukan{" "}
                 <span className="main-color">produkmu</span>{" "}
                 sesuai dengan{" "}
                 <span className="main-color">katalog</span>{" "}
                 yang kamu inginkan
-              </h3>
+              </label>
               <div className="add-catalogue-textinput-box margin-top-0">
                 <Dropdown
                   onChange={(value) =>
@@ -575,13 +575,13 @@ export default function AddProduct() {
                 </Button>
               </div>
               <br />
-              <h3 className="margin-top-0 margin-bottom-0">
+              <label className="margin-top-0 margin-bottom-0">
                 Upload{" "}
                 <span className="main-color">foto</span>{" "}
                 produkmu{" "}
                 <span className="main-color">disini</span>{" "}
                 ya
-              </h3>
+              </label>
               <AcceptedFileItems
                 base64s={productPictures}
                 setBase64s={setProductPictures}
@@ -599,17 +599,17 @@ export default function AddProduct() {
                 </Button>
               </div>
               <br />
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 Atur{" "}
                 <span className="main-color">
                   detail produk
                 </span>
-              </h2>
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              </h3>
+              <label className="margin-top-0 margin-bottom-12-18">
                 Selanjutnya kasih tau kita dulu yuk{" "}
                 <span className="main-color">detail</span>{" "}
                 informasi produkmu
-              </h3>
+              </label>
               <div className="add-catalogue-textinput-box">
                 <label className="add-catalogue-input-title">
                   Deskripsi
@@ -640,11 +640,11 @@ export default function AddProduct() {
                 />
               </div>
               <br />
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              <label className="margin-top-0 margin-bottom-12-18">
                 Kondisi{" "}
                 <span className="main-color">fisik</span>{" "}
                 produkmu gimana nih sekarang ?
-              </h3>
+              </label>
               <div className="add-catalogue-textinput-box">
                 <TextInput
                   value={data.productCondition}
@@ -656,11 +656,11 @@ export default function AddProduct() {
                 />
               </div>
               <br />
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              <label className="margin-top-0 margin-bottom-12-18">
                 Kalau{" "}
                 <span className="main-color">berat</span>{" "}
                 produkmu ?
-              </h3>
+              </label>
               <div className="add-catalogue-textinput-box">
                 <TextInput
                   value={formattedNumber(
@@ -691,15 +691,15 @@ export default function AddProduct() {
               </div>
               <br />
               <br />
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 Atur{" "}
                 <span className="main-color">harga</span>
-              </h2>
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              </h3>
+              <label className="margin-top-0 margin-bottom-12-18">
                 Kira-kira{" "}
                 <span className="main-color">harga</span>{" "}
                 produkmu berapa nih ?
-              </h3>
+              </label>
               <div className="add-catalogue-textinput-box">
                 <label className="add-catalogue-input-title">
                   Rp.
@@ -714,16 +714,16 @@ export default function AddProduct() {
                 />
               </div>
               <br />
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 Atur{" "}
                 <span className="main-color">stok</span>{" "}
                 produk
-              </h2>
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              </h3>
+              <label className="margin-top-0 margin-bottom-12-18">
                 Sekarang kita atur{" "}
                 <span className="main-color">stok</span>{" "}
                 barang yang kamu lelang
-              </h3>
+              </label>
               <div className="add-catalogue-textinput-box">
                 <label className="add-catalogue-input-title">
                   Stok
@@ -759,18 +759,18 @@ export default function AddProduct() {
               </div>
               <br />
               <br />
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 Atur{" "}
                 <span className="main-color">kurir</span>{" "}
                 pengantaran
-              </h2>
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              </h3>
+              <label className="margin-top-0 margin-bottom-12-18">
                 Kira-kira kurir mana nih yang boleh{" "}
                 <span className="main-color">
                   nganterin
                 </span>{" "}
                 produkmu ke pemenang lelang ?
-              </h3>
+              </label>
               {data.courierChoosen.map((val, index) => {
                 return (
                   <div
@@ -811,13 +811,13 @@ export default function AddProduct() {
               </Button>
               <br />
               <br />
-              <h2 className="margin-bottom-12-18">
+              <h3 className="margin-bottom-12-18">
                 Upload{" "}
                 <span className="main-color">
                   file tambahan
                 </span>
-              </h2>
-              <h3 className="margin-top-0 margin-bottom-12-18">
+              </h3>
+              <label className="margin-top-0 margin-bottom-12-18">
                 Ini juga gak kalah penting nih, kamu bisa
                 upload{" "}
                 <span className="main-color">
@@ -827,7 +827,7 @@ export default function AddProduct() {
                 <span className="main-color">
                   (opsional)
                 </span>
-              </h3>
+              </label>
               <MultiUpload
                 formName={ADD_CATALOGUE_FORM}
                 customIcon={AgreementIcon}
@@ -861,9 +861,9 @@ export default function AddProduct() {
               <Button
                 onClick={() => handleSubmit()}
                 className="align-self-start add-catalogue-button main-bg-color">
-                <h4 className="add-catalogue-button-text">
+                <label className="font-bold add-catalogue-button-text">
                   Submit
-                </h4>
+                </label>
               </Button>
             </div>
           </div>

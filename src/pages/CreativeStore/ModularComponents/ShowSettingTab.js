@@ -76,11 +76,11 @@ export const ShowSettingTab = (props) => {
           </h4>
         </Button>
         <br />
-        <h2 className="margin-top-0 margin-bottom-12-18">
+        <h3 className="margin-top-0 margin-bottom-12-18">
           Setting Umum
           <span className="main-color">{props.title}</span>
-        </h2>
-        <h3 className="margin-top-0">
+        </h3>
+        <label className="margin-top-0">
           Disini kalian bisa mengatur{" "}
           <span className="main-color">settingan umum</span>{" "}
           pada{" "}
@@ -90,11 +90,13 @@ export const ShowSettingTab = (props) => {
           <span className="main-color">
             utak-atik
           </span> dulu{" "}
-        </h3>
-        <h3 className="margin-top-0">
+        </label>
+        <br />
+        <label className="font-bold margin-top-0">
           Mau ubah <span className="main-color">nama</span>{" "}
           toko ?
-        </h3>
+        </label>
+        <br />
         <div className="creative-store-setting-textinput-box margin-top-0">
           <TextInput
             type="text"
@@ -103,13 +105,14 @@ export const ShowSettingTab = (props) => {
         </div>
         <br />
         <br />
-        <h3 className="margin-top-0">
+        <label className="font-bold margin-top-0">
           Mau ubah{" "}
           <span className="main-color">
             profile picture
           </span>{" "}
           toko ?
-        </h3>
+        </label>
+        <br />
         <div className="creative-store-user-avatar-container align-self-start">
           <div className="creative-store-user-identifier-img-wrapper">
             <Avatar
@@ -126,11 +129,12 @@ export const ShowSettingTab = (props) => {
         </div>
         <br />
         <br />
-        <h3 className="margin-top-0">
+        <label className="margin-top-0 font-bold">
           Mau ubah{" "}
           <span className="main-color">identitas</span> toko
           ?
-        </h3>
+        </label>
+        <br />
         <div className="creative-store-setting-textinput-box">
           <label className="creative-store-setting-input-title margin-0">
             Deskripsi Toko
@@ -169,14 +173,15 @@ export const ShowSettingTab = (props) => {
         </div>
         <br />
         <br />
-        <h3 className="margin-top-0">
+        <label className="margin-top-0 font-bold">
           Mau ubah{" "}
           <span className="main-color">alamat</span> toko ?
-        </h3>
+        </label>
         <br />
-        <h3 className="margin-top-0 margin-bottom-12-18">
+        <label className="margin-top-0">
           Pilih <span className="main-color">provinsi</span>
-        </h3>
+        </label>
+        <br />
         <Dropdown
           onChange={(value) =>
             handleShowRegencies(
@@ -214,9 +219,11 @@ export const ShowSettingTab = (props) => {
               : ""
           }>
           <br />
-          <h3 className="margin-top-0 margin-bottom-12-18">
+          <label className="margin-top-0">
             Pilih <span className="main-color">kota</span>
-          </h3>
+          </label>
+          <br />
+          <br />
           <Dropdown
             onChange={(value) =>
               handleShowDistrict(
@@ -254,10 +261,12 @@ export const ShowSettingTab = (props) => {
               : ""
           }>
           <br />
-          <h3 className="margin-top-0 margin-bottom-12-18">
+          <label className="margin-top-0">
             Pilih{" "}
             <span className="main-color">kecamatan</span>
-          </h3>
+          </label>
+          <br />
+          <br />
           <Dropdown
             onChange={(value) =>
               handleShowVillages(
@@ -291,10 +300,12 @@ export const ShowSettingTab = (props) => {
               : ""
           }>
           <br />
-          <h3 className="margin-top-0 margin-bottom-12-18">
+          <label className="margin-top-0">
             Pilih{" "}
             <span className="main-color">kelurahan</span>
-          </h3>
+          </label>
+          <br />
+          <br />
           <Dropdown
             onChange={(value) =>
               handleTextChangeByValue("storeVillage", value)

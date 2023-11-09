@@ -10,7 +10,9 @@ export default function Card(props) {
         className="card-img"
         src={props.imgUrl}
         alt={props.title}></img>
-      <h2 className="light-color">{props.title}</h2>
+      <br />
+      <br />
+      <h3 className="light-color">{props.title}</h3>
       <p className="margin-bottom-0 light-color">
         {props.location}
       </p>

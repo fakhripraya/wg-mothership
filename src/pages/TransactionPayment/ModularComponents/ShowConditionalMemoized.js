@@ -20,8 +20,17 @@ import { cloneDeep } from "lodash-es";
 
 export default function ShowConditionalMemoized(props) {
   // HOOKS
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // FUNCTIONS
+  function handleSubtotal() {
+    const total = props.datas.reduce((acc, current) => {
+      return (
+        acc + Number(current.productPrice * current.buyQty)
+      );
+    }, 0);
+    return total;
+  }
 
   if (!IS_OTP_VERIFIED(props.login))
     return (() => {
@@ -37,7 +46,10 @@ export default function ShowConditionalMemoized(props) {
 
   if (!props.datas) {
     return (
-      <PageLoading loadingMessage={"Loading Checkout..."} />
+      <PageLoading
+        noLogo={true}
+        loadingMessage={"Loading Checkout..."}
+      />
     );
   }
 
@@ -119,14 +131,23 @@ export default function ShowConditionalMemoized(props) {
             <h2 className="margin-0">Detail Checkout</h2>
             <br />
             <br />
-            <label>Total Keranjang : </label>
-            <br />
+            <label>
+              Subtotal :{" "}
+              <span className="main-color">
+                Rp.
+                {formattedNumber(handleSubtotal())}
+              </span>
+            </label>
             <br />
             <label>Total Biaya Ekspedisi : </label>
             <br />
-            <br />
-            <label>Biaya Admin : </label>
-            <br />
+            <label>
+              Biaya Layanan dan Aplikasi :{" "}
+              <span className="main-color">
+                Rp.
+                {formattedNumber(1500)}
+              </span>
+            </label>
             <br />
             <h3>Total Pembayaran : </h3>
             <hr

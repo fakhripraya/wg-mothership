@@ -171,15 +171,15 @@ export default function Home() {
           </div>
           <ImageSlider />
           <div className="home-element-container darker-bg-color">
-            <h2 className="home-recommend-title light-color">
+            <h3 className="home-recommend-title light-color">
               FLASH SALE
-            </h2>
-            <h3 className="home-recommend-subtitle light-color">
+            </h3>
+            <label className="home-recommend-subtitle light-color">
               Selesai setelah : 58:34:21 -{" "}
               <span className="cursor-pointer main-color">
                 Lihat Lebih
               </span>
-            </h3>
+            </label>
             <div
               onMouseDown={(event) =>
                 scrollCarousel(event, flashSaleRef.current)
@@ -195,12 +195,12 @@ export default function Home() {
           <div className="home-element-container darker-bg-color">
             <div className="home-balance-wrapper">
               <div className="home-balance-box home-balance-counter-box dark-bg-color">
-                <h1 className="home-title-balance light-color">
+                <h2 className="home-title-balance light-color">
                   Saldo
-                </h1>
-                <h3 className="home-balance-number light-color">
+                </h2>
+                <label className="home-balance-number light-color">
                   Rp. 1000.000
-                </h3>
+                </label>
                 <p className="home-desc-balance light-color">
                   Klik disini untuk lihat histori transaksi
                 </p>
@@ -211,9 +211,9 @@ export default function Home() {
             </div>
           </div>
           <div className="home-element-container darker-bg-color">
-            <h2 className="home-recommend-title light-color">
+            <h3 className="home-recommend-title light-color">
               REKOMENDASI UNTUK GRAPHIC RENDERING
-            </h2>
+            </h3>
             <div
               onMouseDown={(event) =>
                 scrollCarousel(
@@ -232,9 +232,9 @@ export default function Home() {
             </div>
           </div>
           <div className="home-element-container darker-bg-color">
-            <h2 className="home-recommend-title light-color">
+            <h3 className="home-recommend-title light-color">
               REKOMENDASI UNTUK GAMING
-            </h2>
+            </h3>
             <div
               onMouseDown={(event) =>
                 scrollCarousel(
@@ -251,12 +251,12 @@ export default function Home() {
             </div>
           </div>
           <div className="home-element-container darker-bg-color">
-            <h2 className="home-recommend-title light-color">
+            <h3 className="home-recommend-title light-color">
               REKOMENDASI UNTUK KAMU
-            </h2>
-            <h3 className="home-recommend-subtitle cursor-pointer main-color">
-              Lihat Lebih
             </h3>
+            <label className="home-recommend-subtitle cursor-pointer main-color">
+              Lihat Lebih
+            </label>
             <div
               onMouseDown={(event) =>
                 scrollCarousel(
@@ -273,12 +273,12 @@ export default function Home() {
             </div>
           </div>
           <div className="home-element-container darker-bg-color">
-            <h2 className="home-recommend-title light-color">
+            <h3 className="home-recommend-title light-color">
               TOKO OFFICIAL
-            </h2>
-            <h3 className="home-recommend-subtitle cursor-pointer main-color">
-              Lihat Lebih
             </h3>
+            <label className="home-recommend-subtitle cursor-pointer main-color">
+              Lihat Lebih
+            </label>
             <div
               onMouseDown={(event) =>
                 scrollCarousel(
@@ -299,15 +299,15 @@ export default function Home() {
             src={dummy[1].url}
             alt="ads-2"></img>
           <div className="home-element-container darker-bg-color">
-            <h2 className="home-recommend-title light-color">
+            <h3 className="home-recommend-title light-color">
               SEMUA TOKO
-            </h2>
-            <h3 className="home-recommend-subtitle ">
+            </h3>
+            <label className="home-recommend-subtitle ">
               Lihat semua toko yang tersedia -{" "}
               <span className="cursor-pointer main-color">
                 Lihat Lebih
               </span>
-            </h3>
+            </label>
             <ShowGridCardCarousel
               arrayFunc={() => getGrid()}
             />
@@ -317,10 +317,10 @@ export default function Home() {
           </div>
           <div className="home-company-section home-section">
             <div className="home-company-profile lighter-color">
-              <h1 className="main-color">
+              <h2 className="main-color">
                 Kenapa sih pilih LIVEJB ?
-              </h1>
-              <h3>
+              </h2>
+              <p>
                 Apakah Anda mencari platform all-in-one yang
                 mengintegrasikan komunikasi, perdagangan,
                 dan keterlibatan komunitas dengan lancar?
@@ -329,18 +329,18 @@ export default function Home() {
                 dalam pikiran, menawarkan berbagai fitur dan
                 manfaat yang membuatnya pilihan yang
                 sempurna untuk kebutuhan B2C Anda.
-              </h3>
-              <h2>Terhubung Dengan Lancar</h2>
-              <h3>
+              </p>
+              <h3>Terhubung Dengan Lancar</h3>
+              <p>
                 LIVEJB menyediakan aplikasi VoIP yang kuat,
                 memungkinkan Anda tetap terhubung dengan
                 pelanggan, mitra, dan pengguna Anda dengan
                 mudah. Baik itu obrolan cepat atau diskusi
                 panjang, layanan VoIP kami memastikan
                 komunikasi yang jernih.
-              </h3>
-              <h2>Beli dan Jual Dengan Mudah</h2>
-              <h3>
+              </p>
+              <h3>Beli dan Jual Dengan Mudah</h3>
+              <p>
                 Bosan dengan navigasi situs web berbeda
                 untuk membeli dan menjual? Dengan LIVEJB,
                 Anda dapat dengan mudah mencantumkan produk
@@ -349,9 +349,9 @@ export default function Home() {
                 yang ramah pengguna kami menyederhanakan
                 proses ini, membuatnya mudah untuk mengelola
                 bisnis online Anda.
-              </h3>
-              <h2>Diskusi Dengan Suara</h2>
-              <h3>
+              </p>
+              <h3>Diskusi Dengan Suara</h3>
+              <p>
                 Tingkatkan interaksi Anda dengan LIVEJB
                 melalui saluran suara. Terlibat dalam
                 diskusi real-time tentang produk Anda,
@@ -359,9 +359,9 @@ export default function Home() {
                 komunitas di antara pengguna Anda. Ini
                 adalah tempat yang sempurna untuk memupuk
                 kepercayaan dan loyalitas.
-              </h3>
-              <h2>Aman dan Terjamin</h2>
-              <h3>
+              </p>
+              <h3>Aman dan Terjamin</h3>
+              <p>
                 Kepercayaan adalah hal yang penting dalam
                 transaksi online. Itulah mengapa LIVEJB
                 menjamin langkah-langkah keamanan terbaik
@@ -369,70 +369,70 @@ export default function Home() {
                 Belanja dan berjualan dengan percaya diri,
                 dengan mengetahui bahwa informasi Anda
                 berada di tangan yang aman.
-              </h3>
+              </p>
             </div>
             <div className="home-company-profile lighter-color">
-              <h1 className="main-color">
+              <h2 className="main-color">
                 Bagaimana LIVEJB Dapat Mengembangkan Bisnis
                 Anda?
-              </h1>
-              <h3>
+              </h2>
+              <p>
                 Apakah Anda siap untuk meningkatkan
                 pertumbuhan bisnis Anda? LIVEJB adalah
                 senjata rahasia Anda! Berikut cara platform
                 kami dapat membantu Anda mengembangkan
                 bisnis B2C Anda seperti belum pernah
                 sebelumnya:
-              </h3>
-              <h2>Jangkauan Se-Indonesia</h2>
-              <h3>
+              </p>
+              <h3>Jangkauan Se-Indonesia</h3>
+              <p>
                 Dengan LIVEJB, Anda tidak terbatas oleh
                 batasan geografis. Capai audiens
                 Se-Indonesia dan tembus ke pasar-pasar baru,
                 memberikan bisnis Anda kehadiran di
                 Indonesia.
-              </h3>
-              <h2>Keterlibatan Pelanggan</h2>
-              <h3>
+              </p>
+              <h3>Keterlibatan Pelanggan</h3>
+              <p>
                 Platform kami meningkatkan keterlibatan
                 pelanggan dengan memfasilitasi diskusi suara
                 real-time. Terlibat dengan audiens Anda
                 secara langsung, jawab pertanyaan mereka,
                 dan bangun basis pelanggan yang setia.
-              </h3>
-              <h2>Penjualan Meningkat</h2>
-              <h3>
+              </p>
+              <h3>Penjualan Meningkat</h3>
+              <p>
                 Antarmuka yang ramah pengguna dan fitur
                 e-commerce terintegrasi membuat lebih mudah
                 daripada sebelumnya untuk memamerkan produk
                 Anda. Nikmati peningkatan penjualan dan
                 pendapatan saat Anda dengan mudah terhubung
                 dengan calon pembeli.
-              </h3>
-              <h2>Membangun Komunitas</h2>
-              <h3>
+              </p>
+              <h3>Membangun Komunitas</h3>
+              <p>
                 Fosteringa rasa komunitas yang kuat di
                 antara pengguna Anda melalui saluran suara
                 kami. Dorong diskusi, kumpulkan umpan balik,
                 dan bangun pengikut setia yang dapat menjadi
                 pendukung merek.
-              </h3>
-              <h2>Wawasan Berbasis Data</h2>
-              <h3>
+              </p>
+              <h3>Wawasan Berbasis Data</h3>
+              <p>
                 Akses data dan analisis berharga untuk
                 memahami pelanggan Anda dengan lebih baik.
                 Buat keputusan yang berdasarkan informasi,
                 sesuaikan penawaran Anda, dan tetap unggul
                 dari pesaing.
-              </h3>
-              <h2>Operasi yang Tersusun</h2>
-              <h3>
+              </p>
+              <h3>Operasi yang Tersusun</h3>
+              <p>
                 Kelola semua aspek bisnis B2C Anda dari satu
                 platform. Dari komunikasi hingga penjualan
                 dan pembangunan komunitas, LIVEJB
                 menyederhanakan operasi Anda, menghemat
                 waktu dan usaha Anda.
-              </h3>
+              </p>
             </div>
           </div>
         </div>

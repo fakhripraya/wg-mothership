@@ -48,6 +48,7 @@ export default function ShowConditionalMemoized(props) {
   if (!props.datas) {
     return (
       <PageLoading
+        noLogo={true}
         loadingMessage={
           "Tunggu bentar ya \n Kita lagi siapin cartnya..."
         }
