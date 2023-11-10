@@ -342,9 +342,9 @@ export default function Navbar() {
           </Button>
           <br />
           <h3 className="margin-top-0 margin-bottom-12-18">
-            Yakin mau{" "}
-            <span className="red-color">keluar</span> dari
-            akun kamu ?
+            Yakin Mau{" "}
+            <span className="red-color">Keluar</span> Dari
+            Akun Kamu ?
           </h3>
           <label className="margin-top-0 margin-bottom-12-18">
             Kalo udah logout magger banget ga sih loginnya?
