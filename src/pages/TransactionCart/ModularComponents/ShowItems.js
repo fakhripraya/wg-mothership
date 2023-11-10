@@ -25,6 +25,24 @@ const ShowItem = (props) =>
       window.location.href = `/creative-store?id=${props.data.storeId}`;
     }
 
+    const updateCartField = (
+      dataArray,
+      field,
+      userId,
+      productId,
+      value
+    ) => {
+      const foundIndex = dataArray.findIndex(
+        (val) =>
+          val.userId === userId &&
+          val.productId === productId
+      );
+
+      if (foundIndex !== -1) {
+        dataArray[foundIndex][field] = value;
+      }
+    };
+
     return (
       <Fragment>
         <br />
@@ -65,16 +83,26 @@ const ShowItem = (props) =>
             <br />
             <TextArea
               onChange={(e) => {
-                let temp = cloneDeep(props.datas);
-                const found = temp.findIndex(
-                  (val) =>
-                    val.userId ===
-                      props.login.user.userId &&
-                    val.productId === props.data.productId
+                const temp = cloneDeep(props.reduxDatas);
+                const localTemp = cloneDeep(props.datas);
+
+                updateCartField(
+                  temp,
+                  "buyingNote",
+                  props.login.user.userId,
+                  props.data.productId,
+                  e.target.value
                 );
-                temp[found].buyingNote = e.target.value;
+                updateCartField(
+                  localTemp,
+                  "buyingNote",
+                  props.login.user.userId,
+                  props.data.productId,
+                  e.target.value
+                );
+
                 props.dispatch(setItem(temp));
-                props.setDatas(temp);
+                props.setDatas(localTemp);
               }}
               className="transaction-cart-longtext-area dark-bg-color"
               value={props.data.buyingNote}
@@ -84,18 +112,26 @@ const ShowItem = (props) =>
             <div className="transaction-cart-other-wrapper">
               <TextInput
                 onChange={(e) => {
-                  let temp = cloneDeep(props.datas);
-                  const found = temp.findIndex(
-                    (val) =>
-                      val.userId ===
-                        props.login.user.userId &&
-                      val.productId === props.data.productId
+                  const temp = cloneDeep(props.reduxDatas);
+                  const localTemp = cloneDeep(props.datas);
+
+                  updateCartField(
+                    temp,
+                    "buyQty",
+                    props.login.user.userId,
+                    props.data.productId,
+                    acceptNumericOnly(e.target.value)
                   );
-                  temp[found].buyQty = acceptNumericOnly(
-                    e.target.value
+                  updateCartField(
+                    localTemp,
+                    "buyQty",
+                    props.login.user.userId,
+                    props.data.productId,
+                    acceptNumericOnly(e.target.value)
                   );
+
                   props.dispatch(setItem(temp));
-                  props.setDatas(temp);
+                  props.setDatas(localTemp);
                 }}
                 className="transaction-cart-input-text"
                 value={formattedNumber(
@@ -135,6 +171,7 @@ const ShowItems = (props) => {
             data={data}
             login={props.login}
             datas={props.datas}
+            reduxDatas={props.reduxDatas}
             setDatas={props.setDatas}
             dispatch={props.dispatch}
           />

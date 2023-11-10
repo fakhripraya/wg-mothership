@@ -186,9 +186,9 @@ export default function ForgotPassword(props) {
                   )
                 }
                 className="forgot-password-button">
-                <h3 className="forgot-password-button-text">
+                <p className="forgot-password-button-text">
                   Kirim Email
-                </h3>
+                </p>
               </Button>
             </div>
           </div>

@@ -201,7 +201,7 @@ const ShowDisplayItem = ({
                       )
                     }
                     className="dashboard-catalogue-delete-button red-bg-color">
-                    <h5 className="add-catalogue-button-text">
+                    <h5 className="add-product-button-text">
                       X
                     </h5>
                   </Button>
@@ -218,7 +218,7 @@ const ShowDisplayItem = ({
               )
             }
             className="dashboard-catalogue-plus-button main-bg-color">
-            <h4 className="add-catalogue-button-text">+</h4>
+            <h4 className="add-product-button-text">+</h4>
           </Button>
         </div>
       </div>

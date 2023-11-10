@@ -257,9 +257,9 @@ export default function Register(props) {
               <Button
                 onClick={() => handlePostRegister()}
                 className="register-button">
-                <h3 className="register-button-text">
+                <p className="register-button-text">
                   Daftar
-                </h3>
+                </p>
               </Button>
               <br />
               <br />

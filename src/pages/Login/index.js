@@ -173,7 +173,7 @@ export default function Login(props) {
                   })
                 }
                 className="login-button">
-                <h3 className="login-button-text">Login</h3>
+                <p className="login-button-text">Login</p>
               </Button>
               <br />
               <br />

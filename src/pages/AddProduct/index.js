@@ -472,18 +472,18 @@ export default function AddProduct() {
           handleOpenModalError={handleOpenModalError}
         />
       </Modal>
-      <div className="add-catalogue-container">
-        <div className="add-catalogue-wrapper">
-          <div className="add-catalogue-text-container">
-            <div className="add-catalogue-text-wrapper">
+      <div className="add-product-container">
+        <div className="add-product-wrapper">
+          <div className="add-product-text-container">
+            <div className="add-product-text-wrapper">
               <br />
               <Button
                 style={{ paddingLeft: "0px" }}
                 onClick={() =>
                   handleGoBackDashboard(navigate)
                 }
-                className="align-self-start add-catalogue-button darker-bg-color">
-                <h4 className="add-catalogue-button-back-text">
+                className="align-self-start add-product-button darker-bg-color">
+                <h4 className="add-product-button-back-text">
                   Go back
                 </h4>
               </Button>
@@ -498,14 +498,14 @@ export default function AddProduct() {
                 <span className="main-color">nama</span>{" "}
                 produkmu dulu yuk !
               </label>
-              <div className="add-catalogue-textinput-box">
+              <div className="add-product-textinput-box">
                 <TextInput
                   value={data.productName}
                   onChange={(e) =>
                     handleTextChange("productName", e)
                   }
                   type="text"
-                  className="add-catalogue-textinput"
+                  className="add-product-textinput"
                 />
               </div>
               <br />
@@ -515,7 +515,7 @@ export default function AddProduct() {
                 <span className="main-color">kategori</span>{" "}
                 apa ?
               </label>
-              <div className="add-catalogue-textinput-box margin-top-0">
+              <div className="add-product-textinput-box margin-top-0">
                 <Dropdown
                   onChange={(value) =>
                     handleValueChange(
@@ -543,7 +543,7 @@ export default function AddProduct() {
                 <span className="main-color">katalog</span>{" "}
                 yang kamu inginkan
               </label>
-              <div className="add-catalogue-textinput-box margin-top-0">
+              <div className="add-product-textinput-box margin-top-0">
                 <Dropdown
                   onChange={(value) =>
                     handleValueChange(
@@ -568,8 +568,8 @@ export default function AddProduct() {
                       modalCatalogueToggle
                     )
                   }
-                  className="margin-top-0 align-self-end add-catalogue-button main-bg-color">
-                  <h4 className="add-catalogue-button-text">
+                  className="margin-top-0 align-self-end add-product-button main-bg-color">
+                  <h4 className="add-product-button-text">
                     +
                   </h4>
                 </Button>
@@ -589,11 +589,11 @@ export default function AddProduct() {
               <FileRejectionItems
                 rejected={rejectedProductPictures}
               />
-              <div className="add-catalogue-textinput-box margin-top-0">
+              <div className="add-product-textinput-box margin-top-0">
                 <Button
                   onClick={handleOpenModalUpload}
-                  className="align-self-end add-catalogue-button main-bg-color">
-                  <h4 className="add-catalogue-button-text">
+                  className="align-self-end add-product-button main-bg-color">
+                  <h4 className="add-product-button-text">
                     +
                   </h4>
                 </Button>
@@ -610,12 +610,12 @@ export default function AddProduct() {
                 <span className="main-color">detail</span>{" "}
                 informasi produkmu
               </label>
-              <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
+              <div className="add-product-textinput-box">
+                <label className="add-product-input-title">
                   Deskripsi
                 </label>
                 <TextArea
-                  className="add-catalogue-longtext-area"
+                  className="add-product-longtext-area"
                   value={data.productDescription}
                   onChange={(e) =>
                     handleTextChange(
@@ -626,8 +626,8 @@ export default function AddProduct() {
                   type="text"
                 />
               </div>
-              <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
+              <div className="add-product-textinput-box">
+                <label className="add-product-input-title">
                   Hashtag
                 </label>
                 <TextInput
@@ -636,7 +636,7 @@ export default function AddProduct() {
                     handleTextChange("productHashtag", e)
                   }
                   type="text"
-                  className="add-catalogue-textinput"
+                  className="add-product-textinput"
                 />
               </div>
               <br />
@@ -645,14 +645,14 @@ export default function AddProduct() {
                 <span className="main-color">fisik</span>{" "}
                 produkmu gimana nih sekarang ?
               </label>
-              <div className="add-catalogue-textinput-box">
+              <div className="add-product-textinput-box">
                 <TextInput
                   value={data.productCondition}
                   onChange={(e) =>
                     handleTextChange("productCondition", e)
                   }
                   type="text"
-                  className="add-catalogue-textinput"
+                  className="add-product-textinput"
                 />
               </div>
               <br />
@@ -661,7 +661,7 @@ export default function AddProduct() {
                 <span className="main-color">berat</span>{" "}
                 produkmu ?
               </label>
-              <div className="add-catalogue-textinput-box">
+              <div className="add-product-textinput-box">
                 <TextInput
                   value={formattedNumber(
                     data.productWeight
@@ -670,7 +670,7 @@ export default function AddProduct() {
                     handleNumericChange("productWeight", e)
                   }
                   type="text"
-                  className="add-catalogue-textinput"
+                  className="add-product-textinput"
                 />
                 <Dropdown
                   onChange={(value) =>
@@ -700,8 +700,8 @@ export default function AddProduct() {
                 <span className="main-color">harga</span>{" "}
                 produkmu berapa nih ?
               </label>
-              <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
+              <div className="add-product-textinput-box">
+                <label className="add-product-input-title">
                   Rp.
                 </label>
                 <TextInput
@@ -710,7 +710,7 @@ export default function AddProduct() {
                     handleNumericChange("productPrice", e)
                   }
                   type="text"
-                  className="add-catalogue-textinput"
+                  className="add-product-textinput"
                 />
               </div>
               <br />
@@ -724,8 +724,8 @@ export default function AddProduct() {
                 <span className="main-color">stok</span>{" "}
                 barang yang kamu lelang
               </label>
-              <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
+              <div className="add-product-textinput-box">
+                <label className="add-product-input-title">
                   Stok
                 </label>
                 <TextInput
@@ -736,11 +736,11 @@ export default function AddProduct() {
                     handleNumericChange("productStocks", e)
                   }
                   type="text"
-                  className="add-catalogue-textinput"
+                  className="add-product-textinput"
                 />
               </div>
-              <div className="add-catalogue-textinput-box">
-                <label className="add-catalogue-input-title">
+              <div className="add-product-textinput-box">
+                <label className="add-product-input-title">
                   Safety Stok
                 </label>
                 <TextInput
@@ -754,7 +754,7 @@ export default function AddProduct() {
                     )
                   }
                   type="text"
-                  className="add-catalogue-textinput"
+                  className="add-product-textinput"
                 />
               </div>
               <br />
@@ -774,9 +774,9 @@ export default function AddProduct() {
               {data.courierChoosen.map((val, index) => {
                 return (
                   <div
-                    key={`add-catalogue-product-courier-${index}`}
-                    className="add-catalogue-textinput-box">
-                    <label className="add-catalogue-input-title">
+                    key={`add-product-product-courier-${index}`}
+                    className="add-product-textinput-box">
+                    <label className="add-product-input-title">
                       Pilih Kurir {index + 1}
                     </label>
                     <Dropdown
@@ -804,8 +804,8 @@ export default function AddProduct() {
                     defaultCourier
                   )
                 }
-                className="align-self-end add-catalogue-button main-bg-color">
-                <h4 className="add-catalogue-button-text">
+                className="align-self-end add-product-button main-bg-color">
+                <h4 className="add-product-button-text">
                   +
                 </h4>
               </Button>
@@ -848,7 +848,7 @@ export default function AddProduct() {
               />
               <br />
               <br />
-              <div className="add-catalogue-textinput-box">
+              <div className="add-product-textinput-box">
                 <Checkbox
                   checked={agreementCheckbox}
                   onChange={() => handleAgreementCheck()}
@@ -860,10 +860,10 @@ export default function AddProduct() {
               </div>
               <Button
                 onClick={() => handleSubmit()}
-                className="align-self-start add-catalogue-button main-bg-color">
-                <label className="add-catalogue-button-text">
+                className="align-self-start add-product-button main-bg-color">
+                <p className="add-product-button-text">
                   Submit
-                </label>
+                </p>
               </Button>
             </div>
           </div>

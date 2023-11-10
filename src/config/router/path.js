@@ -3,10 +3,7 @@ import Home from "../../pages/Home";
 import Error404 from "../../pages/Error404";
 import Error500 from "../../pages/Error500";
 import ProductSearch from "../../pages/ProductSearch";
-import RDP from "../../pages/RDP";
 import ProductDetail from "../../pages/ProductDetail";
-import RDPRoom from "../../pages/RDPRoom";
-import RDPRoomError from "../../pages/RDPRoomError";
 import Dashboard from "../../pages/Dashboard";
 import CreativeStore from "../../pages/CreativeStore";
 import AddStore from "../../pages/AddStore";
@@ -31,18 +28,6 @@ export const routes = [
   {
     path: "/transaction/payment",
     component: <TransactionPayment />,
-  },
-  {
-    path: "/rdp",
-    component: <RDP />,
-  },
-  {
-    path: "/rdp/room",
-    component: <RDPRoom />,
-  },
-  {
-    path: "/rdp/error",
-    component: <RDPRoomError />,
   },
   {
     path: "/search",

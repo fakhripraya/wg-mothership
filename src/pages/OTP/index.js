@@ -168,7 +168,7 @@ export default function OTP(props) {
               <Button
                 onClick={() => handleSubmitOTP()}
                 className="otp-button">
-                <h3 className="otp-button-text">Submit</h3>
+                <p className="otp-button-text">Submit</p>
               </Button>
             </div>
           </div>

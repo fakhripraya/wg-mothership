@@ -185,9 +185,9 @@ export default function NewPassword(props) {
                   )
                 }
                 className="new-password-button">
-                <h3 className="new-password-button-text">
+                <p className="new-password-button-text">
                   Submit
-                </h3>
+                </p>
               </Button>
             </div>
           </div>

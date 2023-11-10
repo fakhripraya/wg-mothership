@@ -49,7 +49,7 @@ export default function ProductDetail() {
   const dispatch = useDispatch();
   const zeusService = useAxios();
   // eslint-disable-next-line no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   // STATES //
   const [selectedTab, setSelectedTab] = useState(0);
@@ -65,8 +65,8 @@ export default function ProductDetail() {
   const [buyQty, setBuyQty] = useState(0);
   const [buyingNote, setBuyingNote] = useState("");
   const [modalToggle, setModalToggle] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [productId, setProductId] = useState(
+  const [, setErrorMessage] = useState(null);
+  const [productId] = useState(
     searchParams.get("productId")
   );
 
@@ -123,7 +123,9 @@ export default function ProductDetail() {
     };
 
     let foundExisting = temp.findIndex(
-      (val) => val.productId === cartItem.productId
+      (val) =>
+        val.userId === login.user.userId &&
+        val.productId === cartItem.productId
     );
 
     if (foundExisting !== -1)

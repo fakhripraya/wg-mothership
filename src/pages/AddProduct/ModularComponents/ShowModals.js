@@ -42,12 +42,12 @@ export const ShowAddNewCatalogueModal = (props) => {
 
   // RENDER
   return (
-    <div className="add-catalogue-modal-container dark-bg-color">
-      <div className="add-catalogue-modal-wrapper">
+    <div className="add-product-modal-container dark-bg-color">
+      <div className="add-product-modal-wrapper">
         <Button
           onClick={props.handleOpenModalAddCatalogue}
-          className="align-self-end add-catalogue-button red-bg-color">
-          <h4 className="add-catalogue-button-text">X</h4>
+          className="align-self-end add-product-button red-bg-color">
+          <h4 className="add-product-button-text">X</h4>
         </Button>
         <br />
         <h2 className="margin-top-0 margin-bottom-12-18">
@@ -63,8 +63,8 @@ export const ShowAddNewCatalogueModal = (props) => {
           <span className="main-color">tambahin</span> dulu
           yuk !
         </h3>
-        <div className="add-catalogue-textinput-box">
-          <label className="add-catalogue-input-title margin-0">
+        <div className="add-product-textinput-box">
+          <label className="add-product-input-title margin-0">
             Nama Katalog
           </label>
           <TextInput
@@ -73,14 +73,14 @@ export const ShowAddNewCatalogueModal = (props) => {
               setTempCatalogue(e.target.value)
             }
             type="text"
-            className="align-self-center add-catalogue-textinput darker-bg-color"
+            className="align-self-center add-product-textinput darker-bg-color"
           />
         </div>
         <br />
         <Button
           onClick={() => handleCatalogueSubmit()}
-          className="align-self-center add-catalogue-button main-bg-color">
-          <h4 className="add-catalogue-button-text">
+          className="align-self-center add-product-button main-bg-color">
+          <h4 className="add-product-button-text">
             Submit
           </h4>
         </Button>
@@ -91,12 +91,12 @@ export const ShowAddNewCatalogueModal = (props) => {
 
 export const ShowUploadModal = (props) => {
   return (
-    <div className="add-catalogue-modal-container dark-bg-color">
-      <div className="add-catalogue-modal-wrapper">
+    <div className="add-product-modal-container dark-bg-color">
+      <div className="add-product-modal-wrapper">
         <Button
           onClick={props.handleOpenModalUpload}
-          className="align-self-end add-catalogue-button red-bg-color">
-          <h4 className="add-catalogue-button-text">X</h4>
+          className="align-self-end add-product-button red-bg-color">
+          <h4 className="add-product-button-text">X</h4>
         </Button>
         <br />
         <h2 className="margin-top-0 margin-bottom-12-18">
@@ -126,12 +126,12 @@ export const ShowUploadModal = (props) => {
 
 export const ShowErrorModal = (props) => {
   return (
-    <div className="add-catalogue-modal-container dark-bg-color">
-      <div className="add-catalogue-modal-wrapper">
+    <div className="add-product-modal-container dark-bg-color">
+      <div className="add-product-modal-wrapper">
         <Button
           onClick={props.handleOpenModalError}
-          className="align-self-end add-catalogue-modal-button red-bg-color">
-          <h4 className="add-catalogue-modal-button-text">
+          className="align-self-end add-product-modal-button red-bg-color">
+          <h4 className="add-product-modal-button-text">
             X
           </h4>
         </Button>

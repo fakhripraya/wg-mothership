@@ -104,10 +104,13 @@ export default function ShowConditionalMemoized(props) {
                 {" "}
                 Checkout
               </Button>
-              <h3 className="text-align-end margin-0">
+              <br />
+              <label
+                style={{ fontSize: "1.25em" }}
+                className="text-align-end margin-0">
                 Total : Rp.
                 {formattedNumber(handleDisplayTotal())}
-              </h3>
+              </label>
             </div>
           </div>
         </div>
@@ -131,6 +134,7 @@ export default function ShowConditionalMemoized(props) {
           <div className="transaction-cart-item-wrapper">
             <ShowItems
               login={props.login}
+              reduxDatas={props.reduxDatas}
               datas={props.datas}
               setDatas={props.setDatas}
               dispatch={dispatch}
