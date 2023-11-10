@@ -108,7 +108,7 @@ const ShowItem = (props) =>
             </div>
             <br />
             <label className="text-align-end">
-              Subtotal: Rp.
+              Subtotal : Rp.
               {formattedNumber(
                 props.data.buyQty * props.data.productPrice
               )}

@@ -46,18 +46,13 @@ const ShowItem = (props) =>
             />
             <br />
             <label style={{ marginBottom: "8px" }}>
-              Harga Per Item :&nbsp;
-              <span className="main-color">
-                Rp.
-                {formattedNumber(props.data.productPrice)}
-              </span>
+              Harga Per Item :&nbsp;Rp.
+              {formattedNumber(props.data.productPrice)}
             </label>
             <label style={{ marginBottom: "8px" }}>
               Jumlah Item :&nbsp;
-              <span className="main-color">
-                {formattedNumber(props.data.buyQty)}
-                &nbsp;Buah
-              </span>
+              {formattedNumber(props.data.buyQty)}
+              &nbsp;Buah
             </label>
             <label style={{ marginBottom: "8px" }}>
               Subtotal :&nbsp;

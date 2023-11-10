@@ -105,7 +105,7 @@ export default function ShowConditionalMemoized(props) {
                 Checkout
               </Button>
               <h3 className="text-align-end margin-0">
-                Total: Rp.
+                Total : Rp.
                 {formattedNumber(handleDisplayTotal())}
               </h3>
             </div>

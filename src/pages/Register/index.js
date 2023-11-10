@@ -27,6 +27,7 @@ import {
   handleOpenModal,
 } from "../../utils/functions/global";
 import { cookies } from "../../config/cookie";
+import { handlePostGoogleAuth } from "../../utils/functions/credentials";
 
 export default function Register(props) {
   // HOOKS //
@@ -251,7 +252,7 @@ export default function Register(props) {
               <label
                 onClick={() => handleOpenForgotPassword()}
                 className="register-forgot-pass main-color cursor-pointer">
-                Lupa Kata Sandi ?
+                Lupa kata sandi ?
               </label>
               <Button
                 onClick={() => handlePostRegister()}
@@ -266,7 +267,11 @@ export default function Register(props) {
                 atau lanjut dengan
               </label>
               <div className="register-open-auths">
-                <Button className="register-open-auths-button light-bg-color">
+                <Button
+                  onClick={() =>
+                    handlePostGoogleAuth(credentialService)
+                  }
+                  className="register-open-auths-button light-bg-color">
                   <img
                     src={GoogleIcon}
                     alt={"google-icon"}

@@ -135,11 +135,12 @@ export default function ShowConditionalMemoized(props) {
             </label>
             <br />
             <label>
-              Biaya Layanan dan Aplikasi : Rp.
+              Biaya Jasa Aplikasi : Rp.
               {formattedNumber(ADMIN_FEE)}
             </label>
             <br />
-            <h3>
+            <br />
+            <label>
               Total Pembayaran :{" "}
               <span className="main-color">
                 Rp.
@@ -147,14 +148,14 @@ export default function ShowConditionalMemoized(props) {
                   handleSubtotal() + ADMIN_FEE
                 )}
               </span>
-            </h3>
+            </label>
             <hr
               style={{ opacity: 0.1 }}
               className="max-width"
             />
             <br />
             <p className="align-self-start margin-0">
-              Pastikan kamu sudah membaca{" "}
+              Dengan ini kamu sudah membaca dan menyetujui{" "}
               <span className="font-bold main-color cursor-pointer">
                 syarat dan ketentuan
               </span>{" "}
