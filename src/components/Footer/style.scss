@@ -67,6 +67,7 @@
 
 .footer-button-outlined:hover {
   transform: scale(1.03) !important;
+  opacity: 1 !important;
 }
 
 .footer-button-outlined-overriding {
@@ -82,6 +83,7 @@
 .footer-button-block:hover {
   background-color: #fff !important;
   color: #151515 !important;
+  opacity: 1 !important;
 }
 
 .footer-button-block-overriding {
@@ -90,6 +92,7 @@
 
 .footer-button-block-overriding:hover {
   transform: scale(1.01) !important;
+  opacity: 1 !important;
 }
 
 // GRID //
