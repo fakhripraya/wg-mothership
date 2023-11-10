@@ -12,10 +12,6 @@ const ShowItem = (props) =>
       window.location.href = `/product-detail?productId=${props.data.productId}`;
     }
 
-    function handleGoToCreativeStore() {
-      window.location.href = `/creative-store?id=${props.data.storeId}`;
-    }
-
     return (
       <Fragment>
         <br />
@@ -92,6 +88,7 @@ const ShowItems = (props) => {
         ))}
       </Fragment>
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.datas]
   );
   // return the memoized render function

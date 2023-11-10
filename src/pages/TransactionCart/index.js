@@ -38,6 +38,7 @@ export default function TransactionCart() {
       var useableData = cloneDeep(reduxDatas);
       const temp = useableData.filter((val) => {
         if (val.userId === login.user.userId) return val;
+        return null;
       });
       setLocalDatas(temp);
     }
@@ -48,6 +49,7 @@ export default function TransactionCart() {
     // transaction cart initialization
     // here we will check the user authentication first
     if (IS_OTP_VERIFIED(login)) handleInitialize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return useMemo(
@@ -59,6 +61,7 @@ export default function TransactionCart() {
         setDatas={setLocalDatas}
       />
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [localDatas, login]
   );
 }

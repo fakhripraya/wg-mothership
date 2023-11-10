@@ -289,6 +289,7 @@ export default function ProductDetail() {
           });
       })()
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isFetched && !productData)
@@ -630,22 +631,27 @@ export default function ProductDetail() {
               <div className="detail-picture-box-review">
                 <img
                   className="detail-picture-box-review-item"
+                  alt="rvw-1"
                   src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"
                 />
                 <img
                   className="detail-picture-box-review-item"
+                  alt="rvw-2"
                   src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"
                 />
                 <img
                   className="detail-picture-box-review-item"
+                  alt="rvw-3"
                   src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"
                 />
                 <img
                   className="detail-picture-box-review-item"
+                  alt="rvw-4"
                   src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"
                 />
                 <img
                   className="detail-picture-box-review-item"
+                  alt="rvw-5"
                   src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/8/14/e642c4eb-e25a-474d-9619-d1c4a0f22e6a.jpg.webp?ect=4g"
                 />
                 <img

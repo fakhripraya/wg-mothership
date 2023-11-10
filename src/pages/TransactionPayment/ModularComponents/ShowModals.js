@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import Button from "../../../components/Button";
 
 export const ShowAddressModal = (props) => {
