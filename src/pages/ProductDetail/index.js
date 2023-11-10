@@ -806,7 +806,7 @@ export default function ProductDetail() {
             </div>
           </div>
           <Button style={{ marginTop: "8px" }}>
-            Load More Review
+            Lihat Lebih
           </Button>
         </div>
       </div>

@@ -115,7 +115,8 @@ function App() {
           className="fixed-app-button main-bg-color">
           <span
             style={{ transform: "rotate(180deg)" }}
-            className="hero-round-button-icon"></span>
+            className="hero-round-button-icon"
+          />
         </FloatButton>
         {!window.location.pathname.includes(
           "creative-store"

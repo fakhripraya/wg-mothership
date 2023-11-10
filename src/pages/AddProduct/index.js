@@ -440,7 +440,6 @@ export default function AddProduct() {
         clicked={handleOpenModalAddCatalogue}
         toggle={modalCatalogueToggle}>
         <ShowAddNewCatalogueModal
-          title="Katalog"
           fetchedDatas={fetchedDatas}
           setFetchedDatas={setFetchedDatas}
           handleOpenModalAddCatalogue={

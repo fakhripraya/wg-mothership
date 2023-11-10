@@ -50,11 +50,10 @@ export const ShowAddNewCatalogueModal = (props) => {
           <h4 className="add-product-button-text">X</h4>
         </Button>
         <br />
-        <h2 className="margin-top-0 margin-bottom-12-18">
-          Tambah{" "}
-          <span className="main-color">{props.title}</span>
-        </h2>
-        <h3 className="margin-top-0">
+        <h3 className="margin-top-0 margin-bottom-12-18">
+          Tambah Katalog
+        </h3>
+        <label className="margin-top-0">
           Belum ada{" "}
           <span className="main-color">katalog</span> yang
           pas buat{" "}
@@ -62,7 +61,7 @@ export const ShowAddNewCatalogueModal = (props) => {
           tokomu? <br />{" "}
           <span className="main-color">tambahin</span> dulu
           yuk !
-        </h3>
+        </label>
         <div className="add-product-textinput-box">
           <label className="add-product-input-title margin-0">
             Nama Katalog
@@ -99,10 +98,10 @@ export const ShowUploadModal = (props) => {
           <h4 className="add-product-button-text">X</h4>
         </Button>
         <br />
-        <h2 className="margin-top-0 margin-bottom-12-18">
-          Upload <span className="main-color">foto</span>{" "}
-          untuk produkmu disini
-        </h2>
+        <h3 className="margin-top-0 margin-bottom-12-18">
+          Upload <span className="main-color">Foto</span>{" "}
+          Untuk Produkmu Disini
+        </h3>
         <MultiUpload
           formName={ADD_CATALOGUE_FORM}
           base64s={props.productPictures}
