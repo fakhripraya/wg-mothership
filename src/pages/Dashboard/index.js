@@ -8,6 +8,7 @@ import Dropdown from "../../components/DynamicDropdown";
 import {
   handleError500,
   handleErrorMessage,
+  handleOpenModal,
   handleOpenOverridingHome,
   smoothScrollTop,
 } from "../../utils/functions/global";
@@ -22,6 +23,7 @@ import {
   DASHBOARD_CHATS,
   DASHBOARD_HOME,
   DASHBOARD_TRANSACTIONS,
+  IS_NOT_AUTHENTICATE,
   IS_OTP_VERIFIED,
   LOGIN,
   NO_DATA,
@@ -42,6 +44,8 @@ import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import { initialValue } from "../../variables/initial/store";
 import { cookies } from "../../config/cookie";
 import PageLoading from "../PageLoading";
+import Modal from "../../components/Modal";
+import { ShowErrorModal } from "./ModularComponents/ShowModal";
 
 export default function Dashboard() {
   // VARIABLES //
@@ -61,7 +65,8 @@ export default function Dashboard() {
   const [toggle, setToggle] = useState(false);
   const [toggleOpenBody, setToggleOpenBody] =
     useState(DASHBOARD_HOME);
-  const [modalToggle, setModalToggle] = useState(false);
+  const [errorModalToggle, setErrorModalToggle] =
+    useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
   // FUNCTIONS
@@ -104,20 +109,21 @@ export default function Dashboard() {
       })
       .catch((error) => {
         if (error.responseStatus === 500) handleError500();
-        if (
-          error.responseStatus === 401 ||
-          error.responseStatus === 403
-        ) {
+        if (IS_NOT_AUTHENTICATE(error)) {
           cookies.remove(CLIENT_USER_INFO, { path: "/" });
           handleOpenOverridingHome(LOGIN);
         } else
           handleErrorMessage(
             error,
             setErrorMessage,
-            setModalToggle,
-            modalToggle
+            setErrorModalToggle,
+            errorModalToggle
           );
       });
+  }
+
+  function handleOpenModalError() {
+    handleOpenModal(setErrorModalToggle, errorModalToggle);
   }
 
   function handleBottomSheet() {
@@ -223,6 +229,15 @@ export default function Dashboard() {
 
   return (
     <Fragment>
+      <Modal
+        className="dark-bg-color"
+        clicked={handleOpenModalError}
+        toggle={errorModalToggle}>
+        <ShowErrorModal
+          errorMessage={errorMessage}
+          handleOpenModalError={handleOpenModalError}
+        />
+      </Modal>
       <div className="dashboard-container">
         <div className="dashboard-wrapper">
           <div className="dashboard-flex-container">

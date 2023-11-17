@@ -4,14 +4,12 @@ import Button from "../../../components/Button";
 export const ShowCourierModal = (props) => {
   return useMemo(
     () => (
-      <div className="add-product-modal-container dark-bg-color">
-        <div className="add-product-modal-wrapper">
+      <div className="detail-modal-container dark-bg-color">
+        <div className="detail-modal-wrapper">
           <Button
             onClick={() => props.handleOpenModal()}
-            className="align-self-end add-product-modal-button red-bg-color">
-            <h4 className="add-product-modal-button-text">
-              X
-            </h4>
+            className="align-self-end detail-modal-button red-bg-color">
+            <h4 className="detail-modal-button-text">X</h4>
           </Button>
           <br />
           <h3 className="margin-top-0 margin-bottom-12-18">

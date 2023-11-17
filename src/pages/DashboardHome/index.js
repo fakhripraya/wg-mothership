@@ -140,10 +140,10 @@ export default function DashboardHome(props) {
             </p>
           </div>
           <div className="dashboard-home-grid-item dashboard-home-grid-small-2 dashboard-home-grid-item-big dark-bg-color">
-            <h3>Chat</h3>
-            <h2 className="margin-bottom-0">12</h2>
+            <h3>Rating</h3>
+            <h2 className="margin-bottom-0">4.9 / 5.0</h2>
             <p style={{ marginTop: "8px" }}>
-              6 Belum Terbaca
+              Dari 151 pesanan sukses
             </p>
           </div>
           <div className="dashboard-home-grid-item dashboard-home-grid-big-1 dashboard-home-grid-item-big dark-bg-color">

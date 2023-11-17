@@ -399,7 +399,7 @@ export default function Navbar() {
               handlePageNavigation("/transaction/cart")
             }
             style={{ marginRight: "12px" }}
-            className="navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view"
+            className="navbar-mobile-hamburger-image"
             src={ICCart}
             alt="ic_cart"
           />
@@ -474,7 +474,7 @@ export default function Navbar() {
               onClick={() =>
                 window.handleOpenOverriding(MENU_MOBILE)
               }
-              className="navbar-mobile-hamburger-image navbar-mobile-hamburger-image-view"
+              className="navbar-mobile-hamburger-image"
               src={ICHamburger}
               alt="ic_hamburger"
             />

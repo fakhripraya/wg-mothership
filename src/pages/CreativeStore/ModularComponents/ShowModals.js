@@ -4,8 +4,8 @@ import Button from "../../../components/Button";
 export const ShowErrorModal = (props) => {
   return useMemo(() => {
     return (
-      <div className="add-product-modal-container dark-bg-color">
-        <div className="add-product-modal-wrapper">
+      <div className="creative-store-modal-container dark-bg-color">
+        <div className="creative-store-modal-wrapper">
           <Button
             onClick={() =>
               props.handleOpenModal(
@@ -13,8 +13,8 @@ export const ShowErrorModal = (props) => {
                 props.modalToggle
               )
             }
-            className="align-self-end add-product-modal-button red-bg-color">
-            <h4 className="add-product-modal-button-text">
+            className="align-self-end creative-store-modal-button red-bg-color">
+            <h4 className="creative-store-modal-button-text">
               X
             </h4>
           </Button>

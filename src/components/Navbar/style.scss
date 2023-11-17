@@ -75,12 +75,10 @@
 }
 
 .navbar-logo-img {
-  //margin-top: 10px;
   position: relative;
   top: 0px;
   height: 80px;
   transform: scale(1.75) translateX(20%);
-  //margin-left: 24px;
   cursor: pointer;
 }
 
@@ -141,7 +139,8 @@
   flex: 1;
 }
 
-.navbar-mobile-hamburger-image-view {
+.navbar-mobile-hamburger-image-xmark {
+  right: 0px !important;
 }
 
 .navbar-mobile-hamburger-image {
@@ -161,7 +160,7 @@
 }
 
 .navbar-mobile-menu-wrapper {
-  padding: 0px 20px;
+  padding: 0px 20px 0px 0px;
   flex-direction: column;
   display: flex;
   transition: all 0.5s ease-in-out;

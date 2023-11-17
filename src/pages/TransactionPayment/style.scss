@@ -1,4 +1,8 @@
 // MODAL STYLES //
+#transaction-payment-map {
+  height: 100%;
+}
+
 .transaction-payment-modal-container {
   z-index: 1001;
   display: flex;
@@ -22,6 +26,74 @@
   -webkit-box-align: center;
   display: flex;
   flex-direction: column;
+}
+
+.transaction-payment-modal-button {
+  text-align: center;
+  justify-self: center;
+  align-self: center;
+  padding: 6px !important;
+  width: 24px;
+  height: 24px;
+}
+
+.transaction-payment-modal-button-text {
+  margin: 6px !important;
+}
+
+.transaction-payment-input-title {
+  width: 120px;
+  margin: 10px 10px 0px 0px;
+}
+
+.transaction-payment-textinput-box {
+  margin-top: 12px;
+  width: 100%;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+
+.transaction-payment-textinput {
+  padding: 6px;
+  border-radius: 8px;
+  width: 100%;
+  max-height: 20px;
+  text-decoration: none;
+  outline: none;
+  text-align: start;
+  font-size: large;
+  background-color: rgb(29, 29, 29);
+  color: #fff;
+}
+
+.transaction-payment-text-container {
+  min-height: fit-content;
+  min-width: 100%;
+  display: flex;
+}
+
+.transaction-payment-text-wrapper {
+  width: auto;
+  margin: 0px auto;
+  position: relative;
+  align-self: flex-start;
+  align-items: flex-start;
+  justify-self: center;
+  -webkit-box-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-payment-button {
+  margin-top: 12px;
+  text-align: center;
+  justify-self: center;
+  align-self: center;
+}
+
+.transaction-payment-button-text {
+  margin: 6px !important;
 }
 
 // MAIN STYLES //

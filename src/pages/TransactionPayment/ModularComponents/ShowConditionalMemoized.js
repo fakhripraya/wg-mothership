@@ -17,7 +17,10 @@ import PageLoading from "../../PageLoading";
 import { PAGE_REDIRECTING_MESSAGE } from "../../../variables/errorMessages/dashboard";
 import { useDispatch } from "react-redux";
 import Modal from "../../../components/Modal";
-import { ShowAddressModal } from "./ShowModals";
+import {
+  ShowAddressModal,
+  ShowPaymentModal,
+} from "./ShowModals";
 
 export default function ShowConditionalMemoized(props) {
   // HOOKS
@@ -25,6 +28,8 @@ export default function ShowConditionalMemoized(props) {
 
   // STATE
   const [addressModalToggle, setAddressModalToggle] =
+    useState(false);
+  const [paymentModalToggle, setPaymentModalToggle] =
     useState(false);
 
   // FUNCTIONS
@@ -41,6 +46,13 @@ export default function ShowConditionalMemoized(props) {
     handleOpenModal(
       setAddressModalToggle,
       addressModalToggle
+    );
+  }
+
+  function handleOpenModalPayment() {
+    handleOpenModal(
+      setPaymentModalToggle,
+      paymentModalToggle
     );
   }
 
@@ -85,6 +97,14 @@ export default function ShowConditionalMemoized(props) {
         toggle={addressModalToggle}>
         <ShowAddressModal
           handleOpenModalAddress={handleOpenModalAddress}
+        />
+      </Modal>
+      <Modal
+        className="dark-bg-color"
+        clicked={handleOpenModalPayment}
+        toggle={paymentModalToggle}>
+        <ShowPaymentModal
+          handleOpenModalPayment={handleOpenModalPayment}
         />
       </Modal>
       <div className="transaction-payment-container">
@@ -174,12 +194,12 @@ export default function ShowConditionalMemoized(props) {
               <br />
               <br />
               <br />
-              <label style={{ fontSize: "1.25em" }}>
-                Total Pembayaran :{" "}
+              <label style={{ fontSize: "1em" }}>
+                Total Belanja :{" "}
               </label>
               <br />
               <label style={{ fontSize: "1.25em" }}>
-                <span className="main-color">
+                <span className="main-color  font-bold">
                   Rp.
                   {formattedNumber(
                     handleSubtotal() + ADMIN_FEE
@@ -192,14 +212,16 @@ export default function ShowConditionalMemoized(props) {
               />
               <br />
               <p className="align-self-start margin-0">
-                Dengan ini kamu sudah membaca dan menyetujui{" "}
+                Pastikan kamu sudah menanyakan ketersediaan{" "}
                 <span className="font-bold main-color cursor-pointer">
-                  syarat dan ketentuan
+                  stok produk
                 </span>{" "}
-                yang berlaku
+                yang ingin kamu beli
               </p>
               <br />
-              <Button>Lanjut Pembayaran</Button>
+              <Button onClick={handleOpenModalPayment}>
+                Lanjut Pembayaran
+              </Button>
             </div>
           </div>
         </div>

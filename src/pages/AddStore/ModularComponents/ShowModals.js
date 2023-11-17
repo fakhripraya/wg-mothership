@@ -32,7 +32,7 @@ export const ShowSuccessModal = (props) => {
         </h3>
         <br />
         <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
-          Wah selamat, kamu berhasil membuat toko lelangmu !
+          Wah selamat, kamu berhasil membuat lapak tokomu !
         </label>
         <br />
         <div

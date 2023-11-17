@@ -145,7 +145,7 @@ export default function ForgotPassword(props) {
               onClick={() => {
                 props.handleOpen(NO_STRING);
               }}
-              className="navbar-mobile-hamburger-image"
+              className="navbar-mobile-hamburger-image navbar-mobile-hamburger-image-xmark"
               src={XMark}
               alt="ic_hamburger"
             />
