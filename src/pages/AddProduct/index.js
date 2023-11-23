@@ -14,10 +14,10 @@ import MultiUpload, {
 } from "../../components/MultiUpload";
 import TextInput from "../../components/TextInput";
 import {
-  defaultCourier,
-  initialValue,
-  initialFetchedDatas,
-  weightList,
+  ADD_CATALOGUE_INITIAL_COURIER_VALUE,
+  ADD_CATALOGUE_INITIAL_VALUE,
+  ADD_CATALOGUE_INITIAL_FETCHED_DATAS,
+  ADD_CATALOGUE_WEIGHTUNIT_OPTIONS,
 } from "../../variables/initial/catalogue";
 import {
   ADD_CATALOGUE_FORM,
@@ -71,9 +71,11 @@ export default function AddProduct() {
   // HOOK
   const navigate = useNavigate();
   const zeusService = useAxios();
-  const [data, setData] = useState(initialValue);
+  const [data, setData] = useState(
+    ADD_CATALOGUE_INITIAL_VALUE
+  );
   const [fetchedDatas, setFetchedDatas] = useState(
-    initialFetchedDatas
+    ADD_CATALOGUE_INITIAL_FETCHED_DATAS
   );
   const [agreementCheckbox, setAgreementCheckbox] =
     useState(false);
@@ -685,7 +687,7 @@ export default function AddProduct() {
                   showTitle={false}
                   toggle={true}
                   value={data.productWeightUnit}
-                  values={weightList}
+                  values={ADD_CATALOGUE_WEIGHTUNIT_OPTIONS}
                 />
               </div>
               <br />
@@ -800,7 +802,7 @@ export default function AddProduct() {
                 onClick={() =>
                   handleAddComponent(
                     "courierChoosen",
-                    defaultCourier
+                    ADD_CATALOGUE_INITIAL_COURIER_VALUE
                   )
                 }
                 className="align-self-end add-product-button main-bg-color">

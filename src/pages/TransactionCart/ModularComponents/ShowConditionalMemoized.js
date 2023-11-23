@@ -15,8 +15,8 @@ import PageLoading from "../../PageLoading";
 import { PAGE_REDIRECTING_MESSAGE } from "../../../variables/errorMessages/dashboard";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setItem } from "../../../utils/redux/reducers/cartReducer";
 import { cloneDeep } from "lodash-es";
+import { setCartStateAndBroadcast } from "../../../utils/functions/cart";
 
 export default function ShowConditionalMemoized(props) {
   // HOOKS
@@ -25,7 +25,8 @@ export default function ShowConditionalMemoized(props) {
 
   // FUNCTION SPECIFIC
   function handleDisplayTotal() {
-    const total = props.datas.reduce((acc, current) => {
+    const temp = cloneDeep(props.reduxDatas);
+    const total = temp.reduce((acc, current) => {
       return (
         acc + Number(current.productPrice * current.buyQty)
       );
@@ -45,7 +46,7 @@ export default function ShowConditionalMemoized(props) {
       );
     })();
 
-  if (!props.datas) {
+  if (props.isLoadingPage) {
     return (
       <PageLoading
         noLogo={true}
@@ -56,7 +57,7 @@ export default function ShowConditionalMemoized(props) {
     );
   }
 
-  if (props.datas.length <= 0) {
+  if (props.reduxDatas.length <= 0) {
     return (
       <ErrorHandling errorMessage={EMPTY_CART}>
         <Button
@@ -87,8 +88,9 @@ export default function ShowConditionalMemoized(props) {
                     (val) =>
                       val.userId !== props.login.user.userId
                   );
-                  dispatch(setItem(temp));
-                  props.setDatas([]);
+                  setCartStateAndBroadcast(dispatch, [
+                    ...temp,
+                  ]);
                 }}
                 style={{ marginBottom: "8px" }}
                 className="transaction-cart-title-btn red-bg-color">
@@ -107,7 +109,7 @@ export default function ShowConditionalMemoized(props) {
               <br />
               <label
                 style={{ fontSize: "1.25em" }}
-                className="text-align-end margin-0">
+                className="text-align-end margin-0 font-bold">
                 Total : Rp.
                 {formattedNumber(handleDisplayTotal())}
               </label>
@@ -135,8 +137,6 @@ export default function ShowConditionalMemoized(props) {
             <ShowItems
               login={props.login}
               reduxDatas={props.reduxDatas}
-              datas={props.datas}
-              setDatas={props.setDatas}
               dispatch={dispatch}
             />
           </div>

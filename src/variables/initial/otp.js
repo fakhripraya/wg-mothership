@@ -1,4 +1,4 @@
-export const postOTPDataInitialValue = {
+export const OTP_DATA_INITIAL_VALUE = {
   OTPInput: "",
   credentialToken: {
     accessToken: "",

@@ -1,6 +1,7 @@
 export const PRODUCT_DETAIL_INITIAL_BUYING_NOTE =
   "Tulis catatan untuk penjual";
-export const filterData = [
+
+export const PRODUCT_DETAIL_FILTER_DATA_OPTIONS = [
   {
     title: "Review Rating",
     data: [

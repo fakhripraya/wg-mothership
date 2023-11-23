@@ -6,9 +6,9 @@ import TextInput from "../../components/TextInput";
 import Modal from "../../components/Modal";
 import "./style.scss";
 import {
-  filterCheckboxes,
-  filterDropdowns,
-  initialFetchedDatas,
+  DASHBOARD_CATALOGUE_FILTER_CHECKBOXES,
+  DASHBOARD_CATALOGUE_FILTER_DROPDOWNS,
+  ADD_CATALOGUE_INITIAL_FETCHED_DATAS,
 } from "../../variables/initial/catalogue";
 import { useEffect } from "react";
 import {
@@ -46,7 +46,7 @@ export default function DashboardCatalogue(props) {
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
   const [fetchedDatas, setFetchedDatas] = useState(
-    initialFetchedDatas
+    ADD_CATALOGUE_INITIAL_FETCHED_DATAS
   );
   const [defaultResponse, setDefaultResponse] = useState(
     []
@@ -264,31 +264,35 @@ export default function DashboardCatalogue(props) {
 
   // COMPONENTS SPECIFIC //
   const ShowCheckboxes = () => {
-    return filterCheckboxes.map((item, index) => {
-      return (
-        <Checkbox
-          key={`checkbox-${item.title}-${index}`}
-          className="dashboard-catalogue-checkbox-item"
-          title={item.title}
-        />
-      );
-    });
+    return DASHBOARD_CATALOGUE_FILTER_CHECKBOXES.map(
+      (item, index) => {
+        return (
+          <Checkbox
+            key={`checkbox-${item.title}-${index}`}
+            className="dashboard-catalogue-checkbox-item"
+            title={item.title}
+          />
+        );
+      }
+    );
   };
 
   const ShowDropdowns = () => {
-    return filterDropdowns.map((item, index) => {
-      return (
-        <Dropdown
-          onChange={(value) => {}}
-          key={`dashboard-catalogue-filter-dropdown-${index}`}
-          className="dashboard-catalogue-dropdown-item"
-          style={{ width: "100px", maxWidth: "100px" }}
-          showTitle={item.showTitle}
-          toggle={item.toggle}
-          values={item.values}
-        />
-      );
-    });
+    return DASHBOARD_CATALOGUE_FILTER_DROPDOWNS.map(
+      (item, index) => {
+        return (
+          <Dropdown
+            onChange={(value) => {}}
+            key={`dashboard-catalogue-filter-dropdown-${index}`}
+            className="dashboard-catalogue-dropdown-item"
+            style={{ width: "100px", maxWidth: "100px" }}
+            showTitle={item.showTitle}
+            toggle={item.toggle}
+            values={item.values}
+          />
+        );
+      }
+    );
   };
 
   const ShowAlterButton = (props) => {

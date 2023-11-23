@@ -2,24 +2,32 @@ import React, { useLayoutEffect, useState } from "react";
 import "./style.scss";
 import Button from "../Button";
 import { getSocialMedia } from "../../variables/path/footer";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { sendWACS } from "../../utils/functions/global";
+
+const StyledButton = (props) => {
+  const { children, className, onClick } = props;
+  return (
+    <div className="footer-button-container">
+      <Button
+        onClick={onClick}
+        className={"footer-button " + className}>
+        {children}
+      </Button>
+    </div>
+  );
+};
 
 export default function Footer(props) {
   // VARIABLES
   const [isRender, setIsRender] = useState(false);
-  let location = useLocation();
+  const navigation = useNavigate();
+  const location = useLocation();
 
-  // COMPONENT SPECIFIC
-  const StyledButton = (props) => {
-    const { children, className } = props;
-    return (
-      <div className="footer-button-container">
-        <Button className={"footer-button " + className}>
-          {children}
-        </Button>
-      </div>
-    );
-  };
+  // FUNCTIONS SPECIFIC //
+  function sendWA() {
+    sendWACS();
+  }
 
   useLayoutEffect(() => {
     setIsRender(() => {
@@ -80,14 +88,18 @@ export default function Footer(props) {
               </h2>
               <div className="footer-column-1-help">
                 <StyledButton
+                  onClick={() =>
+                    navigation("/privacy-policy")
+                  }
                   className={
                     props.isOverriding
                       ? "max-width footer-button-block-overriding"
                       : "max-width footer-button-block"
                   }>
-                  Privacy and Policy
+                  Privacy Policy
                 </StyledButton>
                 <StyledButton
+                  onClick={() => navigation("/tnc")}
                   className={
                     props.isOverriding
                       ? "max-width footer-button-block-overriding"
@@ -96,6 +108,7 @@ export default function Footer(props) {
                   Terms and Condition
                 </StyledButton>
                 <StyledButton
+                  onClick={() => sendWA()}
                   className={
                     props.isOverriding
                       ? "max-width footer-button-block-overriding"

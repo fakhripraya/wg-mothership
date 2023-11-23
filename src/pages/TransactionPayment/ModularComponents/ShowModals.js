@@ -33,7 +33,7 @@ export const ShowAddressModal = (props) => {
     <div className="transaction-payment-modal-container dark-bg-color">
       <div className="transaction-payment-modal-wrapper">
         <Button
-          onClick={props.handleOpenModalAddress}
+          onClick={() => props.handleOpenModalAddress()}
           className="align-self-end transaction-payment-modal-button red-bg-color">
           <h4 className="transaction-payment-modal-button-text">
             X
@@ -51,40 +51,12 @@ export const ShowAddressModal = (props) => {
                 Label
               </label>
               <TextInput
-                onChange={(e) => {}}
-                type="text"
-                className="transaction-payment-textinput darker-bg-color"
-              />
-            </div>
-            <br />
-            <div className="transaction-payment-textinput-box">
-              <label className="transaction-payment-input-title">
-                Alamat Lengkap
-              </label>
-              <TextArea
-                onChange={(e) => {}}
-                type="text"
-                className="transaction-payment-longtext-area darker-bg-color"
-              />
-            </div>
-            <br />
-            <div className="transaction-payment-textinput-box">
-              <label className="transaction-payment-input-title">
-                Catatan
-              </label>
-              <TextInput
-                onChange={(e) => {}}
-                type="text"
-                className="transaction-payment-textinput darker-bg-color"
-              />
-            </div>
-            <br />
-            <div className="transaction-payment-textinput-box">
-              <label className="transaction-payment-input-title">
-                Penerima
-              </label>
-              <TextInput
-                onChange={(e) => {}}
+                onChange={(e) =>
+                  props.handlePostBuyingAddressTextChange(
+                    "addressLabel",
+                    e
+                  )
+                }
                 type="text"
                 className="transaction-payment-textinput darker-bg-color"
               />
@@ -95,9 +67,46 @@ export const ShowAddressModal = (props) => {
                 No HP
               </label>
               <TextInput
-                onChange={(e) => {}}
+                onChange={(e) =>
+                  props.handlePostBuyingAddressTextChange(
+                    "addressPhoneNumber",
+                    e
+                  )
+                }
                 type="text"
                 className="transaction-payment-textinput darker-bg-color"
+              />
+            </div>
+            <br />
+            <div className="transaction-payment-textinput-box">
+              <label className="transaction-payment-input-title">
+                Alamat Lengkap
+              </label>
+              <TextArea
+                onChange={(e) =>
+                  props.handlePostBuyingAddressTextChange(
+                    "addressDetail",
+                    e
+                  )
+                }
+                type="text"
+                className="transaction-payment-longtext-area darker-bg-color"
+              />
+            </div>
+            <br />
+            <div className="transaction-payment-textinput-box">
+              <label className="transaction-payment-input-title">
+                Pesan Untuk Kurir
+              </label>
+              <TextArea
+                onChange={(e) =>
+                  props.handlePostBuyingAddressTextChange(
+                    "addressCourierNote",
+                    e
+                  )
+                }
+                type="text"
+                className="transaction-payment-longtext-area darker-bg-color"
               />
             </div>
             <br />
@@ -109,7 +118,9 @@ export const ShowAddressModal = (props) => {
               </span>{" "}
               yang berlaku
             </p>
-            <Button className="align-self-start transaction-payment-button main-bg-color">
+            <Button
+              onClick={() => props.handleAddAddress()}
+              className="align-self-start transaction-payment-button main-bg-color">
               <p className="transaction-payment-button-text">
                 Submit
               </p>

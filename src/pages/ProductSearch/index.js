@@ -20,7 +20,7 @@ import Tag from "../../components/Tag";
 import FloatButton from "../../components/FloatButton";
 import BottomSheet from "../../components/BottomSheet";
 import Accordion from "../../components/Accordion";
-import { filterData } from "../../variables/initial/productSearch";
+import { PRODUCT_SEARCH_FILTER_DATA_OPTIONS } from "../../variables/initial/productSearch";
 import { ShowBreadcrumbs } from "../../components/Global";
 
 export default function ProductSearch() {
@@ -127,7 +127,7 @@ export default function ProductSearch() {
             <div className="product-search-tools-container">
               <ShowAccordions
                 uniqueKey="desktop"
-                datas={filterData}
+                datas={PRODUCT_SEARCH_FILTER_DATA_OPTIONS}
               />
             </div>
             <div className="product-search-cards-container">
@@ -189,7 +189,7 @@ export default function ProductSearch() {
         <div className="product-search-mobile-tools-container">
           <ShowAccordions
             uniqueKey="desktop"
-            datas={filterData}
+            datas={PRODUCT_SEARCH_FILTER_DATA_OPTIONS}
           />
         </div>
       </BottomSheet>

@@ -1,5 +1,5 @@
-// MAIN
-export const stockTypes = [
+// ALL CATALOGUE PAGES
+export const CATALOGUE_STOCK_TYPE_OPTIONS = [
   "Buah",
   "Milligram",
   "Gram",
@@ -10,7 +10,10 @@ export const stockTypes = [
 ];
 
 // ADD CATALOGUE
-export const initialValue = {
+export const ADD_CATALOGUE_INITIAL_COURIER_VALUE =
+  "Pilih Kurir";
+
+export const ADD_CATALOGUE_INITIAL_VALUE = {
   productName: "",
   productCategory: "Pilih Kategori",
   productCatalog: "Pilih Katalog",
@@ -22,11 +25,11 @@ export const initialValue = {
   productPrice: "",
   productStocks: "",
   productSafetyStocks: "",
-  courierChoosen: ["Pilih Kurir"],
+  courierChoosen: [ADD_CATALOGUE_INITIAL_COURIER_VALUE],
   newCatalogues: [],
 };
 
-export const initialFetchedDatas = {
+export const ADD_CATALOGUE_INITIAL_FETCHED_DATAS = {
   datas: {
     catalogues: [],
     categories: [],
@@ -39,11 +42,13 @@ export const initialFetchedDatas = {
   },
 };
 
-export const weightList = ["Gram", "Kilogram"];
-export const defaultCourier = "Pilih Kurir";
+export const ADD_CATALOGUE_WEIGHTUNIT_OPTIONS = [
+  "Gram",
+  "Kilogram",
+];
 
 // DASHBOARD CATALOGUE
-export const filterCheckboxes = [
+export const DASHBOARD_CATALOGUE_FILTER_CHECKBOXES = [
   {
     title: "Active",
   },
@@ -52,7 +57,7 @@ export const filterCheckboxes = [
   },
 ];
 
-export const filterDropdowns = [
+export const DASHBOARD_CATALOGUE_FILTER_DROPDOWNS = [
   {
     showTitle: true,
     toggle: true,

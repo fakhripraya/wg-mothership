@@ -5,10 +5,10 @@ import Checkbox from "../../components/Checkbox";
 import TextInput from "../../components/TextInput";
 import "./style.scss";
 import {
-  filterCheckboxes,
-  filterDropdowns,
-  dummyValue,
-} from "../../variables/initial/myOrders";
+  PURCHASE_ORDER_FILTER_DROPDOWN,
+  PURCHASE_ORDER_FILTER_CHECKBOXES,
+  PURCHASE_ORDER_DATA_DUMMY,
+} from "../../variables/initial/dashboardTransaction";
 import { useEffect } from "react";
 import { smoothScrollTop } from "../../utils/functions/global";
 import { useNavigate } from "react-router-dom";
@@ -23,38 +23,42 @@ export default function DashboardTransaction(props) {
 
   // COMPONENTS SPECIFIC //
   const ShowCheckboxes = () => {
-    return filterCheckboxes.map((item, index) => {
-      return (
-        <Checkbox
-          key={`checkbox-${item.title}-${index}`}
-          className="my-orders-checkbox-item"
-          title={item.title}
-        />
-      );
-    });
+    return PURCHASE_ORDER_FILTER_CHECKBOXES.map(
+      (item, index) => {
+        return (
+          <Checkbox
+            key={`checkbox-${item.title}-${index}`}
+            className="my-orders-checkbox-item"
+            title={item.title}
+          />
+        );
+      }
+    );
   };
 
   const ShowDropdowns = () => {
-    return filterDropdowns.map((item, index) => {
-      return (
-        <Dropdown
-          onChange={(value) => {}}
-          key={`my-orders-filter-dropdown-${index}`}
-          className="my-orders-dropdown-item"
-          style={{ width: "100px", maxWidth: "100px" }}
-          showTitle={item.showTitle}
-          toggle={item.toggle}
-          values={item.values}
-        />
-      );
-    });
+    return PURCHASE_ORDER_FILTER_DROPDOWN.map(
+      (item, index) => {
+        return (
+          <Dropdown
+            onChange={(value) => {}}
+            key={`my-orders-filter-dropdown-${index}`}
+            className="my-orders-dropdown-item"
+            style={{ width: "100px", maxWidth: "100px" }}
+            showTitle={item.showTitle}
+            toggle={item.toggle}
+            values={item.values}
+          />
+        );
+      }
+    );
   };
 
   const ShowBody = () => {
     // HOOK
     const navigate = useNavigate();
     // Render list
-    return dummyValue.map((item, index) => {
+    return PURCHASE_ORDER_DATA_DUMMY.map((item, index) => {
       return (
         <div
           key={`my-orders-items-${index}`}

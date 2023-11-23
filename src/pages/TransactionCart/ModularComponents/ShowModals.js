@@ -1,7 +1,4 @@
 import Button from "../../../components/Button";
-import TextArea from "../../../components/TextArea";
-import TextInput from "../../../components/TextInput";
-import { formattedNumber } from "../../../utils/functions/global";
 
 export const ShowErrorModal = (props) => {
   return (

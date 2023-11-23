@@ -11,6 +11,8 @@ import ErrorHandling from "../../pages/ErrorHandling";
 import AddProduct from "../../pages/AddProduct";
 import TransactionCart from "../../pages/TransactionCart";
 import TransactionPayment from "../../pages/TransactionPayment";
+import TermsAndConditions from "../../pages/TermsAndConditions";
+import PrivacyPolicy from "../../pages/PrivacyPolicy";
 
 export const routes = [
   {
@@ -50,8 +52,12 @@ export const routes = [
     component: <Dashboard />,
   },
   {
-    path: "*",
-    component: <Error404 />,
+    path: "/tnc",
+    component: <TermsAndConditions />,
+  },
+  {
+    path: "/privacy-policy",
+    component: <PrivacyPolicy />,
   },
   {
     path: "/error500",
@@ -60,5 +66,9 @@ export const routes = [
   {
     path: "/error",
     component: <ErrorHandling />,
+  },
+  {
+    path: "*",
+    component: <Error404 />,
   },
 ];

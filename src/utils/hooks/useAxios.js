@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createAxios } from "../../config/xhr/axios";
-import { initialValue } from "../../variables/initial/axios";
+import { AXIOS_INITIAL_VALUE } from "../../variables/initial/axios";
 import { GET, POST } from "../../variables/global";
 
 // get data without parameter
@@ -12,7 +12,7 @@ export const useAxios = () => {
     console.time("Load Time");
     return new Promise(async (resolve, reject) => {
       // Initial Value
-      var result = { ...initialValue };
+      var result = { ...AXIOS_INITIAL_VALUE };
       await createAxios(reqConfig.endpoint)({
         method: GET,
         headers: reqConfig.headers,
@@ -50,7 +50,7 @@ export const useAxios = () => {
     console.time("Load Time");
     return new Promise(async (resolve, reject) => {
       // Initial Value
-      var result = { ...initialValue };
+      var result = { ...AXIOS_INITIAL_VALUE };
 
       const axiosInstance = createAxios(reqConfig.endpoint);
       axiosInstance.interceptors.request.use(
@@ -106,7 +106,7 @@ export const useAxios = () => {
     console.time("Load Time");
     return new Promise(async (resolve, reject) => {
       // Initial Value
-      var result = { ...initialValue };
+      var result = { ...AXIOS_INITIAL_VALUE };
 
       const axiosInstance = axios;
       await axiosInstance
@@ -139,7 +139,7 @@ export const useAxios = () => {
     console.time("Load Time");
     return new Promise(async (resolve, reject) => {
       // Initial Value
-      var result = { ...initialValue };
+      var result = { ...AXIOS_INITIAL_VALUE };
 
       const axiosInstance = axios;
       axiosInstance.interceptors.request.use(
@@ -192,7 +192,7 @@ export const useAxios = () => {
     console.time("Load Time");
     return new Promise(async (resolve, reject) => {
       // Initial Value
-      var result = { ...initialValue };
+      var result = { ...AXIOS_INITIAL_VALUE };
       await createAxios(reqConfig.endpoint)({
         method: POST,
         headers: reqConfig.headers,
@@ -230,7 +230,7 @@ export const useAxios = () => {
     console.time("Load Time");
     return new Promise(async (resolve, reject) => {
       // Initial Value
-      var result = { ...initialValue };
+      var result = { ...AXIOS_INITIAL_VALUE };
 
       const axiosInstance = createAxios(reqConfig.endpoint);
       axiosInstance.interceptors.request.use(

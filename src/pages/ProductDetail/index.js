@@ -16,7 +16,7 @@ import TextInput from "../../components/TextInput";
 import Accordion from "../../components/Accordion";
 import {
   PRODUCT_DETAIL_INITIAL_BUYING_NOTE,
-  filterData,
+  PRODUCT_DETAIL_FILTER_DATA_OPTIONS,
 } from "../../variables/initial/productDetail";
 import TextArea from "../../components/TextArea";
 import { useAxios } from "../../utils/hooks/useAxios";
@@ -42,6 +42,7 @@ import { ShowCourierModal } from "./ModularComponents/ShowModal";
 import Modal from "../../components/Modal";
 import { setItem } from "../../utils/redux/reducers/cartReducer";
 import { cloneDeep } from "lodash-es";
+import { setCartStateAndBroadcast } from "../../utils/functions/cart";
 
 export default function ProductDetail() {
   // HOOKS //
@@ -132,7 +133,7 @@ export default function ProductDetail() {
       temp[foundExisting] = cartItem;
     else temp.push(cartItem);
 
-    dispatch(setItem([...temp]));
+    setCartStateAndBroadcast(dispatch, [...temp]);
     navigate("/transaction/cart");
   }
 
@@ -621,7 +622,7 @@ export default function ProductDetail() {
               <br />
               <ShowAccordions
                 uniqueKey="filter-rating"
-                datas={filterData}
+                datas={PRODUCT_DETAIL_FILTER_DATA_OPTIONS}
               />
             </div>
             <div className="detail-flexbox detail-flexbox-review ">

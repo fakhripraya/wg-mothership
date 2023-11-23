@@ -5,6 +5,12 @@ import React, {
 } from "react";
 import { formattedNumber } from "../../../utils/functions/global";
 import Dropdown from "../../../components/DynamicDropdown";
+import { setItem } from "../../../utils/redux/reducers/cartReducer";
+import {
+  setCartStateAndBroadcast,
+  updateCartField,
+} from "../../../utils/functions/cart";
+import { cloneDeep } from "lodash-es";
 
 const ShowItem = (props) =>
   useMemo(() => {
@@ -33,12 +39,28 @@ const ShowItem = (props) =>
           </div>
           <div className="transaction-payment-item-other">
             <Dropdown
+              onChange={(val) => {
+                const temp = cloneDeep(props.reduxDatas);
+
+                updateCartField(
+                  temp,
+                  "selectedCourierList",
+                  props.login.user.userId,
+                  props.data.productId,
+                  val
+                );
+
+                setCartStateAndBroadcast(props.dispatch, [
+                  ...temp,
+                ]);
+              }}
               style={{
                 width: "80px",
               }}
               toggle={true}
               title="Pengiriman : "
-              values={["a"]}
+              value={props.data.selectedCourierList}
+              values={props.data.availableCourierList}
             />
             <br />
             <label style={{ marginBottom: "8px" }}>
@@ -52,7 +74,7 @@ const ShowItem = (props) =>
             </label>
             <label style={{ marginBottom: "8px" }}>
               Subtotal :&nbsp;
-              <span className="main-color">
+              <span className="main-color font-bold">
                 Rp.
                 {formattedNumber(
                   props.data.buyQty *
@@ -75,26 +97,23 @@ const ShowItems = (props) => {
   const render = useCallback(
     () => (
       <Fragment>
-        {[...props.datas].map((data, index) => (
+        {[...props.reduxDatas].map((data, index) => (
           <ShowItem
             key={`transaction-payment-item-${index}`}
             index={index}
             data={data}
             login={props.login}
-            datas={props.datas}
-            setDatas={props.setDatas}
+            reduxDatas={props.reduxDatas}
             dispatch={props.dispatch}
           />
         ))}
       </Fragment>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.datas]
+    [props.reduxDatas]
   );
   // return the memoized render function
-  if (props.datas && props.datas.length > 0)
-    return render();
-  return null;
+  if (props.reduxDatas?.length > 0) return render();
 };
 
 export default ShowItems;

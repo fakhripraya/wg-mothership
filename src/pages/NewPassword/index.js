@@ -16,7 +16,7 @@ import {
 } from "../../variables/global";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { trackPromise } from "react-promise-tracker";
-import { postNewPWInitialValue } from "../../variables/initial/newpassword";
+import { NEW_PASSWORD_DATA_INITIAL_VALUE } from "../../variables/initial/newpassword";
 import Modal from "../../components/Modal";
 import {
   handleErrorMessage,
@@ -30,7 +30,7 @@ export default function NewPassword(props) {
   const credentialService = useAxios();
   const [modalToggle, setModalToggle] = useState(false);
   const [postNewPWData, setPostNewPWData] = useState(
-    postNewPWInitialValue
+    NEW_PASSWORD_DATA_INITIAL_VALUE
   );
   const [errorMessage, setErrorMessage] = useState(null);
   // eslint-disable-next-line no-unused-vars

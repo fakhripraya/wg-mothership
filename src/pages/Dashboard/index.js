@@ -41,7 +41,7 @@ import ErrorHandling from "../ErrorHandling";
 import Button from "../../components/Button";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
-import { initialValue } from "../../variables/initial/store";
+import { STORE_INITIAL_VALUE } from "../../variables/initial/store";
 import { cookies } from "../../config/cookie";
 import PageLoading from "../PageLoading";
 import Modal from "../../components/Modal";
@@ -60,8 +60,9 @@ export default function Dashboard() {
       storeName: undefined,
     },
   ]);
-  const [selectedStore, setSelectedStore] =
-    useState(initialValue);
+  const [selectedStore, setSelectedStore] = useState(
+    STORE_INITIAL_VALUE
+  );
   const [toggle, setToggle] = useState(false);
   const [toggleOpenBody, setToggleOpenBody] =
     useState(DASHBOARD_HOME);
@@ -156,7 +157,7 @@ export default function Dashboard() {
       setSelectedStore(
         userStore
           ? userStore[0].storeName
-          : initialValue.storeName
+          : STORE_INITIAL_VALUE.storeName
       );
     else setSelectedStore(result);
   }
@@ -300,7 +301,7 @@ export default function Dashboard() {
                     value={
                       selectedStore
                         ? selectedStore.storeName
-                        : initialValue.storeName
+                        : STORE_INITIAL_VALUE.storeName
                     }
                     values={showUserStores(userStore)}
                   />

@@ -1,4 +1,4 @@
-export const filterData = [
+export const PRODUCT_SEARCH_FILTER_DATA_OPTIONS = [
   {
     title: "Connection",
     data: [

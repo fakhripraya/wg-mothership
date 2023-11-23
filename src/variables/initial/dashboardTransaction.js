@@ -1,4 +1,4 @@
-export const filterCheckboxes = [
+export const PURCHASE_ORDER_FILTER_CHECKBOXES = [
   {
     title: "Semua Pesanan",
   },
@@ -22,7 +22,7 @@ export const filterCheckboxes = [
   },
 ];
 
-export const filterDropdowns = [
+export const PURCHASE_ORDER_FILTER_DROPDOWN = [
   {
     showTitle: true,
     toggle: true,
@@ -40,7 +40,7 @@ export const filterDropdowns = [
   },
 ];
 
-export const dummyValue = [
+export const PURCHASE_ORDER_DATA_DUMMY = [
   {
     productName: "Pc kuwat RTX 3080 Cocok untuk render",
     productCode: "70001081280111698",

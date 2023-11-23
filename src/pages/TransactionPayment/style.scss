@@ -217,11 +217,23 @@
 .transaction-payment-deliveryopt-container {
   width: 100%;
   max-width: 100%;
+  height: auto;
 }
 
 .transaction-payment-deliveryopt-button-container {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
+}
+
+.transaction-payment-deliveryopt-button {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.transaction-payment-deliveryopt-button-add {
+  max-height: fit-content;
+  max-width: fit-content;
 }
 
 .transaction-payment-item-container {

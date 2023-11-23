@@ -22,12 +22,15 @@ import {
 } from "./utils/functions/global";
 import { styleInitialState } from "./variables/styles/app";
 import { Cache, ConfigProvider } from "react-avatar";
+import { useDispatch } from "react-redux";
+import { setItem } from "./utils/redux/reducers/cartReducer";
 
 // FIXED Implement the IS_OTP_NOT_VERIFIED function to all authentication validation,
 // TODO: Test auth/security leak
 function App() {
   // STATE
   const [style, setStyle] = useState(styleInitialState);
+  const dispatch = useDispatch();
 
   // VARIABLES
   let timer = null;
@@ -60,6 +63,13 @@ function App() {
       });
   }
 
+  const handleCartBroadcast = (event) => {
+    if (event.data.type === "CART_UPDATE") {
+      // Update your local Redux state with the new value
+      dispatch(setItem(event.data.payload));
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       // Clear the previous timer if it exists
@@ -77,9 +87,20 @@ function App() {
       }, 150); // Adjust the delay as needed (300 milliseconds in this example)
     };
 
+    const channel = new BroadcastChannel(
+      "REDUX_UPDATER_CHANNEL"
+    );
+    channel.addEventListener(
+      "message",
+      handleCartBroadcast
+    );
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      channel.removeEventListener(
+        "message",
+        handleCartBroadcast
+      );
       if (timer) clearTimeout(timer);
     };
   }, []);

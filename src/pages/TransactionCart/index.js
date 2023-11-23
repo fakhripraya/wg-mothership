@@ -21,7 +21,7 @@ import ShowConditionalMemoized from "./ModularComponents/ShowConditionalMemoized
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { cookies } from "../../config/cookie";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { cloneDeep } from "lodash-es";
 import { ShowErrorModal } from "./ModularComponents/ShowModals";
 import Modal from "../../components/Modal";
@@ -30,10 +30,11 @@ import { handleCartArray } from "../../utils/functions/cart";
 export default function TransactionCart() {
   // HOOKS
   const zeusService = useAxios();
+  const dispatch = useDispatch();
   const [login, setLogin] = useState(
     cookies.get(CLIENT_USER_INFO, { path: "/" })
   );
-  const [localDatas, setLocalDatas] = useState(null);
+  const [isLoadingPage, setIsLoadingPage] = useState(true);
   const [errorModalToggle, setErrorModalToggle] =
     useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -79,11 +80,7 @@ export default function TransactionCart() {
       )
       .then((res) => {
         if (res.responseStatus === 200)
-          handleCartArray(
-            res.responseData,
-            temp,
-            setLocalDatas
-          );
+          handleCartArray(res.responseData, temp, dispatch);
       })
       .catch((error) => {
         if (error.responseStatus === 500) handleError500();
@@ -97,7 +94,8 @@ export default function TransactionCart() {
             setErrorModalToggle,
             errorModalToggle
           );
-      });
+      })
+      .finally(() => setIsLoadingPage(false));
   }
 
   function handleOpenModalError() {
@@ -127,13 +125,12 @@ export default function TransactionCart() {
         () => (
           <ShowConditionalMemoized
             login={login}
+            isLoadingPage={isLoadingPage}
             reduxDatas={reduxDatas}
-            datas={localDatas}
-            setDatas={setLocalDatas}
           />
         ),
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [localDatas, login]
+        [reduxDatas, login, isLoadingPage]
       )}
     </Fragment>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../../components/Button";
 import TextInput from "../../components/TextInput";
 import "./style.scss";
-import { dummyValue } from "../../variables/initial/chat";
+import { DASHBOARD_CHAT_DATA_DUMMY } from "../../variables/initial/dashboardChat";
 import { useEffect } from "react";
 import { smoothScrollTop } from "../../utils/functions/global";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ export default function DashboardChat(props) {
     // HOOK
     const navigate = useNavigate();
     // Render list
-    return dummyValue.map((item, index) => {
+    return DASHBOARD_CHAT_DATA_DUMMY.map((item, index) => {
       return (
         <div
           onClick={() => handleOpenChat(navigate)}

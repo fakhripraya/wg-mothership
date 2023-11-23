@@ -1,4 +1,4 @@
-export const initialValue = {
+export const STORE_INITIAL_VALUE = {
   id: "",
   storeName: "",
   storeCode: "",

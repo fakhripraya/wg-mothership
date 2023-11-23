@@ -26,12 +26,12 @@ import {
   handleOpenOverridingHome,
 } from "../../utils/functions/global";
 import { handleOpenModal } from "../../utils/functions/global";
-import { initialValue } from "../../variables/initial/store";
+import { STORE_INITIAL_VALUE } from "../../variables/initial/store";
 import {
-  provinces as initialProvinces,
-  regencies as initialRegencies,
-  districts as initialDistricts,
-  villages as initialVillages,
+  INITIAL_PROVINCES,
+  INITIAL_REGENCIES,
+  INITIAL_DISTRICTS,
+  INITIAL_VILLAGES,
 } from "../../variables/initial/global";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import { AGREEMENT_CHECKBOX_UNCHECKED } from "../../variables/errorMessages/store";
@@ -63,7 +63,7 @@ export default function AddStore() {
   let login = cookies.get(CLIENT_USER_INFO, { path: "/" });
 
   // STATES
-  const [data, setData] = useState(initialValue);
+  const [data, setData] = useState(STORE_INITIAL_VALUE);
   const [profilePicture, setProfilePicture] =
     useState(null);
   const [agreementCheckbox, setAgreementCheckbox] =
@@ -72,22 +72,24 @@ export default function AddStore() {
   const [errorModalToggle, setErrorModalToggle] =
     useState(false);
   const [provinces, setProvinces] = useState(
-    initialProvinces
+    INITIAL_PROVINCES
   );
   const [regencies, setRegencies] = useState(
-    initialRegencies
+    INITIAL_REGENCIES
   );
   const [districts, setDistricts] = useState(
-    initialDistricts
+    INITIAL_DISTRICTS
   );
-  const [villages, setVillages] = useState(initialVillages);
+  const [villages, setVillages] = useState(
+    INITIAL_VILLAGES
+  );
   const [success, setSuccess] = useState(false);
 
   // FUNCTIONS SPECIFIC //
   const dataHandler = () => {
     return {
       data,
-      initialValue,
+      STORE_INITIAL_VALUE,
     };
   };
 

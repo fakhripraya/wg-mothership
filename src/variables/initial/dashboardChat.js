@@ -1,4 +1,4 @@
-export const dummyValue = [
+export const DASHBOARD_CHAT_DATA_DUMMY = [
   {
     displayName: "Ricky Mortin",
     displayImg: {

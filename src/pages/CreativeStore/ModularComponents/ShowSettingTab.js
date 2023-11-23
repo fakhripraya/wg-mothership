@@ -3,12 +3,12 @@ import Button from "../../../components/Button";
 import TextInput from "../../../components/TextInput";
 import Dropdown from "../../../components/DynamicDropdown";
 import {
-  provinces as initialProvinces,
-  regencies as initialRegencies,
-  districts as initialDistricts,
-  villages as initialVillages,
+  INITIAL_PROVINCES,
+  INITIAL_REGENCIES,
+  INITIAL_DISTRICTS,
+  INITIAL_VILLAGES,
 } from "../../../variables/initial/global";
-import { initialValue } from "../../../variables/initial/store";
+import { STORE_INITIAL_VALUE } from "../../../variables/initial/store";
 import {
   handleShowDistrict,
   handleShowProvinces,
@@ -19,19 +19,21 @@ import { useEffect, useState } from "react";
 
 export const ShowSettingTab = (props) => {
   // STATES
-  const [data, setData] = useState(initialValue);
+  const [data, setData] = useState(STORE_INITIAL_VALUE);
   const [errorMessage, setErrorMessage] = useState(null);
   const [modalToggle, setModalToggle] = useState(false);
   const [provinces, setProvinces] = useState(
-    initialProvinces
+    INITIAL_PROVINCES
   );
   const [regencies, setRegencies] = useState(
-    initialRegencies
+    INITIAL_REGENCIES
   );
   const [districts, setDistricts] = useState(
-    initialDistricts
+    INITIAL_DISTRICTS
   );
-  const [villages, setVillages] = useState(initialVillages);
+  const [villages, setVillages] = useState(
+    INITIAL_VILLAGES
+  );
   const [success, setSuccess] = useState(false);
 
   function handleTextChangeByValue(field, value) {
@@ -188,7 +190,7 @@ export const ShowSettingTab = (props) => {
               value,
               {
                 data,
-                initialValue,
+                STORE_INITIAL_VALUE,
               },
               {
                 setVillages,
@@ -230,7 +232,7 @@ export const ShowSettingTab = (props) => {
                 value,
                 {
                   data,
-                  initialValue,
+                  STORE_INITIAL_VALUE,
                 },
                 {
                   setVillages,
@@ -273,7 +275,7 @@ export const ShowSettingTab = (props) => {
                 value,
                 {
                   data,
-                  initialValue,
+                  STORE_INITIAL_VALUE,
                 },
                 { setVillages, setData },
                 {

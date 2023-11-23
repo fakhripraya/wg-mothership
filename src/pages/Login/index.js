@@ -18,7 +18,7 @@ import {
 } from "../../variables/global";
 import { trackPromise } from "react-promise-tracker";
 import { useAxios } from "../../utils/hooks/useAxios";
-import { postLoginDataInitialValue } from "../../variables/initial/login";
+import { LOGIN_DATA_INITIAL_VALUE } from "../../variables/initial/login";
 import Modal from "../../components/Modal";
 import {
   handleErrorMessage,
@@ -32,7 +32,7 @@ export default function Login(props) {
   const credentialService = useAxios();
   const [modalToggle, setModalToggle] = useState(false);
   const [postLoginData, setPostLoginData] = useState(
-    postLoginDataInitialValue
+    LOGIN_DATA_INITIAL_VALUE
   );
   const [errorMessage, setErrorMessage] = useState(null);
 

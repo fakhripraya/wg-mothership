@@ -15,7 +15,7 @@ import {
 } from "../../variables/global";
 import { trackPromise } from "react-promise-tracker";
 import { useAxios } from "../../utils/hooks/useAxios";
-import { postForgotPWInitialValue } from "../../variables/initial/forgotpassword";
+import { FORGOT_PASSWORD_INITIAL_VALUE } from "../../variables/initial/forgotpassword";
 import Modal from "../../components/Modal";
 import {
   handleErrorMessage,
@@ -28,7 +28,7 @@ export default function ForgotPassword(props) {
   const loginService = useAxios();
   const [modalToggle, setModalToggle] = useState(false);
   const [postForgotPWData, setPostForgotPWData] = useState(
-    postForgotPWInitialValue
+    FORGOT_PASSWORD_INITIAL_VALUE
   );
   const [success, setSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);

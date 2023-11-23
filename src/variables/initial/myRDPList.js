@@ -1,4 +1,4 @@
-export const itemListDummy = [
+export const MY_RDP_LIST_DATA_DUMMY = [
   {
     title: "Pc kuwat RTX 3080 Cocok untuk render",
     ID: "1234567890",

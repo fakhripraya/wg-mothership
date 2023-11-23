@@ -18,7 +18,7 @@ import {
   CLIENT_USER_INFO,
 } from "../../variables/global";
 import { useAxios } from "../../utils/hooks/useAxios";
-import { postRegisterDataInitialValue } from "../../variables/initial/register";
+import { REGISTER_DATA_INITIAL_VALUE } from "../../variables/initial/register";
 import { trackPromise } from "react-promise-tracker";
 import Modal from "../../components/Modal";
 import { ERROR_CONFIRM_PASSWORD } from "../../variables/errorMessages/register";
@@ -34,7 +34,7 @@ export default function Register(props) {
   const credentialService = useAxios();
   const [modalToggle, setModalToggle] = useState(false);
   const [postRegisterData, setPostRegisterData] = useState(
-    postRegisterDataInitialValue
+    REGISTER_DATA_INITIAL_VALUE
   );
   const [errorMessage, setErrorMessage] = useState(null);
 

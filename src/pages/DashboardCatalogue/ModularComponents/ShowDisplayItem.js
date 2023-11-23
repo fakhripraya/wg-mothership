@@ -2,9 +2,9 @@ import React, { memo } from "react";
 import Dropdown from "../../../components/DynamicDropdown";
 import TextInput from "../../../components/TextInput";
 import {
-  defaultCourier,
-  stockTypes,
-  weightList,
+  ADD_CATALOGUE_INITIAL_COURIER_VALUE,
+  CATALOGUE_STOCK_TYPE_OPTIONS,
+  ADD_CATALOGUE_WEIGHTUNIT_OPTIONS,
 } from "../../../variables/initial/catalogue";
 import TextArea from "../../../components/TextArea";
 import Button from "../../../components/Button";
@@ -157,7 +157,7 @@ const ShowDisplayItem = ({
             }}
             showTitle={false}
             toggle={true}
-            values={stockTypes}
+            values={CATALOGUE_STOCK_TYPE_OPTIONS}
           />
         </div>
         <br />
@@ -214,7 +214,7 @@ const ShowDisplayItem = ({
               handleAddComponent(
                 "availableCourierList",
                 index,
-                defaultCourier
+                ADD_CATALOGUE_INITIAL_COURIER_VALUE
               )
             }
             className="dashboard-catalogue-plus-button main-bg-color">
@@ -320,7 +320,7 @@ const ShowDisplayItem = ({
               }}
               showTitle={false}
               toggle={true}
-              values={weightList}
+              values={ADD_CATALOGUE_WEIGHTUNIT_OPTIONS}
             />
           </div>
           <label className="margin-bottom-0">

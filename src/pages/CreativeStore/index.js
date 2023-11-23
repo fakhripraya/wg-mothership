@@ -17,7 +17,7 @@ import {
 } from "../../utils/functions/global";
 import FloatButton from "../../components/FloatButton";
 import BottomSheet from "../../components/BottomSheet";
-import { initialPurchaseOrders } from "../../variables/initial/creativeStore";
+import { CREATIVE_STORE_DUMMY_PO } from "../../variables/initial/creativeStore";
 import Avatar from "react-avatar";
 import TextInput from "../../components/TextInput";
 import {
@@ -891,7 +891,7 @@ export default function CreativeStore() {
     // and set the initial joined chat room
     // also handle the purchase orders render here
     setStoreInfo(result.responseData);
-    handlePurchaseOrdersRender(initialPurchaseOrders);
+    handlePurchaseOrdersRender(CREATIVE_STORE_DUMMY_PO);
     handleInitialChannelsRender(initialMappedChannels);
     const joinedChatRoom = handleInitialJoinChatRoom(
       initialMappedChannels

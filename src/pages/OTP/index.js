@@ -17,7 +17,7 @@ import {
 } from "../../variables/global";
 import { useAxios } from "../../utils/hooks/useAxios";
 import Modal from "../../components/Modal";
-import { postOTPDataInitialValue } from "../../variables/initial/otp";
+import { OTP_DATA_INITIAL_VALUE } from "../../variables/initial/otp";
 import { trackPromise } from "react-promise-tracker";
 import {
   acceptNumericOnly,
@@ -30,16 +30,16 @@ export default function OTP(props) {
   // VARIABLES
   const userInfo = cookies.get(CLIENT_USER_INFO);
   if (IS_INPUT_OTP_ELIGIBLE(userInfo)) {
-    postOTPDataInitialValue.credentialToken =
+    OTP_DATA_INITIAL_VALUE.credentialToken =
       userInfo.credentialToken;
-    postOTPDataInitialValue.sid = userInfo.sid;
+    OTP_DATA_INITIAL_VALUE.sid = userInfo.sid;
   }
 
   // HOOKS //
   const credentialService = useAxios();
   const [modalToggle, setModalToggle] = useState(false);
   const [postOTPData, setPostOTPData] = useState(
-    postOTPDataInitialValue
+    OTP_DATA_INITIAL_VALUE
   );
   const [errorMessage, setErrorMessage] = useState(null);
 

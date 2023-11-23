@@ -12,7 +12,10 @@ import {
   formattedNumber,
   removeLeadingZeros,
 } from "../../../utils/functions/global";
-import { setItem } from "../../../utils/redux/reducers/cartReducer";
+import {
+  setCartStateAndBroadcast,
+  updateCartField,
+} from "../../../utils/functions/cart";
 import { cloneDeep } from "lodash-es";
 
 const ShowItem = (props) =>
@@ -24,24 +27,6 @@ const ShowItem = (props) =>
     function handleGoToCreativeStore() {
       window.location.href = `/creative-store?id=${props.data.storeId}`;
     }
-
-    const updateCartField = (
-      dataArray,
-      field,
-      userId,
-      productId,
-      value
-    ) => {
-      const foundIndex = dataArray.findIndex(
-        (val) =>
-          val.userId === userId &&
-          val.productId === productId
-      );
-
-      if (foundIndex !== -1) {
-        dataArray[foundIndex][field] = value;
-      }
-    };
 
     return (
       <Fragment>
@@ -73,18 +58,16 @@ const ShowItem = (props) =>
             />
           </div>
           <div className="transaction-cart-item-body">
-            <h2
-              style={{ marginBottom: "8px" }}
+            <label
               onClick={() => handleGoToProductPage()}
-              className="main-color cursor-pointer">
+              className="main-color cursor-pointer font-bold">
               {props.data.productName}
-            </h2>
+            </label>
             <label>{props.data.productCode}</label>
             <br />
             <TextArea
               onChange={(e) => {
                 const temp = cloneDeep(props.reduxDatas);
-                const localTemp = cloneDeep(props.datas);
 
                 updateCartField(
                   temp,
@@ -93,16 +76,10 @@ const ShowItem = (props) =>
                   props.data.productId,
                   e.target.value
                 );
-                updateCartField(
-                  localTemp,
-                  "buyingNote",
-                  props.login.user.userId,
-                  props.data.productId,
-                  e.target.value
-                );
 
-                props.dispatch(setItem(temp));
-                props.setDatas(localTemp);
+                setCartStateAndBroadcast(props.dispatch, [
+                  ...temp,
+                ]);
               }}
               className="transaction-cart-longtext-area dark-bg-color"
               value={props.data.buyingNote}
@@ -113,7 +90,6 @@ const ShowItem = (props) =>
               <TextInput
                 onChange={(e) => {
                   const temp = cloneDeep(props.reduxDatas);
-                  const localTemp = cloneDeep(props.datas);
 
                   updateCartField(
                     temp,
@@ -122,16 +98,10 @@ const ShowItem = (props) =>
                     props.data.productId,
                     acceptNumericOnly(e.target.value)
                   );
-                  updateCartField(
-                    localTemp,
-                    "buyQty",
-                    props.login.user.userId,
-                    props.data.productId,
-                    acceptNumericOnly(e.target.value)
-                  );
 
-                  props.dispatch(setItem(temp));
-                  props.setDatas(localTemp);
+                  setCartStateAndBroadcast(props.dispatch, [
+                    ...temp,
+                  ]);
                 }}
                 className="transaction-cart-input-text"
                 value={formattedNumber(
@@ -165,27 +135,23 @@ const ShowItems = (props) => {
   const render = useCallback(
     () => (
       <Fragment>
-        {[...props.datas].map((data, index) => (
+        {[...props.reduxDatas].map((data, index) => (
           <ShowItem
             key={`transaction-cart-item-${index}`}
             index={index}
             data={data}
             login={props.login}
-            datas={props.datas}
             reduxDatas={props.reduxDatas}
-            setDatas={props.setDatas}
             dispatch={props.dispatch}
           />
         ))}
       </Fragment>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.datas]
+    [props.reduxDatas]
   );
   // return the memoized render function
-  if (props.datas && props.datas.length > 0)
-    return render();
-  return null;
+  if (props.reduxDatas?.length > 0) return render();
 };
 
 export default ShowItems;

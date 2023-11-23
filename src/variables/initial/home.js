@@ -1,4 +1,4 @@
-export const getBalanceTools = () => {
+export const GET_BALANCE_TOOLS = () => {
   return [
     {
       name: "Top Up",
@@ -34,6 +34,9 @@ export const getRecommendedGraphicRendering = () => {
     },
     {
       name: "Nvidia Quadro RTX 9000",
+    },
+    {
+      name: "Nvidia Quadro RTX 10000",
     },
   ];
 };

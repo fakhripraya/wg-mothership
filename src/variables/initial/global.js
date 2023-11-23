@@ -1,5 +1,5 @@
-export const provinces = [];
-export const regencies = [];
-export const districts = [];
-export const villages = [];
-export const emptyArray = [];
+export const INITIAL_PROVINCES = [];
+export const INITIAL_REGENCIES = [];
+export const INITIAL_DISTRICTS = [];
+export const INITIAL_VILLAGES = [];
+export const EMPTY_ARRAY = [];

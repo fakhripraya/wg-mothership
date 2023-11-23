@@ -8,7 +8,7 @@ import {
   filterCheckboxes,
   filterDropdowns,
 } from "../../variables/initial/catalogue";
-import { itemListDummy } from "../../variables/initial/myRDPList";
+import { MY_RDP_LIST_DATA_DUMMY } from "../../variables/initial/myRDPList";
 import Accordion from "../../components/Accordion";
 import { useEffect } from "react";
 import { smoothScrollTop } from "../../utils/functions/global";
@@ -54,7 +54,7 @@ export default function MyRDPList(props) {
     // HOOK
     const navigate = useNavigate();
     // Render list
-    return itemListDummy.map((item, index) => {
+    return MY_RDP_LIST_DATA_DUMMY.map((item, index) => {
       return (
         <div
           key={`my-rdp-list-items-${index}`}
