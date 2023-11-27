@@ -89,23 +89,20 @@ export default function ShowConditionalMemoized(props) {
           {props.buyingAddresses?.length !== 0 && (
             <div className="transaction-payment-deliveryopt-container">
               <h3>Alamat Pengiriman</h3>
-              <label
-                style={{ marginBottom: "8px" }}
-                className="font-bold main-color cursor-pointer">
+              <p className="font-bold main-color cursor-pointer margin-bottom-8">
                 {
                   props.buyingAddresses[selectedAddress]
                     .addressLabel
                 }
-              </label>
-              <br />
-              <label style={{ marginBottom: "8px" }}>
+              </p>
+              <label>
                 {
                   props.buyingAddresses[selectedAddress]
                     .addressPhoneNumber
                 }
               </label>
               <br />
-              <label style={{ marginBottom: "8px" }}>
+              <label>
                 {
                   props.buyingAddresses[selectedAddress]
                     .addressDetail
@@ -166,22 +163,21 @@ export default function ShowConditionalMemoized(props) {
             src={
               "https://images.tokopedia.net/img/NsjrJu/2020/9/25/b1d2ed1e-ef80-4d7a-869f-a0394f0629be.jpg?ect=4g"
             }
-            alt="ads-2"></img>
+            alt="ads-2"
+          />
         </div>
         <div className="transaction-payment-pricing-container">
           <div className="transaction-payment-pricing-box dark-bg-color">
             <h3 className="margin-0">Detail Checkout</h3>
             <br />
-            <label>
+            <p className="margin-bottom-8">
               Subtotal : Rp.
               {formattedNumber(handleSubtotal())}
-            </label>
-            <br />
+            </p>
             <label>
               Biaya Jasa Aplikasi : Rp.
               {formattedNumber(ADMIN_FEE)}
             </label>
-            <br />
             <br />
             <br />
             <label style={{ fontSize: "1em" }}>

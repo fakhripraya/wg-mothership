@@ -1,58 +1,141 @@
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./style.scss";
 import Button from "../../components/Button";
 import ImageSlider from "../../components/ImageSlider";
 import dummy from "../../config/json/development/carouselDummy.json";
 import {
+  handleError500,
   scrollCarousel,
   smoothScrollTop,
 } from "../../utils/functions/global";
-import {
-  GET_BALANCE_TOOLS,
-  getGrid,
-  getRecommended,
-  getRecommendedGaming,
-  getRecommendedGraphicRendering,
-} from "../../variables/initial/home";
-import Tag from "../../components/Tag";
-import Card from "../../components/Card";
+import { GET_BALANCE_TOOLS } from "../../variables/initial/home";
 import WGLogo from "../../assets/svg/LIVEJB_V1_LOGO.svg";
 import { useNavigate } from "react-router-dom";
 import { useAxios } from "../../utils/hooks/useAxios";
 import {
+  AUTHORIZATION,
   CLIENT_USER_INFO,
   IS_NOT_AUTHENTICATE,
-  IS_OTP_VERIFIED,
+  URL_GET_CATEGORIES,
+  URL_GET_PRODUCT_LIST,
+  URL_GET_SERVER_INFO,
+  X_SID,
 } from "../../variables/global";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import { trackPromise } from "react-promise-tracker";
 import { cookies } from "../../config/cookie";
+import {
+  ShowGrabableProductCardCarousel,
+  ShowGrabableStoreCardCarousel,
+  ShowGrabableCarouselCategoriesTag,
+  ShowGridProductCardCarousel,
+} from "./ModularComponents/ShowCarousels";
 
 export default function Home() {
-  // VARIABLES //
-  let login = cookies.get(CLIENT_USER_INFO);
-
   // HOOK
   const navigate = useNavigate();
-  const credentialService = useAxios();
+  const axiosService = useAxios();
 
   // REFS //
   const heroRef = useRef();
   const flashSaleRef = useRef();
   const officialStoreRef = useRef();
   const recommendRenderingCarouselRef = useRef();
-  const recommendGamingCarouselRef = useRef();
   const recommendCarouselRef = useRef();
   const gridRefs = {};
 
+  // STATES //
+  const [flashSale, setFlashSale] = useState(null);
+  const [recommendedCategories, setRecommendedCategories] =
+    useState(null);
+  const [recommendedProducts, setRecommendedProducts] =
+    useState(null);
+  const [officialStores, setOfficialStores] =
+    useState(null);
+  const [allProducts, setAllProducts] = useState(null);
+
+  // VARIABLES //
+  const defaultConfigs = {
+    headers: {
+      [AUTHORIZATION]: `Bearer ${
+        cookies.get(CLIENT_USER_INFO, {
+          path: "/",
+        })?.credentialToken.accessToken
+      }`,
+      [X_SID]: cookies.get(CLIENT_USER_INFO, {
+        path: "/",
+      })?.sid,
+    },
+    endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+  };
+
+  // API ENDPOINTS
+  // 1. flash sale endpoint
+  // 2. recommendation categories endpoint
+  // 3. recommendation products endpoint
+  // 4. official store endpoint
+  // 5. all products endpoint
+  const endpoints = [
+    {
+      ...defaultConfigs,
+      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=7`,
+    },
+    {
+      ...defaultConfigs,
+      url: `${URL_GET_CATEGORIES}`,
+    },
+    {
+      ...defaultConfigs,
+      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=7`,
+    },
+    {
+      ...defaultConfigs,
+      url: URL_GET_SERVER_INFO(`?limit=7&isWithFiles=true`),
+    },
+    {
+      ...defaultConfigs,
+      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&isGrid=true&gridLimit=7`,
+    },
+  ];
+
   // FUNCTIONS SPECIFIC //
   async function handleInitialize() {
-    const result = await checkAuthAndRefresh(
-      credentialService,
-      cookies
-    );
-    if (IS_NOT_AUTHENTICATE(result))
-      cookies.remove(CLIENT_USER_INFO, { path: "/" });
+    await axiosService
+      .getAllDataWithOnRequestInterceptors(
+        endpoints,
+        async () => {
+          const result = await checkAuthAndRefresh(
+            axiosService,
+            cookies
+          );
+          return result;
+        }
+      )
+      .then((res) => {
+        if (res.responseData?.[0]?.responseStatus === 200)
+          setFlashSale(res.responseData?.[0]?.responseData);
+        if (res.responseData?.[1]?.responseStatus === 200)
+          setRecommendedCategories(
+            res.responseData?.[1]?.responseData
+          );
+        if (res.responseData?.[2]?.responseStatus === 200)
+          setRecommendedProducts(
+            res.responseData?.[2]?.responseData
+          );
+        if (res.responseData?.[3]?.responseStatus === 200)
+          setOfficialStores(
+            res.responseData?.[3]?.responseData
+          );
+        if (res.responseData?.[4]?.responseStatus === 200)
+          setAllProducts(
+            res.responseData?.[4]?.responseData
+          );
+      })
+      .catch((error) => {
+        if (error.responseStatus === 500) handleError500();
+        if (IS_NOT_AUTHENTICATE(error))
+          cookies.remove(CLIENT_USER_INFO, { path: "/" });
+      });
   }
 
   function handleScrollToFirstSection() {
@@ -60,10 +143,6 @@ export default function Home() {
       top: heroRef.current.offsetHeight,
       behavior: "smooth",
     });
-  }
-
-  function handleGoToDetail(navigate) {
-    navigate(`/product-detail`);
   }
 
   // COMPONENTS SPECIFIC //
@@ -84,62 +163,13 @@ export default function Home() {
     });
   };
 
-  const ShowGrabableCarouselTag = (props) => {
-    return props.arrayFunc().map((item, index) => {
-      return (
-        <Tag
-          key={`carousel-${props.uniqueKey}-${index}`}
-          text={item.name}
-        />
-      );
-    });
-  };
-
-  const ShowGrabableCardCarousel = (props) => {
-    return props.arrayFunc().map((item, index) => {
-      return (
-        <Card
-          onClick={() => handleGoToDetail(navigate)}
-          key={`carousel-${props.uniqueKey}-${index}`}
-          imgUrl={item.url}
-          title={item.name}
-          location={item.location}
-          price={item.price}
-          desc={item.desc}
-        />
-      );
-    });
-  };
-
-  const ShowGridCardCarousel = (props) => {
-    return props.arrayFunc().map((item, index) => {
-      return (
-        <div
-          key={`all-stores-${index}`}
-          onMouseDown={(event) =>
-            scrollCarousel(event, gridRefs[index])
-          }
-          className={
-            "home-recommend-wrapper " + item.className
-          }
-          ref={(ref) => (gridRefs[index] = ref)}>
-          <ShowGrabableCardCarousel
-            uniqueKey={`all-stores-id-${index}`}
-            arrayFunc={() => item.arrayFunc()}
-          />
-        </div>
-      );
-    });
-  };
-
   // INITIAL RENDER
   useEffect(() => {
     // scroll to top on entering
     smoothScrollTop();
     // home page initialization
     // here we will check the user authentication first
-    if (IS_OTP_VERIFIED(login))
-      trackPromise(handleInitialize());
+    trackPromise(handleInitialize());
   }, []);
 
   return (
@@ -179,11 +209,12 @@ export default function Home() {
             onMouseDown={(event) =>
               scrollCarousel(event, flashSaleRef.current)
             }
-            className="home-recommend-wrapper"
+            className="home-carousel-wrapper"
             ref={flashSaleRef}>
-            <ShowGrabableCardCarousel
+            <ShowGrabableProductCardCarousel
               uniqueKey={"flash-sale"}
-              arrayFunc={() => getRecommended()}
+              navigate={navigate}
+              values={flashSale}
             />
           </div>
         </div>
@@ -216,13 +247,11 @@ export default function Home() {
                 recommendRenderingCarouselRef.current
               )
             }
-            className="home-recommend-wrapper"
+            className="home-carousel-wrapper"
             ref={recommendRenderingCarouselRef}>
-            <ShowGrabableCarouselTag
-              uniqueKey={"recommend-graphic-rendering"}
-              arrayFunc={() =>
-                getRecommendedGraphicRendering()
-              }
+            <ShowGrabableCarouselCategoriesTag
+              uniqueKey={"recommend-category"}
+              values={recommendedCategories}
             />
           </div>
         </div>
@@ -240,11 +269,12 @@ export default function Home() {
                 recommendCarouselRef.current
               )
             }
-            className="home-recommend-wrapper"
+            className="home-carousel-wrapper"
             ref={recommendCarouselRef}>
-            <ShowGrabableCardCarousel
+            <ShowGrabableProductCardCarousel
               uniqueKey={"recommend-for-you"}
-              arrayFunc={() => getRecommended()}
+              navigate={navigate}
+              values={recommendedProducts}
             />
           </div>
         </div>
@@ -262,11 +292,12 @@ export default function Home() {
                 officialStoreRef.current
               )
             }
-            className="home-recommend-wrapper"
+            className="home-carousel-wrapper"
             ref={officialStoreRef}>
-            <ShowGrabableCardCarousel
+            <ShowGrabableStoreCardCarousel
               uniqueKey={"official-stores"}
-              arrayFunc={() => getRecommended()}
+              navigate={navigate}
+              values={officialStores}
             />
           </div>
         </div>
@@ -276,16 +307,19 @@ export default function Home() {
           alt="ads-2"></img>
         <div className="home-element-container darker-bg-color">
           <h3 className="home-recommend-title light-color">
-            SEMUA TOKO
+            PRODUK BARU
           </h3>
           <label className="home-recommend-subtitle ">
-            Lihat semua toko yang tersedia -{" "}
+            Lihat semua produk baru yang tersedia -{" "}
             <span className="cursor-pointer main-color">
               Lihat Lebih
             </span>
           </label>
-          <ShowGridCardCarousel
-            arrayFunc={() => getGrid()}
+          <ShowGridProductCardCarousel
+            uniqueKey={`home-new-product-grid`}
+            gridRefs={gridRefs}
+            navigate={navigate}
+            values={allProducts}
           />
           <Button className="home-button home-grid-button">
             Lihat Lebih

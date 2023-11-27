@@ -155,20 +155,6 @@ export const getGridItems = () => {
       location: "Jayapura",
       desc: "Lorem ipsum, dolor sit amet",
     },
-    {
-      url: "https://www.shutterstock.com/image-photo/powerful-personal-computer-gamer-rig-260nw-1430140061.jpg",
-      name: "Nvidia GTX 1060",
-      price: "$0.99",
-      location: "Jayapura",
-      desc: "Lorem ipsum, dolor sit amet",
-    },
-    {
-      url: "https://www.shutterstock.com/image-photo/powerful-personal-computer-gamer-rig-260nw-1430140061.jpg",
-      name: "Nvidia RTX 1050 TI",
-      price: "$0.49",
-      location: "Jayapura",
-      desc: "Lorem ipsum, dolor sit amet",
-    },
   ];
 };
 

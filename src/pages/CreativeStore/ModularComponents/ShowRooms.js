@@ -3,8 +3,8 @@ import ShowSockets from "./ShowSockets";
 import { TEXT } from "../../../variables/constants/creativeStore";
 
 const ShowRoom = (props) => {
-  return useMemo(() => {
-    return (
+  return useMemo(
+    () => (
       <button
         key={`${props.uniqueKey}-dynamic-accordion-${props.value[1].roomTitle}-${props.index}`}
         className="dynamic-accordion-button creative-store-dynamic-accordion-button"
@@ -30,15 +30,16 @@ const ShowRoom = (props) => {
           value={props.value}
         />
       </button>
-    );
-  }, [props.value[1], props.listenJoinRoom]);
+    ),
+    [props.value[1], props.listenJoinRoom]
+  );
 };
 
 const ShowRooms = (props) => {
-  const render = useCallback(() => {
-    return Object.entries(props.value[1].channelRooms).map(
-      (obj, index) => {
-        return (
+  const render = useCallback(
+    () =>
+      Object.entries(props.value[1].channelRooms).map(
+        (obj, index) => (
           <ShowRoom
             key={`${props.uniqueKey}-dynamic-accordion-room-${props.value[1].channelId}-${index}`}
             uniqueKey={props.uniqueKey}
@@ -49,10 +50,10 @@ const ShowRooms = (props) => {
             listenJoinRoom={props.listenJoinRoom}
             listenJoinChatRoom={props.listenJoinChatRoom}
           />
-        );
-      }
-    );
-  }, [props.value[1].channelRooms, props.listenJoinRoom]);
+        )
+      ),
+    [props.value[1].channelRooms, props.listenJoinRoom]
+  );
 
   return render();
 };

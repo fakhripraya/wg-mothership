@@ -17,7 +17,7 @@ import {
   CONTENT_TYPE,
   IS_NOT_AUTHENTICATE,
   IS_OTP_VERIFIED,
-  URL_GET_PRODUCT_LIST_BY_IDS,
+  URL_GET_PRODUCT_LIST,
   URL_POST_GET_USER_BUY_ADDRESSES,
   X_SID,
 } from "../../variables/global";
@@ -107,7 +107,7 @@ export default function TransactionPayment() {
         [
           {
             endpoint: defaultConfigs.endpoint,
-            url: `${URL_GET_PRODUCT_LIST_BY_IDS}?isWithFiles=true`,
+            url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true`,
             params: requestParams,
           },
           ...requests,

@@ -156,7 +156,7 @@ export const URL_GET_SERVER_INFO = (query) =>
 export const URL_POST_GET_USER_BUY_ADDRESSES = (userId) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/saved-address`;
 
-export const URL_GET_PRODUCT_LIST_BY_IDS = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/products`;
+export const URL_GET_PRODUCT_LIST = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/products`;
 export const URL_GET_CATEGORIES = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/category`;
 export const URL_GET_COURIERS = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/couriers`;
 

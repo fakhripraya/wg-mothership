@@ -7,8 +7,8 @@ import DynamicAccordion from "../../../components/DynamicAccordion";
 import ShowRooms from "./ShowRooms";
 
 const ShowChannel = (props) => {
-  return useMemo(() => {
-    return (
+  return useMemo(
+    () => (
       <Fragment>
         <DynamicAccordion
           toggle={true}
@@ -26,28 +26,27 @@ const ShowChannel = (props) => {
           <hr className="creative-store-linebreak"></hr>
         )}
       </Fragment>
-    );
-  }, [props.value[1], props.listenJoinRoom]);
+    ),
+    [props.value[1], props.listenJoinRoom]
+  );
 };
 
 const ShowChannels = (props) => {
-  const render = useCallback(() => {
-    return Object.entries(props.channels).map(
-      (obj, index) => {
-        return (
-          <ShowChannel
-            key={`${props.uniqueKey}-dynamic-accordion-${index}`}
-            value={obj}
-            index={index}
-            channels={props.channels}
-            joinedRoom={props.joinedRoom}
-            listenJoinRoom={props.listenJoinRoom}
-            listenJoinChatRoom={props.listenJoinChatRoom}
-          />
-        );
-      }
-    );
-  }, [props.channels, props.listenJoinRoom]);
+  const render = useCallback(
+    () =>
+      Object.entries(props.channels).map((obj, index) => (
+        <ShowChannel
+          key={`${props.uniqueKey}-dynamic-accordion-${index}`}
+          value={obj}
+          index={index}
+          channels={props.channels}
+          joinedRoom={props.joinedRoom}
+          listenJoinRoom={props.listenJoinRoom}
+          listenJoinChatRoom={props.listenJoinChatRoom}
+        />
+      )),
+    [props.channels, props.listenJoinRoom]
+  );
   // return the memoized render function
   return render();
 };

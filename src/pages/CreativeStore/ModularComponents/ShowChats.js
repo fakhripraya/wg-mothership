@@ -2,29 +2,34 @@ import React, { useCallback, useMemo } from "react";
 import Avatar from "react-avatar";
 
 const ShowChat = (props) => {
-  return useMemo(() => {
-    return <p>{props.value[1].chatContent}</p>;
-  }, [props.value[1]]);
+  return useMemo(
+    () => (
+      <p style={{ whiteSpace: "pre-line" }}>
+        {props.value[1].chatContent}
+      </p>
+    ),
+    [props.value[1]]
+  );
 };
 
 const ShowChats = (props) => {
-  const render = useCallback(() => {
-    return Object.entries(props.chats).map((obj, index) => {
-      return (
+  const render = useCallback(
+    () =>
+      Object.entries(props.chats).map((obj, index) => (
         <ShowChat
           key={`${props.uniqueKey}-chat-${index}`}
           value={obj}
         />
-      );
-    });
-  }, [props.chats]);
+      )),
+    [props.chats]
+  );
   // return the memoized render function
   return render();
 };
 
 const ShowChatWrapper = (props) => {
-  return useMemo(() => {
-    return (
+  return useMemo(
+    () => (
       <div className="creative-store-chattext-container">
         <div className="creative-store-chattext-avatar">
           <Avatar
@@ -53,22 +58,23 @@ const ShowChatWrapper = (props) => {
           <ShowChats chats={props.value[1].chats} />
         </div>
       </div>
-    );
-  }, [props.value[1]]);
+    ),
+    [props.value[1]]
+  );
 };
 
 const ShowChatWrappers = (props) => {
-  const render = useCallback(() => {
-    return Object.entries(props.chats).map((obj, index) => {
-      return (
+  const render = useCallback(
+    () =>
+      Object.entries(props.chats).map((obj, index) => (
         <ShowChatWrapper
           key={`${props.uniqueKey}-chat-wrapper-${index}`}
           value={obj}
           index={index}
         />
-      );
-    });
-  }, [props.chats]);
+      )),
+    [props.chats]
+  );
   // return the memoized render function
   return render();
 };

@@ -24,29 +24,20 @@
 
 .card-container {
   border-radius: inherit;
-  width: 225px;
-  min-inline-size: 150px;
+  max-inline-size: 200px;
+  width: auto;
   height: auto;
-  padding: 12px !important;
   overflow-wrap: break-word;
   box-sizing: border-box;
   justify-content: center;
   -webkit-box-align: center;
   align-items: center;
+  padding: 12px !important;
   margin: auto 0px;
   margin-right: 12px !important;
   background-color: #1c1d1d;
   cursor: inherit;
   transition: all 0.3s ease-in-out;
-  @include shrink-padding($isCounter: false);
-
-  @media screen and (max-width: 1000px) {
-    padding: 8px !important;
-    margin-right: 8px !important;
-  }
-  @media screen and (max-width: 768px) {
-    padding: 6px !important;
-  }
 }
 
 .card-container:last-child {
@@ -59,15 +50,13 @@
 }
 
 .card-img {
+  display: flex;
+  margin: auto;
   border-radius: 12px;
   background-size: cover;
-  width: 100%;
-  height: 150px;
+  width: 175px;
+  height: 175px;
   background-repeat: no-repeat;
-
-  @media screen and (max-width: 1000px) {
-    height: 100px;
-  }
 }
 
 .card-container h1 {

@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import Button from "../../../components/Button";
 
 export const ShowErrorModal = (props) => {
-  return useMemo(() => {
-    return (
+  return useMemo(
+    () => (
       <div className="creative-store-modal-container dark-bg-color">
         <div className="creative-store-modal-wrapper">
           <Button
@@ -29,6 +29,7 @@ export const ShowErrorModal = (props) => {
           </label>
         </div>
       </div>
-    );
-  }, [props.modalToggle, props.errorMessage]);
+    ),
+    [props.modalToggle, props.errorMessage]
+  );
 };

@@ -56,7 +56,7 @@ function App() {
   }
 
   function handleStyleChange() {
-    if (window.scrollY > 200)
+    if (window.scrollY > 0)
       setStyle({
         floatButton: { transform: "scale(0)" },
         ScrollTopButton: { transform: "scale(1)" },

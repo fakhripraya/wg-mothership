@@ -95,7 +95,7 @@ export default function CreativeStore() {
   // HOOKS //
   const zeusService = useAxios();
   // eslint-disable-next-line no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   // STATES //
   const [userJoin, setUserJoin] = useState(null);

@@ -303,7 +303,7 @@
   font-weight: 400;
 }
 
-.home-recommend-wrapper {
+.home-carousel-wrapper {
   display: flex;
   flex-direction: row;
   overflow-x: scroll;
@@ -322,23 +322,23 @@
 
 /* Scrollbar */
 /* width */
-.home-recommend-wrapper::-webkit-scrollbar {
+.home-carousel-wrapper::-webkit-scrollbar {
   display: none;
 }
 
 /* Track */
-.home-recommend-wrapper::-webkit-scrollbar-track {
+.home-carousel-wrapper::-webkit-scrollbar-track {
   background: #151515;
 }
 
 /* Handle */
-.home-recommend-wrapper::-webkit-scrollbar-thumb {
+.home-carousel-wrapper::-webkit-scrollbar-thumb {
   background: #151515;
   border-radius: 10px;
 }
 
 /* Handle on hover */
-.home-recommend-wrapper::-webkit-scrollbar-thumb:hover {
+.home-carousel-wrapper::-webkit-scrollbar-thumb:hover {
   background: #151515;
 }
 

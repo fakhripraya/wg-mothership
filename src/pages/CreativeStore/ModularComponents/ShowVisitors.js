@@ -3,8 +3,8 @@ import { showDisplayName } from "../../../utils/functions/global";
 import Avatar from "react-avatar";
 
 const ShowVisitor = (props) => {
-  return useMemo(() => {
-    return (
+  return useMemo(
+    () => (
       <div className="creative-store-visitor-user cursor-pointer">
         <Avatar
           style={{ cursor: "pointer" }}
@@ -23,15 +23,16 @@ const ShowVisitor = (props) => {
           </small>
         </div>
       </div>
-    );
-  }, [props.value]);
+    ),
+    [props.value]
+  );
 };
 
 const ShowVisitors = (props) => {
   // generate display name
   // render the visitors
-  const render = useCallback(() => {
-    return (
+  const render = useCallback(
+    () => (
       <Fragment>
         <div className="creative-store-scrollable-visitor-container">
           {props.datas &&
@@ -47,8 +48,9 @@ const ShowVisitors = (props) => {
             )}
         </div>
       </Fragment>
-    );
-  }, [props.datas]);
+    ),
+    [props.datas]
+  );
   // return the memoized render function
   return render();
 };

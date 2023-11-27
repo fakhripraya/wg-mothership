@@ -23,10 +23,10 @@ const ShowItem = (props) =>
         <br />
         <label
           onClick={() => handleGoToProductPage()}
-          className="font-bold main-color cursor-pointer">
+          className="font-bold main-color cursor-pointer margin-bottom-8">
           {props.data.productName}
         </label>
-        <label style={{ marginBottom: "8px" }}>
+        <label className="margin-bottom-8 margin-top-0">
           {props.data.productCode}
         </label>
         <div className="transaction-payment-item">

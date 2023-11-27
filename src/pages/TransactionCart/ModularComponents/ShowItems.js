@@ -35,8 +35,7 @@ const ShowItem = (props) =>
           <div className="transaction-cart-item-header-storeinfo">
             <label
               onClick={() => handleGoToCreativeStore()}
-              style={{ marginBottom: "8px" }}
-              className="font-bold main-color cursor-pointer">
+              className="font-bold main-color cursor-pointer margin-bottom-8">
               {props.data.storeName}
             </label>
             <label style={{ marginBottom: "8px" }}>
@@ -60,7 +59,7 @@ const ShowItem = (props) =>
           <div className="transaction-cart-item-body">
             <label
               onClick={() => handleGoToProductPage()}
-              className="main-color cursor-pointer font-bold">
+              className="main-color cursor-pointer font-bold margin-bottom-8">
               {props.data.productName}
             </label>
             <label>{props.data.productCode}</label>

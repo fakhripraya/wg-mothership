@@ -2,8 +2,8 @@ import { Fragment, useCallback, useMemo } from "react";
 import Avatar from "react-avatar";
 
 const ShowNewPurchaseOrder = (props) => {
-  return useMemo(() => {
-    return (
+  return useMemo(
+    () => (
       <div className="creative-store-visitor-user darker-bg-color">
         <div className="creative-store-avatar-container">
           <div className="creative-store-identifier-img-wrapper">
@@ -28,13 +28,14 @@ const ShowNewPurchaseOrder = (props) => {
           <small>Kurir: {props.value.chosenCourier}</small>
         </div>
       </div>
-    );
-  }, [props.value]);
+    ),
+    [props.value]
+  );
 };
 
 const ShowNewPurchaseOrders = (props) => {
-  const render = useCallback(() => {
-    return (
+  const render = useCallback(
+    () => (
       <Fragment>
         <div className="creative-store-scrollable-visitor-container">
           {props.datas &&
@@ -50,8 +51,9 @@ const ShowNewPurchaseOrders = (props) => {
             )}
         </div>
       </Fragment>
-    );
-  }, [props.datas]);
+    ),
+    [props.datas]
+  );
 
   // return the memoized render function
   return render();

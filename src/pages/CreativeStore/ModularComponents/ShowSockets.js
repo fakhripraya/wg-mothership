@@ -2,8 +2,8 @@ import React, { useCallback, useMemo } from "react";
 import Avatar from "react-avatar";
 
 const ShowSocket = (props) => {
-  return useMemo(() => {
-    return (
+  return useMemo(
+    () => (
       <div className="creative-store-dynamic-accordion-socket-user">
         <Avatar
           style={{ cursor: "pointer" }}
@@ -16,8 +16,9 @@ const ShowSocket = (props) => {
           {props.value[1].fullName}
         </label>
       </div>
-    );
-  }, [props.value[1]]);
+    ),
+    [props.value[1]]
+  );
 };
 
 const ShowSockets = (props) => {

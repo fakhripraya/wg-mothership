@@ -347,6 +347,7 @@ export default function ProductDetail() {
                     return (
                       index !== 0 && (
                         <img
+                          key={`detail-picture-box-options-${index}`}
                           className="detail-picture-box-options-item"
                           alt={file.filename}
                           src={`${process.env.REACT_APP_CHRONOS_SERVICE}${file.destination}`}

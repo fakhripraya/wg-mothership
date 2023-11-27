@@ -15,7 +15,7 @@ import {
   CLIENT_USER_INFO,
   IS_NOT_AUTHENTICATE,
   IS_OTP_VERIFIED,
-  URL_GET_PRODUCT_LIST_BY_IDS,
+  URL_GET_PRODUCT_LIST,
 } from "../../variables/global";
 import ShowConditionalMemoized from "./ModularComponents/ShowConditionalMemoized";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
@@ -67,7 +67,7 @@ export default function TransactionCart() {
       .getData(
         {
           endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-          url: `${URL_GET_PRODUCT_LIST_BY_IDS}?isWithFiles=true`,
+          url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true`,
           params: requestParams,
         },
         async () => {
