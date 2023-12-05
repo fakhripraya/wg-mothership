@@ -389,7 +389,7 @@ export default function Navbar() {
     );
   };
 
-  const ShowCart = () => {
+  const ShowCart = (props) => {
     return (
       IS_OTP_VERIFIED(login) && (
         <Fragment>
@@ -399,7 +399,7 @@ export default function Navbar() {
               handlePageNavigation("/transaction/cart")
             }
             style={{ marginRight: "12px" }}
-            className="navbar-mobile-hamburger-image"
+            className={`navbar-mobile-hamburger-image ${props.className}`}
             src={ICCart}
             alt="ic_cart"
           />
@@ -485,12 +485,12 @@ export default function Navbar() {
         toggle={toggleOverride === MENU_MOBILE}>
         <div className="sticky-top">
           <ShowNavbar>
-            <ShowCart />
+            <ShowCart className="navbar-mobile-hamburger-image-overriding" />
             <img
               onClick={() =>
                 window.handleOpenOverriding(NO_STRING)
               }
-              className="navbar-mobile-hamburger-image"
+              className="navbar-mobile-hamburger-image navbar-mobile-hamburger-image-overriding"
               src={ICHamburger}
               alt="ic_hamburger"
             />

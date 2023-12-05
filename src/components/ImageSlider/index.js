@@ -101,7 +101,7 @@ export default function ImageSlider(props) {
   return (
     <div
       style={props.style}
-      className="imageslider-container">
+      className={`imageslider-container ${props.className}`}>
       <FloatButton
         onClick={() => handleSlideLeftAnimation()}
         className="imageslider-button imageslider-left-button">

@@ -16,10 +16,7 @@ import {
 import { routes } from "./config/router/path";
 import smoothscroll from "smoothscroll-polyfill";
 import FloatButton from "./components/FloatButton";
-import {
-  sendWACS,
-  smoothScrollTop,
-} from "./utils/functions/global";
+import { smoothScrollTop } from "./utils/functions/global";
 import { styleInitialState } from "./variables/styles/app";
 import { Cache, ConfigProvider } from "react-avatar";
 import { useDispatch } from "react-redux";
@@ -30,6 +27,7 @@ import { setItem } from "./utils/redux/reducers/cartReducer";
 function App() {
   // STATE
   const [style, setStyle] = useState(styleInitialState);
+  const [renderHelp, setRenderHelp] = useState(true);
   const dispatch = useDispatch();
 
   // VARIABLES
@@ -51,10 +49,6 @@ function App() {
   smoothscroll.polyfill();
 
   // FUNCTIONS SPECIFIC //
-  function sendWA() {
-    sendWACS();
-  }
-
   function handleStyleChange() {
     if (window.scrollY > 0)
       setStyle({
@@ -136,21 +130,9 @@ function App() {
           className="fixed-app-button main-bg-color">
           <span
             style={{ transform: "rotate(180deg)" }}
-            className="hero-round-button-icon"
+            className="hero-round-button-caret-down hero-round-button-icon"
           />
         </FloatButton>
-        {!window.location.pathname.includes(
-          "creative-store"
-        ) ? (
-          <FloatButton
-            style={{
-              transform: `${style.floatButton.transform}`,
-            }}
-            onClick={() => sendWA()}
-            className="fixed-app-button main-bg-color">
-            <p className="light-color">Help</p>
-          </FloatButton>
-        ) : null}
         <Spinner />
       </Router>
     </ConfigProvider>

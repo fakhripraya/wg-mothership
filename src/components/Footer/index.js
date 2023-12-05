@@ -32,7 +32,12 @@ export default function Footer(props) {
   useLayoutEffect(() => {
     setIsRender(() => {
       if (props.isOverriding) return true;
-      return !location.pathname.includes("creative-store");
+      if (
+        location.pathname.includes("creative-store") ||
+        location.pathname === "/"
+      )
+        return false;
+      else return true;
     });
   }, [location]);
 
