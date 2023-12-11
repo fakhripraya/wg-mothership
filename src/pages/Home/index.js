@@ -372,8 +372,7 @@ export default function Home() {
                   id={`home-reels-video-${index}`}
                   key={`home-reels-video-${val.productId}-${index}`}
                   className="home-hero-reels-video"
-                  playsInline={true}
-                  webkit-playsinline="true"
+                  playsInline
                   type="video/mp4"
                   src={
                     val.video === 0 ? TheVideo1 : TheVideo2
