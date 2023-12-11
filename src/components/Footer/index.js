@@ -32,6 +32,7 @@ export default function Footer(props) {
   useLayoutEffect(() => {
     setIsRender(() => {
       if (props.isOverriding) return true;
+      if (props.forceShow) return true;
       if (
         location.pathname.includes("creative-store") ||
         location.pathname === "/"
@@ -39,7 +40,7 @@ export default function Footer(props) {
         return false;
       else return true;
     });
-  }, [location]);
+  }, [location, props.forceShow]);
 
   return (
     isRender && (

@@ -14,15 +14,11 @@ import {
 import Button from "../../components/Button";
 import TextInput from "../../components/TextInput";
 import Accordion from "../../components/Accordion";
-import {
-  PRODUCT_DETAIL_INITIAL_BUYING_NOTE,
-  PRODUCT_DETAIL_FILTER_DATA_OPTIONS,
-} from "../../variables/initial/productDetail";
+import { PRODUCT_DETAIL_FILTER_DATA_OPTIONS } from "../../variables/initial/productDetail";
 import TextArea from "../../components/TextArea";
 import { useAxios } from "../../utils/hooks/useAxios";
 import {
   CLIENT_USER_INFO,
-  IS_OTP_VERIFIED,
   LOGIN,
   PRODUCT_CATALOGUE_ADDITIONAL_FILES,
   PRODUCT_CATALOGUE_IMAGE,
@@ -40,9 +36,7 @@ import ErrorHandling from "../ErrorHandling";
 import { NO_PRODUCT_FOUND } from "../../variables/errorMessages/productDetail";
 import { ShowCourierModal } from "./ModularComponents/ShowModal";
 import Modal from "../../components/Modal";
-import { setItem } from "../../utils/redux/reducers/cartReducer";
-import { cloneDeep } from "lodash-es";
-import { setCartStateAndBroadcast } from "../../utils/functions/cart";
+import { handleAddItemToCart } from "../../utils/functions/cart";
 
 export default function ProductDetail() {
   // HOOKS //
@@ -93,50 +87,6 @@ export default function ProductDetail() {
     setToggleCourierListModal((val) => !val);
   }
 
-  function handleAddItemToCart() {
-    const login = cookies.get(CLIENT_USER_INFO, {
-      path: "/",
-    });
-
-    if (!IS_OTP_VERIFIED(login))
-      return handleOpenOverridingHome(LOGIN);
-    if (buyQty <= 0) return alert("Qty kosong");
-
-    let temp = cloneDeep(cart);
-    if (!temp) temp = [];
-
-    let cartItem = {
-      userId: login.user.userId,
-      storeId:
-        productData.MasterStoreCatalogue.MasterStore.id,
-      storeName:
-        productData.MasterStoreCatalogue.MasterStore
-          .storeName,
-      storeImageSrc: `${process.env.REACT_APP_CHRONOS_SERVICE}${productData.MasterStoreCatalogue.MasterStore.MasterFiles.destination}`,
-      productId: productData.id,
-      productCode: productData.productCode,
-      productName: productData.productName,
-      productImageSrc: `${process.env.REACT_APP_CHRONOS_SERVICE}${productImages[0].destination}`,
-      productPrice: productData.productPrice,
-      buyQty: buyQty,
-      buyingNote:
-        buyingNote || PRODUCT_DETAIL_INITIAL_BUYING_NOTE,
-    };
-
-    let foundExisting = temp.findIndex(
-      (val) =>
-        val.userId === login.user.userId &&
-        val.productId === cartItem.productId
-    );
-
-    if (foundExisting !== -1)
-      temp[foundExisting] = cartItem;
-    else temp.push(cartItem);
-
-    setCartStateAndBroadcast(dispatch, [...temp]);
-    navigate("/transaction/cart");
-  }
-
   // COMPONENTS SPECIFIC //
   const ShowAccordions = (props) => {
     return props.datas.map((item, index) => {
@@ -160,7 +110,7 @@ export default function ProductDetail() {
             Kondisi:&nbsp;
           </span>
           <span className="main-color">
-            {productData && productData.productCondition}
+            {productData?.productCondition}
           </span>
         </p>
         <p className="detail-body-text margin-top-bottom-0 font-bold">
@@ -168,9 +118,9 @@ export default function ProductDetail() {
             Berat Satuan:&nbsp;
           </span>
           <span className="main-color">
-            {productData && productData.productWeight}
+            {productData?.productWeight}
             &nbsp;
-            {productData && productData.productWeightUnit}
+            {productData?.productWeightUnit}
           </span>
         </p>
         <p className="detail-body-text margin-top-bottom-0 font-bold">
@@ -193,7 +143,7 @@ export default function ProductDetail() {
           </span>
         </p>
         <p style={{ whiteSpace: "pre-line" }}>
-          {productData && productData.productDescription}
+          {productData?.productDescription}
         </p>
       </div>
     );
@@ -359,7 +309,7 @@ export default function ProductDetail() {
             </div>
             <div className="detail-flexbox detail-flexbox-details ">
               <h2 className="detail-title margin-top-bottom-0">
-                {productData && productData.productName}
+                {productData?.productName}
               </h2>
               <br />
               <p className="detail-count">
@@ -570,7 +520,17 @@ export default function ProductDetail() {
                 </h2>
               </div>
               <Button
-                onClick={() => handleAddItemToCart()}
+                onClick={() =>
+                  handleAddItemToCart(
+                    navigate,
+                    dispatch,
+                    cart,
+                    productData,
+                    productImages,
+                    buyQty,
+                    buyingNote
+                  )
+                }
                 className="main-bg-color">
                 Masukkan Keranjang
               </Button>
@@ -608,7 +568,7 @@ export default function ProductDetail() {
                   }}
                   aria-hidden="true"
                   src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg"
-                  alt=""
+                  alt="product-detail-star-icon"
                 />
                 <p style={{ fontSize: "72px" }}>4.9 </p>
                 <p style={{ fontSize: "72px" }}>/</p>

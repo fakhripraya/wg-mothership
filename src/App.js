@@ -24,6 +24,8 @@ import { setItem } from "./utils/redux/reducers/cartReducer";
 
 // FIXED Implement the IS_OTP_NOT_VERIFIED function to all authentication validation,
 // TODO: Test auth/security leak
+// FIXME: Change <br /> usage, its a bad practice mozilla cant work
+// FIXME: Fix virtual keyboard problem on mobile browsers
 function App() {
   // STATE
   const [style, setStyle] = useState(styleInitialState);
@@ -38,7 +40,6 @@ function App() {
   const cache = new Cache({
     // Keep cached source failures for up to 7 days
     sourceTTL: 7 * 24 * 3600 * 1000,
-
     // Keep a maximum of 20 entries in the source cache
     sourceSize: 20,
   });
@@ -128,10 +129,7 @@ function App() {
           }}
           onClick={() => smoothScrollTop()}
           className="fixed-app-button main-bg-color">
-          <span
-            style={{ transform: "rotate(180deg)" }}
-            className="hero-round-button-caret-down hero-round-button-icon"
-          />
+          <span className="fixed-round-button-caret-down fixed-round-button-icon" />
         </FloatButton>
         <Spinner />
       </Router>

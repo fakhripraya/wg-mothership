@@ -102,6 +102,10 @@ body h6 {
 }
 
 /* Global Class Properties */
+.pointer-all {
+  pointer-events: all !important;
+}
+
 .sticky-top {
   position: sticky !important;
   top: 0px !important;
@@ -181,6 +185,14 @@ body h6 {
 
 .margin-bottom-8 {
   margin-bottom: 8px !important;
+}
+
+.margin-bottom-12 {
+  margin-bottom: 12px !important;
+}
+
+.margin-bottom-16 {
+  margin-bottom: 16px !important;
 }
 
 .margin-top-0 {
@@ -336,4 +348,21 @@ body h6 {
   z-index: 9997 !important;
   text-align: center;
   transition: all 0.3s ease-in-out;
+}
+
+.fixed-round-button-icon {
+  display: flex;
+  content: "";
+  width: 12px;
+  height: 12px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  transition: transform 50ms ease 0s,
+    background-color 0.12s ease 0s;
+}
+
+.fixed-round-button-caret-down {
+  transform: rotate(180deg);
+  background-image: url("../src/assets/svg/caret-down-solid.svg");
 }

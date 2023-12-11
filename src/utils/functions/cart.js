@@ -1,4 +1,65 @@
+import { cloneDeep } from "lodash-es";
+import { cookies } from "../../config/cookie";
+import {
+  CLIENT_USER_INFO,
+  IS_OTP_VERIFIED,
+  LOGIN,
+} from "../../variables/global";
 import { setItem } from "../redux/reducers/cartReducer";
+import { handleOpenOverridingHome } from "./global";
+import { PRODUCT_DETAIL_INITIAL_BUYING_NOTE } from "../../variables/initial/productDetail";
+
+export const handleAddItemToCart = (
+  navigate,
+  dispatch,
+  cart,
+  productData,
+  productImages,
+  buyQty,
+  buyingNote
+) => {
+  const login = cookies.get(CLIENT_USER_INFO, {
+    path: "/",
+  });
+
+  if (!productData) return;
+  if (!IS_OTP_VERIFIED(login))
+    return handleOpenOverridingHome(LOGIN);
+  if (buyQty <= 0) return alert("Qty kosong");
+
+  let temp = cloneDeep(cart);
+  if (!temp) temp = [];
+
+  let cartItem = {
+    userId: login.user.userId,
+    storeId:
+      productData.MasterStoreCatalogue.MasterStore.id,
+    storeName:
+      productData.MasterStoreCatalogue.MasterStore
+        .storeName,
+    storeImageSrc: `${process.env.REACT_APP_CHRONOS_SERVICE}${productData.MasterStoreCatalogue.MasterStore.MasterFiles.destination}`,
+    productId: productData.id,
+    productCode: productData.productCode,
+    productName: productData.productName,
+    productImageSrc: `${process.env.REACT_APP_CHRONOS_SERVICE}${productImages[0].destination}`,
+    productPrice: productData.productPrice,
+    buyQty: buyQty,
+    buyingNote:
+      buyingNote || PRODUCT_DETAIL_INITIAL_BUYING_NOTE,
+  };
+
+  let foundExisting = temp.findIndex(
+    (val) =>
+      val.userId === login.user.userId &&
+      val.productId === cartItem.productId
+  );
+
+  if (foundExisting !== -1) temp[foundExisting] = cartItem;
+  else temp.push(cartItem);
+
+  setCartStateAndBroadcast(dispatch, [...temp]);
+  navigate("/transaction/cart");
+};
 
 export const setCartStateAndBroadcast = (dispatch, val) => {
   dispatch(setItem([...val]));

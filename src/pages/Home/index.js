@@ -1,4 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import "./style.scss";
 import Button from "../../components/Button";
 import ImageSlider from "../../components/ImageSlider";
@@ -7,7 +12,10 @@ import {
   scrollCarousel,
   smoothScrollTop,
 } from "../../utils/functions/global";
-import { GET_BALANCE_TOOLS } from "../../variables/initial/home";
+import {
+  GET_BALANCE_TOOLS,
+  GET_DUMMY_REELS,
+} from "../../variables/initial/home";
 import { useNavigate } from "react-router-dom";
 import { useAxios } from "../../utils/hooks/useAxios";
 import {
@@ -30,11 +38,19 @@ import {
 } from "./ModularComponents/ShowCarousels";
 import TheVideo1 from "../../assets/testvid.mp4";
 import TheVideo2 from "../../assets/testvid2.mp4";
+import CartIcon from "../../assets/svg/cart-icon.svg";
+import PlayIcon from "../../assets/svg/play-button.svg";
 import FloatButton from "../../components/FloatButton";
+import Avatar from "react-avatar";
+import Footer from "./../../components/Footer";
+import SliderRange from "../../components/SliderRange";
+import { handleAddItemToCart } from "../../utils/functions/cart";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
   // HOOK
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const axiosService = useAxios();
 
   // REFS //
@@ -46,6 +62,10 @@ export default function Home() {
 
   // STATES //
   const [flashSale, setFlashSale] = useState(null);
+  const [reelVideos, setReelVideos] = useState(null);
+  const [reelIndex, setReelIndex] = useState(0);
+  const [isVideoPlay, setIsVideoPlay] = useState(false);
+  const [playTimeout, setPlayTimeout] = useState(null);
   const [recommendedCategories, setRecommendedCategories] =
     useState(null);
   const [recommendedProducts, setRecommendedProducts] =
@@ -57,6 +77,7 @@ export default function Home() {
   const [allProducts, setAllProducts] = useState(null);
 
   // VARIABLES //
+  const cart = useSelector((state) => state.cart);
   const defaultConfigs = {
     headers: {
       [AUTHORIZATION]: `Bearer ${
@@ -132,6 +153,8 @@ export default function Home() {
           setAllProducts(
             res.responseData?.[4]?.responseData
           );
+
+        setReelVideos(GET_DUMMY_REELS);
       })
       .catch((error) => {
         if (IS_NOT_AUTHENTICATE(error))
@@ -146,6 +169,10 @@ export default function Home() {
   function handleScrollToVideoReels() {
     setToggleScrollVideo(true);
     smoothScrollTop();
+  }
+
+  function handleGoToCreativeStore(storeId) {
+    if (storeId) navigate(`/creative-store?id=${storeId}`);
   }
 
   // COMPONENTS SPECIFIC //
@@ -175,89 +202,265 @@ export default function Home() {
     trackPromise(handleInitialize());
   }, []);
 
+  useEffect(() => {
+    const reelsVideoContainer = document.getElementById(
+      "home-reels-video-container"
+    );
+    if (reelsVideoContainer) {
+      const currentVideoElement = document.getElementById(
+        `home-reels-video-${reelIndex}`
+      );
+
+      function handleSnap() {
+        // Calculate the current scroll snap item
+        const scrollTop = reelsVideoContainer.scrollTop;
+        const itemHeight = reelsVideoContainer.offsetHeight; // Assuming each item has the same width
+        const currentScrollSnapItem = Math.round(
+          scrollTop / itemHeight
+        );
+        currentVideoElement.currentTime = 0;
+        currentVideoElement.pause();
+        clearTimeout(playTimeout);
+        setReelIndex(currentScrollSnapItem);
+      }
+
+      // Listen for the scroll event on the container
+      reelsVideoContainer.addEventListener(
+        "scroll",
+        handleSnap
+      );
+
+      return () => {
+        reelsVideoContainer.removeEventListener(
+          "scroll",
+          handleSnap
+        );
+      };
+    }
+  }, [reelIndex]);
+
+  useEffect(() => {
+    const currentVideoElement = document.getElementById(
+      `home-reels-video-${reelIndex}`
+    );
+
+    const reelsVideoDurationSlider =
+      document.getElementById("reels-duration-slider");
+
+    function handlePlay() {
+      setPlayTimeout(
+        setTimeout(() => {
+          currentVideoElement.play();
+          setIsVideoPlay(true);
+        }, 500)
+      );
+    }
+
+    function handlePause() {
+      currentVideoElement.pause();
+    }
+
+    function handleInput() {
+      const sliderValue = reelsVideoDurationSlider.value;
+      currentVideoElement.currentTime = sliderValue;
+    }
+
+    function handleUpdateSlider() {
+      // Update the duration slider's value based on the current video time
+      reelsVideoDurationSlider.value =
+        currentVideoElement.currentTime;
+      // Update the duration slider's max attribute based on the video duration
+      reelsVideoDurationSlider.max =
+        currentVideoElement.duration;
+    }
+
+    function handleVideoEnd() {
+      setIsVideoPlay(false);
+    }
+
+    if (isVideoPlay) {
+      //currentVideoElement.currentTime = 0;
+      reelsVideoDurationSlider.value =
+        currentVideoElement.currentTime;
+      handlePlay();
+    } else handlePause();
+
+    // Update the duration slider and video playback position as the video plays
+    currentVideoElement.addEventListener(
+      "timeupdate",
+      handleUpdateSlider
+    );
+    currentVideoElement.addEventListener(
+      "ended",
+      handleVideoEnd
+    );
+    reelsVideoDurationSlider.addEventListener(
+      "mousedown",
+      handlePause
+    );
+    reelsVideoDurationSlider.addEventListener(
+      "touchstart",
+      handlePause,
+      { passive: true }
+    );
+    // Listen for the scroll event on the container
+    reelsVideoDurationSlider.addEventListener(
+      "input",
+      handleInput
+    );
+    reelsVideoDurationSlider.addEventListener(
+      "mouseup",
+      handlePlay
+    );
+    reelsVideoDurationSlider.addEventListener(
+      "touchend",
+      handlePlay
+    );
+
+    return () => {
+      // Update the duration slider and video playback position as the video plays
+      currentVideoElement.removeEventListener(
+        "timeupdate",
+        handleUpdateSlider
+      );
+      currentVideoElement.removeEventListener(
+        "ended",
+        handleVideoEnd
+      );
+      reelsVideoDurationSlider.removeEventListener(
+        "mousedown",
+        handlePause
+      );
+      reelsVideoDurationSlider.removeEventListener(
+        "touchstart",
+        handlePause
+      );
+      // Listen for the scroll event on the container
+      reelsVideoDurationSlider.removeEventListener(
+        "input",
+        handleInput
+      );
+      reelsVideoDurationSlider.removeEventListener(
+        "mouseup",
+        handlePlay
+      );
+      reelsVideoDurationSlider.removeEventListener(
+        "touchend",
+        handlePlay
+      );
+    };
+  }, [reelIndex, isVideoPlay]);
+
   return (
     <div className="home-container">
       <div className="home-wrapper">
         <div
+          onClick={() => {
+            setIsVideoPlay(() => !isVideoPlay);
+          }}
           className={`home-section home-hero-section darker-bg-color ${
             toggleScrollVideo
               ? ""
               : "home-video-section-hide"
           }`}>
           <div
-            id="reelsContainer"
+            id="home-reels-video-container"
             className="home-reels-container">
-            <video
-              id="vid1"
-              className="home-hero-video"
-              type="video/mp4"
-              autoPlay={true}
-              src={TheVideo1}
-            />
-            <video
-              id="vid2"
-              className="home-hero-video"
-              type="video/mp4"
-              autoPlay={true}
-              src={TheVideo2}
-            />
-            <video
-              className="home-hero-video"
-              type="video/mp4"
-              autoPlay={true}
-              src={TheVideo1}
-            />
-            <video
-              className="home-hero-video"
-              type="video/mp4"
-              autoPlay={true}
-              src={TheVideo2}
-            />
-            <video
-              className="home-hero-video"
-              type="video/mp4"
-              autoPlay={true}
-              src={TheVideo2}
-            />
+            {GET_DUMMY_REELS.map((val, index) => {
+              return (
+                <video
+                  id={`home-reels-video-${index}`}
+                  key={`home-reels-video-${val.productId}-${index}`}
+                  className="home-hero-reels-video"
+                  playsInline={true}
+                  webkit-playsinline="true"
+                  type="video/mp4"
+                  src={
+                    val.video === 0 ? TheVideo1 : TheVideo2
+                  }
+                />
+              );
+            })}
+          </div>
+          <div
+            className={`home-reels-overlay ${
+              isVideoPlay && "home-reels-overlay-played"
+            }`}>
+            <div className="home-reels-overlay-content">
+              <label>Play</label>
+              <img
+                src={PlayIcon}
+                alt="home-cart-icon"
+              />
+            </div>
           </div>
           <div className="home-hero-container justify-center">
-            <div className="home-hero-sidetools">
+            <div className="home-hero-sidetools margin-bottom-12">
               <div className="home-sidetools-wrapper">
                 <div
                   onClick={() =>
                     handleScrollToFirstSection()
                   }
-                  className="hero-round-button main-bg-color">
-                  <span className="hero-round-button-icon hero-round-button-caret-down " />
+                  className="home-hero-round-button main-bg-color">
+                  <span className="home-hero-round-button-icon home-hero-round-button-caret-down " />
                 </div>
               </div>
             </div>
-            <div className="home-hero-maintools">
+            <div className="home-hero-maintools margin-bottom-12">
               <div className="home-maintools-wrapper">
                 <div
                   onClick={() =>
-                    handleScrollToFirstSection()
+                    handleAddItemToCart(
+                      navigate,
+                      dispatch,
+                      cart,
+                      reelVideos?.[reelIndex],
+                      reelVideos?.[reelIndex]?.MasterFiles,
+                      1,
+                      ""
+                    )
                   }
-                  className="hero-round-button main-bg-color">
-                  Like
+                  className="home-hero-round-button transparent-bg-color margin-bottom-8">
+                  <img
+                    src={CartIcon}
+                    alt="home-cart-icon"
+                    style={{
+                      height: "40px",
+                      width: "40px",
+                    }}
+                  />
                 </div>
-                <br />
-                <div
-                  onClick={() =>
-                    handleScrollToFirstSection()
+                <Avatar
+                  onClick={() => {
+                    handleGoToCreativeStore(
+                      reelVideos?.[reelIndex]?.storeId
+                    );
+                  }}
+                  style={{ cursor: "pointer" }}
+                  size={"60px"}
+                  round={true}
+                  title={
+                    reelVideos?.[reelIndex]?.MasterStore
+                      ?.storeName
                   }
-                  className="hero-round-button main-bg-color">
-                  Dislike
-                </div>
-                <br />
-                <div
-                  onClick={() =>
-                    handleScrollToFirstSection()
+                  name={
+                    reelVideos?.[reelIndex]?.MasterStore
+                      ?.storeName
                   }
-                  className="hero-round-button main-bg-color">
-                  Avatar
-                </div>
-                <h3>Playstation 4</h3>
+                  src={`${process.env.REACT_APP_CHRONOS_SERVICE}${reelVideos?.[reelIndex]?.MasterStore?.MasterFiles?.[0]?.destination}`}
+                  className="pointer-all"
+                />
+                <h3 className="margin-bottom-8">
+                  {reelVideos?.[reelIndex]?.productName}
+                </h3>
+                <p className="margin-top-bottom-0">
+                  <img
+                    aria-hidden="true"
+                    src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg"
+                    alt="home-star-icon"
+                  />{" "}
+                  {`4.9 / 5.0 - ${reelVideos?.[reelIndex]?.MasterStore?.storeName}`}
+                </p>
                 <p className="margin-top-bottom-0">
                   Lorem ipsum dolor sit amet consectetur
                 </p>
@@ -266,6 +469,12 @@ export default function Home() {
                 </label>
               </div>
             </div>
+            <SliderRange
+              id="reels-duration-slider"
+              className="pointer-all cursor-pointer main-color home-reels-video-control-slider"
+              min={0}
+              step={0.01}
+            />
           </div>
         </div>
         <div
@@ -279,7 +488,7 @@ export default function Home() {
           ) && (
             <FloatButton
               onClick={() => handleScrollToVideoReels()}
-              className="hero-reels-button main-bg-color">
+              className="home-hero-reels-button main-bg-color">
               <p className="light-color">Reels</p>
             </FloatButton>
           )}
@@ -536,6 +745,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Footer forceShow={!toggleScrollVideo} />
     </div>
   );
 }
