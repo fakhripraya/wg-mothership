@@ -250,8 +250,17 @@ export default function Home() {
     function handlePlay() {
       setPlayTimeout(
         setTimeout(() => {
-          currentVideoElement.play();
-          setIsVideoPlay(true);
+          currentVideoElement
+            .play()
+            .then(() => {
+              setIsVideoPlay(true);
+            })
+            .catch((error) => {
+              console.error(
+                "Failed to play the video:",
+                error
+              );
+            });
         }, 500)
       );
     }
