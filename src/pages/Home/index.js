@@ -250,17 +250,26 @@ export default function Home() {
     function handlePlay() {
       setPlayTimeout(
         setTimeout(() => {
-          currentVideoElement
-            .play()
-            .then(() => {
-              setIsVideoPlay(true);
-            })
-            .catch((error) => {
-              console.error(
-                "Failed to play the video:",
-                error
-              );
-            });
+          // Use a promise to handle the play action
+          const playPromise = currentVideoElement.play();
+
+          if (playPromise) {
+            playPromise
+              .then(() => {
+                // Video successfully started playing
+                setIsVideoPlay(true);
+              })
+              .catch((error) => {
+                // Handle play promise rejection (usually due to autoplay restrictions)
+                console.error(
+                  "Failed to play the video:",
+                  error
+                );
+                // You can provide a user-friendly message or take alternative actions
+              });
+          } else {
+            console.error("Error: PlayPromise undefined");
+          }
         }, 500)
       );
     }
