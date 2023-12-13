@@ -68,6 +68,8 @@ export default function Home() {
   const [reelVideos, setReelVideos] = useState(null);
   const [reelIndex, setReelIndex] = useState(0);
   const [isVideoPlay, setIsVideoPlay] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] =
+    useState(false);
   const [isVideoAlwaysMuted, setIsVideoAlwaysMuted] =
     useState(true);
   const [playTimeout, setPlayTimeout] = useState(null);
@@ -250,32 +252,35 @@ export default function Home() {
     const currentVideoElement = document.getElementById(
       `home-reels-video-${reelIndex}`
     );
-
     const reelsVideoDurationSlider =
       document.getElementById("reels-duration-slider");
 
     function handlePlay() {
       setPlayTimeout(() => {
         const interval = setInterval(() => {
+          // select the element by ID, so we could get the current DOM state
+          const selectedVideo = document.getElementById(
+            `home-reels-video-${reelIndex}`
+          );
+
           // Use a promise to handle the play action
-          const playPromise = currentVideoElement.play();
-          if (playPromise) {
-            playPromise
-              .then(() => {
-                // Video successfully started playing
-                setIsVideoPlay(true);
-                clearInterval(interval);
-              })
-              .catch((error) => {
-                // Handle play promise rejection (usually due to autoplay restrictions)
-                console.error(
-                  "Failed to play the video:",
-                  error
-                );
-                // You can provide a user-friendly message or take alternative actions
-              });
-          }
-        }, 1000);
+          const playPromise = selectedVideo.play();
+
+          // await the promise
+          playPromise
+            ?.then(() => {
+              // Video successfully started playing
+              setIsVideoPlay(true);
+            })
+            .catch((error) => {
+              // Handle play promise rejection (usually due to autoplay restrictions)
+              console.error(
+                "Failed to play the video:",
+                error
+              );
+              // You can provide a user-friendly message or take alternative actions
+            });
+        }, 500);
         return interval;
       });
     }
@@ -306,62 +311,102 @@ export default function Home() {
     } else handlePause();
 
     // Update the duration slider and video playback position as the video plays
-    currentVideoElement.addEventListener(
+    currentVideoElement?.addEventListener(
       "timeupdate",
       handleUpdateSlider
     );
-    reelsVideoDurationSlider.addEventListener(
+    reelsVideoDurationSlider?.addEventListener(
       "mousedown",
       handlePause
     );
-    reelsVideoDurationSlider.addEventListener(
+    reelsVideoDurationSlider?.addEventListener(
       "touchstart",
       handlePause,
       { passive: true }
     );
     // Listen for the scroll event on the container
-    reelsVideoDurationSlider.addEventListener(
+    reelsVideoDurationSlider?.addEventListener(
       "input",
       handleInput
     );
-    reelsVideoDurationSlider.addEventListener(
+    reelsVideoDurationSlider?.addEventListener(
       "mouseup",
       handlePlay
     );
-    reelsVideoDurationSlider.addEventListener(
+    reelsVideoDurationSlider?.addEventListener(
       "touchend",
       handlePlay
     );
 
     return () => {
       // Update the duration slider and video playback position as the video plays
-      currentVideoElement.removeEventListener(
+      currentVideoElement?.removeEventListener(
         "timeupdate",
         handleUpdateSlider
       );
-      reelsVideoDurationSlider.removeEventListener(
+      reelsVideoDurationSlider?.removeEventListener(
         "mousedown",
         handlePause
       );
-      reelsVideoDurationSlider.removeEventListener(
+      reelsVideoDurationSlider?.removeEventListener(
         "touchstart",
         handlePause
       );
       // Listen for the scroll event on the container
-      reelsVideoDurationSlider.removeEventListener(
+      reelsVideoDurationSlider?.removeEventListener(
         "input",
         handleInput
       );
-      reelsVideoDurationSlider.removeEventListener(
+      reelsVideoDurationSlider?.removeEventListener(
         "mouseup",
         handlePlay
       );
-      reelsVideoDurationSlider.removeEventListener(
+      reelsVideoDurationSlider?.removeEventListener(
         "touchend",
         handlePlay
       );
     };
   }, [reelIndex, isVideoPlay]);
+
+  useEffect(() => {
+    const currentVideoElement = document.getElementById(
+      `home-reels-video-${reelIndex}`
+    );
+
+    function handleTimeUpdate() {
+      // This event fires continuously as the video progresses
+      // Check if the video has reached a certain time to confirm active playback
+      const currentVideoElement = document.getElementById(
+        `home-reels-video-${reelIndex}`
+      );
+
+      const playThreshold = 0.1; // Adjust this value based on your needs
+      if (currentVideoElement?.currentTime > playThreshold)
+        setIsVideoPlaying(true);
+      else setIsVideoPlaying(false);
+
+      // Clear the interval when the video is actively playing
+
+      if (isVideoPlaying && playTimeout)
+        clearInterval(playTimeout);
+    }
+
+    currentVideoElement?.addEventListener(
+      "timeupdate",
+      handleTimeUpdate
+    );
+
+    // Cleanup: Remove the event listeners when the component unmounts
+    return () => {
+      currentVideoElement?.removeEventListener(
+        "timeupdate",
+        handleTimeUpdate
+      );
+
+      // Clear the interval when the component unmounts
+      if (playTimeout) clearInterval(playTimeout);
+    };
+  }, [playTimeout, reelIndex, isVideoPlaying]);
 
   return (
     <div className="home-container">
