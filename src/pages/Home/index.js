@@ -67,7 +67,6 @@ export default function Home() {
   const [flashSale, setFlashSale] = useState(null);
   const [reelVideos, setReelVideos] = useState(null);
   const [reelIndex, setReelIndex] = useState(0);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isVideoPlay, setIsVideoPlay] = useState(false);
   const [isVideoAlwaysMuted, setIsVideoAlwaysMuted] =
     useState(true);
@@ -251,32 +250,14 @@ export default function Home() {
     const currentVideoElement = document.getElementById(
       `home-reels-video-${reelIndex}`
     );
-    // Tell the browser to load the video
-    if (!isVideoLoaded) {
-      currentVideoElement.load();
-      console.log("Video loading.");
-    }
 
     const reelsVideoDurationSlider =
       document.getElementById("reels-duration-slider");
-
-    // Check if the 'canplay' or 'canplaythrough' events have fired
-    function checkVideoLoading() {
-      if (
-        currentVideoElement.readyState === 4 &&
-        !isVideoLoaded
-      ) {
-        return setIsVideoLoaded(true);
-      }
-    }
 
     function handlePlay() {
       setPlayTimeout(() => {
         const interval = setInterval(() => {
           // Use a promise to handle the play action
-          //alert(isVideoLoaded);
-          if (!isVideoLoaded) return;
-          if (currentVideoElement.readyState < 4) return;
           const playPromise = currentVideoElement.play();
           if (playPromise) {
             playPromise
@@ -294,7 +275,7 @@ export default function Home() {
                 // You can provide a user-friendly message or take alternative actions
               });
           }
-        }, 500);
+        }, 1000);
         return interval;
       });
     }
@@ -325,15 +306,6 @@ export default function Home() {
     } else handlePause();
 
     // Update the duration slider and video playback position as the video plays
-    // Add event listeners for 'canplay' and 'canplaythrough'
-    currentVideoElement.addEventListener(
-      "canplay",
-      checkVideoLoading
-    );
-    currentVideoElement.addEventListener(
-      "canplaythrough",
-      checkVideoLoading
-    );
     currentVideoElement.addEventListener(
       "timeupdate",
       handleUpdateSlider
