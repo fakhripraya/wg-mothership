@@ -224,6 +224,14 @@ body h6 {
   justify-self: flex-start !important;
 }
 
+.flex-direction-column {
+  flex-direction: column !important;
+}
+
+.flex-direction-row {
+  flex-direction: row !important;
+}
+
 .white-space-no-wrap {
   white-space: nowrap !important;
 }
@@ -279,6 +287,10 @@ body h6 {
 
 .display-none {
   display: none !important;
+}
+
+.display-flex {
+  display: flex !important;
 }
 
 .font-bold {

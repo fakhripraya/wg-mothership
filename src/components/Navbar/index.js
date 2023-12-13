@@ -372,6 +372,11 @@ export default function Navbar() {
   };
 
   const ShowCartCount = (props) => {
+    const ifOverriding = props.isOverriding && {
+      position: "relative",
+      left: "20px",
+    };
+
     return (
       <div
         style={{
@@ -382,6 +387,7 @@ export default function Navbar() {
             color: props.isGreen ? "#0DA34D" : "#fff",
             fontSize: "0.8em",
             fontWeight: "bold",
+            ...ifOverriding,
           }}>
           {cart && cart.length}
         </span>
@@ -393,7 +399,10 @@ export default function Navbar() {
     return (
       IS_OTP_VERIFIED(login) && (
         <Fragment>
-          <ShowCartCount isGreen={true} />
+          <ShowCartCount
+            isOverriding={props.isOverriding}
+            isGreen={true}
+          />
           <img
             onClick={() =>
               handlePageNavigation("/transaction/cart")
@@ -485,7 +494,10 @@ export default function Navbar() {
         toggle={toggleOverride === MENU_MOBILE}>
         <div className="sticky-top">
           <ShowNavbar>
-            <ShowCart className="navbar-mobile-hamburger-image-overriding" />
+            <ShowCart
+              isOverriding
+              className="navbar-mobile-hamburger-image-overriding"
+            />
             <img
               onClick={() =>
                 window.handleOpenOverriding(NO_STRING)

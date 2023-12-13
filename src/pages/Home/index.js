@@ -40,6 +40,9 @@ import TheVideo1 from "../../assets/testvid.mp4";
 import TheVideo2 from "../../assets/testvid2.mp4";
 import CartIcon from "../../assets/svg/cart-icon.svg";
 import PlayIcon from "../../assets/svg/play-button.svg";
+import PauseIcon from "../../assets/svg/pause-button.svg";
+import MuteIcon from "../../assets/svg/headphone-disabled.svg";
+import UnmuteIcon from "../../assets/svg/headphone-enabled.svg";
 import FloatButton from "../../components/FloatButton";
 import Avatar from "react-avatar";
 import Footer from "./../../components/Footer";
@@ -64,7 +67,10 @@ export default function Home() {
   const [flashSale, setFlashSale] = useState(null);
   const [reelVideos, setReelVideos] = useState(null);
   const [reelIndex, setReelIndex] = useState(0);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isVideoPlay, setIsVideoPlay] = useState(false);
+  const [isVideoAlwaysMuted, setIsVideoAlwaysMuted] =
+    useState(true);
   const [playTimeout, setPlayTimeout] = useState(null);
   const [recommendedCategories, setRecommendedCategories] =
     useState(null);
@@ -164,11 +170,13 @@ export default function Home() {
 
   function handleScrollToFirstSection() {
     setToggleScrollVideo(false);
+    setIsVideoPlay(false);
   }
 
   function handleScrollToVideoReels() {
     setToggleScrollVideo(true);
     smoothScrollTop();
+    setIsVideoPlay(true);
   }
 
   function handleGoToCreativeStore(storeId) {
@@ -220,7 +228,7 @@ export default function Home() {
         );
         currentVideoElement.currentTime = 0;
         currentVideoElement.pause();
-        clearTimeout(playTimeout);
+        clearInterval(playTimeout);
         setReelIndex(currentScrollSnapItem);
       }
 
@@ -243,21 +251,39 @@ export default function Home() {
     const currentVideoElement = document.getElementById(
       `home-reels-video-${reelIndex}`
     );
+    // Tell the browser to load the video
+    if (!isVideoLoaded) {
+      currentVideoElement.load();
+      console.log("Video loading.");
+    }
 
     const reelsVideoDurationSlider =
       document.getElementById("reels-duration-slider");
 
-    function handlePlay() {
-      setPlayTimeout(
-        setTimeout(() => {
-          // Use a promise to handle the play action
-          const playPromise = currentVideoElement.play();
+    // Check if the 'canplay' or 'canplaythrough' events have fired
+    function checkVideoLoading() {
+      if (
+        currentVideoElement.readyState === 4 &&
+        !isVideoLoaded
+      ) {
+        return setIsVideoLoaded(true);
+      }
+    }
 
+    function handlePlay() {
+      setPlayTimeout(() => {
+        const interval = setInterval(() => {
+          // Use a promise to handle the play action
+          //alert(isVideoLoaded);
+          if (!isVideoLoaded) return;
+          if (currentVideoElement.readyState < 4) return;
+          const playPromise = currentVideoElement.play();
           if (playPromise) {
             playPromise
               .then(() => {
                 // Video successfully started playing
                 setIsVideoPlay(true);
+                clearInterval(interval);
               })
               .catch((error) => {
                 // Handle play promise rejection (usually due to autoplay restrictions)
@@ -267,11 +293,10 @@ export default function Home() {
                 );
                 // You can provide a user-friendly message or take alternative actions
               });
-          } else {
-            console.error("Error: PlayPromise undefined");
           }
-        }, 500)
-      );
+        }, 500);
+        return interval;
+      });
     }
 
     function handlePause() {
@@ -292,10 +317,6 @@ export default function Home() {
         currentVideoElement.duration;
     }
 
-    function handleVideoEnd() {
-      setIsVideoPlay(false);
-    }
-
     if (isVideoPlay) {
       //currentVideoElement.currentTime = 0;
       reelsVideoDurationSlider.value =
@@ -304,13 +325,18 @@ export default function Home() {
     } else handlePause();
 
     // Update the duration slider and video playback position as the video plays
+    // Add event listeners for 'canplay' and 'canplaythrough'
+    currentVideoElement.addEventListener(
+      "canplay",
+      checkVideoLoading
+    );
+    currentVideoElement.addEventListener(
+      "canplaythrough",
+      checkVideoLoading
+    );
     currentVideoElement.addEventListener(
       "timeupdate",
       handleUpdateSlider
-    );
-    currentVideoElement.addEventListener(
-      "ended",
-      handleVideoEnd
     );
     reelsVideoDurationSlider.addEventListener(
       "mousedown",
@@ -341,10 +367,6 @@ export default function Home() {
         "timeupdate",
         handleUpdateSlider
       );
-      currentVideoElement.removeEventListener(
-        "ended",
-        handleVideoEnd
-      );
       reelsVideoDurationSlider.removeEventListener(
         "mousedown",
         handlePause
@@ -373,17 +395,17 @@ export default function Home() {
     <div className="home-container">
       <div className="home-wrapper">
         <div
-          onClick={() => {
-            setIsVideoPlay(() => !isVideoPlay);
-          }}
           className={`home-section home-hero-section darker-bg-color ${
             toggleScrollVideo
               ? ""
               : "home-video-section-hide"
           }`}>
           <div
+            onClick={() => {
+              setIsVideoPlay(() => !isVideoPlay);
+            }}
             id="home-reels-video-container"
-            className="home-reels-container">
+            className="home-reels-container cursor-pointer">
             {GET_DUMMY_REELS.map((val, index) => {
               return (
                 <video
@@ -391,6 +413,9 @@ export default function Home() {
                   key={`home-reels-video-${val.productId}-${index}`}
                   className="home-hero-reels-video"
                   playsInline
+                  loop
+                  muted={isVideoAlwaysMuted}
+                  preload="auto"
                   type="video/mp4"
                   src={
                     val.video === 0 ? TheVideo1 : TheVideo2
@@ -400,20 +425,46 @@ export default function Home() {
             })}
           </div>
           <div
+            onClick={() => {
+              setIsVideoPlay(() => !isVideoPlay);
+            }}
             className={`home-reels-overlay ${
               isVideoPlay && "home-reels-overlay-played"
             }`}>
             <div className="home-reels-overlay-content">
-              <label>Play</label>
-              <img
-                src={PlayIcon}
-                alt="home-cart-icon"
-              />
+              <label>Video Paused</label>
             </div>
           </div>
           <div className="home-hero-container justify-center">
             <div className="home-hero-sidetools margin-bottom-12">
               <div className="home-sidetools-wrapper">
+                <div
+                  onClick={() => {
+                    setIsVideoAlwaysMuted(
+                      () => !isVideoAlwaysMuted
+                    );
+                  }}
+                  className="home-hero-round-button transparent-bg-color">
+                  <img
+                    src={
+                      isVideoAlwaysMuted
+                        ? MuteIcon
+                        : UnmuteIcon
+                    }
+                    alt="home-hero-reels-mute-button"
+                  />
+                </div>
+                <div
+                  onClick={() => {
+                    setIsVideoPlay(() => !isVideoPlay);
+                  }}
+                  className="home-hero-round-button transparent-bg-color">
+                  <img
+                    src={isVideoPlay ? PlayIcon : PauseIcon}
+                    alt="home-hero-reels-play-button"
+                  />
+                </div>
+                <br />
                 <div
                   onClick={() =>
                     handleScrollToFirstSection()
