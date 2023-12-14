@@ -17,7 +17,10 @@ import { routes } from "./config/router/path";
 import smoothscroll from "smoothscroll-polyfill";
 import FloatButton from "./components/FloatButton";
 import { smoothScrollTop } from "./utils/functions/global";
-import { styleInitialState } from "./variables/styles/app";
+import {
+  scrollTopButtonHiddenState,
+  scrollTopButtonVisibleState,
+} from "./variables/styles/app";
 import { Cache, ConfigProvider } from "react-avatar";
 import { useDispatch } from "react-redux";
 import { setItem } from "./utils/redux/reducers/cartReducer";
@@ -28,8 +31,8 @@ import { setItem } from "./utils/redux/reducers/cartReducer";
 // FIXME: Fix virtual keyboard problem on mobile browsers
 function App() {
   // STATE
-  const [style, setStyle] = useState(styleInitialState);
-  const [renderHelp, setRenderHelp] = useState(true);
+  const [scrollTopButton, setScrollTopButtonState] =
+    useState(scrollTopButtonHiddenState);
   const dispatch = useDispatch();
 
   // VARIABLES
@@ -52,10 +55,7 @@ function App() {
   // FUNCTIONS SPECIFIC //
   function handleStyleChange() {
     if (window.scrollY > 0)
-      setStyle({
-        floatButton: { transform: "scale(0)" },
-        ScrollTopButton: { transform: "scale(1)" },
-      });
+      setScrollTopButtonState(scrollTopButtonVisibleState);
   }
 
   const handleCartBroadcast = (event) => {
@@ -70,10 +70,7 @@ function App() {
       // Clear the previous timer if it exists
       if (timer) clearTimeout(timer);
       if (window.scrollY <= 80)
-        setStyle({
-          floatButton: { transform: "scale(1)" },
-          ScrollTopButton: { transform: "scale(0)" },
-        });
+        setScrollTopButtonState(scrollTopButtonHiddenState);
       // Set a new timer to execute the scroll handling function after a delay
       timer = setTimeout(() => {
         // Your scroll handling logic here
@@ -123,14 +120,14 @@ function App() {
           })}
         </Routes>
         <Footer />
-        <FloatButton
-          style={{
-            transform: `${style.ScrollTopButton.transform}`,
-          }}
-          onClick={() => smoothScrollTop()}
-          className="fixed-app-button main-bg-color">
-          <span className="fixed-round-button-caret-down fixed-round-button-icon" />
-        </FloatButton>
+        {window.location.pathname !== "/" && (
+          <FloatButton
+            style={scrollTopButton}
+            onClick={() => smoothScrollTop()}
+            className="fixed-app-button main-bg-color">
+            <span className="fixed-round-button-caret-down fixed-round-button-icon" />
+          </FloatButton>
+        )}
         <Spinner />
       </Router>
     </ConfigProvider>

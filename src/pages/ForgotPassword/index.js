@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import "./style.scss";
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
-import OverridingContainer from "../../components/OveriddingContainer";
+import OverridingContainer from "../../components/OverridingContainer";
 import { ShowNavbar } from "../../components/Global";
 import Footer from "../../components/Footer";
 import XMark from "../../assets/svg/xmark-solid.svg";

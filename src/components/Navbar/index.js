@@ -12,7 +12,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import OverridingContainer from "../OveriddingContainer";
+import OverridingContainer from "../OverridingContainer";
 import WGLogo from "../../assets/svg/LIVEJB_V1_LOGO.svg";
 import ICHamburger from "../../assets/svg/ic_hamburg_3.svg";
 import ICCart from "../../assets/svg/cart-icon.svg";
@@ -48,12 +48,14 @@ import {
   handleOpenModal,
 } from "../../utils/functions/global";
 import { cookies } from "../../config/cookie";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setOverridingToggle } from "../../utils/redux/reducers/navbarReducer";
 
 export default function Navbar() {
   // HOOKS //
   const ref = useRef();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const credentialService = useAxios();
 
   // VARIABLES
@@ -137,14 +139,18 @@ export default function Navbar() {
     window.scrollTo(0, 0);
 
     // Then use condition for the scrolling behavior
-    if (overridingToggle === NO_STRING)
-      window.document.getElementsByTagName(
-        "html"
-      )[0].style.overflow = "auto";
-    else
-      window.document.getElementsByTagName(
-        "html"
-      )[0].style.overflow = "hidden";
+    // FIXME: Reels become window scrollable because of this
+    if (overridingToggle === NO_STRING) {
+      document
+        .querySelector("html")
+        .style.setProperty("overflow-y", "scroll");
+      dispatch(setOverridingToggle(false));
+    } else {
+      document
+        .querySelector("html")
+        .style.setProperty("overflow-y", "hidden");
+      dispatch(setOverridingToggle(true));
+    }
   }
 
   function handleNavbarHide() {

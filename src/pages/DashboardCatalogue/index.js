@@ -170,7 +170,6 @@ export default function DashboardCatalogue(props) {
 
   function handleUpdateProducts() {
     setIsUpdating(false);
-    console.log(data);
   }
 
   function handleCancelUpdateProducts() {

@@ -186,3 +186,4 @@ export const PRODUCT_CATALOGUE_ADDITIONAL_FILES =
 
 // REDUX ACTIONS
 export const KEY_CART = "KEY_CART";
+export const KEY_NAVBAR = "KEY_NAVBAR";

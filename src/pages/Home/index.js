@@ -49,6 +49,10 @@ import Footer from "./../../components/Footer";
 import SliderRange from "../../components/SliderRange";
 import { handleAddItemToCart } from "../../utils/functions/cart";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  reelsButtonHiddenState,
+  reelsButtonVisibleState,
+} from "../../variables/styles/home";
 
 export default function Home() {
   // HOOK
@@ -67,6 +71,8 @@ export default function Home() {
   const [flashSale, setFlashSale] = useState(null);
   const [reelVideos, setReelVideos] = useState(null);
   const [reelIndex, setReelIndex] = useState(0);
+  const [isReelsbuttonShow, setIsReelsbuttonShow] =
+    useState(false);
   const [isReelsLoaded, setIsReelsLoaded] = useState(false);
   const [isVideoPlay, setIsVideoPlay] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] =
@@ -85,6 +91,9 @@ export default function Home() {
   const [allProducts, setAllProducts] = useState(null);
 
   // VARIABLES //
+  const overridingToggle = useSelector(
+    (state) => state.navbar.overridingToggle
+  );
   const cart = useSelector((state) => state.cart);
   const defaultConfigs = {
     headers: {
@@ -181,7 +190,6 @@ export default function Home() {
 
   function handleScrollToVideoReels() {
     setToggleScrollVideo(true);
-    smoothScrollTop();
     setIsVideoPlay(true);
   }
 
@@ -210,11 +218,7 @@ export default function Home() {
   // INITIAL RENDER
   useEffect(() => {
     const htmlDocument = document.querySelector("html");
-    htmlDocument.style.setProperty(
-      "overflow-y",
-      "hidden",
-      "important"
-    );
+    htmlDocument.style.setProperty("overflow-y", "hidden");
     // scroll to top on entering
     smoothScrollTop();
     // home page initialization
@@ -233,23 +237,44 @@ export default function Home() {
 
     // load the first video
     currentVideoElement.load();
+
+    function handleShowReelsButton() {
+      if (window.scrollY >= 10) setIsReelsbuttonShow(true);
+      else setIsReelsbuttonShow(false);
+    }
+
+    // Listen for the scroll event on the container
+    window.addEventListener(
+      "scroll",
+      handleShowReelsButton
+    );
+
+    return () => {
+      currentVideoElement?.removeEventListener(
+        "loadeddata",
+        handleReelsInitialVideoLoad
+      );
+      window.removeEventListener(
+        "scroll",
+        handleShowReelsButton
+      );
+    };
   }, []);
 
   useEffect(() => {
     const htmlDocument = document.querySelector("html");
-    if (toggleScrollVideo)
+    // take control of overflow-y from handleWindowScroll function in navbar
+    if (toggleScrollVideo && overridingToggle === false)
       htmlDocument.style.setProperty(
         "overflow-y",
-        "hidden",
-        "important"
+        "hidden"
       );
     else
       htmlDocument.style.setProperty(
         "overflow-y",
-        "scroll",
-        "important"
+        "scroll"
       );
-  }, [toggleScrollVideo]);
+  }, [toggleScrollVideo, overridingToggle]);
 
   useEffect(() => {
     if (!isReelsLoaded) return;
@@ -624,15 +649,16 @@ export default function Home() {
               ? "home-body-section-hide"
               : ""
           }`}>
-          {!window.location.pathname.includes(
-            "creative-store"
-          ) && (
-            <FloatButton
-              onClick={() => handleScrollToVideoReels()}
-              className="home-hero-reels-button main-bg-color">
-              <p className="light-color">Reels</p>
-            </FloatButton>
-          )}
+          <FloatButton
+            style={
+              isReelsbuttonShow
+                ? reelsButtonHiddenState
+                : reelsButtonVisibleState
+            }
+            onClick={() => handleScrollToVideoReels()}
+            className="home-hero-reels-button main-bg-color">
+            <p className="light-color">Reels</p>
+          </FloatButton>
           <ImageSlider className="home-imageslider" />
           <div className="home-element-container darker-bg-color">
             <h3 className="home-recommend-title light-color">
