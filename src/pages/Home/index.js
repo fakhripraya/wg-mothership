@@ -67,6 +67,7 @@ export default function Home() {
   const [flashSale, setFlashSale] = useState(null);
   const [reelVideos, setReelVideos] = useState(null);
   const [reelIndex, setReelIndex] = useState(0);
+  const [isReelsLoaded, setIsReelsLoaded] = useState(false);
   const [isVideoPlay, setIsVideoPlay] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] =
     useState(false);
@@ -169,6 +170,10 @@ export default function Home() {
       });
   }
 
+  function handleReelsInitialVideoLoad() {
+    setIsReelsLoaded(true);
+  }
+
   function handleScrollToFirstSection() {
     setToggleScrollVideo(false);
     setIsVideoPlay(false);
@@ -208,10 +213,25 @@ export default function Home() {
     smoothScrollTop();
     // home page initialization
     // here we will check the user authentication first
-    trackPromise(handleInitialize());
+    //trackPromise(handleInitialize());
+    handleInitialize();
+
+    // handle reels initial load events
+    const currentVideoElement = document.getElementById(
+      `home-reels-video-0`
+    );
+    currentVideoElement?.addEventListener(
+      "loadeddata",
+      handleReelsInitialVideoLoad
+    );
+
+    // load the first video
+    currentVideoElement.load();
   }, []);
 
   useEffect(() => {
+    if (!isReelsLoaded) return;
+
     const reelsVideoContainer = document.getElementById(
       "home-reels-video-container"
     );
@@ -246,9 +266,11 @@ export default function Home() {
         );
       };
     }
-  }, [reelIndex]);
+  }, [reelIndex, isReelsLoaded]);
 
   useEffect(() => {
+    if (!isReelsLoaded) return;
+
     const currentVideoElement = document.getElementById(
       `home-reels-video-${reelIndex}`
     );
@@ -287,6 +309,7 @@ export default function Home() {
 
     function handlePause() {
       currentVideoElement.pause();
+      clearInterval(playTimeout);
     }
 
     function handleInput() {
@@ -366,9 +389,11 @@ export default function Home() {
         handlePlay
       );
     };
-  }, [reelIndex, isVideoPlay]);
+  }, [reelIndex, isVideoPlay, isReelsLoaded]);
 
   useEffect(() => {
+    if (!isReelsLoaded) return;
+
     const currentVideoElement = document.getElementById(
       `home-reels-video-${reelIndex}`
     );
@@ -406,7 +431,12 @@ export default function Home() {
       // Clear the interval when the component unmounts
       if (playTimeout) clearInterval(playTimeout);
     };
-  }, [playTimeout, reelIndex, isVideoPlaying]);
+  }, [
+    playTimeout,
+    reelIndex,
+    isVideoPlaying,
+    isReelsLoaded,
+  ]);
 
   return (
     <div className="home-container">
@@ -449,7 +479,11 @@ export default function Home() {
               isVideoPlay && "home-reels-overlay-played"
             }`}>
             <div className="home-reels-overlay-content">
-              <label>Video Paused</label>
+              <label>
+                {isReelsLoaded
+                  ? "Tap to play"
+                  : "Loading Video..."}
+              </label>
             </div>
           </div>
           <div className="home-hero-container justify-center">
