@@ -190,7 +190,7 @@ export default function Home() {
 
   function handleScrollToVideoReels() {
     setToggleScrollVideo(true);
-    setIsVideoPlay(true);
+    if (isReelsLoaded) setIsVideoPlay(true);
   }
 
   function handleGoToCreativeStore(storeId) {
@@ -339,7 +339,7 @@ export default function Home() {
           playPromise
             ?.then(() => {
               // Video successfully started playing
-              setIsVideoPlay(true);
+              if (isReelsLoaded) setIsVideoPlay(true);
             })
             .catch((error) => {
               // Handle play promise rejection (usually due to autoplay restrictions)
@@ -453,7 +453,10 @@ export default function Home() {
       );
 
       const playThreshold = 0.1; // Adjust this value based on your needs
-      if (currentVideoElement?.currentTime > playThreshold)
+      if (
+        currentVideoElement?.currentTime > playThreshold &&
+        isReelsLoaded
+      )
         setIsVideoPlaying(true);
       else setIsVideoPlaying(false);
 
@@ -496,7 +499,8 @@ export default function Home() {
           }`}>
           <div
             onClick={() => {
-              setIsVideoPlay(() => !isVideoPlay);
+              if (isReelsLoaded)
+                setIsVideoPlay(() => !isVideoPlay);
             }}
             id="home-reels-video-container"
             className="home-reels-container cursor-pointer">
@@ -520,7 +524,8 @@ export default function Home() {
           </div>
           <div
             onClick={() => {
-              setIsVideoPlay(() => !isVideoPlay);
+              if (isReelsLoaded)
+                setIsVideoPlay(() => !isVideoPlay);
             }}
             className={`home-reels-overlay ${
               isVideoPlay && "home-reels-overlay-played"
@@ -554,7 +559,8 @@ export default function Home() {
                 </div>
                 <div
                   onClick={() => {
-                    setIsVideoPlay(() => !isVideoPlay);
+                    if (isReelsLoaded)
+                      setIsVideoPlay(() => !isVideoPlay);
                   }}
                   className="home-hero-round-button transparent-bg-color">
                   <img
