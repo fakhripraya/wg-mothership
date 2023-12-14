@@ -209,6 +209,12 @@ export default function Home() {
 
   // INITIAL RENDER
   useEffect(() => {
+    const htmlDocument = document.querySelector("html");
+    htmlDocument.style.setProperty(
+      "overflow-y",
+      "hidden",
+      "important"
+    );
     // scroll to top on entering
     smoothScrollTop();
     // home page initialization
@@ -228,6 +234,22 @@ export default function Home() {
     // load the first video
     currentVideoElement.load();
   }, []);
+
+  useEffect(() => {
+    const htmlDocument = document.querySelector("html");
+    if (toggleScrollVideo)
+      htmlDocument.style.setProperty(
+        "overflow-y",
+        "hidden",
+        "important"
+      );
+    else
+      htmlDocument.style.setProperty(
+        "overflow-y",
+        "scroll",
+        "important"
+      );
+  }, [toggleScrollVideo]);
 
   useEffect(() => {
     if (!isReelsLoaded) return;
