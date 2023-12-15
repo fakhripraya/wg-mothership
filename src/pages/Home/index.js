@@ -28,7 +28,6 @@ import {
   X_SID,
 } from "../../variables/global";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
-import { trackPromise } from "react-promise-tracker";
 import { cookies } from "../../config/cookie";
 import {
   ShowGrabableProductCardCarousel,
@@ -38,6 +37,9 @@ import {
 } from "./ModularComponents/ShowCarousels";
 import TheVideo1 from "../../assets/testvid.mp4";
 import TheVideo2 from "../../assets/testvid2.mp4";
+import TheVideo3 from "../../assets/testvid3.mp4";
+import TheVideo4 from "../../assets/testvid4.mp4";
+import TheVideo5 from "../../assets/testvid5.mp4";
 import CartIcon from "../../assets/svg/cart-icon.svg";
 import PlayIcon from "../../assets/svg/play-button.svg";
 import PauseIcon from "../../assets/svg/pause-button.svg";
@@ -490,6 +492,14 @@ export default function Home() {
     isReelsLoaded,
   ]);
 
+  function handleGetVideoTest(index) {
+    if (index === 0) return TheVideo1;
+    if (index === 1) return TheVideo2;
+    if (index === 2) return TheVideo3;
+    if (index === 3) return TheVideo4;
+    if (index === 4) return TheVideo5;
+  }
+
   return (
     <div className="home-container">
       <div className="home-wrapper">
@@ -517,9 +527,7 @@ export default function Home() {
                   muted={isVideoAlwaysMuted}
                   preload="auto"
                   type="video/mp4"
-                  src={
-                    val.video === 0 ? TheVideo1 : TheVideo2
-                  }
+                  src={handleGetVideoTest(val.video)}
                 />
               );
             })}
