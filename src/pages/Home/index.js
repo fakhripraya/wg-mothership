@@ -76,7 +76,7 @@ export default function Home() {
   const [isReelsbuttonShow, setIsReelsbuttonShow] =
     useState(false);
   const [isReelsLoaded, setIsReelsLoaded] = useState(false);
-  const [isVideoPlay, setIsVideoPlay] = useState(false);
+  const [isVideoPlay, setIsVideoPlay] = useState(true);
   const [isVideoPlaying, setIsVideoPlaying] =
     useState(false);
   const [isVideoAlwaysMuted, setIsVideoAlwaysMuted] =
