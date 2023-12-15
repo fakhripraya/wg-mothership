@@ -117,9 +117,7 @@ export default function Navbar() {
             cookies.get(CLIENT_USER_INFO, { path: "/" })
           );
         })
-        .catch((error) => {
-          catchPromiseErrors(error, navigate);
-        })
+        .catch((error) => catchPromiseErrors(error))
     );
   }
 
@@ -160,7 +158,7 @@ export default function Navbar() {
 
   function handlePageNavigation(navMenu) {
     window.handleOpenOverriding(NO_STRING);
-    navigate(navMenu);
+    window.location.href = navMenu;
   }
 
   function handleLogout() {
@@ -179,7 +177,7 @@ export default function Navbar() {
           window.handleOpenOverriding(NO_STRING);
           handleOpenModal(setModalToggle, modalToggle);
           setError(false);
-          navigate("/");
+          window.location.href = "/";
         })
         .catch((error) => {
           setError(true);

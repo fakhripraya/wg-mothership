@@ -248,7 +248,7 @@ export default function ProductDetail() {
       <ErrorHandling errorMessage={NO_PRODUCT_FOUND}>
         <Button
           className="margin-top-12-18 "
-          onClick={() => window.location.replace("/")}>
+          onClick={() => (window.location.href = "/")}>
           Balik ke Home
         </Button>
       </ErrorHandling>

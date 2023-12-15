@@ -1,9 +1,10 @@
 body,
 html {
-  background-color: #151515; /*base background color*/
-  color: #fff; /*base color*/
+  background-color: #151515;
+  color: #fff;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }

@@ -120,14 +120,12 @@ function App() {
           })}
         </Routes>
         <Footer />
-        {window.location.pathname !== "/" && (
-          <FloatButton
-            style={scrollTopButton}
-            onClick={() => smoothScrollTop()}
-            className="fixed-app-button main-bg-color">
-            <span className="fixed-round-button-caret-down fixed-round-button-icon" />
-          </FloatButton>
-        )}
+        <FloatButton
+          style={scrollTopButton}
+          onClick={() => smoothScrollTop()}
+          className="fixed-app-button main-bg-color">
+          <span className="fixed-round-button-caret-down fixed-round-button-icon" />
+        </FloatButton>
         <Spinner />
       </Router>
     </ConfigProvider>

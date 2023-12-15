@@ -189,8 +189,9 @@ export default function Home() {
   }
 
   function handleScrollToVideoReels() {
-    setToggleScrollVideo(true);
-    setIsVideoPlay(true);
+    // setToggleScrollVideo(true);
+    // setIsVideoPlay(true);
+    window.location.href = "/";
   }
 
   function handleGoToCreativeStore(storeId) {
@@ -239,8 +240,8 @@ export default function Home() {
     currentVideoElement.load();
 
     function handleShowReelsButton() {
-      if (window.scrollY >= 10) setIsReelsbuttonShow(true);
-      else setIsReelsbuttonShow(false);
+      if (window.scrollY >= 80) setIsReelsbuttonShow(false);
+      else setIsReelsbuttonShow(true);
     }
 
     // Listen for the scroll event on the container
@@ -659,8 +660,8 @@ export default function Home() {
           <FloatButton
             style={
               isReelsbuttonShow
-                ? reelsButtonHiddenState
-                : reelsButtonVisibleState
+                ? reelsButtonVisibleState
+                : reelsButtonHiddenState
             }
             onClick={() => handleScrollToVideoReels()}
             className="home-hero-reels-button main-bg-color">

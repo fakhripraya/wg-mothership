@@ -1563,7 +1563,7 @@ export default function CreativeStore() {
         errorMessage={NO_STORE_FOUND_IN_THE_CREATIVE_STORE}>
         <Button
           className="margin-top-12-18 "
-          onClick={() => window.location.replace("/")}>
+          onClick={() => (window.location.href = "/")}>
           Balik ke Home
         </Button>
       </ErrorHandling>

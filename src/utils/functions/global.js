@@ -115,14 +115,15 @@ export function handleOpenOverridingHome(overridingName) {
   window.location.replace(`/?openWindow=${overridingName}`);
 }
 
-export function catchPromiseErrors(error, navigate) {
+export function catchPromiseErrors(error) {
   try {
-    if (!error) return navigate("/");
-    if (!error.errorContent) return navigate("/");
+    if (!error) return (window.location.href = "/");
+    if (!error.errorContent)
+      return (window.location.href = "/");
     else throw new Error(error.errorContent);
   } catch (e) {
     console.error(e);
-    return navigate("/");
+    return (window.location.href = "/");
   }
 }
 

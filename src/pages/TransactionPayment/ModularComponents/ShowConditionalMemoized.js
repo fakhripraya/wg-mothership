@@ -63,7 +63,7 @@ export default function ShowConditionalMemoized(props) {
       <ErrorHandling errorMessage={EMPTY_CART}>
         <Button
           className="margin-top-12-18 "
-          onClick={() => window.location.replace("/")}>
+          onClick={() => (window.location.href = "/")}>
           Balik ke Home
         </Button>
       </ErrorHandling>

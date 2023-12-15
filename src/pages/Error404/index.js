@@ -22,7 +22,8 @@ export default function Error404() {
             </span>
           </label>
           <br />
-          <Button onClick={() => navigate("/")}>
+          <Button
+            onClick={() => (window.location.href = "/")}>
             Balik ke home
           </Button>
         </div>
