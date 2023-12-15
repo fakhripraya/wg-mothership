@@ -297,6 +297,9 @@ export default function Home() {
         const currentScrollSnapItem = Math.round(
           scrollTop / itemHeight
         );
+
+        if (reelIndex === currentScrollSnapItem) return;
+
         currentVideoElement.currentTime = 0;
         currentVideoElement.pause();
         clearInterval(playTimeout);
