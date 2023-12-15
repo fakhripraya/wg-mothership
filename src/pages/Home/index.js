@@ -191,8 +191,6 @@ export default function Home() {
   }
 
   function handleScrollToVideoReels() {
-    // setToggleScrollVideo(true);
-    // setIsVideoPlay(true);
     window.location.href = "/";
   }
 
@@ -367,6 +365,7 @@ export default function Home() {
 
     function handleSliderInteract() {
       currentVideoElement.pause();
+      setIsVideoPlay(false);
     }
 
     function handleInput() {
@@ -410,11 +409,7 @@ export default function Home() {
       handleInput
     );
     reelsVideoDurationSlider?.addEventListener(
-      "mouseup",
-      handlePlay
-    );
-    reelsVideoDurationSlider?.addEventListener(
-      "touchend",
+      "change",
       handlePlay
     );
 
@@ -438,11 +433,7 @@ export default function Home() {
         handleInput
       );
       reelsVideoDurationSlider?.removeEventListener(
-        "mouseup",
-        handlePlay
-      );
-      reelsVideoDurationSlider?.removeEventListener(
-        "touchend",
+        "change",
         handlePlay
       );
     };

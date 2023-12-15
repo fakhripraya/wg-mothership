@@ -184,12 +184,13 @@
 
 input[type="range"] {
   width: 12.5em;
+  pointer-events: all;
   touch-action: manipulation;
 }
 
 input[type="range"] {
   color: #ef233c;
-  --thumb-height: 0.75em;
+  --thumb-height: 1em;
   --track-height: 0.1em;
   --track-color: rgba(0, 0, 0, 0.2);
   --brightness-hover: 180%;
