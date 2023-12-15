@@ -545,9 +545,7 @@ export default function Home() {
             }`}>
             <div className="home-reels-overlay-content">
               <label>
-                {isReelsLoaded
-                  ? "Tap to play"
-                  : "Loading Video..."}
+                {isReelsLoaded ? "Paused" : "Loading..."}
               </label>
             </div>
           </div>
