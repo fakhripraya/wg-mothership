@@ -95,7 +95,7 @@ export default function Navbar() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [error, setError] = useState(false);
   // eslint-disable-next-line no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   // FUNCTIONS SPECIFIC //
   function handleGoogleAuthListener() {
@@ -477,13 +477,14 @@ export default function Navbar() {
         className={`fixed-top navbar ${navbarDisplayAdditionalClassName}`}>
         <div className="navbar-container">
           <div className="navbar-wrapper">
-            <div className="navbar-logo-wrapper">
+            {/* <div className="navbar-logo-wrapper">
               <img
                 onClick={() => handlePageNavigation("/")}
                 className="navbar-logo-img"
                 src={WGLogo}
                 alt="WG_LOGO"></img>
-            </div>
+            </div> */}
+            <div className="navbar-logo-wrapper" />
             <ShowCart />
             <img
               onClick={() =>

@@ -85,13 +85,8 @@
   position: relative;
   top: 0px;
   height: 80px;
-  transform: scale(1.75) translateX(15%);
+  transform: scale(1.75);
   cursor: pointer;
-}
-
-.navbar-logo-img:hover {
-  transform: scale(1.95) translateX(15%);
-  transition: all 0.1s ease-in-out;
 }
 
 .navbar-menu-wrapper li {

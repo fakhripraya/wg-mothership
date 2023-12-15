@@ -190,7 +190,7 @@ export default function Home() {
 
   function handleScrollToVideoReels() {
     setToggleScrollVideo(true);
-    if (isReelsLoaded) setIsVideoPlay(true);
+    setIsVideoPlay(true);
   }
 
   function handleGoToCreativeStore(storeId) {
@@ -339,7 +339,7 @@ export default function Home() {
           playPromise
             ?.then(() => {
               // Video successfully started playing
-              if (isReelsLoaded) setIsVideoPlay(true);
+              setIsVideoPlay(true);
             })
             .catch((error) => {
               // Handle play promise rejection (usually due to autoplay restrictions)
@@ -357,6 +357,10 @@ export default function Home() {
     function handlePause() {
       currentVideoElement.pause();
       clearInterval(playTimeout);
+    }
+
+    function handleSliderInteract() {
+      currentVideoElement.pause();
     }
 
     function handleInput() {
@@ -387,11 +391,11 @@ export default function Home() {
     );
     reelsVideoDurationSlider?.addEventListener(
       "mousedown",
-      handlePause
+      handleSliderInteract
     );
     reelsVideoDurationSlider?.addEventListener(
       "touchstart",
-      handlePause,
+      handleSliderInteract,
       { passive: true }
     );
     // Listen for the scroll event on the container
@@ -416,11 +420,11 @@ export default function Home() {
       );
       reelsVideoDurationSlider?.removeEventListener(
         "mousedown",
-        handlePause
+        handleSliderInteract
       );
       reelsVideoDurationSlider?.removeEventListener(
         "touchstart",
-        handlePause
+        handleSliderInteract
       );
       // Listen for the scroll event on the container
       reelsVideoDurationSlider?.removeEventListener(
@@ -453,10 +457,7 @@ export default function Home() {
       );
 
       const playThreshold = 0.1; // Adjust this value based on your needs
-      if (
-        currentVideoElement?.currentTime > playThreshold &&
-        isReelsLoaded
-      )
+      if (currentVideoElement?.currentTime > playThreshold)
         setIsVideoPlaying(true);
       else setIsVideoPlaying(false);
 
