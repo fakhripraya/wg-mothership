@@ -188,6 +188,7 @@ export default function Home() {
 
   function handleScrollToFirstSection() {
     setToggleScrollVideo(false);
+    setIsReelsbuttonShow(true);
     setIsVideoPlay(false);
   }
 
