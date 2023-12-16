@@ -41,10 +41,11 @@ import TheVideo3 from "../../assets/testvid3.mp4";
 import TheVideo4 from "../../assets/testvid4.mp4";
 import TheVideo5 from "../../assets/testvid5.mp4";
 import CartIcon from "../../assets/svg/cart-icon.svg";
-import PlayIcon from "../../assets/svg/play-button.svg";
+import ExitIcon from "../../assets/svg/logout.svg";
 import PauseIcon from "../../assets/svg/pause-button.svg";
 import MuteIcon from "../../assets/svg/headphone-disabled.svg";
 import UnmuteIcon from "../../assets/svg/headphone-enabled.svg";
+import PFPPlaceholder from "../../assets/svg/profile-picture-placeholder.svg";
 import FloatButton from "../../components/FloatButton";
 import Avatar from "react-avatar";
 import Footer from "./../../components/Footer";
@@ -536,7 +537,15 @@ export default function Home() {
             }`}>
             <div className="home-reels-overlay-content">
               <label>
-                {isReelsLoaded ? "Paused" : "Loading..."}
+                {isReelsLoaded ? (
+                  <img
+                    className="home-size-25"
+                    alt="paused-icon"
+                    src={PauseIcon}
+                  />
+                ) : (
+                  "Loading..."
+                )}
               </label>
             </div>
           </div>
@@ -551,6 +560,7 @@ export default function Home() {
                   }}
                   className="home-hero-round-button transparent-bg-color">
                   <img
+                    className="home-size-20"
                     src={
                       isVideoAlwaysMuted
                         ? MuteIcon
@@ -559,24 +569,17 @@ export default function Home() {
                     alt="home-hero-reels-mute-button"
                   />
                 </div>
-                <div
-                  onClick={() => {
-                    if (isReelsLoaded)
-                      setIsVideoPlay(() => !isVideoPlay);
-                  }}
-                  className="home-hero-round-button transparent-bg-color">
-                  <img
-                    src={isVideoPlay ? PlayIcon : PauseIcon}
-                    alt="home-hero-reels-play-button"
-                  />
-                </div>
                 <br />
                 <div
                   onClick={() =>
                     handleScrollToFirstSection()
                   }
-                  className="home-hero-round-button main-bg-color">
-                  <span className="home-hero-round-button-icon home-hero-round-button-caret-down " />
+                  className="home-hero-round-button transparent-bg-color">
+                  <img
+                    className="home-size-20"
+                    src={ExitIcon}
+                    alt="home-hero-reels-exit-button"
+                  />
                 </div>
               </div>
             </div>
@@ -596,12 +599,9 @@ export default function Home() {
                   }
                   className="home-hero-round-button transparent-bg-color margin-bottom-8">
                   <img
+                    className="home-size-30"
                     src={CartIcon}
                     alt="home-cart-icon"
-                    style={{
-                      height: "40px",
-                      width: "40px",
-                    }}
                   />
                 </div>
                 <Avatar
@@ -621,7 +621,12 @@ export default function Home() {
                     reelVideos?.[reelIndex]?.MasterStore
                       ?.storeName
                   }
-                  src={`${process.env.REACT_APP_CHRONOS_SERVICE}${reelVideos?.[reelIndex]?.MasterStore?.MasterFiles?.[0]?.destination}`}
+                  src={
+                    reelVideos?.[reelIndex]?.MasterStore
+                      ?.storeName
+                      ? `${process.env.REACT_APP_CHRONOS_SERVICE}${reelVideos?.[reelIndex]?.MasterStore?.MasterFiles?.[0]?.destination}`
+                      : PFPPlaceholder
+                  }
                   className="pointer-all"
                 />
                 <h3 className="margin-bottom-8">
