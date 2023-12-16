@@ -80,6 +80,7 @@ export default function Home() {
   const [isVideoPlay, setIsVideoPlay] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] =
     useState(false);
+  const [isEverUnmute, setIsEverUnmute] = useState(false);
   const [isVideoAlwaysMuted, setIsVideoAlwaysMuted] =
     useState(true);
   const [playTimeout, setPlayTimeout] = useState(null);
@@ -530,8 +531,13 @@ export default function Home() {
           </div>
           <div
             onClick={() => {
-              if (isReelsLoaded)
+              if (isReelsLoaded) {
                 setIsVideoPlay(() => !isVideoPlay);
+                if (!isEverUnmute) {
+                  setIsVideoAlwaysMuted(false);
+                  setIsEverUnmute(true);
+                }
+              }
             }}
             className={`home-reels-overlay ${
               isVideoPlay && "home-reels-overlay-played"
