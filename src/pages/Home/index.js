@@ -540,19 +540,21 @@ export default function Home() {
               }
             }}
             className={`home-reels-overlay ${
-              isVideoPlay && "home-reels-overlay-played"
+              isVideoPlay ? "home-reels-overlay-played" : ""
             }`}>
             <div className="home-reels-overlay-content">
-              <label>
-                {isReelsLoaded ? (
-                  <img
-                    className="home-size-25"
-                    alt="paused-icon"
-                    src={PauseIcon}
-                  />
-                ) : (
-                  "Loading..."
-                )}
+              <img
+                className={`home-size-25 ${
+                  !isReelsLoaded ? "display-none" : ""
+                }`}
+                alt="paused-icon"
+                src={PauseIcon}
+              />
+              <label
+                className={
+                  isReelsLoaded ? "display-none" : ""
+                }>
+                Loading...
               </label>
             </div>
           </div>
@@ -567,12 +569,21 @@ export default function Home() {
                   }}
                   className="home-hero-round-button transparent-bg-color">
                   <img
-                    className="home-size-20"
-                    src={
+                    className={`home-size-20 ${
+                      !isVideoAlwaysMuted
+                        ? "display-none"
+                        : ""
+                    }`}
+                    src={MuteIcon}
+                    alt="home-hero-reels-mute-button"
+                  />
+                  <img
+                    className={`home-size-20 ${
                       isVideoAlwaysMuted
-                        ? MuteIcon
-                        : UnmuteIcon
-                    }
+                        ? "display-none"
+                        : ""
+                    }`}
+                    src={UnmuteIcon}
                     alt="home-hero-reels-mute-button"
                   />
                 </div>

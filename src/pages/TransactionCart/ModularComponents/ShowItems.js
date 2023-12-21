@@ -134,7 +134,7 @@ const ShowItems = (props) => {
   const render = useCallback(
     () => (
       <Fragment>
-        {[...props.reduxDatas].map((data, index) => (
+        {[...props.filteredDatas].map((data, index) => (
           <ShowItem
             key={`transaction-cart-item-${index}`}
             index={index}

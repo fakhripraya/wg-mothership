@@ -53,8 +53,8 @@ const ShowDisplayItem = ({
           <div className="dashboard-catalogue-identifier-img-wrapper">
             <img
               className="dashboard-catalogue-identifier-img"
-              src={`${process.env.REACT_APP_CHRONOS_SERVICE}${item.MasterFiles[0].destination}`}
-              alt={item.MasterFiles[0].filename}
+              src={`${process.env.REACT_APP_CHRONOS_SERVICE}${item?.MasterFiles?.[0]?.destination}`}
+              alt={item?.MasterFiles?.[0]?.filename}
             />
           </div>
         </div>

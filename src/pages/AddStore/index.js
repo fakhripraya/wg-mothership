@@ -86,10 +86,11 @@ export default function AddStore() {
   const [success, setSuccess] = useState(false);
 
   // FUNCTIONS SPECIFIC //
+  // return the current state, and the initial state
   const dataHandler = () => {
     return {
       data,
-      STORE_INITIAL_VALUE,
+      initialValue: STORE_INITIAL_VALUE,
     };
   };
 

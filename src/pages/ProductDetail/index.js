@@ -280,31 +280,24 @@ export default function ProductDetail() {
                 {productImages && (
                   <img
                     className="detail-picture"
-                    alt={
-                      productImages &&
-                      productImages[0].filename
-                    }
-                    src={
-                      productImages &&
-                      `${process.env.REACT_APP_CHRONOS_SERVICE}${productImages[0].destination}`
-                    }
+                    alt={productImages?.[0]?.filename}
+                    src={`${process.env.REACT_APP_CHRONOS_SERVICE}${productImages?.[0]?.destination}`}
                   />
                 )}
               </div>
               <div className="detail-picture-box-options">
-                {productImages &&
-                  productImages.map((file, index) => {
-                    return (
-                      index !== 0 && (
-                        <img
-                          key={`detail-picture-box-options-${index}`}
-                          className="detail-picture-box-options-item"
-                          alt={file.filename}
-                          src={`${process.env.REACT_APP_CHRONOS_SERVICE}${file.destination}`}
-                        />
-                      )
-                    );
-                  })}
+                {productImages?.map((file, index) => {
+                  return (
+                    index !== 0 && (
+                      <img
+                        key={`detail-picture-box-options-${index}`}
+                        className="detail-picture-box-options-item"
+                        alt={file.filename}
+                        src={`${process.env.REACT_APP_CHRONOS_SERVICE}${file.destination}`}
+                      />
+                    )
+                  );
+                })}
               </div>
             </div>
             <div className="detail-flexbox detail-flexbox-details ">
@@ -378,19 +371,20 @@ export default function ProductDetail() {
                   }}
                   size={"60px"}
                   round={true}
-                  src={
-                    productData &&
-                    `${process.env.REACT_APP_CHRONOS_SERVICE}${productData.MasterStoreCatalogue.MasterStore.MasterFiles[0].destination}`
-                  }
+                  src={`${process.env.REACT_APP_CHRONOS_SERVICE}${productData?.MasterStoreCatalogue?.MasterStore?.MasterFiles?.[0]?.destination}`}
                   title={
-                    productData &&
-                    productData.MasterStoreCatalogue
-                      .MasterStore.MasterFiles[0].filename
+                    productData?.MasterStoreCatalogue
+                      ?.MasterStore?.MasterFiles?.[0]
+                      ?.filename ||
+                    productData?.MasterStoreCatalogue
+                      ?.MasterStore?.storeName
                   }
                   name={
-                    productData &&
-                    productData.MasterStoreCatalogue
-                      .MasterStore.MasterFiles[0].filename
+                    productData?.MasterStoreCatalogue
+                      ?.MasterStore?.MasterFiles?.[0]
+                      ?.filename ||
+                    productData?.MasterStoreCatalogue
+                      ?.MasterStore?.storeName
                   }
                 />
                 <div className="detail-merchant-status">

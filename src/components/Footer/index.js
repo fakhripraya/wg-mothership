@@ -4,6 +4,7 @@ import Button from "../Button";
 import { getSocialMedia } from "../../variables/path/footer";
 import { useLocation, useNavigate } from "react-router-dom";
 import { sendWACS } from "../../utils/functions/global";
+import { NO_STRING } from "../../variables/global";
 
 const StyledButton = (props) => {
   const { children, className, onClick } = props;
@@ -27,6 +28,16 @@ export default function Footer(props) {
   // FUNCTIONS SPECIFIC //
   function sendWA() {
     sendWACS();
+  }
+
+  function handleGoToTNC() {
+    window.handleOpenOverriding(NO_STRING);
+    navigation("/tnc");
+  }
+
+  function handleGoToPrivacyPolicy() {
+    window.handleOpenOverriding(NO_STRING);
+    navigation("/privacy-policy");
   }
 
   useLayoutEffect(() => {
@@ -94,9 +105,7 @@ export default function Footer(props) {
               </h2>
               <div className="footer-column-1-help">
                 <StyledButton
-                  onClick={() =>
-                    navigation("/privacy-policy")
-                  }
+                  onClick={handleGoToPrivacyPolicy}
                   className={
                     props.isOverriding
                       ? "max-width footer-button-block-overriding"
@@ -105,7 +114,7 @@ export default function Footer(props) {
                   Privacy Policy
                 </StyledButton>
                 <StyledButton
-                  onClick={() => navigation("/tnc")}
+                  onClick={handleGoToTNC}
                   className={
                     props.isOverriding
                       ? "max-width footer-button-block-overriding"

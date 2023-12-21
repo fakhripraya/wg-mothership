@@ -84,11 +84,7 @@ export default function TransactionPayment() {
   // FUNCTION SPECIFIC
   async function handleInitialize() {
     // clone and filter user own cart datas
-    let useableData = cloneDeep(reduxDatas);
-    let temp = useableData.filter((val) => {
-      if (val.userId === login.user.userId) return val;
-    });
-
+    let temp = cloneDeep(reduxDatas);
     let tempArray = [];
     for (var element of temp) {
       let newObj = {

@@ -24,9 +24,14 @@ export default function ShowConditionalMemoized(props) {
   // STATE
   const [selectedAddress, setSelectedAddress] = useState(0);
 
+  // VARIABLES
+  let filteredDatas = props.reduxDatas.filter(
+    (val) => val.userId === props.login.user.userId
+  );
+
   // FUNCTIONS
   function handleSubtotal() {
-    const temp = cloneDeep(props.reduxDatas);
+    const temp = cloneDeep(filteredDatas);
     const total = temp.reduce((acc, current) => {
       return (
         acc + Number(current.productPrice * current.buyQty)
@@ -58,7 +63,7 @@ export default function ShowConditionalMemoized(props) {
     );
   }
 
-  if (props.reduxDatas.length <= 0) {
+  if (filteredDatas.length <= 0) {
     return (
       <ErrorHandling errorMessage={EMPTY_CART}>
         <Button
@@ -154,6 +159,7 @@ export default function ShowConditionalMemoized(props) {
               <ShowItems
                 login={props.login}
                 reduxDatas={props.reduxDatas}
+                filteredDatas={filteredDatas}
                 dispatch={dispatch}
               />
             </div>
