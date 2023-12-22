@@ -569,7 +569,7 @@ export default function ProductDetail() {
                 <p style={{ fontSize: "36px" }}>5.0</p>
               </div>
               <p className="detail-body-text margin-top-0">
-                100% peminjam merasa puas
+                100% Pembeli merasa puas
               </p>
               <p className="detail-body-text margin-top-0">
                 11 rating • 9 ulasan
@@ -582,7 +582,7 @@ export default function ProductDetail() {
             </div>
             <div className="detail-flexbox detail-flexbox-review ">
               <h1 className="detail-title margin-top-0">
-                Foto Review Dari Peminjam
+                Foto Review Dari Pembeli
               </h1>
               <div className="detail-picture-box-review">
                 <img
@@ -620,7 +620,7 @@ export default function ProductDetail() {
                 className="max-width"
               />
               <h1 className="detail-title margin-bottom-0">
-                Review Dari Peminjam
+                Review Dari Pembeli
               </h1>
               <p className="detail-body-text margin-top-0">
                 Menampilkan 9 ulasan dari 9

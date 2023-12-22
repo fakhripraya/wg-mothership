@@ -17,9 +17,9 @@ export default function PageLoading(props) {
             alt="WG_LOGO_SPINNER_PAGE_LOADING"
           />
         )}
-        <p className="page-loading-text">
+        <label className="page-loading-text">
           {props.loadingMessage}
-        </p>
+        </label>
       </div>
     </div>
   );

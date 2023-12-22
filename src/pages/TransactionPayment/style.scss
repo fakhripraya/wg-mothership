@@ -8,13 +8,14 @@
   display: flex;
   flex-direction: column;
   max-width: 50vw;
-  max-height: 80svh;
+  max-height: 80vh;
+  overflow: hidden;
 
   @media screen and (max-width: 768px) {
-    max-width: 100vw;
     width: 100vw;
-    max-height: 100svh;
-    height: 100svh;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
   }
 }
 

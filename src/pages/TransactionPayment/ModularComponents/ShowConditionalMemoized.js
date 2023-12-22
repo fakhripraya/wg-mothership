@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import ErrorHandling from "../../ErrorHandling";
 import Button from "../../../components/Button";
 import { EMPTY_CART } from "../../../variables/errorMessages/transactionCart";
@@ -92,34 +92,36 @@ export default function ShowConditionalMemoized(props) {
             className="max-width"
           />
           {props.buyingAddresses?.length !== 0 && (
-            <div className="transaction-payment-deliveryopt-container">
-              <h3>Alamat Pengiriman</h3>
-              <p className="font-bold main-color cursor-pointer margin-bottom-8">
-                {
-                  props.buyingAddresses[selectedAddress]
-                    .addressLabel
-                }
-              </p>
-              <label>
-                {
-                  props.buyingAddresses[selectedAddress]
-                    .addressPhoneNumber
-                }
-              </label>
+            <Fragment>
+              <div className="transaction-payment-deliveryopt-container">
+                <h3>Alamat Pengiriman</h3>
+                <p className="font-bold main-color cursor-pointer margin-bottom-8">
+                  {
+                    props.buyingAddresses[selectedAddress]
+                      .addressLabel
+                  }
+                </p>
+                <label>
+                  {
+                    props.buyingAddresses[selectedAddress]
+                      .addressPhoneNumber
+                  }
+                </label>
+                <br />
+                <label>
+                  {
+                    props.buyingAddresses[selectedAddress]
+                      .addressDetail
+                  }
+                </label>
+              </div>
               <br />
-              <label>
-                {
-                  props.buyingAddresses[selectedAddress]
-                    .addressDetail
-                }
-              </label>
-            </div>
+              <hr
+                style={{ opacity: 0.1 }}
+                className="max-width"
+              />
+            </Fragment>
           )}
-          <br />
-          <hr
-            style={{ opacity: 0.1 }}
-            className="max-width"
-          />
           <br />
           <div className="transaction-payment-deliveryopt-container transaction-payment-deliveryopt-button-container">
             {props.buyingAddresses?.map((val, index) => (

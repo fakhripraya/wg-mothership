@@ -1,5 +1,8 @@
 import { Buffer } from "buffer";
-import { IMAGE_MIME_TYPE } from "../../variables/global";
+import {
+  IMAGE_MIME_TYPE,
+  NO_STRING,
+} from "../../variables/global";
 
 // Whatsapp sender
 export function sendWACS() {
@@ -113,6 +116,11 @@ export function handleError500() {
 
 export function handleOpenOverridingHome(overridingName) {
   window.location.replace(`/?openWindow=${overridingName}`);
+}
+
+export function handlePageNavigation(navMenu) {
+  window.handleOpenOverriding(NO_STRING);
+  window.location.href = navMenu;
 }
 
 export function catchPromiseErrors(error) {

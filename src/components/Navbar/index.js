@@ -13,7 +13,6 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import OverridingContainer from "../OverridingContainer";
-import WGLogo from "../../assets/svg/LIVEJB_V1_LOGO.svg";
 import ICHamburger from "../../assets/svg/ic_hamburg_3.svg";
 import ICCart from "../../assets/svg/cart-icon.svg";
 import { getMenus } from "../../variables/path/navbar";
@@ -46,10 +45,13 @@ import {
   catchPromiseErrors,
   handleErrorMessage,
   handleOpenModal,
+  handlePageNavigation,
 } from "../../utils/functions/global";
 import { cookies } from "../../config/cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { setOverridingToggle } from "../../utils/redux/reducers/navbarReducer";
+import { useMemo } from "react";
+import { ShowCart } from "./ModularComponents/ShowCart";
 
 export default function Navbar() {
   // HOOKS //
@@ -154,11 +156,6 @@ export default function Navbar() {
   function handleNavbarHide() {
     if (window.scrollY > 80)
       setNavbarStyle({ transform: "translateY(-100%)" });
-  }
-
-  function handlePageNavigation(navMenu) {
-    window.handleOpenOverriding(NO_STRING);
-    window.location.href = navMenu;
   }
 
   function handleLogout() {
@@ -375,52 +372,6 @@ export default function Navbar() {
     );
   };
 
-  const ShowCartCount = (props) => {
-    const ifOverriding = props.isOverriding && {
-      position: "relative",
-      left: "20px",
-    };
-
-    return (
-      <div
-        style={{
-          verticalAlign: "super",
-        }}>
-        <span
-          style={{
-            color: props.isGreen ? "#0DA34D" : "#fff",
-            fontSize: "0.8em",
-            fontWeight: "bold",
-            ...ifOverriding,
-          }}>
-          {cart && cart.length}
-        </span>
-      </div>
-    );
-  };
-
-  const ShowCart = (props) => {
-    return (
-      IS_OTP_VERIFIED(login) && (
-        <Fragment>
-          <ShowCartCount
-            isOverriding={props.isOverriding}
-            isGreen={true}
-          />
-          <img
-            onClick={() =>
-              handlePageNavigation("/transaction/cart")
-            }
-            style={{ marginRight: "12px" }}
-            className={`navbar-mobile-hamburger-image ${props.className}`}
-            src={ICCart}
-            alt="ic_cart"
-          />
-        </Fragment>
-      )
-    );
-  };
-
   const ShowModal = () => {
     if (error) return <ShowErrorModal />;
     else return <ShowLogoutModal />;
@@ -483,7 +434,10 @@ export default function Navbar() {
                 alt="WG_LOGO"></img>
             </div> */}
             <div className="navbar-logo-wrapper" />
-            <ShowCart />
+            <ShowCart
+              login={login}
+              cart={cart}
+            />
             <img
               onClick={() =>
                 window.handleOpenOverriding(MENU_MOBILE)
@@ -500,6 +454,8 @@ export default function Navbar() {
         <div className="sticky-top">
           <ShowNavbar>
             <ShowCart
+              login={login}
+              cart={cart}
               isOverriding
               className="navbar-mobile-hamburger-image-overriding"
             />

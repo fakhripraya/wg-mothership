@@ -111,13 +111,6 @@ export default function ShowConditionalMemoized(props) {
                 {" "}
                 Checkout
               </Button>
-              <br />
-              <label
-                style={{ fontSize: "1.25em" }}
-                className="text-align-end margin-0 font-bold">
-                Total : Rp.
-                {formattedNumber(handleDisplayTotal())}
-              </label>
             </div>
           </div>
         </div>
@@ -127,7 +120,20 @@ export default function ShowConditionalMemoized(props) {
           className="max-width"
         />
         <br />
-        <p className="align-self-start margin-0">
+        <label
+          style={{
+            fontSize: "1.25em",
+          }}
+          className="margin-0 font-bold max-width">
+          Total : Rp.
+          {formattedNumber(handleDisplayTotal())}
+        </label>
+        <p
+          style={{
+            margin: "0px",
+            marginTop: "8px",
+          }}
+          className="align-self-start">
           Sebelum kamu melakukan{" "}
           <span className="font-bold main-color">
             checkout
