@@ -104,7 +104,7 @@ export default function Home() {
       [AUTHORIZATION]: `Bearer ${
         cookies.get(CLIENT_USER_INFO, {
           path: "/",
-        })?.credentialToken.accessToken
+        })?.credentialToken?.accessToken
       }`,
       [X_SID]: cookies.get(CLIENT_USER_INFO, {
         path: "/",
