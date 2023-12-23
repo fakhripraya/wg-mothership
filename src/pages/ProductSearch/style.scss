@@ -22,16 +22,7 @@
 .product-search-button {
   margin: 0px auto;
   text-align: center;
-  background-color: transparent !important;
-  border: 1px solid #0da34d;
-  color: #0da34d;
-  max-width: 150px;
-}
-
-.product-search-button:hover {
-  background-color: #0da34d !important;
-  color: #fff;
-  opacity: 1 !important;
+  max-width: fit-content;
 }
 
 .product-search-breadcrumbs {
@@ -202,7 +193,6 @@
   display: flex;
   flex-direction: row;
   overflow-x: scroll;
-  border-radius: 24px;
   align-items: center;
   -webkit-box-align: center;
   justify-content: flex-start;

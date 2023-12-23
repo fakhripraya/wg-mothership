@@ -23,16 +23,13 @@
 }
 
 .tag-container {
-  padding: 0px 24px;
+  padding: 0px 8px;
   justify-content: center;
-  border-radius: inherit;
-  border: 1px solid #fff;
-  background-color: transparent !important;
+  border-radius: 12px;
   cursor: inherit;
   width: fit-content;
   white-space: nowrap;
   margin-right: 12px;
-  @include shrink-padding($isCounter: false);
 
   @media screen and (max-width: 1000px) {
     margin-right: 8px !important;

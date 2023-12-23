@@ -3,12 +3,12 @@ import "./style.scss";
 
 export default function Tag(props) {
   return (
-    <div className="tag-container main-bg-color">
-      <h4
+    <div className={`tag-container ${props.className}`}>
+      <p
         style={props.textStyle}
         className="light-color">
         {props.text}
-      </h4>
+      </p>
     </div>
   );
 }

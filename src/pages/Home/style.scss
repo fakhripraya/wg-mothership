@@ -62,7 +62,6 @@
 }
 
 .home-element-container {
-  //margin-top: 5vw;
   max-width: 1280px;
   width: 100%;
   border-radius: 1vmax;
@@ -92,16 +91,7 @@
 .home-button {
   margin: 0px auto;
   text-align: center;
-  background-color: transparent !important;
-  border: 1px solid #0da34d;
-  color: #0da34d;
-  max-width: 150px;
-}
-
-.home-button:hover {
-  background-color: #0da34d !important;
-  color: #fff;
-  opacity: 1 !important;
+  max-width: fit-content;
 }
 
 .home-grid-button {
@@ -377,7 +367,6 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  border-radius: inherit;
   justify-content: center;
   align-items: center;
   -webkit-box-align: center;
@@ -386,7 +375,7 @@
 .home-balance-box {
   display: flex;
   flex-direction: column;
-  border-radius: inherit;
+  border-radius: 12px;
   cursor: pointer;
   margin-bottom: 12px;
 }
@@ -396,7 +385,6 @@
 }
 
 .home-balance-counter-box {
-  border-radius: inherit;
   width: 100%;
   padding: 0px 24px;
   background-color: aliceblue;
@@ -456,7 +444,6 @@
 .home-balance-tools {
   display: flex;
   flex-direction: row;
-  border-radius: inherit;
   align-items: center;
   -webkit-box-align: center;
   justify-content: space-evenly;
@@ -480,7 +467,6 @@
   display: flex;
   flex-direction: row;
   overflow-x: scroll;
-  border-radius: inherit;
   align-items: center;
   -webkit-box-align: center;
   justify-content: flex-start;

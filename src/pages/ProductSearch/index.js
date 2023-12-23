@@ -38,69 +38,58 @@ export default function ProductSearch() {
   }
 
   // COMPONENTS SPECIFIC //
-  const ShowAccordions = (props) => {
-    return props.datas.map((item, index) => {
-      return (
-        <Accordion
-          key={`${props.uniqueKey}-accordion-${index}`}
-          toggle={true}
-          isButton={true}
-          title={item.title}
-          data={item.data}
-        />
-      );
-    });
-  };
+  const ShowAccordions = (props) =>
+    props.datas.map((item, index) => (
+      <Accordion
+        key={`${props.uniqueKey}-accordion-${index}`}
+        toggle={true}
+        isButton={true}
+        title={item.title}
+        data={item.data}
+      />
+    ));
 
-  const ShowGrabableCarouselTag = (props) => {
-    return props.arrayFunc().map((item, index) => {
-      return (
-        <Tag
-          key={`carousel-${props.uniqueKey}-${index}`}
-          text={item.name}
-          textStyle={{
-            marginTop: "12px",
-            marginBottom: "12px",
-          }}
-        />
-      );
-    });
-  };
+  const ShowGrabableCarouselTag = (props) =>
+    props.arrayFunc().map((item, index) => (
+      <Tag
+        className="main-bg-color"
+        key={`carousel-${props.uniqueKey}-${index}`}
+        text={item.name}
+        textStyle={{
+          marginTop: "12px",
+          marginBottom: "12px",
+        }}
+      />
+    ));
 
-  const ShowGrabableCardCarousel = (props) => {
-    return props.arrayFunc().map((item, index) => {
-      return (
-        <Card
-          className="dark-bg-color"
-          key={`finding-carousel-${props.uniqueKey}-${index}`}
-          imgUrl={item.url}
-          title={item.name}
-          location={item.location}
-          price={item.price}
-          desc={item.desc}
-        />
-      );
-    });
-  };
+  const ShowGrabableCardCarousel = (props) =>
+    props.arrayFunc().map((item, index) => (
+      <Card
+        className="dark-bg-color"
+        key={`finding-carousel-${props.uniqueKey}-${index}`}
+        imgUrl={item.url}
+        title={item.name}
+        location={item.location}
+        price={item.price}
+        desc={item.desc}
+      />
+    ));
 
-  const ShowGridCardCarousel = (props) => {
-    return props.arrayFunc().map((item, index) => {
-      return (
-        <div
-          key={`all-finding-${index}`}
-          onMouseDown={(event) =>
-            scrollCarousel(event, gridRefs[index])
-          }
-          className="product-search-cards-grid-wrapper"
-          ref={(ref) => (gridRefs[index] = ref)}>
-          <ShowGrabableCardCarousel
-            uniqueKey={`all-finding-id-${index}`}
-            arrayFunc={() => item.arrayFunc()}
-          />
-        </div>
-      );
-    });
-  };
+  const ShowGridCardCarousel = (props) =>
+    props.arrayFunc().map((item, index) => (
+      <div
+        key={`all-finding-${index}`}
+        onMouseDown={(event) =>
+          scrollCarousel(event, gridRefs[index])
+        }
+        className="product-search-cards-grid-wrapper"
+        ref={(ref) => (gridRefs[index] = ref)}>
+        <ShowGrabableCardCarousel
+          uniqueKey={`all-finding-id-${index}`}
+          arrayFunc={() => item.arrayFunc()}
+        />
+      </div>
+    ));
 
   // INITIAL RENDER
   useEffect(() => {
@@ -175,7 +164,7 @@ export default function ProductSearch() {
                 />
               </div>
               <div className="product-search-cards-button-wrapper">
-                <Button className="product-search-button">
+                <Button className="product-search-button main-bg-color">
                   Lihat Lebih
                 </Button>
               </div>

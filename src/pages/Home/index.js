@@ -208,9 +208,9 @@ export default function Home() {
         <div
           key={`tool-${index}`}
           className="home-balance-box home-balance-tools-box main-bg-color">
-          <h3 className="home-title-balance light-color">
+          <p className="home-title-balance light-color font-bold">
             {items.name}
-          </h3>
+          </p>
           <p className="home-desc-balance light-color">
             {items.desc}
           </p>
@@ -717,9 +717,9 @@ export default function Home() {
           <div className="home-element-container darker-bg-color">
             <div className="home-balance-wrapper">
               <div className="home-balance-box home-balance-counter-box dark-bg-color">
-                <h2 className="home-title-balance light-color">
+                <h3 className="home-title-balance light-color">
                   Saldo Pengguna
-                </h2>
+                </h3>
                 <label className="home-balance-number light-color">
                   Rp. 1000.000
                 </label>
@@ -817,7 +817,7 @@ export default function Home() {
               navigate={navigate}
               values={allProducts}
             />
-            <Button className="home-button home-grid-button">
+            <Button className="home-button home-grid-button main-bg-color">
               Lihat Lebih
             </Button>
           </div>
