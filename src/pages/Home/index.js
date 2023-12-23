@@ -697,7 +697,9 @@ export default function Home() {
             </h3>
             <label className="home-recommend-subtitle light-color">
               Selesai setelah : 58:34:21 -{" "}
-              <span className="cursor-pointer main-color">
+              <span
+                onClick={() => navigate("/search")}
+                className="cursor-pointer main-color">
                 Lihat Lebih
               </span>
             </label>
@@ -736,6 +738,9 @@ export default function Home() {
             <h3 className="home-recommend-title light-color">
               KATEGORI FAVORIT
             </h3>
+            <label className="home-recommend-subtitle ">
+              Kategori terfavorit menurut survey saat ini
+            </label>
             <div
               onMouseDown={(event) =>
                 scrollCarousel(
@@ -755,8 +760,14 @@ export default function Home() {
             <h3 className="home-recommend-title light-color">
               KHUSUS UNTUK KAMU
             </h3>
-            <label className="home-recommend-subtitle cursor-pointer main-color">
-              Lihat Lebih
+            <label className="home-recommend-subtitle ">
+              Produk-produk berikut kita pilihin khusus
+              untukmu lho! -
+            </label>
+            <label
+              onClick={() => navigate("/search")}
+              className="home-recommend-subtitle cursor-pointer main-color">
+              &nbsp;Lihat Lebih
             </label>
             <div
               onMouseDown={(event) =>
@@ -778,8 +789,14 @@ export default function Home() {
             <h3 className="home-recommend-title light-color">
               TOKO OFFICIAL
             </h3>
-            <label className="home-recommend-subtitle cursor-pointer main-color">
-              Lihat Lebih
+            <label className="home-recommend-subtitle ">
+              Gaperlu repot nyari toko dengan performa yang
+              baik -
+            </label>
+            <label
+              onClick={() => navigate("/search")}
+              className="home-recommend-subtitle cursor-pointer main-color">
+              &nbsp;Lihat Lebih
             </label>
             <div
               onMouseDown={(event) =>
@@ -806,10 +823,8 @@ export default function Home() {
               PRODUK BARU
             </h3>
             <label className="home-recommend-subtitle ">
-              Lihat semua produk baru yang tersedia -{" "}
-              <span className="cursor-pointer main-color">
-                Lihat Lebih
-              </span>
+              List produk baru yang mungkin membuatmu
+              tertarik
             </label>
             <ShowGridProductCardCarousel
               uniqueKey={`home-new-product-grid`}
@@ -817,6 +832,9 @@ export default function Home() {
               navigate={navigate}
               values={allProducts}
             />
+            <Button className="home-button home-grid-button main-bg-color">
+              Lihat Lebih
+            </Button>
           </div>
           <div className="home-company-section home-section">
             <div className="home-company-profile lighter-color">

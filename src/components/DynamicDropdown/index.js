@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./styles.scss";
 
 export default function DynamicDropdown(props) {
   const [value, setValue] = useState(
