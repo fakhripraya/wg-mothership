@@ -817,9 +817,6 @@ export default function Home() {
               navigate={navigate}
               values={allProducts}
             />
-            <Button className="home-button home-grid-button main-bg-color">
-              Lihat Lebih
-            </Button>
           </div>
           <div className="home-company-section home-section">
             <div className="home-company-profile lighter-color">
