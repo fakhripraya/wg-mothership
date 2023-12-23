@@ -134,30 +134,30 @@ export default function DashboardHome(props) {
           </div>
           <div className="dashboard-home-grid-item dashboard-home-grid-small-1 dashboard-home-grid-item-big dark-bg-color">
             <h3>Pesanan</h3>
-            <h2 className="margin-bottom-0">6</h2>
+            <p className="margin-bottom-0 font-bold">6</p>
             <p style={{ marginTop: "8px" }}>
               4 belum terkonfirmasi
             </p>
           </div>
           <div className="dashboard-home-grid-item dashboard-home-grid-small-2 dashboard-home-grid-item-big dark-bg-color">
             <h3>Rating</h3>
-            <h2 className="margin-bottom-0">
+            <p className="margin-bottom-0 font-bold">
               <img
                 aria-hidden="true"
                 src="https://assets.tokopedia.net/assets-tokopedia-lite/v2/zeus/kratos/abeeb1e0.svg"
                 alt="home-star-icon"
               />{" "}
               4.9 / 5.0
-            </h2>
+            </p>
             <p style={{ marginTop: "8px" }}>
               Dari 151 pesanan sukses
             </p>
           </div>
           <div className="dashboard-home-grid-item dashboard-home-grid-big-1 dashboard-home-grid-item-big dark-bg-color">
             <h3>Saldo</h3>
-            <h2 className="margin-bottom-0">
+            <p className="margin-bottom-0 font-bold">
               Rp.1.232.032.091
-            </h2>
+            </p>
             <p style={{ marginTop: "8px" }}>
               2 Rental Berjalan
             </p>

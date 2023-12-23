@@ -112,4 +112,8 @@
 .dashboard-home-grid-item-icon {
   height: 2em;
   margin-bottom: 2em;
+
+  @media screen and (max-width: 768px) {
+    height: 1.5em;
+  }
 }

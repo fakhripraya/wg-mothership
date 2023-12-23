@@ -734,7 +734,7 @@ export default function Home() {
           </div>
           <div className="home-element-container darker-bg-color">
             <h3 className="home-recommend-title light-color">
-              KATEGORI TEREKOMENDASI
+              KATEGORI FAVORIT
             </h3>
             <div
               onMouseDown={(event) =>
@@ -753,7 +753,7 @@ export default function Home() {
           </div>
           <div className="home-element-container darker-bg-color">
             <h3 className="home-recommend-title light-color">
-              REKOMENDASI UNTUK KAMU
+              KHUSUS UNTUK KAMU
             </h3>
             <label className="home-recommend-subtitle cursor-pointer main-color">
               Lihat Lebih
