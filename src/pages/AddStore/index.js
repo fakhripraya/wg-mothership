@@ -361,7 +361,10 @@ export default function AddStore() {
                 <div className="add-store-identifier-img-wrapper">
                   <Avatar
                     onClick={handleUploadClick}
-                    style={{ cursor: "pointer" }}
+                    style={{
+                      cursor: "pointer",
+                      margin: "12px 0px",
+                    }}
                     round={true}
                     src={
                       profilePicture &&
@@ -371,8 +374,6 @@ export default function AddStore() {
                     title={data.storeName}
                     name={data.storeName}
                   />
-                  <br />
-                  <br />
                   <Button onClick={handleUploadClick}>
                     Ganti ah !
                   </Button>

@@ -154,6 +154,25 @@ export const ShowPaymentModal = (props) => {
               Mau Bayar Pakai Apa ?
             </label>
             <br />
+            <Button className="margin-bottom-8">
+              BCA Syariah
+            </Button>
+            <Button className="margin-bottom-8">BCA</Button>
+            <Button className="margin-bottom-8">
+              Mandiri
+            </Button>
+            <Button className="margin-bottom-8">
+              Mandiri Syariah
+            </Button>
+            <Button className="margin-bottom-8">
+              Dana
+            </Button>
+            <Button className="margin-bottom-8">
+              Gopay
+            </Button>
+            <Button className="margin-bottom-8">
+              LivePay
+            </Button>
             <hr
               style={{ opacity: 0.1 }}
               className="max-width"

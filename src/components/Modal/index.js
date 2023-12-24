@@ -22,14 +22,12 @@ export default function Modal(props) {
       <div
         onClick={() => handleOnClick()}
         className={
-          toggle === true
-            ? `modal-background ${bgClassName}`
-            : ""
+          toggle ? `modal-background ${bgClassName}` : ""
         }
       />
       <div
         style={{
-          display: toggle === true ? "block" : "none",
+          display: toggle ? "block" : "none",
         }}
         className={"modal-container " + className}>
         {children}

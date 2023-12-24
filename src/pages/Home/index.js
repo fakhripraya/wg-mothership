@@ -24,7 +24,7 @@ import {
   IS_NOT_AUTHENTICATE,
   URL_GET_CATEGORIES,
   URL_GET_PRODUCT_LIST,
-  URL_GET_SERVER_INFO,
+  URL_GET_STORE_INFO,
   X_SID,
 } from "../../variables/global";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
@@ -56,6 +56,7 @@ import {
   reelsButtonHiddenState,
   reelsButtonVisibleState,
 } from "../../variables/styles/home";
+import { trackPromise } from "react-promise-tracker";
 
 export default function Home() {
   // HOOK
@@ -92,7 +93,9 @@ export default function Home() {
     useState(null);
   const [toggleScrollVideo, setToggleScrollVideo] =
     useState(true);
-  const [allProducts, setAllProducts] = useState(null);
+  const [newProducts, setNewProducts] = useState(null);
+  const [newProductsIndex, setNewProductsIndex] =
+    useState(0);
 
   // VARIABLES //
   const overridingToggle = useSelector(
@@ -122,7 +125,7 @@ export default function Home() {
   const endpoints = [
     {
       ...defaultConfigs,
-      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=7`,
+      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=10`,
     },
     {
       ...defaultConfigs,
@@ -130,15 +133,15 @@ export default function Home() {
     },
     {
       ...defaultConfigs,
-      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=7`,
+      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=10`,
     },
     {
       ...defaultConfigs,
-      url: URL_GET_SERVER_INFO(`?limit=7&isWithFiles=true`),
+      url: URL_GET_STORE_INFO(`?limit=7&isWithFiles=true`),
     },
     {
       ...defaultConfigs,
-      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&isGrid=true&gridLimit=7`,
+      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&isGrid=true&gridLimit=10`,
     },
   ];
 
@@ -171,7 +174,7 @@ export default function Home() {
             res.responseData?.[3]?.responseData
           );
         if (res.responseData?.[4]?.responseStatus === 200)
-          setAllProducts(
+          setNewProducts(
             res.responseData?.[4]?.responseData
           );
 
@@ -201,23 +204,38 @@ export default function Home() {
     if (storeId) navigate(`/creative-store?id=${storeId}`);
   }
 
+  async function handleLoadMoreNewProducts() {
+    trackPromise(
+      axiosService
+        .getData({
+          ...endpoints[4],
+          url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&isGrid=true&gridLimit=10&limit=10&offset=1`,
+        })
+        .then((res) => {
+          if (res.responseStatus === 200) {
+            setNewProducts(res.responseData);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+    );
+  }
+
   // COMPONENTS SPECIFIC //
-  const ShowTools = () => {
-    return GET_BALANCE_TOOLS().map((items, index) => {
-      return (
-        <div
-          key={`tool-${index}`}
-          className="home-balance-box home-balance-tools-box main-bg-color">
-          <p className="home-title-balance light-color font-bold">
-            {items.name}
-          </p>
-          <p className="home-desc-balance light-color">
-            {items.desc}
-          </p>
-        </div>
-      );
-    });
-  };
+  const ShowTools = () =>
+    GET_BALANCE_TOOLS().map((items, index) => (
+      <div
+        key={`tool-${index}`}
+        className="home-balance-box home-balance-tools-box main-bg-color">
+        <p className="home-title-balance light-color font-bold">
+          {items.name}
+        </p>
+        <p className="home-desc-balance light-color">
+          {items.desc}
+        </p>
+      </div>
+    ));
 
   // INITIAL RENDER
   useEffect(() => {
@@ -830,9 +848,11 @@ export default function Home() {
               uniqueKey={`home-new-product-grid`}
               gridRefs={gridRefs}
               navigate={navigate}
-              values={allProducts}
+              values={newProducts}
             />
-            <Button className="home-button home-grid-button main-bg-color">
+            <Button
+              onClick={handleLoadMoreNewProducts}
+              className="home-button home-grid-button main-bg-color">
               Lihat Lebih
             </Button>
           </div>

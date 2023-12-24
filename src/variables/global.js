@@ -151,7 +151,7 @@ export const URL_GET_CATALOGUE_DATA = ({
     itemPerPage ? `&itemPerPage=${itemPerPage}` : ""
   }`;
 
-export const URL_GET_SERVER_INFO = (query) =>
+export const URL_GET_STORE_INFO = (query) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/stores${query}`;
 export const URL_POST_GET_USER_BUY_ADDRESSES = (userId) =>
   `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/saved-address`;

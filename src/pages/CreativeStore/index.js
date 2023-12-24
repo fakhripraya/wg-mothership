@@ -27,7 +27,7 @@ import {
   MENU_MOBILE,
   NO_STRING,
   ROOM_UNAVAILABLE,
-  URL_GET_SERVER_INFO,
+  URL_GET_STORE_INFO,
 } from "../../variables/global";
 import {
   VISITORS,
@@ -865,7 +865,7 @@ export default function CreativeStore() {
     try {
       result = await zeusService.getData({
         endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-        url: URL_GET_SERVER_INFO(`?storeId=${storeId}`),
+        url: URL_GET_STORE_INFO(`?storeId=${storeId}`),
       });
     } catch (error) {
       if (error.responseStatus === 404) {
