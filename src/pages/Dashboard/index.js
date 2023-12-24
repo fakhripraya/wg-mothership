@@ -282,7 +282,9 @@ export default function Dashboard() {
                     onClick={() => handleBottomSheet()}
                     className="dashboard-menu-button display-mobile dashboard-menu-button-main"
                   />
-                  <h3>Hello, {login.user.fullName} !</h3>
+                  <p style={{ fontSize: "1.25em" }}>
+                    Hello, {login.user.fullName}
+                  </p>
                 </div>
                 <div className="dashboard-cards-tool-items">
                   <FloatButton className="dashboard-menu-button dashboard-menu-button-no-complaint" />

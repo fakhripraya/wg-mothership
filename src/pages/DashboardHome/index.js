@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import LineChart from "../../components/LineChart";
 import VisitIcon from "../../assets/svg/logout.svg";
 import RentalIcon from "../../assets/svg/book-solid.svg";
-import RatingIcon from "../../assets/svg/face-smile-solid.svg";
+import ReminderIcon from "../../assets/svg/comment-dots-regular.svg";
 import ProductIcon from "../../assets/svg/bag-shopping-solid.svg";
 import {
   DASHBOARD_CATALOG,
@@ -102,11 +102,11 @@ export default function DashboardHome(props) {
             onClick={() => {}}
             className="dashboard-home-grid-item dashboard-home-grid-item-2 dashboard-home-grid-item-small main-bg-color">
             <img
-              src={RatingIcon}
-              alt="product_catalog_icon"
+              src={ReminderIcon}
+              alt="product_reminder_icon"
               className="dashboard-home-grid-item-icon"
             />
-            <label>Rating</label>
+            <label>Reminder</label>
           </div>
           <div
             onClick={() =>
@@ -115,7 +115,7 @@ export default function DashboardHome(props) {
             className="dashboard-home-grid-item dashboard-home-grid-item-3 dashboard-home-grid-item-small main-bg-color">
             <img
               src={RentalIcon}
-              alt="product_catalog_icon"
+              alt="product_transaction_icon"
               className="dashboard-home-grid-item-icon"
             />
             <label>Transaksi</label>
@@ -127,7 +127,7 @@ export default function DashboardHome(props) {
             className="dashboard-home-grid-item dashboard-home-grid-item-4 dashboard-home-grid-item-small main-bg-color">
             <img
               src={VisitIcon}
-              alt="product_catalog_icon"
+              alt="product_creative_store_icon"
               className="dashboard-home-grid-item-icon"
             />
             <label>Masuk ke toko</label>
