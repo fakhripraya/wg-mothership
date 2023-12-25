@@ -22,7 +22,7 @@ import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
   DASHBOARD_CATALOG,
-  DASHBOARD_CHATS,
+  DASHBOARD_REMINDERS,
   DASHBOARD_HOME,
   DASHBOARD_TRANSACTIONS,
   IS_NOT_AUTHENTICATE,
@@ -150,11 +150,14 @@ export default function Dashboard() {
 
   function handleOpenPageMobile(keyword) {
     setToggleOpenBody(keyword);
+    setURLParams(currentLocation, "tab", keyword);
     handleBottomSheet();
   }
 
   function handleGoToAddStore() {
-    window.location.href = `/dashboard/add/store`;
+    window.location.href = `/dashboard/add/store?prevStore=${
+      selectedStore?.id
+    }&prevTab=${currentTab || DASHBOARD_HOME}`;
   }
 
   function showUserStores(userStores) {
@@ -284,7 +287,7 @@ export default function Dashboard() {
               />
               <FloatButton
                 onClick={() =>
-                  handleOpenPage(DASHBOARD_CHATS)
+                  handleOpenPage(DASHBOARD_REMINDERS)
                 }
                 className="dashboard-menu-button dashboard-menu-button-chat"
               />
@@ -366,7 +369,7 @@ export default function Dashboard() {
           <br />
           <FloatButton
             onClick={() =>
-              handleOpenPageMobile(DASHBOARD_CHATS)
+              handleOpenPageMobile(DASHBOARD_REMINDERS)
             }
             className="dashboard-menu-button dashboard-menu-button-chat"></FloatButton>
           <br />

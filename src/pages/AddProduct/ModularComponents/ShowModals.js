@@ -88,86 +88,77 @@ export const ShowAddNewCatalogueModal = (props) => {
   );
 };
 
-export const ShowUploadModal = (props) => {
-  return (
-    <div className="add-product-modal-container dark-bg-color">
-      <div className="add-product-modal-wrapper">
-        <Button
-          onClick={props.handleOpenModalUpload}
-          className="align-self-end add-product-button red-bg-color">
-          <h4 className="add-product-button-text">X</h4>
-        </Button>
-        <br />
-        <h3 className="margin-top-0 margin-bottom-12-18">
-          Upload <span className="main-color">Foto</span>{" "}
-          Untuk Produkmu Disini
-        </h3>
-        <MultiUpload
-          formName={ADD_CATALOGUE_FORM}
-          base64s={props.productPictures}
-          setBase64s={props.setProductPictures}
-          rejected={props.rejectedProductPictures}
-          setRejected={props.setRejectedProductPictures}
-          maxLength={5}
-          maxSize={5 * 1000 * 1000} //5mb
-          extensions={JPEG_PNG}
-          label={GENERAL_MULTIUPLOAD_LABEL}
-          subLabel={GENERAL_MULTIUPLOAD_SUBLABEL(JPEG_PNG)}
-          additionalElement={
-            <span className="red-color">MAX 5 FILE</span>
-          }
-          onDrop={props.handleOpenModalUpload}
-        />
-      </div>
+export const ShowUploadModal = (props) => (
+  <div className="add-product-modal-container dark-bg-color">
+    <div className="add-product-modal-wrapper">
+      <Button
+        onClick={props.handleOpenModalUpload}
+        className="align-self-end add-product-button red-bg-color">
+        <h4 className="add-product-button-text">X</h4>
+      </Button>
+      <br />
+      <h3 className="margin-top-0 margin-bottom-12-18">
+        Upload <span className="main-color">Foto</span>{" "}
+        Untuk Produkmu Disini
+      </h3>
+      <MultiUpload
+        formName={ADD_CATALOGUE_FORM}
+        base64s={props.productPictures}
+        setBase64s={props.setProductPictures}
+        rejected={props.rejectedProductPictures}
+        setRejected={props.setRejectedProductPictures}
+        maxLength={5}
+        maxSize={5 * 1000 * 1000} //5mb
+        extensions={JPEG_PNG}
+        label={GENERAL_MULTIUPLOAD_LABEL}
+        subLabel={GENERAL_MULTIUPLOAD_SUBLABEL(JPEG_PNG)}
+        additionalElement={
+          <span className="red-color">MAX 5 FILE</span>
+        }
+        onDrop={props.handleOpenModalUpload}
+      />
     </div>
-  );
-};
+  </div>
+);
 
-export const ShowErrorModal = (props) => {
-  return (
-    <div className="add-product-modal-container dark-bg-color">
-      <div className="add-product-modal-wrapper">
-        <Button
-          onClick={props.handleOpenModalError}
-          className="align-self-end add-product-modal-button red-bg-color">
-          <h4 className="add-product-modal-button-text">
-            X
-          </h4>
-        </Button>
-        <br />
-        <h3 className="margin-top-0 margin-bottom-12-18">
-          There is an{" "}
-          <span className="red-color">ERROR</span>
-        </h3>
-        <br />
-        <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
-          {props.errorMessage}
-        </label>
-      </div>
+export const ShowErrorModal = (props) => (
+  <div className="add-product-modal-container dark-bg-color">
+    <div className="add-product-modal-wrapper">
+      <Button
+        onClick={props.handleOpenModalError}
+        className="align-self-end add-product-modal-button red-bg-color">
+        <h4 className="add-product-modal-button-text">X</h4>
+      </Button>
+      <br />
+      <h3 className="margin-top-0 margin-bottom-12-18">
+        There is an <span className="red-color">ERROR</span>
+      </h3>
+      <br />
+      <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
+        {props.errorMessage}
+      </label>
     </div>
-  );
-};
+  </div>
+);
 
-export const ShowSuccessModal = (props) => {
-  return (
-    <div className="add-store-modal-container dark-bg-color">
-      <div className="add-store-modal-wrapper">
-        <h3 className="margin-top-0 margin-bottom-12-18">
-          <span className="main-color">SUKSES</span>
-        </h3>
-        <br />
-        <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
-          Sukses menambah display item !
-        </label>
-        <br />
-        <div
-          style={{ padding: "0px", width: "30%" }}
-          className="align-self-center add-store-modal-button">
-          <Button onClick={props.handleGoBackDashboard}>
-            OK
-          </Button>
-        </div>
+export const ShowSuccessModal = (props) => (
+  <div className="add-store-modal-container dark-bg-color">
+    <div className="add-store-modal-wrapper">
+      <h3 className="margin-top-0 margin-bottom-12-18">
+        <span className="main-color">SUKSES</span>
+      </h3>
+      <br />
+      <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
+        Sukses menambah display item !
+      </label>
+      <br />
+      <div
+        style={{ padding: "0px", width: "30%" }}
+        className="align-self-center add-store-modal-button">
+        <Button onClick={props.handleGoBackDashboard}>
+          OK
+        </Button>
       </div>
     </div>
-  );
-};
+  </div>
+);

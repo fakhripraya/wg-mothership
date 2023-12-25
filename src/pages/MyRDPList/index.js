@@ -13,7 +13,7 @@ import Accordion from "../../components/Accordion";
 import { useEffect } from "react";
 import { smoothScrollTop } from "../../utils/functions/global";
 import { useNavigate } from "react-router-dom";
-import { DASHBOARD_CHATS } from "../../variables/global";
+import { DASHBOARD_REMINDERS } from "../../variables/global";
 
 export default function MyRDPList(props) {
   // FUNCTIONS SPECIFIC //
@@ -172,7 +172,7 @@ export default function MyRDPList(props) {
   return (
     <div
       className={
-        props.toggleOpen === DASHBOARD_CHATS
+        props.toggleOpen === DASHBOARD_REMINDERS
           ? "my-rdp-list-container"
           : "display-none"
       }>

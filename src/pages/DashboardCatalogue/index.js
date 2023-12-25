@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import {
   formatDateID,
   formattedNumber,
+  getURLParams,
   handleError500,
   handleErrorMessage,
   handleOpenModal,
@@ -60,6 +61,8 @@ export default function DashboardCatalogue(props) {
   const [errorMessage, setErrorMessage] = useState(null);
 
   // VARIABLES
+  const currentLocation = new URL(document.location);
+  const currentTab = getURLParams(currentLocation, "tab");
   const storeId = props.data.selectedStore.id;
   const defaultConfigs = {
     headers: {
@@ -327,6 +330,7 @@ export default function DashboardCatalogue(props) {
 
   // INITIAL RENDER
   useEffect(() => {
+    if (currentTab !== DASHBOARD_CATALOG) return;
     smoothScrollTop();
     (async () => {
       await zeusService

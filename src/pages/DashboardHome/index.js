@@ -8,9 +8,11 @@ import ProductIcon from "../../assets/svg/bag-shopping-solid.svg";
 import {
   DASHBOARD_CATALOG,
   DASHBOARD_HOME,
+  DASHBOARD_REMINDERS,
   DASHBOARD_TRANSACTIONS,
 } from "../../variables/global";
 import { useNavigate } from "react-router-dom";
+import { setURLParams } from "../../utils/functions/global";
 
 const UserData = [
   {
@@ -46,6 +48,9 @@ const UserData = [
 ];
 
 export default function DashboardHome(props) {
+  // VARIABLES
+  const currentLocation = new URL(document.location);
+
   // STATES //
   const navigate = useNavigate();
   const [userData] = useState({
@@ -66,6 +71,7 @@ export default function DashboardHome(props) {
   // FUNCTIONS
   function handleOpenPage(keyword) {
     props.toggleOpenHandler(keyword);
+    setURLParams(currentLocation, "tab", keyword);
   }
 
   function handleGoToCreativeStore(navigate) {
@@ -99,7 +105,9 @@ export default function DashboardHome(props) {
             <label>Katalog</label>
           </div>
           <div
-            onClick={() => {}}
+            onClick={() =>
+              handleOpenPage(DASHBOARD_REMINDERS)
+            }
             className="dashboard-home-grid-item dashboard-home-grid-item-2 dashboard-home-grid-item-small main-bg-color">
             <img
               src={ReminderIcon}

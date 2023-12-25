@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { Fragment } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import Button from "../../components/Button";
 import TextInput from "../../components/TextInput";
 import "./style.scss";
@@ -56,11 +59,13 @@ export default function AddStore() {
   // HOOK
   const navigate = useNavigate();
   const zeusService = useAxios();
-  // Create a reference to the hidden file input element
+  const [searchParams] = useSearchParams();
   const hiddenFileInput = useRef(null);
 
   // VARIABLES
   let login = cookies.get(CLIENT_USER_INFO, { path: "/" });
+  const prevStore = searchParams.get("prevStore");
+  const prevTab = searchParams.get("prevTab");
 
   // STATES
   const [data, setData] = useState(STORE_INITIAL_VALUE);
@@ -83,7 +88,10 @@ export default function AddStore() {
   const [villages, setVillages] = useState(
     INITIAL_VILLAGES
   );
-  const [success, setSuccess] = useState(false);
+  const [submitResponse, setSubmitResponse] = useState({
+    completed: false,
+    storeId: undefined,
+  });
 
   // FUNCTIONS SPECIFIC //
   // return the current state, and the initial state
@@ -127,8 +135,12 @@ export default function AddStore() {
     );
   }
 
-  function handleGoBackDashboard() {
-    window.history.back();
+  function handleGoBackDashboard(storeId) {
+    navigate(
+      `/dashboard?${
+        storeId ? `storeId=${storeId}` : ""
+      }&tab=${prevTab}`
+    );
   }
 
   function handleTextChange(field, event) {
@@ -221,12 +233,15 @@ export default function AddStore() {
           }
         )
         .then((res) => {
-          if (res.responseStatus === 200) setSuccess(true);
+          if (res.responseStatus === 200)
+            setSubmitResponse({
+              completed: true,
+              storeId: res.responseData,
+            });
         })
         .catch((error) => {
-          if (error.responseStatus === 500) {
-            //handleError500();
-          }
+          if (error.responseStatus === 500)
+            console.error(error);
           if (
             error.responseStatus === 401 ||
             error.responseStatus === 403
@@ -291,8 +306,9 @@ export default function AddStore() {
     <Fragment>
       <Modal
         className="dark-bg-color"
-        toggle={success}>
+        toggle={submitResponse.completed}>
         <ShowSuccessModal
+          goBackStoreId={submitResponse.storeId}
           handleGoBackDashboard={handleGoBackDashboard}
         />
       </Modal>
@@ -313,7 +329,7 @@ export default function AddStore() {
               <Button
                 style={{ paddingLeft: "0px" }}
                 onClick={() =>
-                  handleGoBackDashboard(navigate)
+                  handleGoBackDashboard(prevStore)
                 }
                 className="align-self-start add-store-button darker-bg-color">
                 <h4 className="add-store-button-back-text">

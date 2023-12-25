@@ -75,6 +75,8 @@ export default function Home() {
   const [flashSale, setFlashSale] = useState(null);
   const [reelVideos, setReelVideos] = useState(null);
   const [reelIndex, setReelIndex] = useState(0);
+  const [toggleScrollVideo, setToggleScrollVideo] =
+    useState(true);
   const [isReelsbuttonShow, setIsReelsbuttonShow] =
     useState(false);
   const [isReelsLoaded, setIsReelsLoaded] = useState(false);
@@ -91,8 +93,6 @@ export default function Home() {
     useState(null);
   const [officialStores, setOfficialStores] =
     useState(null);
-  const [toggleScrollVideo, setToggleScrollVideo] =
-    useState(true);
   const [newProducts, setNewProducts] = useState(null);
   const [newProductsIndex, setNewProductsIndex] =
     useState(0);

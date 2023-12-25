@@ -5,7 +5,7 @@
 }
 
 // MAIN STYLES //
-.dashboard-chat-container {
+.dashboard-reminder-container {
   height: fit-content;
   width: 100%;
   padding: 1em 0em;
@@ -13,7 +13,7 @@
   margin-right: 1em;
 }
 
-.dashboard-chat-wrapper {
+.dashboard-reminder-wrapper {
   margin: 0px auto;
   align-items: center;
   -webkit-box-align: center;
@@ -23,11 +23,11 @@
   align-items: center;
 }
 
-.dashboard-chat-wrapper * {
+.dashboard-reminder-wrapper * {
   box-sizing: border-box;
 }
 
-.dashboard-chat-title {
+.dashboard-reminder-title {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -36,7 +36,7 @@
 }
 
 // HEADER //
-.dashboard-chat-header {
+.dashboard-reminder-header {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -45,35 +45,35 @@
   border-radius: 1em;
 }
 
-.dashboard-chat-searchbar-container {
+.dashboard-reminder-searchbar-container {
   flex: 0 0 100%;
   margin-bottom: 12px;
 }
 
-.dashboard-chat-searchbar-wrapper {
+.dashboard-reminder-searchbar-wrapper {
   display: flex;
   flex-direction: row;
   border-right: 6px solid transparent;
 }
 
-.dashboard-chat-searchbar-input {
+.dashboard-reminder-searchbar-input {
   margin-right: 6px;
 }
 
-.dashboard-chat-tools-container {
+.dashboard-reminder-tools-container {
   flex: 100%;
 }
 
-.dashboard-chat-tools-wrapper {
+.dashboard-reminder-tools-wrapper {
   display: flex;
   flex-direction: row;
 }
 
-.dashboard-chat-checkbox {
+.dashboard-reminder-checkbox {
   flex: 50%;
 }
 
-.dashboard-chat-checkbox-wrapper {
+.dashboard-reminder-checkbox-wrapper {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -81,12 +81,12 @@
   align-items: center;
 }
 
-.dashboard-chat-checkbox-item {
+.dashboard-reminder-checkbox-item {
   border-right: 6px solid transparent;
   border-bottom: 6px solid transparent;
 }
 
-.dashboard-chat-dropdown-wrapper {
+.dashboard-reminder-dropdown-wrapper {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -95,12 +95,12 @@
   align-items: center;
 }
 
-.dashboard-chat-dropdown-item {
+.dashboard-reminder-dropdown-item {
   border-right: 6px solid transparent;
   border-bottom: 6px solid transparent;
 }
 
-.dashboard-chat-add-button {
+.dashboard-reminder-add-button {
   width: 100%;
   display: flex;
   height: auto;
@@ -110,17 +110,17 @@
   transition: all 0.25s ease-in-out;
 }
 
-.dashboard-chat-add-button:hover {
+.dashboard-reminder-add-button:hover {
   background-color: #0da34d;
 }
 
-.dashboard-chat-add-button:hover span {
+.dashboard-reminder-add-button:hover span {
   color: #fff !important;
   transition: all 0.25s ease-in-out;
 }
 
 // BODY //
-.dashboard-chat-body {
+.dashboard-reminder-body {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -130,38 +130,38 @@
   border-radius: 1em;
 }
 
-.dashboard-chat-body-items {
+.dashboard-reminder-body-items {
   padding: 6px;
 }
 
-.dashboard-chat-body-identifier {
+.dashboard-reminder-body-identifier {
   flex: 20%;
   flex-wrap: wrap;
   height: auto;
   @include text-ellipsis();
 }
 
-.dashboard-chat-body-identifier * {
+.dashboard-reminder-body-identifier * {
   @include text-ellipsis();
 }
 
-.dashboard-chat-identifier-img-wrapper {
+.dashboard-reminder-identifier-img-wrapper {
   height: auto;
   width: auto;
 }
 
-.dashboard-chat-body-textarea {
+.dashboard-reminder-body-textarea {
   flex: 80%;
   flex-wrap: wrap;
   height: auto;
   @include text-ellipsis();
 }
 
-.dashboard-chat-body-textarea * {
+.dashboard-reminder-body-textarea * {
   @include text-ellipsis();
 }
 
-.dashboard-chat-body-options {
+.dashboard-reminder-body-options {
   flex: 20%;
   flex-wrap: wrap;
   display: flex;
@@ -171,11 +171,11 @@
   @include text-ellipsis();
 }
 
-.dashboard-chat-body-options * {
+.dashboard-reminder-body-options * {
   @include text-ellipsis();
 }
 
-.dashboard-chat-paging {
+.dashboard-reminder-paging {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -184,7 +184,7 @@
   transition: all 0.25s ease-in-out;
 }
 
-.dashboard-chat-paging-button {
+.dashboard-reminder-paging-button {
   cursor: pointer;
   padding: 6px;
   border-radius: 8px;
@@ -192,11 +192,11 @@
   transition: all 0.25s ease-in-out;
 }
 
-.dashboard-chat-paging-button:last-child {
+.dashboard-reminder-paging-button:last-child {
   margin-right: 0px !important;
 }
 
-.dashboard-chat-paging-button:hover {
+.dashboard-reminder-paging-button:hover {
   background-color: #0da34d;
 }
 

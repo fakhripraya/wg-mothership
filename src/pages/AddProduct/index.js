@@ -24,6 +24,7 @@ import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
   CONTENT_TYPE,
+  DASHBOARD_CATALOG,
   GENERAL_MULTIUPLOAD_LABEL,
   GENERAL_MULTIUPLOAD_SUBLABEL,
   IS_OTP_VERIFIED,
@@ -71,6 +72,9 @@ export default function AddProduct() {
   // HOOK
   const navigate = useNavigate();
   const zeusService = useAxios();
+  const [searchParams] = useSearchParams();
+
+  // STATE
   const [data, setData] = useState(
     ADD_CATALOGUE_INITIAL_VALUE
   );
@@ -100,7 +104,6 @@ export default function AddProduct() {
     setRejectedAdditionalDocuments,
   ] = useState([]);
   const [success, setSuccess] = useState(false);
-  const [searchParams] = useSearchParams();
 
   // VARIABLES
   let login = cookies.get(CLIENT_USER_INFO);
@@ -139,7 +142,9 @@ export default function AddProduct() {
 
   // FUNCTIONS SPECIFIC //
   function handleGoBackDashboard() {
-    window.history.back();
+    navigate(
+      `/dashboard?storeId=${storeId}&tab=${DASHBOARD_CATALOG}`
+    );
   }
 
   function handleAddComponent(field, defaultValue) {
@@ -278,9 +283,22 @@ export default function AddProduct() {
       "productSafetyStocks",
       data.productSafetyStocks
     );
+    // this will make sure the appended courier is a valid courier that has been fetched
+    const formCourierChoosen = data.courierChoosen.reduce(
+      (arr, obj) => {
+        const addedCourier =
+          fetchedDatas.datas.couriers.responseData.filter(
+            (val) => val.courierName === obj
+          )[0];
+        if (addedCourier)
+          arr.push(addedCourier.courierName);
+        return arr;
+      },
+      []
+    );
     formData.append(
       "courierChoosen",
-      JSON.stringify(data.courierChoosen)
+      JSON.stringify(formCourierChoosen)
     );
     formData.append(
       "newCatalogues",
