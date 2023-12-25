@@ -100,7 +100,7 @@ export default function AddProduct() {
     setRejectedAdditionalDocuments,
   ] = useState([]);
   const [success, setSuccess] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   // VARIABLES
   let login = cookies.get(CLIENT_USER_INFO);
@@ -139,7 +139,7 @@ export default function AddProduct() {
 
   // FUNCTIONS SPECIFIC //
   function handleGoBackDashboard() {
-    navigate(`/dashboard`);
+    window.history.back();
   }
 
   function handleAddComponent(field, defaultValue) {

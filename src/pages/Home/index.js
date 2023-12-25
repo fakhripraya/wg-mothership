@@ -757,7 +757,7 @@ export default function Home() {
               KATEGORI FAVORIT
             </h3>
             <label className="home-recommend-subtitle ">
-              Kategori terfavorit menurut survey saat ini
+              Kategori favorit pilihan kami yang pas buatmu
             </label>
             <div
               onMouseDown={(event) =>

@@ -128,7 +128,7 @@ export default function AddStore() {
   }
 
   function handleGoBackDashboard() {
-    navigate(`/dashboard`);
+    window.history.back();
   }
 
   function handleTextChange(field, event) {

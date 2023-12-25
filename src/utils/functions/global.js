@@ -230,3 +230,12 @@ export const removeValueFromArray = (
   temp[field].splice(index, 1);
   setData(temp);
 };
+
+export const getURLParams = (url, key) =>
+  url.searchParams.get(key);
+
+export const setURLParams = (url, key, val) => {
+  url.searchParams.set(key, val);
+  const newUrl = url.toString();
+  window.history.pushState({}, "", newUrl);
+};

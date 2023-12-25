@@ -6,10 +6,12 @@ import React, {
 import "./style.scss";
 import Dropdown from "../../components/DynamicDropdown";
 import {
+  getURLParams,
   handleError500,
   handleErrorMessage,
   handleOpenModal,
   handleOpenOverridingHome,
+  setURLParams,
   smoothScrollTop,
 } from "../../utils/functions/global";
 import FloatButton from "../../components/FloatButton";
@@ -50,6 +52,9 @@ import { ShowErrorModal } from "./ModularComponents/ShowModal";
 export default function Dashboard() {
   // VARIABLES //
   let login = cookies.get(CLIENT_USER_INFO);
+  const currentLocation = new URL(document.location);
+  const storeId = getURLParams(currentLocation, "storeId");
+  const currentTab = getURLParams(currentLocation, "tab");
 
   // HOOKS //
   const zeusService = useAxios();
@@ -64,8 +69,9 @@ export default function Dashboard() {
     STORE_INITIAL_VALUE
   );
   const [toggle, setToggle] = useState(false);
-  const [toggleOpenBody, setToggleOpenBody] =
-    useState(DASHBOARD_HOME);
+  const [toggleOpenBody, setToggleOpenBody] = useState(
+    currentTab || DASHBOARD_HOME
+  );
   const [errorModalToggle, setErrorModalToggle] =
     useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -99,13 +105,19 @@ export default function Dashboard() {
         }
       )
       .then((result) => {
-        if (result.responseStatus === 200) {
-          setUserStores(result.responseData);
-          if (result.responseData.length <= 0) {
-            let temp = { ...selectedStore };
-            temp.storeName = "Buat Toko";
-            setSelectedStore(temp);
-          } else setSelectedStore(result.responseData[0]);
+        if (result.responseStatus !== 200) return;
+        setUserStores(result.responseData);
+        if (result.responseData.length <= 0) {
+          let temp = { ...selectedStore };
+          temp.storeName = "Buat Toko";
+          setSelectedStore(temp);
+        } else {
+          const storeFind = result.responseData.find(
+            (val) => val.id === storeId
+          );
+          setSelectedStore(
+            storeFind || result.responseData[0]
+          );
         }
       })
       .catch((error) => {
@@ -133,6 +145,7 @@ export default function Dashboard() {
 
   function handleOpenPage(keyword) {
     setToggleOpenBody(keyword);
+    setURLParams(currentLocation, "tab", keyword);
   }
 
   function handleOpenPageMobile(keyword) {
@@ -153,13 +166,20 @@ export default function Dashboard() {
     const result = userStore.find(
       (obj) => obj.storeName === value
     );
+
+    let targetStoreId = "";
     if (!result)
-      setSelectedStore(
-        userStore
-          ? userStore[0].storeName
-          : STORE_INITIAL_VALUE.storeName
-      );
-    else setSelectedStore(result);
+      setSelectedStore(() => {
+        if (userStore) {
+          targetStoreId = userStore[0].id;
+          return userStore[0].storeName;
+        } else return STORE_INITIAL_VALUE.storeName;
+      });
+    else {
+      targetStoreId = result.id;
+      setSelectedStore(result);
+    }
+    setURLParams(currentLocation, "storeId", targetStoreId);
   }
 
   // COMPONENT FUNCTIONS //
@@ -301,9 +321,8 @@ export default function Dashboard() {
                     showTitle={true}
                     toggle={true}
                     value={
-                      selectedStore
-                        ? selectedStore.storeName
-                        : STORE_INITIAL_VALUE.storeName
+                      selectedStore?.storeName ||
+                      STORE_INITIAL_VALUE.storeName
                     }
                     values={showUserStores(userStore)}
                   />
