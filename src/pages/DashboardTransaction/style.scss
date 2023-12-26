@@ -92,7 +92,8 @@
   flex-wrap: wrap;
   flex: 50%;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-start;
+  height: fit-content;
 }
 
 .my-orders-dropdown-item {
