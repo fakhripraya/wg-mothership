@@ -221,7 +221,7 @@ export default function Home() {
     if (storeId) navigate(`/creative-store?id=${storeId}`);
   }
 
-  async function handleLoadMoreNewProducts() {
+  function handleLoadMoreNewProducts() {
     trackPromise(
       axiosService
         .getData({
