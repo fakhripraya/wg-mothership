@@ -1,6 +1,8 @@
 import React, {
   Fragment,
+  useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -57,9 +59,12 @@ import {
   reelsButtonVisibleState,
 } from "../../variables/styles/home";
 import { trackPromise } from "react-promise-tracker";
+import { useMap } from "../../utils/hooks/useMap";
+import { cloneDeep } from "lodash-es";
 
 export default function Home() {
   // HOOK
+  const mapper = useMap();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const axiosService = useAxios();
@@ -94,10 +99,9 @@ export default function Home() {
   const [officialStores, setOfficialStores] =
     useState(null);
   const [newProducts, setNewProducts] = useState(null);
-  const [newProductsIndex, setNewProductsIndex] =
-    useState(0);
 
   // VARIABLES //
+  const carouselLimit = 10;
   const overridingToggle = useSelector(
     (state) => state.navbar.overridingToggle
   );
@@ -116,6 +120,15 @@ export default function Home() {
     endpoint: process.env.REACT_APP_ZEUS_SERVICE,
   };
 
+  // MEMOIZED VARIABLES //
+  let newProductsMapped = useMemo(() => {
+    const cloned = cloneDeep(newProducts);
+    return mapper.splitArrayForGrid(
+      cloned || [],
+      carouselLimit
+    );
+  }, [newProducts]);
+
   // API ENDPOINTS
   // 1. flash sale endpoint
   // 2. recommendation categories endpoint
@@ -125,7 +138,7 @@ export default function Home() {
   const endpoints = [
     {
       ...defaultConfigs,
-      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=10`,
+      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=${carouselLimit}`,
     },
     {
       ...defaultConfigs,
@@ -133,15 +146,17 @@ export default function Home() {
     },
     {
       ...defaultConfigs,
-      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=10`,
+      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=${carouselLimit}`,
     },
     {
       ...defaultConfigs,
-      url: URL_GET_STORE_INFO(`?limit=7&isWithFiles=true`),
+      url: URL_GET_STORE_INFO(
+        `?limit=${carouselLimit}&isWithFiles=true`
+      ),
     },
     {
       ...defaultConfigs,
-      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&isGrid=true&gridLimit=10`,
+      url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true`,
     },
   ];
 
@@ -160,14 +175,16 @@ export default function Home() {
       )
       .then((res) => {
         if (res.responseData?.[0]?.responseStatus === 200)
-          setFlashSale(res.responseData?.[0]?.responseData);
+          setFlashSale(
+            res.responseData?.[0]?.responseData.result
+          );
         if (res.responseData?.[1]?.responseStatus === 200)
           setRecommendedCategories(
             res.responseData?.[1]?.responseData
           );
         if (res.responseData?.[2]?.responseStatus === 200)
           setRecommendedProducts(
-            res.responseData?.[2]?.responseData
+            res.responseData?.[2]?.responseData.result
           );
         if (res.responseData?.[3]?.responseStatus === 200)
           setOfficialStores(
@@ -175,7 +192,7 @@ export default function Home() {
           );
         if (res.responseData?.[4]?.responseStatus === 200)
           setNewProducts(
-            res.responseData?.[4]?.responseData
+            res.responseData?.[4]?.responseData.result
           );
 
         setReelVideos(GET_DUMMY_REELS);
@@ -209,16 +226,22 @@ export default function Home() {
       axiosService
         .getData({
           ...endpoints[4],
-          url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&isGrid=true&gridLimit=10&limit=10&offset=1`,
+          url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=${carouselLimit}&offset=${Math.floor(
+            newProducts.length / carouselLimit
+          )}`,
         })
         .then((res) => {
-          if (res.responseStatus === 200) {
-            setNewProducts(res.responseData);
+          if (
+            res.responseStatus === 200 &&
+            res.responseData.itemCount > newProducts.length
+          ) {
+            const combinedArr = newProducts.concat(
+              res.responseData.result
+            );
+            setNewProducts(combinedArr);
           }
         })
-        .catch((error) => {
-          console.error(error);
-        })
+        .catch((error) => console.error(error))
     );
   }
 
@@ -848,7 +871,7 @@ export default function Home() {
               uniqueKey={`home-new-product-grid`}
               gridRefs={gridRefs}
               navigate={navigate}
-              values={newProducts}
+              values={newProductsMapped}
             />
             <Button
               onClick={handleLoadMoreNewProducts}

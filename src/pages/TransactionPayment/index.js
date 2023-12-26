@@ -120,7 +120,7 @@ export default function TransactionPayment() {
         // set cart datas
         if (res.responseData[0].responseStatus === 200)
           handleCartArray(
-            res.responseData[0].responseData,
+            res.responseData[0].responseData.result,
             temp,
             dispatch
           );

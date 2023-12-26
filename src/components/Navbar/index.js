@@ -14,7 +14,6 @@ import {
 } from "react-router-dom";
 import OverridingContainer from "../OverridingContainer";
 import ICHamburger from "../../assets/svg/ic_hamburg_3.svg";
-import ICCart from "../../assets/svg/cart-icon.svg";
 import { getMenus } from "../../variables/path/navbar";
 import Dropdown from "../Dropdown";
 import Login from "../../pages/Login";
@@ -43,6 +42,7 @@ import { trackPromise } from "react-promise-tracker";
 import { useAxios } from "../../utils/hooks/useAxios";
 import {
   catchPromiseErrors,
+  clearAllUrlParameters,
   handleErrorMessage,
   handleOpenModal,
   handlePageNavigation,
@@ -50,7 +50,6 @@ import {
 import { cookies } from "../../config/cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { setOverridingToggle } from "../../utils/redux/reducers/navbarReducer";
-import { useMemo } from "react";
 import { ShowCart } from "./ModularComponents/ShowCart";
 
 export default function Navbar() {
@@ -120,6 +119,7 @@ export default function Navbar() {
           );
         })
         .catch((error) => catchPromiseErrors(error))
+        .finally(() => clearAllUrlParameters())
     );
   }
 
@@ -137,9 +137,7 @@ export default function Navbar() {
   function handleWindowScroll(overridingToggle) {
     // Scroll window to top
     window.scrollTo(0, 0);
-
     // Then use condition for the scrolling behavior
-    // FIXME: Reels become window scrollable because of this
     if (overridingToggle === NO_STRING) {
       document
         .querySelector("html")
@@ -237,36 +235,34 @@ export default function Navbar() {
     );
   };
 
-  const ShowSearchBar = () => {
-    return (
-      <Fragment>
-        <li className="navbar-search-wrapper">
-          <TextInput className="navbar-search"></TextInput>
-          <Button
-            onClick={() => {
-              navigate("/search");
-              window.handleOpenOverriding(NO_STRING);
-            }}>
-            Search
-          </Button>
-        </li>
-        <li className="navbar-menu-item-wrapper">
-          <Dropdown
-            onChange={(value) => {}}
-            showTitle={false}
-            toggle={true}
-            values={["Fittest", "Jancokest"]}
-          />
-          <Dropdown
-            onChange={(value) => {}}
-            showTitle={false}
-            toggle={true}
-            values={["Fittest", "Jancokest"]}
-          />
-        </li>
-      </Fragment>
-    );
-  };
+  const ShowSearchBar = () => (
+    <Fragment>
+      <li className="navbar-search-wrapper">
+        <TextInput className="navbar-search"></TextInput>
+        <Button
+          onClick={() => {
+            navigate("/search");
+            window.handleOpenOverriding(NO_STRING);
+          }}>
+          Search
+        </Button>
+      </li>
+      <li className="navbar-menu-item-wrapper">
+        <Dropdown
+          onChange={(value) => {}}
+          showTitle={false}
+          toggle={true}
+          values={["Fittest", "Jancokest"]}
+        />
+        <Dropdown
+          onChange={(value) => {}}
+          showTitle={false}
+          toggle={true}
+          values={["Fittest", "Jancokest"]}
+        />
+      </li>
+    </Fragment>
+  );
 
   const ShowMenuRow = (props) => {
     const { children } = props;
@@ -291,86 +287,78 @@ export default function Navbar() {
       renderMenus.splice(dashboardButtonIndex, 1);
     }
 
-    return renderMenus.map((menu, index) => {
-      return (
-        <ShowMenuRow key={`mobile-button-${index}`}>
+    return renderMenus?.map((menu, index) => (
+      <ShowMenuRow key={`mobile-button-${index}`}>
+        <Button
+          onClick={() => handlePageNavigation(menu.route)}>
+          {menu.name}
+        </Button>
+      </ShowMenuRow>
+    ));
+  };
+
+  const ShowErrorModal = () => (
+    <div className="navbar-modal-container dark-bg-color">
+      <div className="navbar-modal-wrapper">
+        <Button
+          onClick={() =>
+            handleOpenModal(setModalToggle, modalToggle)
+          }
+          className="align-self-end navbar-modal-button red-bg-color">
+          <h4 className="navbar-modal-button-text">X</h4>
+        </Button>
+        <br />
+        <h3 className="margin-top-0 margin-bottom-12-18">
+          There is an{" "}
+          <span className="red-color">ERROR</span>
+        </h3>
+        <br />
+        <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
+          {errorMessage}
+        </label>
+      </div>
+    </div>
+  );
+
+  const ShowLogoutModal = () => (
+    <div className="navbar-modal-container dark-bg-color">
+      <div className="navbar-modal-wrapper">
+        <Button
+          onClick={() =>
+            handleOpenModal(setModalToggle, modalToggle)
+          }
+          className="align-self-end navbar-modal-button red-bg-color">
+          <h4 className="navbar-modal-button-text">X</h4>
+        </Button>
+        <br />
+        <h3 className="margin-top-0 margin-bottom-12-18">
+          Yakin Mau{" "}
+          <span className="red-color">Keluar</span> Dari
+          Akun Kamu ?
+        </h3>
+        <label className="margin-top-0 margin-bottom-12-18">
+          Kalo udah logout magger banget ga sih loginnya?
+          stay aja dulu !
+        </label>
+        <div
+          style={{ padding: "0px" }}
+          className="navbar-mobile-menu-row-wrapper">
           <Button
+            onClick={() => handleLogout()}
+            style={{ marginRight: "8px" }}>
+            Yes
+          </Button>
+          <Button
+            className="red-bg-color"
             onClick={() =>
-              handlePageNavigation(menu.route)
+              handleOpenModal(setModalToggle, modalToggle)
             }>
-            {menu.name}
+            No
           </Button>
-        </ShowMenuRow>
-      );
-    });
-  };
-
-  const ShowErrorModal = () => {
-    return (
-      <div className="navbar-modal-container dark-bg-color">
-        <div className="navbar-modal-wrapper">
-          <Button
-            onClick={() =>
-              handleOpenModal(setModalToggle, modalToggle)
-            }
-            className="align-self-end navbar-modal-button red-bg-color">
-            <h4 className="navbar-modal-button-text">X</h4>
-          </Button>
-          <br />
-          <h3 className="margin-top-0 margin-bottom-12-18">
-            There is an{" "}
-            <span className="red-color">ERROR</span>
-          </h3>
-          <br />
-          <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
-            {errorMessage}
-          </label>
         </div>
       </div>
-    );
-  };
-
-  const ShowLogoutModal = () => {
-    return (
-      <div className="navbar-modal-container dark-bg-color">
-        <div className="navbar-modal-wrapper">
-          <Button
-            onClick={() =>
-              handleOpenModal(setModalToggle, modalToggle)
-            }
-            className="align-self-end navbar-modal-button red-bg-color">
-            <h4 className="navbar-modal-button-text">X</h4>
-          </Button>
-          <br />
-          <h3 className="margin-top-0 margin-bottom-12-18">
-            Yakin Mau{" "}
-            <span className="red-color">Keluar</span> Dari
-            Akun Kamu ?
-          </h3>
-          <label className="margin-top-0 margin-bottom-12-18">
-            Kalo udah logout magger banget ga sih loginnya?
-            stay aja dulu !
-          </label>
-          <div
-            style={{ padding: "0px" }}
-            className="navbar-mobile-menu-row-wrapper">
-            <Button
-              onClick={() => handleLogout()}
-              style={{ marginRight: "8px" }}>
-              Yes
-            </Button>
-            <Button
-              className="red-bg-color"
-              onClick={() =>
-                handleOpenModal(setModalToggle, modalToggle)
-              }>
-              No
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  };
+    </div>
+  );
 
   const ShowModal = () => {
     if (error) return <ShowErrorModal />;
@@ -399,10 +387,7 @@ export default function Navbar() {
     // Navbar initialization to check the authentication
     if (recoveryToken)
       window.handleOpenOverriding(NEW_PASSWORD);
-    else if (
-      searchParamScopes &&
-      searchParamScopes.includes("googleapis")
-    )
+    else if (searchParamScopes?.includes("googleapis"))
       handleGoogleAuthListener();
     else if (toggleOpenWindow)
       window.handleOpenOverriding(toggleOpenWindow);

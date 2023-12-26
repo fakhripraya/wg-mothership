@@ -76,7 +76,11 @@ export default function TransactionCart() {
       )
       .then((res) => {
         if (res.responseStatus === 200)
-          handleCartArray(res.responseData, temp, dispatch);
+          handleCartArray(
+            res.responseData.result,
+            temp,
+            dispatch
+          );
       })
       .catch((error) => {
         if (error.responseStatus === 500) handleError500();

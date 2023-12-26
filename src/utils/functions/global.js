@@ -239,3 +239,9 @@ export const setURLParams = (url, key, val) => {
   const newUrl = url.toString();
   window.history.pushState({}, "", newUrl);
 };
+
+export const clearAllUrlParameters = () => {
+  const currentUrl = new URL(window.location.href);
+  currentUrl.search = "";
+  window.history.replaceState({}, "", currentUrl.href);
+};

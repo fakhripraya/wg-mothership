@@ -19,6 +19,7 @@ import { trackPromise } from "react-promise-tracker";
 import { NEW_PASSWORD_DATA_INITIAL_VALUE } from "../../variables/initial/newpassword";
 import Modal from "../../components/Modal";
 import {
+  clearAllUrlParameters,
   handleErrorMessage,
   handleOpenModal,
 } from "../../utils/functions/global";
@@ -34,13 +35,14 @@ export default function NewPassword(props) {
   );
   const [errorMessage, setErrorMessage] = useState(null);
   // eslint-disable-next-line no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   // VARIABLES
   const userInfo = cookies.get(CLIENT_USER_INFO, {
     path: "/",
   });
   const recoveryToken = searchParams.get("recoveryToken");
+  if (recoveryToken) clearAllUrlParameters();
 
   // FUNCTIONS SPECIFIC //
   function handleTextChange(field, event) {
