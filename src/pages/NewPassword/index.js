@@ -52,13 +52,12 @@ export default function NewPassword(props) {
   }
 
   function handleNewPWRequest(callback) {
-    if (!userInfo && !userInfo.sid) return;
     if (recoveryToken) {
       trackPromise(
         credentialService
           .postData({
             headers: {
-              [X_SID]: userInfo.sid,
+              [X_SID]: userInfo?.sid,
             },
             endpoint: process.env.REACT_APP_OLYMPUS_SERVICE,
             url: URL_POST_NEW_PW,
@@ -158,6 +157,7 @@ export default function NewPassword(props) {
                     handleTextChange("newPassword", e)
                   }
                   type="password"
+                  autoComplete="off"
                   className="new-password-textinput text-align-center"
                 />
               </div>
@@ -171,6 +171,7 @@ export default function NewPassword(props) {
                     handleTextChange("confirmPassword", e)
                   }
                   type="password"
+                  autoComplete="off"
                   className="new-password-textinput text-align-center"
                 />
               </div>
@@ -182,9 +183,7 @@ export default function NewPassword(props) {
               </label>
               <Button
                 onClick={() =>
-                  handleNewPWRequest(() =>
-                    handleOpenLogin()
-                  )
+                  handleNewPWRequest(handleOpenLogin)
                 }
                 className="new-password-button">
                 <p className="new-password-button-text">

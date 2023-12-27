@@ -14,6 +14,7 @@ const TextInput = React.forwardRef((props, ref) => (
     onChange={props.onChange}
     maxLength={props.maxLength}
     type={props.type}
+    autoComplete={props.autoComplete}
     className={"input-text " + props.className}></input>
 ));
 
