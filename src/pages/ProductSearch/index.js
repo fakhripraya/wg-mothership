@@ -22,6 +22,7 @@ import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
   IS_NOT_AUTHENTICATE,
+  URL_GET_CATEGORIES,
   URL_GET_PRODUCT_LIST,
   X_SID,
 } from "../../variables/global";
@@ -59,8 +60,7 @@ export default function ProductSearch() {
     searchedProductsMasterCount,
     setSearchedProductsMasterCount,
   ] = useState(null);
-  const [relatedCatalogue, setRelatedCatalogue] =
-    useState(null);
+  const [allCategories, setAllCategories] = useState(null);
 
   // VARIABLES //
   const currentLocation = new URL(document.location);
@@ -108,10 +108,10 @@ export default function ProductSearch() {
       ...defaultConfigs,
       url: handleEndpointURL(),
     },
-    // {
-    //   ...defaultConfigs,
-    //   url: `${URL_GET_CATALOGUE_DATA}`,
-    // },
+    {
+      ...defaultConfigs,
+      url: `${URL_GET_CATEGORIES}`,
+    },
   ];
 
   // FUNCTIONS SPECIFIC //
@@ -138,10 +138,10 @@ export default function ProductSearch() {
           );
           setIsLoading(false);
         }
-        // if (res.responseData?.[1]?.responseStatus === 200)
-        //   setRelatedCatalogue(
-        //     res.responseData?.[1]?.responseData
-        //   );
+        if (res.responseData?.[1]?.responseStatus === 200)
+          setAllCategories(
+            res.responseData?.[1]?.responseData
+          );
       })
       .catch((error) => {
         if (IS_NOT_AUTHENTICATE(error))
@@ -281,7 +281,7 @@ export default function ProductSearch() {
             <div className="product-search-cards-container">
               <div
                 className={`product-search-cards-top-header-container ${
-                  !relatedCatalogue ? "display-none" : ""
+                  !allCategories ? "display-none" : ""
                 }`}>
                 <FloatButton
                   onClick={() => handleBottomSheet()}
@@ -298,7 +298,7 @@ export default function ProductSearch() {
                   ref={productSearchTagRef}>
                   <ShowGrabableCarouselCategoriesTag
                     uniqueKey={"product-search-tag"}
-                    values={relatedCatalogue}
+                    values={allCategories}
                   />
                 </div>
               </div>

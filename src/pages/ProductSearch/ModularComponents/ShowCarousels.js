@@ -4,7 +4,6 @@ import {
   formattedNumber,
   scrollCarousel,
 } from "../../../utils/functions/global";
-import Notfound404 from "../../../assets/svg/404-notfound-1.svg";
 
 export function handleGoToProductDetail(navigate, id) {
   navigate(`/product-detail?productId=${id}`);
@@ -17,7 +16,7 @@ export function handleGoToCreativeStore(navigate, id) {
 export const ShowGrabableCarouselCategoriesTag = (props) =>
   props.values?.map((obj, index) => (
     <Tag
-      className="dark-bg-color"
+      className="main-bg-color"
       key={`carousel-tag-${props.uniqueKey}-${index}`}
       text={obj.categoryName}
     />
