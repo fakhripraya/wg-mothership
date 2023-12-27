@@ -233,7 +233,11 @@ export default function Navbar() {
         />
       </Fragment>
     ) : (
-      <Button onClick={handleLoginClick}>Login</Button>
+      <Button
+        className="transparent-bg-color"
+        onClick={handleLoginClick}>
+        Login
+      </Button>
     );
   };
 

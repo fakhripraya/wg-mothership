@@ -167,7 +167,7 @@ export default function DashboardHome(props) {
               Rp.1.232.032.091
             </p>
             <p style={{ marginTop: "8px" }}>
-              2 Rental Berjalan
+              Klik disini untuk melihat histori transaksi
             </p>
           </div>
         </div>
