@@ -256,7 +256,7 @@ export default function ProductSearch() {
     keyword && breadcrumbs.push(keyword);
     setBreadcrumb(breadcrumbs);
     // initialize datas
-    trackPromise(handleInitialize());
+    handleInitialize();
   }, []);
 
   return (
