@@ -200,6 +200,7 @@ export default function Home() {
       .catch((error) => {
         if (IS_NOT_AUTHENTICATE(error))
           cookies.remove(CLIENT_USER_INFO, { path: "/" });
+        else console.error(error);
       });
   }
 
@@ -233,7 +234,8 @@ export default function Home() {
         .then((res) => {
           if (
             res.responseStatus === 200 &&
-            res.responseData.itemCount > newProducts.length
+            res.responseData.masterCount >
+              newProducts.length
           ) {
             const combinedArr = newProducts.concat(
               res.responseData.result
@@ -247,7 +249,7 @@ export default function Home() {
 
   // COMPONENTS SPECIFIC //
   const ShowTools = () =>
-    GET_BALANCE_TOOLS().map((items, index) => (
+    GET_BALANCE_TOOLS.map((items, index) => (
       <div
         key={`tool-${index}`}
         className="home-balance-box home-balance-tools-box main-bg-color">

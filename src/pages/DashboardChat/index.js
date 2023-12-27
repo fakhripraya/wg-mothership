@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { DASHBOARD_REMINDERS } from "../../variables/global";
 import Avatar from "react-avatar";
 import FloatButton from "../../components/FloatButton";
+import SearchIcon from "../../assets/svg/search-icon.svg";
 
 export default function DashboardChat(props) {
   // FUNCTIONS SPECIFIC //
@@ -84,8 +85,13 @@ export default function DashboardChat(props) {
         <div className="dashboard-reminder-header dark-bg-color">
           <div className="dashboard-reminder-searchbar-container">
             <div className="dashboard-reminder-searchbar-wrapper">
+              <Button className="dashboard-reminder-searchbar-button lighter-bg-color">
+                <img
+                  src={SearchIcon}
+                  alt="search-icon-dashboard-reminder"
+                />
+              </Button>
               <TextInput className="dashboard-reminder-searchbar-input" />
-              <Button>Search</Button>
             </div>
           </div>
           <div className="dashboard-reminder-tools-container">

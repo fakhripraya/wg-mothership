@@ -101,8 +101,17 @@
   border-right: 6px solid transparent;
 }
 
+.dashboard-catalogue-searchbar-button {
+  border-bottom-right-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
 .dashboard-catalogue-searchbar-input {
-  margin-right: 6px;
+  border-bottom-left-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+  padding-left: 8px;
+  color: #151515;
+  text-align: left;
 }
 
 .dashboard-catalogue-tools-container {

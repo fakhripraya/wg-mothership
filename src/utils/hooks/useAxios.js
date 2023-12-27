@@ -279,6 +279,13 @@ export const useAxios = () => {
     });
   };
 
+  const getURLParams = (url, key) =>
+    url.searchParams.get(key);
+
+  const setURLParams = (url, key, val) => {
+    url.searchParams.set(key, val);
+  };
+
   return {
     getData,
     getAllData,
@@ -286,5 +293,7 @@ export const useAxios = () => {
     getAllDataWithOnRequestInterceptors,
     postData,
     postDataWithOnRequestInterceptors,
+    getURLParams,
+    setURLParams,
   };
 };

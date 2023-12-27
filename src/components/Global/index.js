@@ -21,5 +21,5 @@ export const ShowBreadcrumbs = (props) => {
     (item) => (breadCrumbTexts += `${item} / `)
   );
   breadCrumbTexts = breadCrumbTexts.slice(0, -2);
-  return <h3>{breadCrumbTexts}</h3>;
+  return <p>{breadCrumbTexts}</p>;
 };

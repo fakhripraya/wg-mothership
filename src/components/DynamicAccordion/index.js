@@ -2,28 +2,24 @@ import React, { useRef, useState, useEffect } from "react";
 import "./style.scss";
 
 // MEMOIZED COMPONENTS //
-const ShowItem = (props) => {
-  return (
-    <button
-      key={`dynamic-accordion-${props.value.title}-${props.index}`}
-      className="dynamic-accordion-button dynamic-accordion-subtitle-button">
-      <h6 className="dynamic-accordion-subtitle light-color">
-        {props.value.title}
-      </h6>
-    </button>
-  );
-};
+const ShowItem = (props) => (
+  <button
+    key={`dynamic-accordion-${props.value.title}-${props.index}`}
+    className="dynamic-accordion-button dynamic-accordion-subtitle-button">
+    <p className="dynamic-accordion-subtitle light-color">
+      {props.value.title}
+    </p>
+  </button>
+);
 
 const ShowItems = (props) => {
   if (!props.isButton) return props.children;
-  return props.data.map((value, index) => {
-    return (
-      <ShowItem
-        value={value}
-        index={index}
-      />
-    );
-  });
+  return props.data.map((value, index) => (
+    <ShowItem
+      value={value}
+      index={index}
+    />
+  ));
 };
 
 function DynamicAccordion(props) {
@@ -57,9 +53,9 @@ function DynamicAccordion(props) {
         onClick={() => handleAccordionClick()}
         className="dynamic-accordion-button-wrapper">
         <button className="dynamic-accordion-button">
-          <h2 className="dynamic-accordion-title light-color">
+          <h3 className="dynamic-accordion-title light-color">
             {props.title}
-          </h2>
+          </h3>
         </button>
         <div className="dynamic-accordion-title-prefixes">
           <span

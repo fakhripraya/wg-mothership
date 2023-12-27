@@ -39,6 +39,7 @@ import { cookies } from "../../config/cookie";
 import { ShowErrorModal } from "./ModularComponents/ShowModals";
 import ShowDisplayItem from "./ModularComponents/ShowDisplayItem";
 import cloneDeep from "lodash-es/cloneDeep";
+import SearchIcon from "../../assets/svg/search-icon.svg";
 
 export default function DashboardCatalogue(props) {
   // HOOK
@@ -384,8 +385,13 @@ export default function DashboardCatalogue(props) {
           <div className="dashboard-catalogue-header dark-bg-color">
             <div className="dashboard-catalogue-searchbar-container">
               <div className="dashboard-catalogue-searchbar-wrapper">
+                <Button className="dashboard-catalogue-searchbar-button lighter-bg-color">
+                  <img
+                    src={SearchIcon}
+                    alt="search-icon-dashboard-catalogue"
+                  />
+                </Button>
                 <TextInput className="dashboard-catalogue-searchbar-input" />
-                <Button>Search</Button>
               </div>
             </div>
             <div className="dashboard-catalogue-tools-container">

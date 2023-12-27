@@ -56,8 +56,17 @@
   border-right: 6px solid transparent;
 }
 
+.my-orders-searchbar-button {
+  border-bottom-right-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
 .my-orders-searchbar-input {
-  margin-right: 6px;
+  border-bottom-left-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+  padding-left: 8px;
+  color: #151515;
+  text-align: left;
 }
 
 .my-orders-tools-container {

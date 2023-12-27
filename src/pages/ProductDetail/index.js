@@ -92,6 +92,7 @@ export default function ProductDetail() {
     return props.datas.map((item, index) => {
       return (
         <Accordion
+          className="detail-accordion"
           key={`${props.uniqueKey}-accordion-${index}`}
           toggle={false}
           isButton={true}
@@ -187,8 +188,11 @@ export default function ProductDetail() {
             if (!res.responseData.result) return;
 
             const dummyBreadcrumb = [
+              "Home",
               res.responseData.result.MasterCategory
                 .categoryName,
+              res.responseData.result.MasterStoreCatalogue
+                .MasterStore.storeName,
               res.responseData.result.MasterStoreCatalogue
                 .catalogueName,
               res.responseData.result.productName,
@@ -301,9 +305,9 @@ export default function ProductDetail() {
               </div>
             </div>
             <div className="detail-flexbox detail-flexbox-details ">
-              <h2 className="detail-title margin-top-bottom-0">
+              <h3 className="detail-title margin-top-bottom-0">
                 {productData?.productName}
-              </h2>
+              </h3>
               <br />
               <p className="detail-count">
                 Tersewa&nbsp;<span>35+</span>
@@ -316,12 +320,12 @@ export default function ProductDetail() {
                 />{" "}
                 4.9 ( dari 11 rating )
               </p>
-              <h1 className="detail-pricetag">
+              <h2 className="detail-pricetag">
                 {productData &&
                   `Rp.${formattedNumber(
                     productData.productPrice
                   )}`}
-              </h1>
+              </h2>
               <hr
                 style={{ opacity: 0.1 }}
                 className="max-width"
@@ -388,11 +392,11 @@ export default function ProductDetail() {
                   }
                 />
                 <div className="detail-merchant-status">
-                  <h4 className="detail-body-text margin-top-bottom-0">
+                  <p className="detail-body-text margin-top-bottom-0 font-bold">
                     {productData &&
                       productData.MasterStoreCatalogue
                         .MasterStore.storeName}
-                  </h4>
+                  </p>
                   <p className="detail-body-text margin-top-0">
                     Online 14 hari lalu
                   </p>
@@ -469,13 +473,13 @@ export default function ProductDetail() {
               </p>
             </div>
             <div className="detail-flexbox detail-flexbox-pricing">
-              <h1 className="detail-title margin-top-bottom-0">
-                Pesan
-              </h1>
-              <br />
               <h3 className="detail-title margin-top-bottom-0">
-                Jumlah Pembelian
+                Pesan
               </h3>
+              <br />
+              <p className="detail-title margin-top-bottom-0 font-bold">
+                Jumlah Pembelian
+              </p>
               <div
                 style={{ marginBottom: "8px" }}
                 className="detail-flexbox-pricing-rowbox">
@@ -492,9 +496,9 @@ export default function ProductDetail() {
                 <Button>Buah</Button>
               </div>
               <br />
-              <h3 className="detail-title margin-top-bottom-0">
+              <p className="detail-title margin-top-bottom-0 font-bold">
                 Masukan Catatan Bila Ada
-              </h3>
+              </p>
               <TextArea
                 value={buyingNote}
                 onChange={(e) =>
@@ -503,15 +507,15 @@ export default function ProductDetail() {
                 className="detail-flexbox-pricing-longtext-area"
               />
               <div className="detail-flexbox-pricing-rowbox">
-                <h2 className="detail-title margin-top-0">
+                <h3 className="detail-title margin-top-0">
                   Subtotal&nbsp;
-                </h2>
-                <h2 className="detail-title margin-top-0">
+                </h3>
+                <h3 className="detail-title margin-top-0">
                   {productData &&
                     `Rp.${formattedNumber(
                       productData.productPrice * buyQty
                     )}`}
-                </h2>
+                </h3>
               </div>
               <Button
                 onClick={() =>
@@ -550,9 +554,9 @@ export default function ProductDetail() {
           </div>
           <div className="detail-flex-container">
             <div className="detail-flexbox detail-flexbox-filter ">
-              <h1 className="detail-title margin-top-bottom-0">
+              <h3 className="detail-title margin-top-bottom-0">
                 Review Barang
-              </h1>
+              </h3>
               <div className="detail-review-rating">
                 <img
                   style={{
@@ -581,9 +585,9 @@ export default function ProductDetail() {
               />
             </div>
             <div className="detail-flexbox detail-flexbox-review ">
-              <h1 className="detail-title margin-top-0">
+              <h3 className="detail-title margin-top-0">
                 Foto Review Dari Pembeli
-              </h1>
+              </h3>
               <div className="detail-picture-box-review">
                 <img
                   className="detail-picture-box-review-item"
@@ -619,9 +623,9 @@ export default function ProductDetail() {
                 style={{ opacity: 0.1 }}
                 className="max-width"
               />
-              <h1 className="detail-title margin-bottom-0">
+              <h3 className="detail-title margin-bottom-0">
                 Review Dari Pembeli
-              </h1>
+              </h3>
               <p className="detail-body-text margin-top-0">
                 Menampilkan 9 ulasan dari 9
               </p>
@@ -632,9 +636,9 @@ export default function ProductDetail() {
                   alt="Logo candelaacts"
                 />
                 <div className="detail-comment-status">
-                  <h4 className="detail-body-text margin-top-bottom-0">
+                  <p className="detail-body-text margin-top-bottom-0 font-bold">
                     Ricky The Seller
-                  </h4>
+                  </p>
                   <p className="detail-body-text margin-top-0">
                     Online 14 hari lalu
                   </p>
@@ -679,9 +683,9 @@ export default function ProductDetail() {
                   alt="Logo candelaacts"
                 />
                 <div className="detail-comment-status">
-                  <h4 className="detail-body-text margin-top-bottom-0">
+                  <p className="detail-body-text margin-top-bottom-0 font-bold">
                     Ricky The Seller
-                  </h4>
+                  </p>
                   <p className="detail-body-text margin-top-0">
                     Online 14 hari lalu
                   </p>
@@ -726,9 +730,9 @@ export default function ProductDetail() {
                   alt="Logo candelaacts"
                 />
                 <div className="detail-comment-status">
-                  <h4 className="detail-body-text margin-top-bottom-0">
+                  <p className="detail-body-text margin-top-bottom-0 font-bold">
                     Ricky The Seller
-                  </h4>
+                  </p>
                   <p className="detail-body-text margin-top-0">
                     Online 14 hari lalu
                   </p>

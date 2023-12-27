@@ -79,9 +79,9 @@ export default function ShowConditionalMemoized(props) {
       <div className="transaction-cart-wrapper">
         <div className="transaction-cart-header">
           <div className="transaction-cart-title">
-            <h1 className="transaction-cart-title-text">
+            <h2 className="transaction-cart-title-text">
               Keranjang
-            </h1>
+            </h2>
           </div>
           <div className="transaction-cart-title justify-content-flex-end">
             <div className="transaction-cart-title-btn-container">

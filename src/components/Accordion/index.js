@@ -19,9 +19,9 @@ export default function Accordion(props) {
         <button
           key={`accordion-${item.title}-${index}`}
           className="accordion-button">
-          <h6 className="accordion-subtitle light-color">
+          <p className="accordion-subtitle light-color">
             {item.title}
-          </h6>
+          </p>
         </button>
       );
     });
@@ -42,9 +42,9 @@ export default function Accordion(props) {
       <button
         onClick={() => handleAccordionClick()}
         className="accordion-button">
-        <h2 className="accordion-title light-color">
+        <h3 className="accordion-title light-color">
           {props.title}
-        </h2>
+        </h3>
         <span
           className="accordion-button-label-after"
           ref={iconRef}

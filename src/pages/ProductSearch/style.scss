@@ -212,8 +212,8 @@
   align-items: center;
   -webkit-box-pack: justify;
   justify-content: space-between;
-  min-height: 60px;
-  padding: 0.25em 1em;
+  height: fit-content;
+  padding: 1em;
   border-radius: 1em;
 }
 
@@ -257,6 +257,15 @@
   @media screen and (max-width: 2500px) {
     padding: 12px 0px;
   }
+}
+
+.product-search-dropdown-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-self: flex-start;
+  height: inherit;
 }
 
 /* Scrollbar */

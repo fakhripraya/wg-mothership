@@ -1647,9 +1647,9 @@ export default function CreativeStore() {
                 <div
                   onClick={openSettingTab}
                   className="creative-store-add-menu-wording">
-                  <h4 className="white-color">
+                  <p className="white-color">
                     Setting Toko
-                  </h4>
+                  </p>
                   <span className="creative-store-gear-button" />
                 </div>
               </div>
@@ -1658,7 +1658,7 @@ export default function CreativeStore() {
                   Katalog
                 </Button>
                 <Button className="creative-store-scrollable-menu-button">
-                  Tambah Kategori
+                  Tambah Channel
                 </Button>
               </div>
               <div className="creative-store-sub-container creative-store-scrollable-menu-body">
@@ -1761,7 +1761,8 @@ export default function CreativeStore() {
                   <TextInput
                     onEnter={handleOnSendMessage}
                     ref={chatInputRef}
-                    className="creative-store-chat-textinput light-color darker-bg-color"></TextInput>
+                    className="creative-store-chat-textinput light-color darker-bg-color"
+                  />
                   <Button onClick={handleOnSendMessage}>
                     Send
                   </Button>

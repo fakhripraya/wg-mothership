@@ -81,9 +81,9 @@ export default function ShowConditionalMemoized(props) {
         <div className="transaction-payment-detail-container">
           <div className="transaction-payment-header">
             <div className="transaction-payment-title">
-              <h1 className="transaction-payment-title-text">
+              <h2 className="transaction-payment-title-text">
                 Checkout
-              </h1>
+              </h2>
             </div>
           </div>
           <br />

@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import OverridingContainer from "../OverridingContainer";
 import ICHamburger from "../../assets/svg/ic_hamburg_3.svg";
+import SearchIcon from "../../assets/svg/search-icon.svg";
 import { getMenus } from "../../variables/path/navbar";
 import Dropdown from "../Dropdown";
 import Login from "../../pages/Login";
@@ -51,6 +52,7 @@ import { cookies } from "../../config/cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { setOverridingToggle } from "../../utils/redux/reducers/navbarReducer";
 import { ShowCart } from "./ModularComponents/ShowCart";
+import { PRODUCT_SORT_OPTIONS } from "../../variables/constants/dropdown";
 
 export default function Navbar() {
   // HOOKS //
@@ -238,27 +240,30 @@ export default function Navbar() {
   const ShowSearchBar = () => (
     <Fragment>
       <li className="navbar-search-wrapper">
-        <TextInput className="navbar-search"></TextInput>
+        <Dropdown
+          className="navbar-search-sort-options"
+          onChange={(value) => {}}
+          showTitle={false}
+          toggle={true}
+          values={PRODUCT_SORT_OPTIONS}
+        />
         <Button
           onClick={() => {
             navigate("/search");
             window.handleOpenOverriding(NO_STRING);
-          }}>
-          Search
+          }}
+          className="navbar-search-button dark-color lighter-bg-color">
+          <img
+            src={SearchIcon}
+            alt="search-icon-navbar"
+          />
         </Button>
-      </li>
-      <li className="navbar-menu-item-wrapper">
-        <Dropdown
-          onChange={(value) => {}}
-          showTitle={false}
-          toggle={true}
-          values={["Fittest", "Jancokest"]}
-        />
-        <Dropdown
-          onChange={(value) => {}}
-          showTitle={false}
-          toggle={true}
-          values={["Fittest", "Jancokest"]}
+        <TextInput
+          onEnter={() => {
+            navigate("/search");
+            window.handleOpenOverriding(NO_STRING);
+          }}
+          className="navbar-search"
         />
       </li>
     </Fragment>
@@ -290,6 +295,7 @@ export default function Navbar() {
     return renderMenus?.map((menu, index) => (
       <ShowMenuRow key={`mobile-button-${index}`}>
         <Button
+          className="transparent-bg-color"
           onClick={() => handlePageNavigation(menu.route)}>
           {menu.name}
         </Button>

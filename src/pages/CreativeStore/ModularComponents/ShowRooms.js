@@ -22,9 +22,9 @@ const ShowRoom = (props) => {
             props.joinedRoom
           );
         }}>
-        <h6 className="dynamic-accordion-subtitle light-color">
+        <p className="dynamic-accordion-subtitle light-color">
           {props.value[1].roomTitle}
-        </h6>
+        </p>
         <ShowSockets
           uniqueKey={props.uniqueKey}
           value={props.value}

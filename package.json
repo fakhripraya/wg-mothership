@@ -1,6 +1,6 @@
 {
   "name": "wg-mothership",
-  "version": "0.5.1",
+  "version": "0.6.1",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",

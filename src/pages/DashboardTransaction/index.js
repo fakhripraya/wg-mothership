@@ -14,6 +14,7 @@ import { smoothScrollTop } from "../../utils/functions/global";
 import { useNavigate } from "react-router-dom";
 import { DASHBOARD_TRANSACTIONS } from "../../variables/global";
 import TextArea from "../../components/TextArea";
+import SearchIcon from "../../assets/svg/search-icon.svg";
 
 export default function DashboardTransaction(props) {
   // FUNCTIONS SPECIFIC //
@@ -154,8 +155,13 @@ export default function DashboardTransaction(props) {
         <div className="my-orders-header dark-bg-color">
           <div className="my-orders-searchbar-container">
             <div className="my-orders-searchbar-wrapper">
+              <Button className="my-orders-searchbar-button lighter-bg-color">
+                <img
+                  src={SearchIcon}
+                  alt="search-icon-my-orders"
+                />
+              </Button>
               <TextInput className="my-orders-searchbar-input" />
-              <Button>Search</Button>
             </div>
           </div>
           <div className="my-orders-tools-container">

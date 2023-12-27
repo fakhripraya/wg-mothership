@@ -439,6 +439,12 @@
   width: 100%;
 }
 
+.detail-accordion {
+  > .accordion-button {
+    padding: 10px 8px 9px 0px;
+  }
+}
+
 .detail-flexbox-hidden {
   display: flex;
   flex: 1;
