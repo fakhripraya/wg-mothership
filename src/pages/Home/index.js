@@ -223,19 +223,19 @@ export default function Home() {
   }
 
   function handleLoadMoreNewProducts() {
+    const newProductsCount = newProducts?.length || 0;
     trackPromise(
       axiosService
         .getData({
           ...endpoints[4],
           url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true&isWithStoreInfo=true&limit=${carouselLimit}&offset=${Math.floor(
-            newProducts.length / carouselLimit
+            newProductsCount / carouselLimit
           )}`,
         })
         .then((res) => {
           if (
             res.responseStatus === 200 &&
-            res.responseData.masterCount >
-              newProducts.length
+            res.responseData.masterCount > newProductsCount
           ) {
             const combinedArr = newProducts.concat(
               res.responseData.result

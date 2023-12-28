@@ -32,11 +32,15 @@
 
 // MAIN STYLES //
 .forgot-password-container {
-  min-height: 100vh;
+  min-height: 100vmin;
   min-width: 100%;
   display: flex;
   position: relative;
   top: -80px;
+
+  @media screen and (max-width: 768px) {
+    top: 0px;
+  }
 }
 
 .forgot-password-wrapper {
