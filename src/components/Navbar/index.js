@@ -7,16 +7,13 @@ import React, {
 import "./style.scss";
 import Button from "../Button";
 import Footer from "../Footer";
-import TextInput from "../TextInput";
 import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
 import OverridingContainer from "../OverridingContainer";
 import ICHamburger from "../../assets/svg/ic_hamburg_3.svg";
-import SearchIcon from "../../assets/svg/search-icon.svg";
 import { getMenus } from "../../variables/path/navbar";
-import Dropdown from "../Dropdown";
 import Login from "../../pages/Login";
 import Register from "../../pages/Register";
 import ForgotPassword from "../../pages/ForgotPassword";
@@ -52,7 +49,7 @@ import { cookies } from "../../config/cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { setOverridingToggle } from "../../utils/redux/reducers/navbarReducer";
 import { ShowCart } from "./ModularComponents/ShowCart";
-import { PRODUCT_SORT_OPTIONS } from "../../variables/constants/dropdown";
+import { ShowSearchBar } from "./ModularComponents/ShowSearch";
 
 export default function Navbar() {
   // HOOKS //
@@ -240,38 +237,6 @@ export default function Navbar() {
       </Button>
     );
   };
-
-  const ShowSearchBar = () => (
-    <Fragment>
-      <li className="navbar-search-wrapper">
-        <Dropdown
-          className="navbar-search-sort-options"
-          onChange={(value) => {}}
-          showTitle={false}
-          toggle={true}
-          values={PRODUCT_SORT_OPTIONS}
-        />
-        <Button
-          onClick={() => {
-            navigate("/search");
-            window.handleOpenOverriding(NO_STRING);
-          }}
-          className="navbar-search-button dark-color lighter-bg-color">
-          <img
-            src={SearchIcon}
-            alt="search-icon-navbar"
-          />
-        </Button>
-        <TextInput
-          onEnter={() => {
-            navigate("/search");
-            window.handleOpenOverriding(NO_STRING);
-          }}
-          className="navbar-search"
-        />
-      </li>
-    </Fragment>
-  );
 
   const ShowMenuRow = (props) => {
     const { children } = props;
@@ -464,7 +429,7 @@ export default function Navbar() {
             />
           </ShowNavbar>
           <ul className="navbar-mobile-menu-wrapper">
-            <ShowSearchBar />
+            <ShowSearchBar navigate={navigate} />
           </ul>
           <ShowMenuRow>
             <ShowProfile />
