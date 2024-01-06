@@ -17,12 +17,12 @@ import {
   CONTENT_TYPE,
   IS_NOT_AUTHENTICATE,
   IS_OTP_VERIFIED,
+  LOGIN,
   URL_GET_PRODUCT_LIST,
   URL_POST_GET_USER_BUY_ADDRESSES,
   X_SID,
 } from "../../variables/global";
 import ShowConditionalMemoized from "./ModularComponents/ShowConditionalMemoized";
-import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { cookies } from "../../config/cookie";
 import { useSelector, useDispatch } from "react-redux";
@@ -36,11 +36,14 @@ import Modal from "../../components/Modal";
 import { handleCartArray } from "../../utils/functions/cart";
 import { trackPromise } from "react-promise-tracker";
 import { BUYING_ADDRESS_INITIAL_VALUES } from "../../variables/initial/transactionPayment";
+import { useNavigate } from "react-router-dom";
+import { authInterceptor } from "../../utils/functions/credentials";
 
 export default function TransactionPayment() {
   // HOOKS
-  const zeusService = useAxios();
+  const axiosService = useAxios();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [login, setLogin] = useState(
     cookies.get(CLIENT_USER_INFO, { path: "/" })
   );
@@ -64,20 +67,24 @@ export default function TransactionPayment() {
       [AUTHORIZATION]: `Bearer ${
         cookies.get(CLIENT_USER_INFO, {
           path: "/",
-        }).credentialToken.accessToken
+        })?.credentialToken?.accessToken
       }`,
       [X_SID]: cookies.get(CLIENT_USER_INFO, {
         path: "/",
-      }).sid,
+      })?.sid,
     },
     endpoint: process.env.REACT_APP_ZEUS_SERVICE,
   };
   const requests = [
     {
-      ...defaultConfigs,
-      url: URL_POST_GET_USER_BUY_ADDRESSES(
-        login.user.userId
-      ),
+      config: {
+        ...defaultConfigs,
+        url: URL_POST_GET_USER_BUY_ADDRESSES(
+          login?.user.userId
+        ),
+      },
+      callbackInterceptors: async () =>
+        await authInterceptor(axiosService, cookies),
     },
   ];
 
@@ -98,24 +105,19 @@ export default function TransactionPayment() {
     };
 
     // fetch product with product ids in the cart to check the updated infos
-    await zeusService
-      .getAllDataWithOnRequestInterceptors(
-        [
-          {
+    await axiosService
+      .getAllDataWithOnRequestInterceptors([
+        {
+          config: {
             endpoint: defaultConfigs.endpoint,
             url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true`,
             params: requestParams,
           },
-          ...requests,
-        ],
-        async () => {
-          const result = await checkAuthAndRefresh(
-            zeusService,
-            cookies
-          );
-          return result;
-        }
-      )
+          callbackInterceptors: async () =>
+            await authInterceptor(axiosService, cookies),
+        },
+        ...requests,
+      ])
       .then((res) => {
         // set cart datas
         if (res.responseData[0].responseStatus === 200)
@@ -138,7 +140,7 @@ export default function TransactionPayment() {
   async function handleAddAddress() {
     if (!IS_OTP_VERIFIED(login)) return;
     trackPromise(
-      zeusService
+      axiosService
         .postDataWithOnRequestInterceptors(
           {
             endpoint: defaultConfigs.endpoint,
@@ -149,13 +151,8 @@ export default function TransactionPayment() {
             },
             data: postUserBuyingAddress,
           },
-          async () => {
-            const result = await checkAuthAndRefresh(
-              zeusService,
-              cookies
-            );
-            return result;
-          }
+          async () =>
+            await authInterceptor(axiosService, cookies)
         )
         .then((res) => {
           if (res.responseStatus === 200) {
@@ -180,6 +177,9 @@ export default function TransactionPayment() {
     if (IS_NOT_AUTHENTICATE(error)) {
       cookies.remove(CLIENT_USER_INFO, { path: "/" });
       setLogin(null);
+      navigate("/");
+      window.handleOpenOverriding(LOGIN);
+      return;
     } else
       return handleErrorMessage(
         error,

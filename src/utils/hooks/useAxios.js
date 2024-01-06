@@ -132,43 +132,24 @@ export const useAxios = () => {
   };
 
   const getAllDataWithOnRequestInterceptors = async (
-    reqConfigs,
-    callbackInterceptors
+    reqConfigs
   ) => {
     // Start timing now
     console.time("Load Time");
     return new Promise(async (resolve, reject) => {
       // Initial Value
       var result = { ...AXIOS_INITIAL_VALUE };
-
-      const axiosInstance = axios;
-      axiosInstance.interceptors.request.use(
-        async function (config) {
-          const res = await callbackInterceptors();
-          if (res.responseStatus === 200) return config;
-          else {
-            result.responseError = true;
-            result.errorContent = res.message;
-            result.responseStatus = res.responseStatus;
-            console.timeEnd("Load Time");
-            return reject(result);
-          }
-        },
-        function (error) {
-          result.responseError = true;
-          result.errorContent = error.toString();
-          result.responseStatus = 500;
-          console.timeEnd("Load Time");
-          return reject(result);
-        }
-      );
-
-      await axiosInstance
+      await axios
         .all(
-          reqConfigs.map((reqConfig) => getData(reqConfig))
+          reqConfigs.map((reqConfig) =>
+            getDataWithOnRequestInterceptors(
+              reqConfig.config,
+              reqConfig.callbackInterceptors
+            )
+          )
         )
         .then(
-          axiosInstance.spread((...datas) => {
+          axios.spread((...datas) => {
             return resolve({
               ...result,
               responseStatus: 200,

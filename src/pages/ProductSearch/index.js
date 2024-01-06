@@ -15,19 +15,19 @@ import {
 } from "../../utils/functions/global";
 import FloatButton from "../../components/FloatButton";
 import BottomSheet from "../../components/BottomSheet";
-import Accordion from "../../components/Accordion";
-import { PRODUCT_SEARCH_FILTER_DATA_OPTIONS } from "../../variables/initial/productSearch";
+import {
+  PRODUCT_SEARCH_FILTER_DATA_OPTIONS,
+  PRODUCT_SEARCH_FILTER_VALUES,
+} from "../../variables/initial/productSearch";
 import { ShowBreadcrumbs } from "../../components/Global";
 import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
-  IS_NOT_AUTHENTICATE,
   URL_GET_CATEGORIES,
   URL_GET_PRODUCT_LIST,
   X_SID,
 } from "../../variables/global";
 import { cookies } from "../../config/cookie";
-import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { cloneDeep } from "lodash-es";
 import { useMap } from "../../utils/hooks/useMap";
@@ -36,9 +36,9 @@ import {
   ShowGridProductCardCarousel,
 } from "./ModularComponents/ShowCarousels";
 import { useNavigate } from "react-router-dom";
-import { trackPromise } from "react-promise-tracker";
 import { ShowSearchText } from "./ModularComponents/ShowText";
 import { PRODUCT_SORT_OPTIONS } from "../../variables/constants/dropdown";
+import ShowAccordions from "./ModularComponents/ShowAccordions";
 
 export default function ProductSearch() {
   // HOOK
@@ -54,13 +54,16 @@ export default function ProductSearch() {
   const [breadcrumbs, setBreadcrumb] = useState([]);
   const [toggle, setToggle] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [sideBarFilters, setSideBarFilters] = useState(
+    PRODUCT_SEARCH_FILTER_VALUES
+  );
+  const [allCategories, setAllCategories] = useState(null);
   const [searchedProducts, setSearchedProducts] =
     useState(null);
   const [
     searchedProductsMasterCount,
     setSearchedProductsMasterCount,
   ] = useState(null);
-  const [allCategories, setAllCategories] = useState(null);
 
   // VARIABLES //
   const currentLocation = new URL(document.location);
@@ -118,16 +121,7 @@ export default function ProductSearch() {
   async function handleInitialize() {
     // execute axios request
     await axiosService
-      .getAllDataWithOnRequestInterceptors(
-        endpoints,
-        async () => {
-          const result = await checkAuthAndRefresh(
-            axiosService,
-            cookies
-          );
-          return result;
-        }
-      )
+      .getAllData(endpoints)
       .then((res) => {
         if (res.responseData?.[0]?.responseStatus === 200) {
           setSearchedProducts(
@@ -143,11 +137,42 @@ export default function ProductSearch() {
             res.responseData?.[1]?.responseData
           );
       })
-      .catch((error) => {
-        if (IS_NOT_AUTHENTICATE(error))
-          cookies.remove(CLIENT_USER_INFO, { path: "/" });
-        else console.error(error);
-      });
+      .catch((error) => console.error(error));
+  }
+
+  async function handleFilterFetch() {
+    setIsLoading(true);
+    // execute axios request
+    await axiosService
+      .getData({
+        ...endpoints[0],
+      })
+      .then((res) => {
+        if (res.responseStatus === 200) {
+          // setSearchedProducts(res.responseData.result);
+          // setSearchedProductsMasterCount(
+          //   res.responseData.masterCount
+          // );
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => console.error(error));
+  }
+
+  function handleBreadcrumbs() {
+    const breadcrumbs = ["Home"];
+    category && breadcrumbs.push(category);
+    store && breadcrumbs.push(store);
+    catalogue && breadcrumbs.push(catalogue);
+    keyword && breadcrumbs.push(keyword);
+    setBreadcrumb(breadcrumbs);
+  }
+
+  function handleSearchSubject() {
+    if (keyword) return keyword;
+    if (catalogue) return catalogue;
+    if (store) return store;
+    if (category) return category;
   }
 
   function handleEndpointURL(limit = 0, offset = 0) {
@@ -156,6 +181,12 @@ export default function ProductSearch() {
       targetUrl = new URL(
         `${process.env.REACT_APP_ZEUS_SERVICE}${URL_GET_PRODUCT_LIST}`
       );
+      sideBarFilters.length > 0 &&
+        axiosService.setURLParams(
+          targetUrl,
+          "filters",
+          JSON.stringify(sideBarFilters)
+        );
       category &&
         axiosService.setURLParams(
           targetUrl,
@@ -203,61 +234,47 @@ export default function ProductSearch() {
   }
 
   function handleLoadMoreNewProducts() {
-    trackPromise(
-      axiosService
-        .getData({
-          ...endpoints[4],
-          url: handleEndpointURL(
-            10,
-            Math.floor(searchedProducts.length / 10)
-          ),
-        })
-        .then((res) => {
-          if (
-            res.responseStatus === 200 &&
-            res.responseData.masterCount >
-              searchedProducts.length
-          ) {
-            const combinedArr = searchedProducts.concat(
-              res.responseData.result
-            );
-            setSearchedProducts(combinedArr);
-          }
-        })
-        .catch((error) => console.error(error))
-    );
+    axiosService
+      .getData({
+        ...endpoints[4],
+        url: handleEndpointURL(
+          10,
+          Math.floor(searchedProducts.length / 10)
+        ),
+      })
+      .then((res) => {
+        if (
+          res.responseStatus === 200 &&
+          res.responseData.masterCount >
+            searchedProducts.length
+        ) {
+          const combinedArr = searchedProducts.concat(
+            res.responseData.result
+          );
+          setSearchedProducts(combinedArr);
+        }
+      })
+      .catch((error) => console.error(error));
   }
 
   function handleBottomSheet() {
     setToggle(!toggle);
   }
 
-  // COMPONENTS SPECIFIC //
-  const ShowAccordions = (props) =>
-    props.datas.map((item, index) => (
-      <Accordion
-        key={`${props.uniqueKey}-accordion-${index}`}
-        toggle={true}
-        isButton={true}
-        title={item.title}
-        data={item.data}
-      />
-    ));
-
   // INITIAL RENDER
   useEffect(() => {
-    // default page config
+    // page scroll config
     smoothScrollTop();
-    // set breadcrumbs
-    const breadcrumbs = ["Home"];
-    category && breadcrumbs.push(category);
-    store && breadcrumbs.push(store);
-    catalogue && breadcrumbs.push(catalogue);
-    keyword && breadcrumbs.push(keyword);
-    setBreadcrumb(breadcrumbs);
-    // initialize datas
+    // initialize breadcrumbs and initialize datas by fetching it
+    handleBreadcrumbs();
     handleInitialize();
   }, []);
+
+  useEffect(() => {
+    if (sideBarFilters.length > 0) {
+      handleFilterFetch();
+    }
+  }, [sideBarFilters]);
 
   return (
     <Fragment>
@@ -268,14 +285,20 @@ export default function ProductSearch() {
           </div>
           <div className="product-search-title">
             <h3 className="margin-top-0">
-              Berikut adalah hasil pencarian random
+              {(() => {
+                const subject = handleSearchSubject();
+                return `Berikut adalah hasil pencarian ${
+                  subject || "random"
+                }`;
+              })()}
             </h3>
           </div>
           <div className="product-search-flex-container">
             <div className="product-search-tools-container">
               <ShowAccordions
-                uniqueKey="desktop"
+                uniqueKey="product-search-desktop"
                 datas={PRODUCT_SEARCH_FILTER_DATA_OPTIONS}
+                setDatas={setSideBarFilters}
               />
             </div>
             <div className="product-search-cards-container">
@@ -367,8 +390,9 @@ export default function ProductSearch() {
         clicked={handleBottomSheet}>
         <div className="product-search-mobile-tools-container">
           <ShowAccordions
-            uniqueKey="desktop"
+            uniqueKey="product-search-mobile"
             datas={PRODUCT_SEARCH_FILTER_DATA_OPTIONS}
+            setDatas={setSideBarFilters}
           />
         </div>
       </BottomSheet>

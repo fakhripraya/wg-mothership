@@ -190,7 +190,10 @@ export default function Dashboard() {
     if (login && userStore.length <= 0)
       return (
         <ErrorHandling
-          containerStyle={{ width: "auto" }}
+          containerStyle={{
+            width: "auto",
+            maxHeight: "768px",
+          }}
           errorMessage={NO_STORE_FOUND_IN_THE_DASHBOARD}>
           <Button
             className="margin-top-12-18"

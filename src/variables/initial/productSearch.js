@@ -1,31 +1,76 @@
+import {
+  BUTTON,
+  OPEN_CATEGORY_MODAL,
+  OPEN_LOCATION_MODAL,
+  OPEN_MODAL,
+} from "../constants/productSearch";
+
 export const PRODUCT_SEARCH_FILTER_DATA_OPTIONS = [
   {
-    title: "Connection",
+    title: "Jenis",
     data: [
       {
-        title: "Instant P2P",
+        title: "Official",
       },
       {
-        title: "Batch rental",
+        title: "Trusted",
+      },
+      {
+        title: "Verified",
+      },
+      {
+        title: "Tidak Ada Reputasi",
       },
     ],
   },
   {
-    title: "Category",
+    title: "Kategori",
     data: [
       {
-        title: "Grapichal Render",
+        title: "Peralatan Dapur",
       },
       {
-        title: "Remote Server",
+        title: "Lain - Lain",
       },
       {
-        title: "Working Space",
+        title: "Hardware",
+      },
+      {
+        title: "Aksesoris",
+      },
+      {
+        title: "Lihat Lebih",
+        type: BUTTON,
+        commandType: OPEN_MODAL,
+        command: OPEN_CATEGORY_MODAL,
       },
     ],
   },
   {
-    title: "Location",
+    title: "Rating",
+    data: [
+      {
+        title: "4-5 ★★★★★",
+      },
+      {
+        title: "3-4 ★★★★",
+      },
+      {
+        title: "2-3 ★★★",
+      },
+      {
+        title: "1-2 ★★",
+      },
+      {
+        title: "0-1 ★",
+      },
+      {
+        title: "Tanpa Review",
+      },
+    ],
+  },
+  {
+    title: "Lokasi Toko",
     data: [
       {
         title: "Jakarta Selatan",
@@ -36,26 +81,31 @@ export const PRODUCT_SEARCH_FILTER_DATA_OPTIONS = [
       {
         title: "Palembang",
       },
+      {
+        title: "Lihat Lebih",
+        type: BUTTON,
+        commandType: OPEN_MODAL,
+        command: OPEN_LOCATION_MODAL,
+      },
     ],
   },
   {
-    title: "Rating",
+    title: "Kurir",
     data: [
       {
-        title: "5 ★★★★★",
+        title: "Gojek",
       },
       {
-        title: "4 ★★★★",
+        title: "Grab",
       },
       {
-        title: "3 ★★★",
+        title: "JNT",
       },
       {
-        title: "2 ★★",
-      },
-      {
-        title: "1 ★",
+        title: "Ekspedisi Lainnya",
       },
     ],
   },
 ];
+
+export const PRODUCT_SEARCH_FILTER_VALUES = [];

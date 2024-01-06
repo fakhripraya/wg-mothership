@@ -4,6 +4,18 @@ import {
   delayInMilliSecond,
   handleErrorMessage,
 } from "./global";
+import { checkAuthAndRefresh } from "./middlewares";
+
+export const authInterceptor = async (
+  axiosService,
+  cookies
+) => {
+  const result = await checkAuthAndRefresh(
+    axiosService,
+    cookies
+  );
+  return result;
+};
 
 export function handlePostGoogleAuth(
   credentialService,

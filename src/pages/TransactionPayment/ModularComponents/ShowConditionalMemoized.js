@@ -25,9 +25,11 @@ export default function ShowConditionalMemoized(props) {
   const [selectedAddress, setSelectedAddress] = useState(0);
 
   // VARIABLES
-  let filteredDatas = props.reduxDatas.filter(
-    (val) => val.userId === props.login.user.userId
-  );
+  let filteredDatas =
+    props.login &&
+    props.reduxDatas.filter(
+      (val) => val.userId === props.login.user.userId
+    );
 
   // FUNCTIONS
   function handleSubtotal() {

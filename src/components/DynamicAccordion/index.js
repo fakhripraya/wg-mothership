@@ -12,15 +12,15 @@ const ShowItem = (props) => (
   </button>
 );
 
-const ShowItems = (props) => {
-  if (!props.isButton) return props.children;
-  return props.data.map((value, index) => (
-    <ShowItem
-      value={value}
-      index={index}
-    />
-  ));
-};
+const ShowItems = (props) =>
+  !props.isButton
+    ? props.children
+    : props.data.map((value, index) => (
+        <ShowItem
+          value={value}
+          index={index}
+        />
+      ));
 
 function DynamicAccordion(props) {
   const listRef = useRef();

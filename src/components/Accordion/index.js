@@ -12,20 +12,18 @@ export default function Accordion(props) {
   }
 
   // COMPONENT SPECIFICS //
-  const ShowItems = () => {
-    if (!props.isButton) return props.children;
-    return props.data.map((item, index) => {
-      return (
-        <button
-          key={`accordion-${item.title}-${index}`}
-          className="accordion-button">
-          <p className="accordion-subtitle light-color">
-            {item.title}
-          </p>
-        </button>
-      );
-    });
-  };
+  const ShowItems = () =>
+    !props.isButton
+      ? props.children
+      : props.data.map((item, index) => (
+          <button
+            key={`accordion-${item.title}-${index}`}
+            className="accordion-button">
+            <p className="accordion-subtitle light-color">
+              {item.title}
+            </p>
+          </button>
+        ));
 
   useEffect(() => {
     if (toggle) {

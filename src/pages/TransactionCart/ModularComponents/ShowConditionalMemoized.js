@@ -24,9 +24,11 @@ export default function ShowConditionalMemoized(props) {
   const dispatch = useDispatch();
 
   // VARIABLES
-  let filteredDatas = props.reduxDatas.filter(
-    (val) => val.userId === props.login.user.userId
-  );
+  let filteredDatas =
+    props.login &&
+    props.reduxDatas.filter(
+      (val) => val.userId === props.login.user.userId
+    );
 
   // FUNCTION SPECIFIC
   function handleDisplayTotal() {

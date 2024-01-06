@@ -83,21 +83,6 @@
   margin-bottom: 1em;
 }
 
-.product-search-accordion-button {
-  display: flex;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  flex-direction: row;
-  -webkit-box-align: center;
-  align-items: center;
-  width: 100%;
-  padding: 10px 8px 9px 12px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  appearance: none;
-}
-
 .product-search-accordion-title {
   display: block;
   position: relative;
@@ -266,6 +251,17 @@
   justify-content: flex-end;
   align-self: flex-start;
   height: inherit;
+}
+
+.product-search-accordion-button {
+  display: flex;
+  cursor: pointer;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  margin-left: 8px;
+  margin-top: 8px;
+  padding: 0px;
 }
 
 /* Scrollbar */

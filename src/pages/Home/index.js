@@ -1,6 +1,4 @@
 import React, {
-  Fragment,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -23,13 +21,11 @@ import { useAxios } from "../../utils/hooks/useAxios";
 import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
-  IS_NOT_AUTHENTICATE,
   URL_GET_CATEGORIES,
   URL_GET_PRODUCT_LIST,
   URL_GET_STORE_INFO,
   X_SID,
 } from "../../variables/global";
-import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import { cookies } from "../../config/cookie";
 import {
   ShowGrabableProductCardCarousel,
@@ -163,16 +159,7 @@ export default function Home() {
   // FUNCTIONS SPECIFIC //
   async function handleInitialize() {
     await axiosService
-      .getAllDataWithOnRequestInterceptors(
-        endpoints,
-        async () => {
-          const result = await checkAuthAndRefresh(
-            axiosService,
-            cookies
-          );
-          return result;
-        }
-      )
+      .getAllData(endpoints)
       .then((res) => {
         if (res.responseData?.[0]?.responseStatus === 200)
           setFlashSale(
@@ -198,9 +185,7 @@ export default function Home() {
         setReelVideos(GET_DUMMY_REELS);
       })
       .catch((error) => {
-        if (IS_NOT_AUTHENTICATE(error))
-          cookies.remove(CLIENT_USER_INFO, { path: "/" });
-        else console.error(error);
+        console.error(error);
       });
   }
 

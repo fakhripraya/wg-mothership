@@ -216,6 +216,7 @@ export default function Navbar() {
     return isLoggedIn ? (
       <Fragment>
         <FloatButton className="navbar-icon-button navbar-icon-button-bell" />
+        <FloatButton className="navbar-icon-button navbar-icon-button-shipping" />
         <FloatButton
           onClick={handleLogoutClick}
           className="navbar-icon-button navbar-icon-button-logout"

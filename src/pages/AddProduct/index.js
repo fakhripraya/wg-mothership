@@ -41,7 +41,6 @@ import AgreementIcon from "../../assets/svg/agreement-icon.svg";
 import "./style.scss";
 import Checkbox from "../../components/Checkbox";
 import { useAxios } from "../../utils/hooks/useAxios";
-import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import {
   acceptNumericOnly,
   b64toBlob,
@@ -66,12 +65,13 @@ import {
   ShowSuccessModal,
   ShowUploadModal,
 } from "./ModularComponents/ShowModals";
+import { authInterceptor } from "../../utils/functions/credentials";
 
 // TODO: Fix input lag caused by uploaded file re rendered
 export default function AddProduct() {
   // HOOK
   const navigate = useNavigate();
-  const zeusService = useAxios();
+  const axiosService = useAxios();
   const [searchParams] = useSearchParams();
 
   // STATE
@@ -125,18 +125,27 @@ export default function AddProduct() {
   // API ENDPOINTS
   const endpoints = [
     {
-      ...defaultConfigs,
-      url: URL_GET_CATALOGUE_DATA({
-        storeId: storeId,
-      }),
+      config: {
+        ...defaultConfigs,
+        url: URL_GET_CATALOGUE_DATA({
+          storeId: storeId,
+        }),
+      },
+      callbackInterceptors: async () =>
+        await authInterceptor(axiosService, cookies),
     },
     {
-      ...defaultConfigs,
-      url: URL_GET_CATEGORIES,
+      config: {
+        ...defaultConfigs,
+        url: URL_GET_CATEGORIES,
+      },
+      callbackInterceptors: async () =>
+        await authInterceptor(axiosService, cookies),
     },
     {
-      ...defaultConfigs,
-      url: URL_GET_COURIERS,
+      config: { ...defaultConfigs, url: URL_GET_COURIERS },
+      callbackInterceptors: async () =>
+        await authInterceptor(axiosService, cookies),
     },
   ];
 
@@ -345,7 +354,7 @@ export default function AddProduct() {
 
     // Post data
     trackPromise(
-      zeusService
+      axiosService
         .postDataWithOnRequestInterceptors(
           {
             endpoint: process.env.REACT_APP_ZEUS_SERVICE,
@@ -358,14 +367,8 @@ export default function AddProduct() {
             },
             data: formData,
           },
-          async () => {
-            const result = await checkAuthAndRefresh(
-              zeusService,
-              cookies
-            );
-
-            return result;
-          }
+          async () =>
+            await authInterceptor(axiosService, cookies)
         )
         .then((res) => {
           if (res.responseStatus === 200) setSuccess(true);
@@ -393,22 +396,13 @@ export default function AddProduct() {
   useEffect(() => {
     async function init() {
       trackPromise(
-        zeusService
-          .getAllDataWithOnRequestInterceptors(
-            endpoints,
-            async () => {
-              const result = await checkAuthAndRefresh(
-                zeusService,
-                cookies
-              );
-              if (result.responseStatus === 200)
-                login = cookies.get(CLIENT_USER_INFO);
-              return result;
-            }
-          )
+        axiosService
+          .getAllDataWithOnRequestInterceptors(endpoints)
           .then((result) => {
-            if (result.responseStatus === 200)
+            if (result.responseStatus === 200) {
+              login = cookies.get(CLIENT_USER_INFO);
               handleSetFetchedDatas(result.responseData);
+            }
           })
           .catch((error) => {
             if (error.responseStatus === 500)

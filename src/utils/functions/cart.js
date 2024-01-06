@@ -94,8 +94,6 @@ export const handleCartArray = (
   oldArray,
   dispatch
 ) => {
-  console.log(newArray);
-  console.log(oldArray);
   // Filter out items that no longer exist in the database
   const synchronizedArray = oldArray.filter((x) =>
     newArray.some((y) => y.id === x.productId)

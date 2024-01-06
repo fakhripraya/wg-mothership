@@ -15,6 +15,7 @@ import {
   CLIENT_USER_INFO,
   IS_NOT_AUTHENTICATE,
   IS_OTP_VERIFIED,
+  LOGIN,
   URL_GET_PRODUCT_LIST,
 } from "../../variables/global";
 import ShowConditionalMemoized from "./ModularComponents/ShowConditionalMemoized";
@@ -26,11 +27,14 @@ import { cloneDeep } from "lodash-es";
 import { ShowErrorModal } from "./ModularComponents/ShowModals";
 import Modal from "../../components/Modal";
 import { handleCartArray } from "../../utils/functions/cart";
+import { useNavigate } from "react-router-dom";
+import { authInterceptor } from "../../utils/functions/credentials";
 
 export default function TransactionCart() {
   // HOOKS
   const zeusService = useAxios();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [login, setLogin] = useState(
     cookies.get(CLIENT_USER_INFO, { path: "/" })
   );
@@ -60,19 +64,13 @@ export default function TransactionCart() {
 
     // fetch product with product ids in the cart to check the updated infos
     await zeusService
-      .getData(
+      .getDataWithOnRequestInterceptors(
         {
           endpoint: process.env.REACT_APP_ZEUS_SERVICE,
           url: `${URL_GET_PRODUCT_LIST}?isWithFiles=true`,
           params: requestParams,
         },
-        async () => {
-          const result = await checkAuthAndRefresh(
-            zeusService,
-            cookies
-          );
-          return result;
-        }
+        async () => authInterceptor(zeusService, cookies)
       )
       .then((res) => {
         if (res.responseStatus === 200)
@@ -87,6 +85,9 @@ export default function TransactionCart() {
         if (IS_NOT_AUTHENTICATE(error)) {
           cookies.remove(CLIENT_USER_INFO, { path: "/" });
           setLogin(null);
+          navigate("/");
+          window.handleOpenOverriding(LOGIN);
+          return;
         } else
           return handleErrorMessage(
             error,
