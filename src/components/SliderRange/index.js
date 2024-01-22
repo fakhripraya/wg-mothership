@@ -9,6 +9,7 @@ export default function SliderRange(props) {
       type="range"
       id={props.id}
       min={props.min}
+      max={props.max}
       step={props.step}
     />
   );

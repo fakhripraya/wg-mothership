@@ -113,43 +113,31 @@ export default function ImageSlider(props) {
           style={{ ...style.imgNext }}
           onClick={() =>
             handleRedirectOnImgClick(
-              current.currentPrev &&
-                current.currentPrev.urlRedirect
+              current.currentPrev?.urlRedirect
             )
           }
-          src={
-            current.currentPrev && current.currentPrev.url
-          }
-          alt={
-            current.currentPrev && current.currentPrev.alt
-          }></img>
+          src={current.currentPrev?.url}
+          alt={current.currentPrev?.alt}></img>
         <img
           style={{ ...style.img }}
           ref={imgRef}
           onClick={() =>
             handleRedirectOnImgClick(
-              current.current && current.current.urlRedirect
+              current.current?.urlRedirect
             )
           }
-          src={current.current && current.current.url}
-          alt={
-            current.current && current.current.alt
-          }></img>
+          src={current.current?.url}
+          alt={current.current?.alt}></img>
         <img
           onTransitionEnd={() => handleSlideRight()}
           style={{ ...style.imgPrev }}
           onClick={() =>
             handleRedirectOnImgClick(
-              current.currentNext &&
-                current.currentNext.urlRedirect
+              current.currentNext?.urlRedirect
             )
           }
-          src={
-            current.currentNext && current.currentNext.url
-          }
-          alt={
-            current.currentNext && current.currentNext.alt
-          }></img>
+          src={current.currentNext?.url}
+          alt={current.currentNext?.alt}></img>
       </div>
       <FloatButton
         onClick={() => handleSlideRightAnimation()}

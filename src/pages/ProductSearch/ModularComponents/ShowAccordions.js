@@ -1,46 +1,47 @@
 import { useCallback, useMemo } from "react";
 import Accordion from "../../../components/Accordion";
 import Checkbox from "../../../components/Checkbox";
+import { FILTER_BUTTON_ELEMENT } from "../../../variables/constants/productSearch";
+import { cloneDeep } from "lodash-es";
+
+const handleCheckboxes = (e, props) =>
+  props.setStateDatas((oldArr) => {
+    const checked = e.target.checked;
+    const findIndex = oldArr.findIndex(
+      (item) =>
+        item.filter === props.filter &&
+        item.key === props.data.key
+    );
+    if (findIndex > -1) oldArr.splice(findIndex, 1);
+    else if (checked)
+      oldArr.push({
+        filter: props.filter,
+        key: props.data.key,
+        value: props.data.value,
+      });
+    return cloneDeep(oldArr);
+  });
 
 const ShowAccordionsButtons = (props) =>
   useMemo(
     () => (
       <label className={`${props.className} main-color`}>
-        {props.title}
+        {props.data.title}
       </label>
     ),
-    [props.title]
+    [props.data, props.filter]
   );
 
 const ShowAccordionsCheckboxes = (props) =>
   useMemo(
     () => (
       <Checkbox
-        onChange={(e) =>
-          props.setDatas((oldArr) => {
-            const checked = e.target.checked;
-            if (checked) {
-              oldArr.push({
-                filter: props.filter,
-                title: props.title,
-              });
-            } else {
-              const findIndex = oldArr.findIndex(
-                (item) =>
-                  item.filter === props.filter &&
-                  item.title === props.title
-              );
-              if (findIndex > -1)
-                oldArr.splice(findIndex, 1);
-            }
-            return [...oldArr];
-          })
-        }
+        onChange={(e) => handleCheckboxes(e, props)}
         className={props.className}
-        title={props.title}
+        title={props.data.title}
       />
     ),
-    [props.title]
+    [props.data, props.filter]
   );
 
 const ShowAccordion = (props) =>
@@ -51,24 +52,30 @@ const ShowAccordion = (props) =>
         isButton={props.isButton}
         title={props.title}
         data={props.data}>
-        {props.data.map((obj, index) =>
-          obj.type === "BUTTON" ? (
-            <ShowAccordionsButtons
-              key={`accordion-${obj.title}-${index}`}
-              className="product-search-accordion-button"
-              title={obj.title}
-              setDatas={props.setDatas}
-            />
-          ) : (
-            <ShowAccordionsCheckboxes
-              key={`accordion-${obj.title}-${index}`}
-              className="product-search-accordion-button"
-              title={obj.title}
-              filter={props.title}
-              setDatas={props.setDatas}
-            />
-          )
-        )}
+        {props.data.map((obj, index) => {
+          if (obj.type === FILTER_BUTTON_ELEMENT)
+            return (
+              <ShowAccordionsButtons
+                key={`accordion-button-${obj.title}-${index}`}
+                className="product-search-accordion-button"
+                filter={props.filter}
+                data={obj}
+                stateData={props.stateData}
+                setStateDatas={props.setStateDatas}
+              />
+            );
+          else
+            return (
+              <ShowAccordionsCheckboxes
+                key={`accordion-checkbox-${obj.title}-${index}`}
+                className="product-search-accordion-button"
+                filter={props.filter}
+                data={obj}
+                stateData={props.stateData}
+                setStateDatas={props.setStateDatas}
+              />
+            );
+        })}
       </Accordion>
     ),
     [props.data]
@@ -83,8 +90,10 @@ const ShowAccordions = (props) =>
           toggle={true}
           isButton={false}
           title={item.title}
+          filter={item.filter}
           data={item.data}
-          setDatas={props.setDatas}
+          stateData={props.stateData}
+          setStateDatas={props.setStateDatas}
         />
       )),
     [props.datas]

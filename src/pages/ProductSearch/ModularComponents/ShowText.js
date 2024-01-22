@@ -7,7 +7,7 @@ export const ShowSearchText = (props) =>
     else if (
       props.searchedProductsLength ===
         props.searchedProductsMasterCount &&
-      props.searchedProductsMasterCount > 0
+      props.searchedProductsLength > 0
     )
       return (
         <span>
@@ -21,7 +21,7 @@ export const ShowSearchText = (props) =>
     else if (
       props.searchedProductsLength !==
         props.searchedProductsMasterCount &&
-      props.searchedProductsMasterCount > 0
+      props.searchedProductsLength > 0
     )
       return (
         <span>
@@ -39,4 +39,8 @@ export const ShowSearchText = (props) =>
           dicari lagi dengan kriteria yang berbeda !
         </span>
       );
-  }, [props.isLoading])();
+  }, [
+    props.isLoading,
+    props.searchedProductsLength,
+    props.searchedProductsMasterCount,
+  ])();

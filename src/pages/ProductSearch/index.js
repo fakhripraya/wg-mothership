@@ -16,6 +16,7 @@ import {
 import FloatButton from "../../components/FloatButton";
 import BottomSheet from "../../components/BottomSheet";
 import {
+  PRODUCT_PRICE_FILTER_VALUES,
   PRODUCT_SEARCH_FILTER_DATA_OPTIONS,
   PRODUCT_SEARCH_FILTER_VALUES,
 } from "../../variables/initial/productSearch";
@@ -39,6 +40,11 @@ import { useNavigate } from "react-router-dom";
 import { ShowSearchText } from "./ModularComponents/ShowText";
 import { PRODUCT_SORT_OPTIONS } from "../../variables/constants/dropdown";
 import ShowAccordions from "./ModularComponents/ShowAccordions";
+import { FILTER_PRICE_RANGE } from "../../variables/constants/productSearch";
+import {
+  NameFilter,
+  PriceFilters,
+} from "./ModularComponents/ShowInputText";
 
 export default function ProductSearch() {
   // HOOK
@@ -50,22 +56,8 @@ export default function ProductSearch() {
   const productSearchTagRef = useRef();
   const gridRefs = {};
 
-  // STATES //
-  const [breadcrumbs, setBreadcrumb] = useState([]);
-  const [toggle, setToggle] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [sideBarFilters, setSideBarFilters] = useState(
-    PRODUCT_SEARCH_FILTER_VALUES
-  );
-  const [allCategories, setAllCategories] = useState(null);
-  const [searchedProducts, setSearchedProducts] =
-    useState(null);
-  const [
-    searchedProductsMasterCount,
-    setSearchedProductsMasterCount,
-  ] = useState(null);
-
   // VARIABLES //
+  const carouselLimit = 10;
   const currentLocation = new URL(document.location);
   const defaultConfigs = {
     headers: {
@@ -81,6 +73,27 @@ export default function ProductSearch() {
     endpoint: process.env.REACT_APP_ZEUS_SERVICE,
   };
 
+  // STATES //
+  const [breadcrumbs, setBreadcrumb] = useState([]);
+  const [toggle, setToggle] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [keyword, setKeyword] = useState(
+    getURLParams(currentLocation, "keyword")
+  );
+  const [priceFilter, setPriceFilter] = useState(
+    PRODUCT_PRICE_FILTER_VALUES
+  );
+  const [sideBarFilters, setSideBarFilters] = useState([
+    ...PRODUCT_SEARCH_FILTER_VALUES,
+  ]);
+  const [allCategories, setAllCategories] = useState(null);
+  const [searchedProducts, setSearchedProducts] =
+    useState(null);
+  const [
+    searchedProductsMasterCount,
+    setSearchedProductsMasterCount,
+  ] = useState(null);
+
   // MEMOIZED VARIABLES //
   const category = useMemo(
     () => getURLParams(currentLocation, "category"),
@@ -90,14 +103,6 @@ export default function ProductSearch() {
     () => getURLParams(currentLocation, "store"),
     []
   );
-  const catalogue = useMemo(
-    () => getURLParams(currentLocation, "catalogue"),
-    []
-  );
-  const keyword = useMemo(
-    () => getURLParams(currentLocation, "keyword"),
-    []
-  );
   let searchedProductsMapped = useMemo(() => {
     const cloned = cloneDeep(searchedProducts);
     return mapper.splitArrayForGrid(cloned || [], 10);
@@ -105,7 +110,7 @@ export default function ProductSearch() {
 
   // API ENDPOINTS
   // 1. searched product list
-  // 2. related catalogues from the product list
+  // 2. all categories available
   const endpoints = [
     {
       ...defaultConfigs,
@@ -149,10 +154,10 @@ export default function ProductSearch() {
       })
       .then((res) => {
         if (res.responseStatus === 200) {
-          // setSearchedProducts(res.responseData.result);
-          // setSearchedProductsMasterCount(
-          //   res.responseData.masterCount
-          // );
+          setSearchedProducts(res.responseData.result);
+          setSearchedProductsMasterCount(
+            res.responseData.masterCount
+          );
           setIsLoading(false);
         }
       })
@@ -163,54 +168,64 @@ export default function ProductSearch() {
     const breadcrumbs = ["Home"];
     category && breadcrumbs.push(category);
     store && breadcrumbs.push(store);
-    catalogue && breadcrumbs.push(catalogue);
     keyword && breadcrumbs.push(keyword);
     setBreadcrumb(breadcrumbs);
   }
 
   function handleSearchSubject() {
     if (keyword) return keyword;
-    if (catalogue) return catalogue;
     if (store) return store;
     if (category) return category;
   }
 
-  function handleEndpointURL(limit = 0, offset = 0) {
-    let targetUrl;
+  function handleEndpointURL(limit = 50, offset = 0) {
     try {
+      let targetUrl;
       targetUrl = new URL(
         `${process.env.REACT_APP_ZEUS_SERVICE}${URL_GET_PRODUCT_LIST}`
       );
-      sideBarFilters.length > 0 &&
-        axiosService.setURLParams(
-          targetUrl,
-          "filters",
-          JSON.stringify(sideBarFilters)
-        );
-      category &&
+
+      // assign the final filter values
+      let finalFilters = [
+        {
+          filter: FILTER_PRICE_RANGE,
+          value: {
+            min: priceFilter.min,
+            max: priceFilter.max,
+          },
+        },
+      ];
+
+      if (sideBarFilters.length > 0) {
+        finalFilters = [...finalFilters, ...sideBarFilters];
+      }
+      if (category) {
         axiosService.setURLParams(
           targetUrl,
           "category",
           category
         );
-      store &&
+      }
+      if (store) {
         axiosService.setURLParams(
           targetUrl,
           "store",
           store
         );
-      catalogue &&
-        axiosService.setURLParams(
-          targetUrl,
-          "catalogue",
-          catalogue
-        );
-      keyword &&
+      }
+      if (keyword) {
         axiosService.setURLParams(
           targetUrl,
           "keyword",
           keyword
         );
+      }
+
+      axiosService.setURLParams(
+        targetUrl,
+        "filters",
+        JSON.stringify(finalFilters)
+      );
       axiosService.setURLParams(targetUrl, "limit", limit);
       axiosService.setURLParams(
         targetUrl,
@@ -227,10 +242,11 @@ export default function ProductSearch() {
         "isWithStoreInfo",
         true
       );
+
+      return targetUrl;
     } catch (error) {
       console.log(error);
     }
-    return targetUrl;
   }
 
   function handleLoadMoreNewProducts() {
@@ -238,8 +254,10 @@ export default function ProductSearch() {
       .getData({
         ...endpoints[4],
         url: handleEndpointURL(
-          10,
-          Math.floor(searchedProducts.length / 10)
+          carouselLimit,
+          Math.floor(
+            searchedProducts.length / carouselLimit
+          )
         ),
       })
       .then((res) => {
@@ -271,10 +289,9 @@ export default function ProductSearch() {
   }, []);
 
   useEffect(() => {
-    if (sideBarFilters.length > 0) {
-      handleFilterFetch();
-    }
-  }, [sideBarFilters]);
+    handleBreadcrumbs();
+    handleFilterFetch();
+  }, [sideBarFilters, priceFilter, keyword]);
 
   return (
     <Fragment>
@@ -295,11 +312,22 @@ export default function ProductSearch() {
           </div>
           <div className="product-search-flex-container">
             <div className="product-search-tools-container">
-              <ShowAccordions
-                uniqueKey="product-search-desktop"
-                datas={PRODUCT_SEARCH_FILTER_DATA_OPTIONS}
-                setDatas={setSideBarFilters}
+              <NameFilter
+                keyword={keyword}
+                setKeyword={setKeyword}
               />
+              <PriceFilters
+                priceFilter={priceFilter}
+                setPriceFilter={setPriceFilter}
+              />
+              <div className="padding-0 product-search-tools-wrapper">
+                <ShowAccordions
+                  uniqueKey="product-search-desktop"
+                  datas={PRODUCT_SEARCH_FILTER_DATA_OPTIONS}
+                  stateData={sideBarFilters}
+                  setStateDatas={setSideBarFilters}
+                />
+              </div>
             </div>
             <div className="product-search-cards-container">
               <div
@@ -389,10 +417,19 @@ export default function ProductSearch() {
         toggle={toggle}
         clicked={handleBottomSheet}>
         <div className="product-search-mobile-tools-container">
+          <NameFilter
+            keyword={keyword}
+            setKeyword={setKeyword}
+          />
+          <PriceFilters
+            priceFilter={priceFilter}
+            setPriceFilter={setPriceFilter}
+          />
           <ShowAccordions
             uniqueKey="product-search-mobile"
             datas={PRODUCT_SEARCH_FILTER_DATA_OPTIONS}
-            setDatas={setSideBarFilters}
+            stateData={sideBarFilters}
+            setStateDatas={setSideBarFilters}
           />
         </div>
       </BottomSheet>
