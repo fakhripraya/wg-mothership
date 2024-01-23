@@ -77,9 +77,14 @@ export default function ProductSearch() {
   const [breadcrumbs, setBreadcrumb] = useState([]);
   const [toggle, setToggle] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [delayedFetchTimeout, setDelayedFetchTimeout] =
+    useState(null);
+  const [keywordShadow, setKeywordShadow] = useState("");
   const [keyword, setKeyword] = useState(
-    getURLParams(currentLocation, "keyword")
+    getURLParams(currentLocation, "keyword") || ""
   );
+  const [priceFilterShadow, setPriceFilterShadow] =
+    useState(PRODUCT_PRICE_FILTER_VALUES);
   const [priceFilter, setPriceFilter] = useState(
     PRODUCT_PRICE_FILTER_VALUES
   );
@@ -279,6 +284,28 @@ export default function ProductSearch() {
     setToggle(!toggle);
   }
 
+  const handleFetchAfterKeywordDelay = (value) => {
+    if (delayedFetchTimeout)
+      clearTimeout(delayedFetchTimeout);
+
+    setDelayedFetchTimeout(
+      setTimeout(() => {
+        setKeywordShadow(value);
+      }, 500)
+    );
+  };
+
+  const handleFetchAfterPriceFilterDelay = (value) => {
+    if (delayedFetchTimeout)
+      clearTimeout(delayedFetchTimeout);
+
+    setDelayedFetchTimeout(
+      setTimeout(() => {
+        setPriceFilterShadow(value);
+      }, 500)
+    );
+  };
+
   // INITIAL RENDER
   useEffect(() => {
     // page scroll config
@@ -291,7 +318,7 @@ export default function ProductSearch() {
   useEffect(() => {
     handleBreadcrumbs();
     handleFilterFetch();
-  }, [sideBarFilters, priceFilter, keyword]);
+  }, [sideBarFilters, keywordShadow, priceFilterShadow]);
 
   return (
     <Fragment>
@@ -313,10 +340,16 @@ export default function ProductSearch() {
           <div className="product-search-flex-container">
             <div className="product-search-tools-container">
               <NameFilter
+                onAfterChange={(value) =>
+                  handleFetchAfterKeywordDelay(value)
+                }
                 keyword={keyword}
                 setKeyword={setKeyword}
               />
               <PriceFilters
+                onAfterChange={(value) =>
+                  handleFetchAfterPriceFilterDelay(value)
+                }
                 priceFilter={priceFilter}
                 setPriceFilter={setPriceFilter}
               />
@@ -418,10 +451,16 @@ export default function ProductSearch() {
         clicked={handleBottomSheet}>
         <div className="product-search-mobile-tools-container">
           <NameFilter
+            onAfterChange={(value) =>
+              handleFetchAfterKeywordDelay(value)
+            }
             keyword={keyword}
             setKeyword={setKeyword}
           />
           <PriceFilters
+            onAfterChange={(value) =>
+              handleFetchAfterPriceFilterDelay(value)
+            }
             priceFilter={priceFilter}
             setPriceFilter={setPriceFilter}
           />

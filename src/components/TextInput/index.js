@@ -8,10 +8,15 @@ const TextInput = React.forwardRef((props, ref) => (
     placeholder={props.placeholder}
     style={props.style}
     onKeyUp={(e) => {
-      if (e.key === "Enter" || e.keyCode === 13) {
+      if (
+        (e.key === "Enter" || e.keyCode === 13) &&
+        typeof props.onEnter !== "undefined"
+      )
         props.onEnter();
-      }
+      if (typeof props.onKeyUp !== "undefined")
+        props.onKeyUp(e);
     }}
+    onInput={props.onInput}
     onFocus={props.onFocus}
     onChange={props.onChange}
     maxLength={props.maxLength}

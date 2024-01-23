@@ -9,14 +9,8 @@ import TextInput from "../../../components/TextInput";
 import { useMemo } from "react";
 import { MAX_PRICE_FILTER_TRESHOLD } from "../../../variables/constants/productSearch";
 
-//let priceSetterTimeout = null;
-let keywordSetterTimeout = null;
-
 function handleKeywordChange(event, setKeyword) {
-  clearTimeout(keywordSetterTimeout);
-  keywordSetterTimeout = setTimeout(() => {
-    setKeyword(event.target.value);
-  }, 500);
+  setKeyword(event.target.value);
 }
 
 function handlePriceFilterChange(
@@ -35,10 +29,13 @@ function handlePriceFilterChange(
 
   temp[field] = value || 0;
   setPriceFilter(temp);
+  return temp;
 }
 
 function handleClearPriceFIlter(setPriceFilter) {
-  setPriceFilter(cloneDeep(PRODUCT_PRICE_FILTER_VALUES));
+  const temp = cloneDeep(PRODUCT_PRICE_FILTER_VALUES);
+  setPriceFilter(temp);
+  return temp;
 }
 
 export const PriceFilters = (props) =>
@@ -51,14 +48,16 @@ export const PriceFilters = (props) =>
         <label style={{ marginBottom: "2px" }}>Min</label>
         <TextInput
           value={formattedNumber(props.priceFilter.min)}
-          onChange={(e) =>
-            handlePriceFilterChange(
+          onChange={(e) => {
+            const temp = handlePriceFilterChange(
               "min",
               e,
               props.priceFilter,
               props.setPriceFilter
-            )
-          }
+            );
+
+            props.onAfterChange(temp);
+          }}
           type="text"
           className="product-search-price-filter-textinput"
         />
@@ -71,21 +70,26 @@ export const PriceFilters = (props) =>
         </label>
         <TextInput
           value={formattedNumber(props.priceFilter.max)}
-          onChange={(e) =>
-            handlePriceFilterChange(
+          onChange={(e) => {
+            const temp = handlePriceFilterChange(
               "max",
               e,
               props.priceFilter,
               props.setPriceFilter
-            )
-          }
+            );
+
+            props.onAfterChange(temp);
+          }}
           type="text"
           className="product-search-price-filter-textinput"
         />
         <Button
-          onClick={() =>
-            handleClearPriceFIlter(props.setPriceFilter)
-          }
+          onClick={() => {
+            const temp = handleClearPriceFIlter(
+              props.setPriceFilter
+            );
+            props.onAfterChange(temp);
+          }}
           style={{ marginTop: "12px" }}>
           Reset
         </Button>
@@ -104,13 +108,14 @@ export const NameFilter = (props) =>
         <TextInput
           placeholder="Cari"
           value={props.keyword}
-          onChange={(e) =>
-            handleKeywordChange(e, props.setKeyword)
-          }
+          onChange={(e) => {
+            handleKeywordChange(e, props.setKeyword);
+            props.onAfterChange(e.target.value);
+          }}
           type="text"
           className="product-search-price-filter-textinput"
         />
       </div>
     ),
-    [props.priceFilter]
+    [props.keyword]
   );
