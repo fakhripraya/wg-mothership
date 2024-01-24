@@ -24,6 +24,7 @@ import { ShowBreadcrumbs } from "../../components/Global";
 import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
+  NO_STRING,
   URL_GET_CATEGORIES,
   URL_GET_PRODUCT_LIST,
   X_SID,
@@ -45,6 +46,7 @@ import {
   NameFilter,
   PriceFilters,
 } from "./ModularComponents/ShowInputText";
+import Tag from "../../components/Tag";
 
 export default function ProductSearch() {
   // HOOK
@@ -79,9 +81,14 @@ export default function ProductSearch() {
   const [isLoading, setIsLoading] = useState(true);
   const [delayedFetchTimeout, setDelayedFetchTimeout] =
     useState(null);
-  const [keywordShadow, setKeywordShadow] = useState("");
+  const [keywordShadow, setKeywordShadow] = useState(
+    getURLParams(currentLocation, "keyword") || NO_STRING
+  );
   const [keyword, setKeyword] = useState(
-    getURLParams(currentLocation, "keyword") || ""
+    getURLParams(currentLocation, "keyword") || NO_STRING
+  );
+  const [category, setCategory] = useState(
+    getURLParams(currentLocation, "category") || NO_STRING
   );
   const [priceFilterShadow, setPriceFilterShadow] =
     useState(PRODUCT_PRICE_FILTER_VALUES);
@@ -100,10 +107,6 @@ export default function ProductSearch() {
   ] = useState(null);
 
   // MEMOIZED VARIABLES //
-  const category = useMemo(
-    () => getURLParams(currentLocation, "category"),
-    []
-  );
   const store = useMemo(
     () => getURLParams(currentLocation, "store"),
     []
@@ -178,9 +181,12 @@ export default function ProductSearch() {
   }
 
   function handleSearchSubject() {
-    if (keyword) return keyword;
-    if (store) return store;
-    if (category) return category;
+    let subject = "";
+    if (category) subject += ` - ${category}`;
+    if (store) subject += ` - ${store}`;
+    if (keyword) subject += ` - ${keyword}`;
+
+    return subject;
   }
 
   function handleEndpointURL(limit = 50, offset = 0) {
@@ -318,7 +324,12 @@ export default function ProductSearch() {
   useEffect(() => {
     handleBreadcrumbs();
     handleFilterFetch();
-  }, [sideBarFilters, keywordShadow, priceFilterShadow]);
+  }, [
+    sideBarFilters,
+    keywordShadow,
+    priceFilterShadow,
+    category,
+  ]);
 
   return (
     <Fragment>
@@ -365,11 +376,18 @@ export default function ProductSearch() {
             <div className="product-search-cards-container">
               <div
                 className={`product-search-cards-top-header-container ${
-                  !allCategories ? "display-none" : ""
+                  !allCategories
+                    ? "display-none"
+                    : NO_STRING
                 }`}>
                 <FloatButton
                   onClick={() => handleBottomSheet()}
                   className="product-search-filter-button"
+                />
+                <Tag
+                  onClick={() => setCategory(NO_STRING)}
+                  className="transparent-bg-color"
+                  text="Clear"
                 />
                 <div
                   onMouseDown={(event) =>
@@ -381,6 +399,7 @@ export default function ProductSearch() {
                   className="product-search-cards-tag-container"
                   ref={productSearchTagRef}>
                   <ShowGrabableCarouselCategoriesTag
+                    setCategory={setCategory}
                     uniqueKey={"product-search-tag"}
                     values={allCategories}
                   />

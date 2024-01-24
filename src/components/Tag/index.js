@@ -3,7 +3,9 @@ import "./style.scss";
 
 export default function Tag(props) {
   return (
-    <div className={`tag-container ${props.className}`}>
+    <div
+      onClick={props.onClick}
+      className={`tag-container ${props.className}`}>
       <p
         style={props.textStyle}
         className="light-color">
