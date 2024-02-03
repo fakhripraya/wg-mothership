@@ -1,14 +1,3 @@
-// ALL CATALOGUE PAGES
-export const CATALOGUE_STOCK_TYPE_OPTIONS = [
-  "Buah",
-  "Milligram",
-  "Gram",
-  "Kilogram",
-  "MilliLiter",
-  "Liter",
-  "KiloLiter",
-];
-
 // ADD CATALOGUE
 export const ADD_CATALOGUE_INITIAL_COURIER_VALUE =
   "Pilih Kurir";
@@ -16,16 +5,18 @@ export const ADD_CATALOGUE_INITIAL_COURIER_VALUE =
 export const ADD_CATALOGUE_INITIAL_VALUE = {
   productName: "",
   productCategory: "Pilih Kategori",
-  productCatalog: "Pilih Katalog",
+  productCatalogue: "Pilih Katalog",
   productDescription: "",
   productHashtag: "",
   productCondition: "",
   productWeight: "",
   productWeightUnit: "Kilogram",
   productPrice: "",
+  productSKU: "",
   productStocks: "",
   productSafetyStocks: "",
-  courierChoosen: [ADD_CATALOGUE_INITIAL_COURIER_VALUE],
+  productUOM: "Pilih Satuan",
+  courierChoosen: [null],
   newCatalogues: [],
 };
 
@@ -34,16 +25,19 @@ export const ADD_CATALOGUE_INITIAL_FETCHED_DATAS = {
     catalogues: [],
     categories: [],
     couriers: [],
+    productUOM: [],
   },
   dropdowns: {
     catalogues: [],
     categories: [],
     couriers: [],
+    productUOM: [],
   },
 };
 
 export const ADD_CATALOGUE_WEIGHTUNIT_OPTIONS = [
   "Gram",
+  "Milligram",
   "Kilogram",
 ];
 

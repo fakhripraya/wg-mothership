@@ -98,6 +98,9 @@ export default function ProductSearch() {
   const [sideBarFilters, setSideBarFilters] = useState([
     ...PRODUCT_SEARCH_FILTER_VALUES,
   ]);
+  const [sortKey, setSortKey] = useState(
+    getURLParams(currentLocation, "sortKey") || null
+  );
   const [allCategories, setAllCategories] = useState(null);
   const [searchedProducts, setSearchedProducts] =
     useState(null);
@@ -116,39 +119,17 @@ export default function ProductSearch() {
     return mapper.splitArrayForGrid(cloned || [], 10);
   }, [searchedProducts]);
 
-  // API ENDPOINTS
-  // 1. searched product list
-  // 2. all categories available
-  const endpoints = [
-    {
-      ...defaultConfigs,
-      url: handleEndpointURL(),
-    },
-    {
-      ...defaultConfigs,
-      url: `${URL_GET_CATEGORIES}`,
-    },
-  ];
-
   // FUNCTIONS SPECIFIC //
   async function handleInitialize() {
     // execute axios request
     await axiosService
-      .getAllData(endpoints)
+      .getData({
+        ...defaultConfigs,
+        url: `${URL_GET_CATEGORIES}`,
+      })
       .then((res) => {
-        if (res.responseData?.[0]?.responseStatus === 200) {
-          setSearchedProducts(
-            res.responseData?.[0]?.responseData.result
-          );
-          setSearchedProductsMasterCount(
-            res.responseData?.[0]?.responseData.masterCount
-          );
-          setIsLoading(false);
-        }
-        if (res.responseData?.[1]?.responseStatus === 200)
-          setAllCategories(
-            res.responseData?.[1]?.responseData
-          );
+        if (res.responseStatus === 200)
+          setAllCategories(res.responseData);
       })
       .catch((error) => console.error(error));
   }
@@ -158,7 +139,8 @@ export default function ProductSearch() {
     // execute axios request
     await axiosService
       .getData({
-        ...endpoints[0],
+        ...defaultConfigs,
+        url: handleEndpointURL(),
       })
       .then((res) => {
         if (res.responseStatus === 200) {
@@ -231,6 +213,13 @@ export default function ProductSearch() {
           keyword
         );
       }
+      if (sortKey) {
+        axiosService.setURLParams(
+          targetUrl,
+          "sortKey",
+          JSON.stringify(sortKey)
+        );
+      }
 
       axiosService.setURLParams(
         targetUrl,
@@ -263,7 +252,7 @@ export default function ProductSearch() {
   function handleLoadMoreNewProducts() {
     axiosService
       .getData({
-        ...endpoints[4],
+        ...defaultConfigs,
         url: handleEndpointURL(
           carouselLimit,
           Math.floor(
@@ -314,12 +303,27 @@ export default function ProductSearch() {
 
   // INITIAL RENDER
   useEffect(() => {
-    // page scroll config
+    // do some page scrolling config and render breadcrumbs
+    // also fetch categories datas
     smoothScrollTop();
-    // initialize breadcrumbs and initialize datas by fetching it
     handleBreadcrumbs();
     handleInitialize();
   }, []);
+
+  useEffect(() => {
+    const newKeyword = getURLParams(
+      currentLocation,
+      "keyword"
+    );
+    const newSortKey = getURLParams(
+      currentLocation,
+      "sortKey"
+    );
+
+    setKeyword(newKeyword);
+    setKeywordShadow(newKeyword);
+    window.handleProductSearchSort(newSortKey, setSortKey);
+  }, [window.location.search]);
 
   useEffect(() => {
     handleBreadcrumbs();
@@ -329,6 +333,7 @@ export default function ProductSearch() {
     keywordShadow,
     priceFilterShadow,
     category,
+    sortKey,
   ]);
 
   return (
@@ -419,14 +424,25 @@ export default function ProductSearch() {
                 </div>
                 <div className="product-search-dropdown-wrapper">
                   <Dropdown
-                    onChange={(value) => {}}
+                    onChange={(key) => {
+                      window.handleProductSearchSort(
+                        key,
+                        setSortKey
+                      );
+                    }}
                     style={{
                       width: "100px",
                       maxWidth: "100px",
                     }}
                     showTitle={true}
                     toggle={true}
-                    values={PRODUCT_SORT_OPTIONS}
+                    value={
+                      sortKey?.key ||
+                      PRODUCT_SORT_OPTIONS[0].key
+                    }
+                    values={PRODUCT_SORT_OPTIONS.map(
+                      (x) => x.key
+                    )}
                   />
                 </div>
               </div>

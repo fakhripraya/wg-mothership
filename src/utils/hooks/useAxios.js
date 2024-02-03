@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAxios } from "../../config/xhr/axios";
 import { AXIOS_INITIAL_VALUE } from "../../variables/initial/axios";
-import { GET, POST } from "../../variables/global";
+import { GET, PATCH, POST } from "../../variables/global";
 
 // get data without parameter
 export const useAxios = () => {
@@ -53,26 +53,27 @@ export const useAxios = () => {
       var result = { ...AXIOS_INITIAL_VALUE };
 
       const axiosInstance = createAxios(reqConfig.endpoint);
-      axiosInstance.interceptors.request.use(
-        async function (config) {
-          const res = await callbackInterceptors();
-          if (res.responseStatus === 200) return config;
-          else {
+      if (callbackInterceptors)
+        axiosInstance.interceptors.request.use(
+          async function (config) {
+            const res = await callbackInterceptors();
+            if (res.responseStatus === 200) return config;
+            else {
+              result.responseError = true;
+              result.errorContent = res.message;
+              result.responseStatus = res.responseStatus;
+              console.timeEnd("Load Time");
+              return reject(result);
+            }
+          },
+          function (error) {
             result.responseError = true;
-            result.errorContent = res.message;
-            result.responseStatus = res.responseStatus;
+            result.errorContent = error.toString();
+            result.responseStatus = 500;
             console.timeEnd("Load Time");
             return reject(result);
           }
-        },
-        function (error) {
-          result.responseError = true;
-          result.errorContent = error.toString();
-          result.responseStatus = 500;
-          console.timeEnd("Load Time");
-          return reject(result);
-        }
-      );
+        );
 
       await axiosInstance({
         method: GET,
@@ -260,6 +261,65 @@ export const useAxios = () => {
     });
   };
 
+  const patchDataWithOnRequestInterceptors = async (
+    reqConfig,
+    callbackInterceptors
+  ) => {
+    // creates the cancel token source
+    var cancelSource = axios.CancelToken.source();
+    // Start timing now
+    console.time("Load Time");
+    return new Promise(async (resolve, reject) => {
+      // Initial Value
+      var result = { ...AXIOS_INITIAL_VALUE };
+
+      const axiosInstance = createAxios(reqConfig.endpoint);
+      axiosInstance.interceptors.request.use(
+        async function (config) {
+          const res = await callbackInterceptors();
+          if (res.responseStatus === 200) return config;
+          else {
+            result.responseError = true;
+            result.errorContent = res.message;
+            result.responseStatus = res.responseStatus;
+            return reject(result);
+          }
+        },
+        function (error) {
+          result.responseError = true;
+          result.errorContent = error.toString();
+          result.responseStatus = 500;
+          return reject(result);
+        }
+      );
+
+      await axiosInstance({
+        method: PATCH,
+        headers: reqConfig.headers,
+        url: reqConfig.url,
+        data: reqConfig.data,
+        cancelToken: cancelSource.token,
+      })
+        .then((response) => {
+          result.responseData = response.data;
+          result.responseStatus = response.status;
+          console.timeEnd("Load Time");
+          resolve(result);
+        })
+        .catch((error) => {
+          result.responseError = true;
+          if (error.response) {
+            if (axios.isCancel(error))
+              return cancelSource.cancel();
+            result.errorContent = error.response.data;
+            result.responseStatus = error.response.status;
+          } else result.responseStatus = 500;
+          console.timeEnd("Load Time");
+          reject(result);
+        });
+    });
+  };
+
   const getURLParams = (url, key) =>
     url.searchParams.get(key);
 
@@ -274,6 +334,7 @@ export const useAxios = () => {
     getAllDataWithOnRequestInterceptors,
     postData,
     postDataWithOnRequestInterceptors,
+    patchDataWithOnRequestInterceptors,
     getURLParams,
     setURLParams,
   };

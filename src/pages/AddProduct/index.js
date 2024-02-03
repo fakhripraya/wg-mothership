@@ -34,6 +34,7 @@ import {
   URL_GET_CATALOGUE_DATA,
   URL_GET_CATEGORIES,
   URL_GET_COURIERS,
+  URL_GET_UOM,
   URL_POST_ADD_STORE_PRODUCT_CATALOGUE,
   X_SID,
 } from "../../variables/global";
@@ -139,13 +140,15 @@ export default function AddProduct() {
         ...defaultConfigs,
         url: URL_GET_CATEGORIES,
       },
-      callbackInterceptors: async () =>
-        await authInterceptor(axiosService, cookies),
     },
     {
       config: { ...defaultConfigs, url: URL_GET_COURIERS },
-      callbackInterceptors: async () =>
-        await authInterceptor(axiosService, cookies),
+    },
+    {
+      config: {
+        ...defaultConfigs,
+        url: URL_GET_UOM,
+      },
     },
   ];
 
@@ -213,38 +216,44 @@ export default function AddProduct() {
     );
   }
 
+  function handleFetchedDataDropdowns(data) {
+    return data.length ? data : [NO_DATA];
+  }
+
+  function handleDropdownProperties(
+    array,
+    index,
+    property
+  ) {
+    let temp;
+    if (array[index].responseData.result)
+      temp = array[index].responseData.result;
+    else temp = array[index].responseData;
+    return temp.map((obj) => obj[property]);
+  }
+
   function handleSetFetchedDatas(array) {
-    let newFetchedDatas = { ...fetchedDatas };
-    let fetchedCatalogues =
-      array[0].responseData.result.map(
-        (obj) => obj.catalogueName
-      );
-    let fetchedCategories = array[1].responseData.map(
-      (obj) => obj.categoryName
-    );
-    let fetchedCouriers = array[2].responseData.map(
-      (obj) => obj.courierName
+    let [fct, fcs, fcr, fuom] = [
+      "catalogueName",
+      "categoryName",
+      "courierName",
+      "uom",
+    ].map((property, index) =>
+      handleDropdownProperties(array, index, property)
     );
 
-    newFetchedDatas = {
+    let newFetchedDatas = {
       datas: {
         catalogues: array[0],
         categories: array[1],
         couriers: array[2],
+        productUOM: array[3],
       },
       dropdowns: {
-        catalogues:
-          fetchedCatalogues.length === 0
-            ? [NO_DATA]
-            : fetchedCatalogues,
-        categories:
-          fetchedCategories.length === 0
-            ? [NO_DATA]
-            : fetchedCategories,
-        couriers:
-          fetchedCouriers.length === 0
-            ? [NO_DATA]
-            : fetchedCouriers,
+        catalogues: handleFetchedDataDropdowns(fct),
+        categories: handleFetchedDataDropdowns(fcs),
+        couriers: handleFetchedDataDropdowns(fcr),
+        productUOM: handleFetchedDataDropdowns(fuom),
       },
     };
 
@@ -258,20 +267,43 @@ export default function AddProduct() {
   function handleCreateFormData() {
     const formData = new FormData();
     const formProductCategory =
-      fetchedDatas.datas.categories.responseData.filter(
+      fetchedDatas.datas.categories.responseData.find(
         (val) => val.categoryName === data.productCategory
-      )[0];
-    const formProductCatalog =
-      fetchedDatas.dropdowns.catalogues.filter(
-        (val) => val === data.productCatalog
-      )[0];
+      );
+    const formProductCatalogue =
+      fetchedDatas.dropdowns.catalogues.find(
+        (val) => val === data.productCatalogue
+      );
+    const formProductUOM =
+      fetchedDatas.datas.productUOM.responseData.find(
+        (val) => val.uom === data.productUOM
+      );
+    const formCourierChoosen = data.courierChoosen.reduce(
+      (arr, obj) => {
+        const addedCourier =
+          fetchedDatas.datas.couriers.responseData.find(
+            (val) => val.courierName === obj
+          );
+        if (addedCourier)
+          arr.push(addedCourier.courierName);
+        return arr;
+      },
+      []
+    );
+    const maxLengthUpload =
+      productPictures.length >= additionalDocuments.length
+        ? productPictures.length
+        : additionalDocuments.length;
 
     formData.append("productName", data.productName);
     formData.append(
       "productCategory",
       JSON.stringify(formProductCategory)
     );
-    formData.append("productCatalog", formProductCatalog);
+    formData.append(
+      "productCatalogue",
+      formProductCatalogue
+    );
     formData.append(
       "productDescription",
       data.productDescription
@@ -287,23 +319,15 @@ export default function AddProduct() {
       data.productWeightUnit
     );
     formData.append("productPrice", data.productPrice);
+    formData.append("productSKU", data.productSKU);
     formData.append("productStocks", data.productStocks);
     formData.append(
       "productSafetyStocks",
       data.productSafetyStocks
     );
-    // this will make sure the appended courier is a valid courier that has been fetched
-    const formCourierChoosen = data.courierChoosen.reduce(
-      (arr, obj) => {
-        const addedCourier =
-          fetchedDatas.datas.couriers.responseData.filter(
-            (val) => val.courierName === obj
-          )[0];
-        if (addedCourier)
-          arr.push(addedCourier.courierName);
-        return arr;
-      },
-      []
+    formData.append(
+      "productUOM",
+      JSON.stringify(formProductUOM)
     );
     formData.append(
       "courierChoosen",
@@ -316,19 +340,14 @@ export default function AddProduct() {
       )
     );
 
-    const maxLengthUpload =
-      productPictures.length >= additionalDocuments.length
-        ? productPictures.length
-        : additionalDocuments.length;
-
     for (var i = 0; maxLengthUpload > i; i++) {
-      productPictures[i] &&
+      if (productPictures[i])
         formData.append(
           "uploadedImageFiles",
           b64toBlob(productPictures[i].base64),
           productPictures[i].name
         );
-      additionalDocuments[i] &&
+      if (additionalDocuments[i])
         formData.append(
           "uploadedAdditionalFiles",
           b64toBlob(additionalDocuments[i].base64),
@@ -394,8 +413,8 @@ export default function AddProduct() {
   }
 
   useEffect(() => {
-    async function init() {
-      trackPromise(
+    trackPromise(
+      (async () => {
         axiosService
           .getAllDataWithOnRequestInterceptors(endpoints)
           .then((result) => {
@@ -422,23 +441,21 @@ export default function AddProduct() {
                 setErrorModalToggle,
                 errorModalToggle
               );
-          })
-      );
-    }
-    trackPromise(init());
+          });
+      })()
+    );
   }, []);
 
-  if (!IS_OTP_VERIFIED(login))
-    (() => {
-      // Executing asynchronous call for redirecting to home page
-      handleOpenOverridingHome(LOGIN);
-      // Placeholder message while redirecting to home page
-      return (
-        <PageLoading
-          loadingMessage={PAGE_REDIRECTING_MESSAGE}
-        />
-      );
-    })();
+  if (!IS_OTP_VERIFIED(login)) {
+    // Executing asynchronous call for redirecting to home page
+    handleOpenOverridingHome(LOGIN);
+    // Placeholder message while redirecting to home page
+    return (
+      <PageLoading
+        loadingMessage={PAGE_REDIRECTING_MESSAGE}
+      />
+    );
+  }
 
   return (
     <Fragment>
@@ -560,7 +577,7 @@ export default function AddProduct() {
                 <Dropdown
                   onChange={(value) =>
                     handleValueChange(
-                      "productCatalog",
+                      "productCatalogue",
                       value
                     )
                   }
@@ -571,7 +588,7 @@ export default function AddProduct() {
                   }}
                   showTitle={false}
                   toggle={true}
-                  value={data.productCatalog}
+                  value={data.productCatalogue}
                   values={fetchedDatas.dropdowns.catalogues}
                 />
                 <Button
@@ -596,6 +613,7 @@ export default function AddProduct() {
                 ya
               </label>
               <AcceptedFileItems
+                uniqueKey="product-image-upload"
                 base64s={productPictures}
                 setBase64s={setProductPictures}
               />
@@ -739,6 +757,19 @@ export default function AddProduct() {
               </label>
               <div className="add-product-textinput-box">
                 <label className="add-product-input-title">
+                  SKU (opsional)
+                </label>
+                <TextInput
+                  value={data.productSKU}
+                  onChange={(e) =>
+                    handleTextChange("productSKU", e)
+                  }
+                  type="text"
+                  className="add-product-textinput"
+                />
+              </div>
+              <div className="add-product-textinput-box">
+                <label className="add-product-input-title">
                   Stok
                 </label>
                 <TextInput
@@ -768,6 +799,23 @@ export default function AddProduct() {
                   }
                   type="text"
                   className="add-product-textinput"
+                />
+              </div>
+              <div className="add-product-textinput-box">
+                <label className="add-product-input-title">
+                  Satuan
+                </label>
+                <Dropdown
+                  onChange={(value) =>
+                    handleValueChange("productUOM", value)
+                  }
+                  style={{
+                    width: "fit-content",
+                  }}
+                  showTitle={false}
+                  toggle={true}
+                  value={data.productUOM}
+                  values={fetchedDatas.dropdowns.productUOM}
                 />
               </div>
               <br />
@@ -802,7 +850,10 @@ export default function AddProduct() {
                       }
                       showTitle={false}
                       toggle={true}
-                      value={val}
+                      value={
+                        val ||
+                        ADD_CATALOGUE_INITIAL_COURIER_VALUE
+                      }
                       values={
                         fetchedDatas.dropdowns.couriers
                       }
@@ -812,10 +863,7 @@ export default function AddProduct() {
               })}
               <Button
                 onClick={() =>
-                  handleAddComponent(
-                    "courierChoosen",
-                    ADD_CATALOGUE_INITIAL_COURIER_VALUE
-                  )
+                  handleAddComponent("courierChoosen", null)
                 }
                 className="align-self-end add-product-button main-bg-color">
                 <h4 className="add-product-button-text">

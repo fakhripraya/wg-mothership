@@ -112,6 +112,8 @@ export const URL_POST_OTP = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/
 export const URL_CHECK_AUTH_AND_REFRESH_TOKEN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/token`;
 
 // ZEUS SERVICE ROUTE
+export const URL_PATCH_STORE_PRODUCT = (storeId) =>
+  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/product/update?storeId=${storeId}`;
 export const URL_POST_ADD_STORE_PRODUCT_CATALOGUE = (
   storeId
 ) =>
@@ -159,6 +161,7 @@ export const URL_POST_GET_USER_BUY_ADDRESSES = (userId) =>
 export const URL_GET_PRODUCT_LIST = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/products`;
 export const URL_GET_CATEGORIES = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/category`;
 export const URL_GET_COURIERS = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/couriers`;
+export const URL_GET_UOM = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/uom`;
 
 // USER RDP ROLE
 export const HOST = "HOST";

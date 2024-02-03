@@ -4,6 +4,7 @@ import "./style.scss";
 export default function TextArea(props) {
   return (
     <textarea
+      placeholder={props.placeholder}
       readOnly={props.readOnly}
       value={props.value}
       style={props.style}

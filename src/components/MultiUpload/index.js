@@ -10,86 +10,76 @@ import {
 import FileIcon from "../../assets/svg/file.svg";
 import Button from "../Button";
 
-export const AcceptedFileItems = (props) => {
-  const acceptedLength = props.base64s.length;
-  return (
+export const AcceptedFileItems = (props) =>
+  props.base64s?.length > 0 && (
     <Fragment>
-      {acceptedLength > 0 && <h3>File Diterima</h3>}
-      {acceptedLength > 0 &&
-        props.base64s.map((file, index) => {
-          return (
-            <div className="multi-upload-file-list-container">
-              <li
-                className="multi-upload-file-list"
-                key={`${file.name} ${index}`}>
-                <img
-                  className="multi-upload-file-img"
-                  src={
-                    isImageType(file.type)
-                      ? file.base64
-                      : FileIcon
-                  }
-                  alt={file.name}
-                />
-                <label className="multi-upload-file-text">
-                  {file.name} - {formattedNumber(file.size)}{" "}
-                  bytes
-                </label>
-              </li>
-              <Button
-                onClick={() => {
-                  // Use splice to remove the item at the specified index
-                  let temp = [...props.base64s];
-                  temp.splice(index, 1);
-                  props.setBase64s(temp);
-                }}
-                className="justify-flex-end multi-upload-button red-bg-color">
-                <h4 className="multi-upload-button-text">
-                  X
-                </h4>
-              </Button>
-            </div>
-          );
-        })}
+      <h3>File Diterima</h3>
+      {props.base64s.map((file, index) => (
+        <div
+          key={`multi-upload-file-${props.uniqueKey}-${index}`}
+          className="multi-upload-file-list-container">
+          <li
+            className="multi-upload-file-list"
+            key={`${file.name} ${index}`}>
+            <img
+              className="multi-upload-file-img"
+              src={
+                isImageType(file.type)
+                  ? file.base64
+                  : FileIcon
+              }
+              alt={file.name}
+            />
+            <label className="multi-upload-file-text">
+              {file.name} - {formattedNumber(file.size)}{" "}
+              bytes
+            </label>
+          </li>
+          <Button
+            onClick={() => {
+              // Use splice to remove the item at the specified index
+              let temp = [...props.base64s];
+              temp.splice(index, 1);
+              props.setBase64s(temp);
+            }}
+            className="justify-flex-end multi-upload-button red-bg-color">
+            <h4 className="multi-upload-button-text">X</h4>
+          </Button>
+        </div>
+      ))}
     </Fragment>
   );
-};
 
-export const FileRejectionItems = (props) => {
-  const rejectedLength = props.rejected.length;
-  return (
+export const FileRejectionItems = (props) =>
+  props.rejected.length > 0 && (
     <Fragment>
-      {rejectedLength > 0 && <h3>File Ditolak</h3>}
-      {rejectedLength > 0 &&
-        props.rejected.map(({ file, errors }, index) => {
-          return (
-            <li
-              className="multi-upload-file-list"
-              key={`${file.name} ${index}`}>
-              <img
-                className="multi-upload-file-img"
-                src={
-                  isImageType(file.type)
-                    ? file.base64
-                    : FileIcon
-                }
-                alt={file.name}
-              />
-              <label className="multi-upload-file-text">
-                {index + 1}. {file.name} -{" "}
-                {formattedNumber(file.size)} bytes
-                <ul>
-                  {errors.map((e) => (
-                    <li key={e.code}>{e.message}</li>
-                  ))}
-                </ul>
-              </label>
-            </li>
-          );
-        })}
+      <h3>File Ditolak</h3>
+      {props.rejected.map(({ file, errors }, index) => (
+        <li
+          className="multi-upload-file-list"
+          key={`${file.name} ${index}`}>
+          <img
+            className="multi-upload-file-img"
+            src={
+              isImageType(file.type)
+                ? file.base64
+                : FileIcon
+            }
+            alt={file.name}
+          />
+          <label className="multi-upload-file-text">
+            {index + 1}. {file.name} -{" "}
+            {formattedNumber(file.size)} bytes
+            <ul>
+              {errors.map((e) => (
+                <li key={e.code}>{e.message}</li>
+              ))}
+            </ul>
+          </label>
+        </li>
+      ))}
     </Fragment>
   );
-};
 
 export default function MultiUpload(props) {
   let { getRootProps, getInputProps } = useDropzone({

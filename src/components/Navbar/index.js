@@ -50,6 +50,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setOverridingToggle } from "../../utils/redux/reducers/navbarReducer";
 import { ShowCart } from "./ModularComponents/ShowCart";
 import { ShowSearchBar } from "./ModularComponents/ShowSearch";
+import { PRODUCT_SORT_OPTIONS } from "../../variables/constants/dropdown";
+import { cloneDeep } from "lodash-es";
 
 export default function Navbar() {
   // HOOKS //
@@ -198,6 +200,23 @@ export default function Navbar() {
     handleWindowScroll(overridingToggle);
     handleNavbarDisplay(overridingToggle);
     setToggleOverride(overridingToggle);
+  };
+
+  window.handleProductSearchSort = function (
+    key,
+    setSortKey
+  ) {
+    const foundIndex = PRODUCT_SORT_OPTIONS.findIndex(
+      (x) => x.key === key
+    );
+    if (foundIndex > -1)
+      setSortKey(
+        cloneDeep({
+          key: PRODUCT_SORT_OPTIONS[foundIndex].key,
+          field: PRODUCT_SORT_OPTIONS[foundIndex].field,
+          value: PRODUCT_SORT_OPTIONS[foundIndex].value,
+        })
+      );
   };
 
   // COMPONENTS SPECIFIC //

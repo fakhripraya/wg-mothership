@@ -37,6 +37,7 @@ import { NO_PRODUCT_FOUND } from "../../variables/errorMessages/productDetail";
 import { ShowCourierModal } from "./ModularComponents/ShowModal";
 import Modal from "../../components/Modal";
 import { handleAddItemToCart } from "../../utils/functions/cart";
+import { MAX_BUY_QTY_TRESHOLD } from "../../variables/constants/productDetail";
 
 export default function ProductDetail() {
   // HOOKS //
@@ -489,6 +490,11 @@ export default function ProductDetail() {
                     let temp = acceptNumericOnly(
                       e.target.value
                     );
+
+                    if (!temp) temp = 0;
+                    if (temp > MAX_BUY_QTY_TRESHOLD)
+                      temp =
+                        MAX_BUY_QTY_TRESHOLD.toString();
                     return setBuyQty(temp);
                   }}
                   className="detail-flexbox-pricing-count-area"

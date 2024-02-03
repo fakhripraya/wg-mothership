@@ -17,6 +17,11 @@ export function handleGoToCreativeStore(navigate, id) {
 export const ShowGrabableCarouselCategoriesTag = (props) =>
   props.values?.map((obj, index) => (
     <Tag
+      onClick={() =>
+        props.navigate(
+          `/search?category=${obj.categoryName}`
+        )
+      }
       className="dark-bg-color"
       key={`carousel-tag-${props.uniqueKey}-${index}`}
       text={obj.categoryName}

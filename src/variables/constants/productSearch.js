@@ -17,4 +17,9 @@ export const OPEN_MODAL = "OPEN_MODAL";
 export const OPEN_CATEGORY_MODAL = "OPEN_CATEGORY_MODAL";
 export const OPEN_LOCATION_MODAL = "OPEN_LOCATION_MODAL";
 
+// others
+export const SORT_KEY_NEW = "Terbaru";
+export const SORT_KEY_RATING = "Rating Terbaik";
+export const SORT_KEY_PRICE_ASC = "Yang Murah";
+export const SORT_KEY_PRICE_DESC = "Yang Mahal";
 export const MAX_PRICE_FILTER_TRESHOLD = 1000000000;

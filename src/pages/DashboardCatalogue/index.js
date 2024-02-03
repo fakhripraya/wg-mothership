@@ -26,12 +26,15 @@ import { useNavigate } from "react-router-dom";
 import {
   AUTHORIZATION,
   CLIENT_USER_INFO,
+  CONTENT_TYPE,
   DASHBOARD_CATALOG,
   LOGIN,
   NO_DATA,
   URL_GET_CATALOGUE_DATA,
   URL_GET_CATEGORIES,
   URL_GET_COURIERS,
+  URL_GET_UOM,
+  URL_PATCH_STORE_PRODUCT,
   X_SID,
 } from "../../variables/global";
 import { useAxios } from "../../utils/hooks/useAxios";
@@ -40,6 +43,7 @@ import { ShowErrorModal } from "./ModularComponents/ShowModals";
 import ShowDisplayItem from "./ModularComponents/ShowDisplayItem";
 import cloneDeep from "lodash-es/cloneDeep";
 import SearchIcon from "../../assets/svg/search-icon.svg";
+import { authInterceptor } from "../../utils/functions/credentials";
 
 export default function DashboardCatalogue(props) {
   // HOOK
@@ -57,7 +61,7 @@ export default function DashboardCatalogue(props) {
   const [isPrevShow, setIsPrevShow] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const zeusService = useAxios();
+  const axiosService = useAxios();
   const [modalToggle, setModalToggle] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -99,6 +103,10 @@ export default function DashboardCatalogue(props) {
       ...defaultConfigs,
       url: URL_GET_COURIERS,
     },
+    {
+      ...defaultConfigs,
+      url: URL_GET_UOM,
+    },
   ];
 
   // FUNCTIONS SPECIFIC //
@@ -114,15 +122,13 @@ export default function DashboardCatalogue(props) {
       setData(cloneDeep(array[0].responseData.result));
     }
 
-    const fetchedCatalogues =
-      array[0].responseData.catalogues.map(
-        (obj) => obj.catalogueName
-      );
-    const fetchedCategories = array[1].responseData.map(
-      (obj) => obj.categoryName
-    );
-    const fetchedCouriers = array[2].responseData.map(
-      (obj) => obj.courierName
+    let [fct, fcs, fcr, fuom] = [
+      "catalogueName",
+      "categoryName",
+      "courierName",
+      "uom",
+    ].map((property, index) =>
+      handleDropdownProperties(array, index, property)
     );
 
     let newFetchedDatas = { ...fetchedDatas };
@@ -131,20 +137,13 @@ export default function DashboardCatalogue(props) {
         catalogues: array[0].responseData.catalogues,
         categories: array[1].responseData,
         couriers: array[2].responseData,
+        productUOM: array[3].responseData,
       },
       dropdowns: {
-        catalogues:
-          fetchedCatalogues.length === 0
-            ? [NO_DATA]
-            : fetchedCatalogues,
-        categories:
-          fetchedCategories.length === 0
-            ? [NO_DATA]
-            : fetchedCategories,
-        couriers:
-          fetchedCouriers.length === 0
-            ? [NO_DATA]
-            : fetchedCouriers,
+        catalogues: handleFetchedDataDropdowns(fct),
+        categories: handleFetchedDataDropdowns(fcs),
+        couriers: handleFetchedDataDropdowns(fcr),
+        productUOM: handleFetchedDataDropdowns(fuom),
       },
     };
 
@@ -155,6 +154,22 @@ export default function DashboardCatalogue(props) {
     setIsPrevShow(
       array[0].responseData.instructions.isPrev
     );
+  }
+
+  function handleFetchedDataDropdowns(data) {
+    return data.length ? data : [NO_DATA];
+  }
+
+  function handleDropdownProperties(
+    array,
+    index,
+    property
+  ) {
+    let temp;
+    if (array[index].responseData.catalogues)
+      temp = array[index].responseData.catalogues;
+    else temp = array[index].responseData;
+    return temp.map((obj) => obj[property]);
   }
 
   function setDataAndUpdate(value) {
@@ -173,7 +188,71 @@ export default function DashboardCatalogue(props) {
   }
 
   function handleUpdateProducts() {
-    setIsUpdating(false);
+    let objToBeUpdated = [];
+    for (let i = 0; i < defaultResponse.length; i++) {
+      const temp = defaultResponse[i];
+      const compare = data.find(
+        (val) => val.id === temp.id
+      );
+
+      if (
+        compare &&
+        JSON.stringify(compare) !== JSON.stringify(temp)
+      )
+        objToBeUpdated.push(compare);
+    }
+
+    // Constructing an object with the fields to update
+    const targetUpdates = objToBeUpdated.reduce(
+      (accumulator, data) => {
+        accumulator[data.id] = {
+          productName: data.productName,
+          productDescription: data.productDescription,
+          productHashtag: data.productHashtag,
+          productCondition: data.productCondition,
+          productWeight: data.productWeight,
+          productWeightUnit: data.productWeightUnit,
+          productPrice: data.productPrice,
+          productSKU: data.productSKU,
+          productStocks: data.productStocks,
+          productSafetyStocks: data.productSafetyStocks,
+          courierChoosen: data.availableCourierList,
+          productCatalogue: data.catalogueId,
+          productCategory: data.categoryId,
+          productUOM: data.uomId,
+        };
+        return accumulator;
+      },
+      {}
+    );
+
+    const formData = new FormData();
+    formData.append(
+      "products",
+      JSON.stringify(targetUpdates)
+    );
+
+    axiosService
+      .patchDataWithOnRequestInterceptors(
+        {
+          endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+          url: URL_PATCH_STORE_PRODUCT(storeId),
+          headers: {
+            ...defaultConfigs.headers,
+            [CONTENT_TYPE]: "multipart/form-data",
+          },
+          data: formData,
+        },
+        async () =>
+          await authInterceptor(axiosService, cookies)
+      )
+      .then(() => {
+        setDefaultResponse(cloneDeep(data));
+        setIsUpdating(false);
+      })
+      .catch((error) => {
+        handleAxiosError(error);
+      });
   }
 
   function handleCancelUpdateProducts() {
@@ -265,6 +344,24 @@ export default function DashboardCatalogue(props) {
     setIsUpdating(false);
   }
 
+  function handleAxiosError(error) {
+    setIsLoading(false);
+    if (error.responseStatus === 500) handleError500();
+    if (
+      error.responseStatus === 401 ||
+      error.responseStatus === 403
+    ) {
+      cookies.remove(CLIENT_USER_INFO, { path: "/" });
+      handleOpenOverridingHome(LOGIN);
+    } else
+      handleErrorMessage(
+        error,
+        setErrorMessage,
+        setModalToggle,
+        modalToggle
+      );
+  }
+
   // COMPONENTS SPECIFIC //
   const ShowCheckboxes = () => {
     return DASHBOARD_CATALOGUE_FILTER_CHECKBOXES.map(
@@ -291,6 +388,7 @@ export default function DashboardCatalogue(props) {
             style={{ width: "100px", maxWidth: "100px" }}
             showTitle={item.showTitle}
             toggle={item.toggle}
+            value={item.values[0]}
             values={item.values}
           />
         );
@@ -334,28 +432,13 @@ export default function DashboardCatalogue(props) {
     if (currentTab !== DASHBOARD_CATALOG) return;
     smoothScrollTop();
     (async () => {
-      await zeusService
+      await axiosService
         .getAllData(endpoints)
         .then((result) => {
           handleMapResponses(result.responseData);
         })
         .catch((error) => {
-          setIsLoading(false);
-          if (error.responseStatus === 500)
-            handleError500();
-          if (
-            error.responseStatus === 401 ||
-            error.responseStatus === 403
-          ) {
-            cookies.remove(CLIENT_USER_INFO, { path: "/" });
-            handleOpenOverridingHome(LOGIN);
-          } else
-            handleErrorMessage(
-              error,
-              setErrorMessage,
-              setModalToggle,
-              modalToggle
-            );
+          handleAxiosError(error);
         });
     })();
   }, [page]);

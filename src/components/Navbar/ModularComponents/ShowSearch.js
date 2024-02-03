@@ -8,21 +8,38 @@ import { NO_STRING } from "../../../variables/global";
 
 export const ShowSearchBar = (props) => {
   const [keyword, setKeyword] = useState("");
+  const [sortKey, setSortKey] = useState(null);
+
+  function handleNavigate() {
+    let searchParam = "";
+
+    searchParam += `${keyword ? "keyword=" + keyword : ""}`;
+    if (searchParam !== "" && sortKey)
+      searchParam += `&sortKey=${sortKey.key}`;
+    else if (searchParam === "" && sortKey)
+      searchParam += `sortKey=${sortKey.key}`;
+
+    props.navigate(`/search?${searchParam}`);
+    window.handleOpenOverriding(NO_STRING);
+  }
+
   return (
     <Fragment>
       <li className="navbar-search-wrapper">
         <Dropdown
           className="navbar-search-sort-options"
-          onChange={(value) => {}}
+          onChange={(key) => {
+            window.handleProductSearchSort(key, setSortKey);
+          }}
           showTitle={false}
           toggle={true}
-          values={PRODUCT_SORT_OPTIONS}
+          value={
+            sortKey?.key || PRODUCT_SORT_OPTIONS[0].key
+          }
+          values={PRODUCT_SORT_OPTIONS.map((x) => x.key)}
         />
         <Button
-          onClick={() => {
-            props.navigate("/search");
-            window.handleOpenOverriding(NO_STRING);
-          }}
+          onClick={() => handleNavigate()}
           className="navbar-search-button dark-color lighter-bg-color">
           <img
             src={SearchIcon}
@@ -32,12 +49,7 @@ export const ShowSearchBar = (props) => {
         <TextInput
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          onEnter={() => {
-            props.navigate(
-              `/search?${"keyword=" + keyword}`
-            );
-            window.handleOpenOverriding(NO_STRING);
-          }}
+          onEnter={() => handleNavigate()}
           className="navbar-search"
         />
       </li>

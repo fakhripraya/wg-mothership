@@ -779,6 +779,7 @@ export default function Home() {
               className="home-carousel-wrapper"
               ref={recommendRenderingCarouselRef}>
               <ShowGrabableCarouselCategoriesTag
+                navigate={navigate}
                 uniqueKey={"recommend-category"}
                 values={recommendedCategories}
               />

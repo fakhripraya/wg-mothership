@@ -17,6 +17,7 @@ import {
   updateCartField,
 } from "../../../utils/functions/cart";
 import { cloneDeep } from "lodash-es";
+import { MAX_BUY_QTY_TRESHOLD } from "../../../variables/constants/productDetail";
 
 const ShowItem = (props) =>
   useMemo(() => {
@@ -65,6 +66,7 @@ const ShowItem = (props) =>
             <label>{props.data.productCode}</label>
             <br />
             <TextArea
+              placeholder="Tulis catatan untuk penjual"
               onChange={(e) => {
                 const temp = cloneDeep(props.reduxDatas);
 
@@ -88,14 +90,18 @@ const ShowItem = (props) =>
             <div className="transaction-cart-other-wrapper">
               <TextInput
                 onChange={(e) => {
+                  let value = e.target.value;
                   const temp = cloneDeep(props.reduxDatas);
 
+                  if (!value) value = 0;
+                  if (value > MAX_BUY_QTY_TRESHOLD)
+                    value = MAX_BUY_QTY_TRESHOLD.toString();
                   updateCartField(
                     temp,
                     "buyQty",
                     props.login.user.userId,
                     props.data.productId,
-                    acceptNumericOnly(e.target.value)
+                    acceptNumericOnly(value)
                   );
 
                   setCartStateAndBroadcast(props.dispatch, [

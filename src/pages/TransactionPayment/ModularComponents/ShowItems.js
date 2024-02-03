@@ -17,6 +17,14 @@ const ShowItem = (props) =>
     function handleGoToProductPage() {
       window.location.href = `/product-detail?productId=${props.data.productId}`;
     }
+    function handleCheckExpeditionAvailability() {
+      const found = props.data?.availableCourierList.find(
+        (val) => props.data?.selectedCourierList === val
+      );
+
+      if (found) return props.data.selectedCourierList;
+      else return props.data.availableCourierList[0];
+    }
 
     return (
       <Fragment>
@@ -59,7 +67,7 @@ const ShowItem = (props) =>
               }}
               toggle={true}
               title="Pengiriman : "
-              value={props.data.selectedCourierList}
+              value={handleCheckExpeditionAvailability()}
               values={props.data.availableCourierList}
             />
             <br />

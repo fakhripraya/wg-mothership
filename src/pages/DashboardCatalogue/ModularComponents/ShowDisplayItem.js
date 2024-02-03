@@ -3,7 +3,6 @@ import Dropdown from "../../../components/DynamicDropdown";
 import TextInput from "../../../components/TextInput";
 import {
   ADD_CATALOGUE_INITIAL_COURIER_VALUE,
-  CATALOGUE_STOCK_TYPE_OPTIONS,
   ADD_CATALOGUE_WEIGHTUNIT_OPTIONS,
 } from "../../../variables/initial/catalogue";
 import TextArea from "../../../components/TextArea";
@@ -38,11 +37,19 @@ const ShowDisplayItem = ({
       className="dashboard-catalogue-body margin-top-12-18 dark-bg-color">
       <div className="dashboard-catalogue-body-sections">
         <div className="dashboard-catalogue-items dashboard-catalogue-body-identifier">
-          <h3 className="margin-top-0 dashboard-catalogue-body-title">
-            <span className="light-color">
-              {item.productName}
-            </span>
-          </h3>
+          <p className="margin-top-0 dashboard-catalogue-body-title">
+            <TextArea
+              value={item.productName}
+              onChange={(e) =>
+                handleTextChange(
+                  index,
+                  "productName",
+                  e.target.value
+                )
+              }
+              className="dashboard-catalogue-product-name-inputarea dark-bg-color light-color"
+            />
+          </p>
           <label className="margin-top-0 margin-bottom-0">
             {formatDateID(item.createdAt)}
           </label>
@@ -59,10 +66,9 @@ const ShowDisplayItem = ({
           </div>
         </div>
         <div className="dashboard-catalogue-items dashboard-catalogue-body-statistic">
-          <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title">
+          <p className="margin-top-0 dashboard-catalogue-body-title">
             <span className="light-color">Statistik</span>
-          </h3>
-          <br />
+          </p>
           <label className="margin-bottom-0">
             <span className="main-color">
               {formattedNumber("5222")} &nbsp;
@@ -79,10 +85,9 @@ const ShowDisplayItem = ({
         </div>
         <br />
         <div className="dashboard-catalogue-items dashboard-catalogue-pricelist">
-          <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title">
+          <p className="margin-top-0 dashboard-catalogue-body-title">
             <span className="light-color">Harga</span>
-          </h3>
-          <br />
+          </p>
           <div className="margin-top-bottom-0 dashboard-catalogue-textinput-box">
             Rp.&nbsp;
             <TextInput
@@ -96,19 +101,30 @@ const ShowDisplayItem = ({
           <br />
         </div>
         <div className="dashboard-catalogue-items dashboard-catalogue-body-stock">
-          <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title">
+          <p className="margin-top-0 dashboard-catalogue-body-title">
             <span className="light-color">Gudang</span>
-          </h3>
-          <br />
+          </p>
+          <label className="margin-bottom-0">
+            <span className="main-color">SKU</span>
+          </label>
+          <div className="dashboard-catalogue-textinput-box">
+            <TextInput
+              value={item.productSKU}
+              onChange={(e) =>
+                handleTextChange(
+                  index,
+                  "productSKU",
+                  e.target.value
+                )
+              }
+              className="dashboard-catalogue-textinput darker-bg-color light-color margin-top-bottom-8"
+            />
+          </div>
           <label className="margin-bottom-0">
             <span className="main-color">Stock</span>
           </label>
           <div className="dashboard-catalogue-textinput-box">
             <TextInput
-              style={{
-                marginTop: "8px",
-                marginBottom: "8px",
-              }}
               value={formattedNumber(item.productStocks)}
               onChange={(e) =>
                 handleNumberChange(
@@ -117,7 +133,7 @@ const ShowDisplayItem = ({
                   e
                 )
               }
-              className="dashboard-catalogue-textinput darker-bg-color light-color"
+              className="dashboard-catalogue-textinput darker-bg-color light-color margin-top-bottom-8"
             />
           </div>
           <label className="margin-bottom-0">
@@ -125,9 +141,6 @@ const ShowDisplayItem = ({
           </label>
           <div className="dashboard-catalogue-textinput-box">
             <TextInput
-              style={{
-                marginTop: "8px",
-              }}
               value={formattedNumber(
                 item.productSafetyStocks
               )}
@@ -138,34 +151,40 @@ const ShowDisplayItem = ({
                   e
                 )
               }
-              className="dashboard-catalogue-textinput darker-bg-color light-color"
+              className="dashboard-catalogue-textinput darker-bg-color light-color margin-top-bottom-8"
             />
           </div>
+          <label className="margin-bottom-0">
+            <span className="main-color">Satuan</span>
+          </label>
           <Dropdown
-            style={{
-              marginTop: "8px",
-            }}
+            className="margin-top-bottom-8"
             value={() => {
-              return item.productStockType || NO_DATA;
+              let result = handleFormatDropdownFromID(
+                item.uomId,
+                arrayDataValues.datas.productUOM
+              );
+              return result ? result.uom : NO_DATA;
             }}
             onChange={(value) => {
-              handleTextChange(
+              handleDropdownChange(
                 index,
-                "productStockType",
+                "uomId",
+                "uom",
+                "productUOM",
                 value
               );
             }}
             showTitle={false}
             toggle={true}
-            values={CATALOGUE_STOCK_TYPE_OPTIONS}
+            values={arrayDataValues.dropdowns.productUOM}
           />
         </div>
         <br />
         <div className="dashboard-catalogue-items dashboard-catalogue-expedition">
-          <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title">
+          <p className="margin-top-0 dashboard-catalogue-body-title">
             <span className="light-color">Pengantaran</span>
-          </h3>
-          <br />
+          </p>
           {JSON.parse(item.availableCourierList).map(
             (val, childIndex) => {
               return (
@@ -185,9 +204,10 @@ const ShowDisplayItem = ({
                     }
                     showTitle={false}
                     toggle={true}
-                    value={() => {
-                      return val || NO_DATA;
-                    }}
+                    value={
+                      val ||
+                      ADD_CATALOGUE_INITIAL_COURIER_VALUE
+                    }
                     values={[
                       ...arrayDataValues.dropdowns.couriers,
                     ]}
@@ -214,7 +234,7 @@ const ShowDisplayItem = ({
               handleAddComponent(
                 "availableCourierList",
                 index,
-                ADD_CATALOGUE_INITIAL_COURIER_VALUE
+                null
               )
             }
             className="dashboard-catalogue-plus-button main-bg-color">
@@ -223,10 +243,10 @@ const ShowDisplayItem = ({
         </div>
       </div>
       <div className="dashboard-catalogue-body-sections">
-        <div className="dashboard-catalogue-items dashboard-catalogue-body-info">
-          <h3 className="margin-top-0 dashboard-catalogue-body-title">
-            <span className="light-color">Info</span>
-          </h3>
+        <div className="dashboard-catalogue-items dashboard-catalogue-body-detail">
+          <p className="margin-top-0 dashboard-catalogue-body-title">
+            <span className="light-color">Detail</span>
+          </p>
           <label className="margin-bottom-0">
             <span className="main-color">Katalog</span>
           </label>
@@ -324,6 +344,25 @@ const ShowDisplayItem = ({
             />
           </div>
           <label className="margin-bottom-0">
+            <span className="main-color">Hashtag</span>
+          </label>
+          <div className="dashboard-catalogue-textinput-box margin-bottom-8">
+            <TextArea
+              style={{
+                marginTop: "8px",
+              }}
+              value={item.productHashtag}
+              onChange={(e) =>
+                handleTextChange(
+                  index,
+                  "productHashtag",
+                  e.target.value
+                )
+              }
+              className="dashboard-catalogue-longtext-area"
+            />
+          </div>
+          <label className="margin-bottom-0">
             <span className="main-color">Kondisi</span>
           </label>
           <div className="dashboard-catalogue-textinput-box">
@@ -345,9 +384,9 @@ const ShowDisplayItem = ({
         </div>
         <br />
         <div className="dashboard-catalogue-items dashboard-catalogue-body-description">
-          <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title dashboard-catalogue-description-title">
+          <p className="margin-top-0 dashboard-catalogue-body-title">
             <span className="light-color">Deskripsi</span>
-          </h3>
+          </p>
           <div className="dashboard-catalogue-description-longtext-area-box">
             <TextArea
               value={item.productDescription}
@@ -364,10 +403,9 @@ const ShowDisplayItem = ({
         </div>
         <br />
         <div className="dashboard-catalogue-items dashboard-catalogue-body-option-detail">
-          <h3 className="margin-top-0 margin-bottom-0 dashboard-catalogue-body-title">
+          <p className="margin-top-0 dashboard-catalogue-body-title">
             <span className="light-color">Opsi</span>
-          </h3>
-          <br />
+          </p>
           <p className="main-bg-color margin-top-bottom-0 dashboard-catalogue-body-option-detail-status">
             {item.status}
           </p>

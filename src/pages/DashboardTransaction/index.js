@@ -48,6 +48,7 @@ export default function DashboardTransaction(props) {
             style={{ width: "100px", maxWidth: "100px" }}
             showTitle={item.showTitle}
             toggle={item.toggle}
+            value={item.values[0]}
             values={item.values}
           />
         );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.scss";
 
 export default function Dropdown(props) {
@@ -16,6 +16,10 @@ export default function Dropdown(props) {
     props.onChange(val);
     handleOpenFilter();
   }
+
+  useEffect(() => {
+    setValue(props.value);
+  }, [props.value]);
 
   return (
     <div
