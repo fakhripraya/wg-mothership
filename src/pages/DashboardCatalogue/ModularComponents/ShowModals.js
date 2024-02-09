@@ -1,9 +1,16 @@
 import { useMemo } from "react";
 import Button from "../../../components/Button";
+import MultiUpload from "../../../components/MultiUpload";
+import {
+  ADD_CATALOGUE_FORM,
+  GENERAL_MULTIUPLOAD_LABEL,
+  GENERAL_MULTIUPLOAD_SUBLABEL,
+  JPEG_PNG,
+} from "../../../variables/global";
 
-export const ShowErrorModal = (props) => {
-  return useMemo(() => {
-    return (
+export const ShowErrorModal = (props) =>
+  useMemo(
+    () => (
       <div className="dashboard-catalogue-modal-container dark-bg-color">
         <div className="dashboard-catalogue-modal-wrapper">
           <Button
@@ -29,7 +36,69 @@ export const ShowErrorModal = (props) => {
           </label>
         </div>
       </div>
-    );
+    ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.modalToggle, props.errorMessage]);
-};
+    [props.modalToggle, props.errorMessage]
+  );
+
+export const ShowDisplayItemImagesModal = (props) =>
+  useMemo(
+    () => (
+      <div className="add-product-modal-container dark-bg-color">
+        <div className="add-product-modal-wrapper">
+          <Button
+            onClick={props.handleOpenModalUpload}
+            className="align-self-end add-product-button red-bg-color">
+            <h4 className="add-product-button-text">X</h4>
+          </Button>
+          <br />
+          <h3 className="margin-top-0 margin-bottom-12-18">
+            Upload Foto Terbaru Produkmu Disini
+          </h3>
+          <MultiUpload
+            formName={ADD_CATALOGUE_FORM}
+            base64s={
+              props.imagesData?.[props.item.id] || []
+            }
+            setBase64s={(state) =>
+              props.handleSetImagesData(
+                props.item.id,
+                state
+              )
+            }
+            rejected={props.rejectedImagesData}
+            setRejected={props.setRejectedImagesData}
+            handleRemoveImageUpload={(index) => {
+              let temp = [
+                ...props.imagesData?.[props.item.id],
+              ];
+
+              if (temp.length === 1)
+                return alert("Minimal harus ada 1 foto");
+              temp.splice(index, 1);
+              props.handleSetImagesData(
+                props.item.id,
+                temp
+              );
+            }}
+            maxLength={5}
+            maxSize={5 * 1000 * 1000} //5mb
+            extensions={JPEG_PNG}
+            label={GENERAL_MULTIUPLOAD_LABEL}
+            subLabel={GENERAL_MULTIUPLOAD_SUBLABEL(
+              JPEG_PNG
+            )}
+            additionalElement={
+              <span className="red-color">MAX 5 FILE</span>
+            }
+          />
+        </div>
+      </div>
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      props.imagesData,
+      props.rejectedImagesData,
+      props.modalImagesUploadToggle,
+    ]
+  );

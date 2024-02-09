@@ -30,6 +30,8 @@ import {
   DASHBOARD_CATALOG,
   LOGIN,
   NO_DATA,
+  PRODUCT_CATALOGUE_ADDITIONAL_FILES,
+  PRODUCT_CATALOGUE_IMAGE,
   URL_GET_CATALOGUE_DATA,
   URL_GET_CATEGORIES,
   URL_GET_COURIERS,
@@ -44,6 +46,8 @@ import ShowDisplayItem from "./ModularComponents/ShowDisplayItem";
 import cloneDeep from "lodash-es/cloneDeep";
 import SearchIcon from "../../assets/svg/search-icon.svg";
 import { authInterceptor } from "../../utils/functions/credentials";
+import { isEqual } from "lodash-es";
+import { getBase64FromImagesUrl } from "../../utils/functions/asynchronous";
 
 export default function DashboardCatalogue(props) {
   // HOOK
@@ -51,15 +55,26 @@ export default function DashboardCatalogue(props) {
   const itemPerPage = 5;
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
+  const [imagesData, setImagesData] = useState({});
+  const [filesData, setFilesData] = useState({});
   const [fetchedDatas, setFetchedDatas] = useState(
     ADD_CATALOGUE_INITIAL_FETCHED_DATAS
   );
   const [defaultResponse, setDefaultResponse] = useState(
     []
   );
+  const [defaultImagesData, setDefaultImagesData] =
+    useState({});
+  const [defaultFilesData, setDefaultFilesData] = useState(
+    {}
+  );
   const [isNextShow, setIsNextShow] = useState(true);
   const [isPrevShow, setIsPrevShow] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isUpdatingImages, setIsUpdatingImages] =
+    useState(false);
+  const [isUpdatingFiles, setIsUpdatingFiles] =
+    useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const axiosService = useAxios();
   const [modalToggle, setModalToggle] = useState(false);
@@ -111,15 +126,14 @@ export default function DashboardCatalogue(props) {
 
   // FUNCTIONS SPECIFIC //
   function handleMapResponses(array) {
-    // set loading false after recieving the response
-    setIsLoading(false);
-
     // map the responses to the states
     if (array[0].responseData.result.length > 0) {
-      setDefaultResponse(
-        cloneDeep(array[0].responseData.result)
-      );
-      setData(cloneDeep(array[0].responseData.result));
+      const result = array[0].responseData.result;
+
+      // both cloned deep to prevent having the same reference
+      handleGetFilesAsync(result);
+      setDefaultResponse(cloneDeep(result));
+      setData(cloneDeep(result));
     }
 
     let [fct, fcs, fcr, fuom] = [
@@ -154,6 +168,9 @@ export default function DashboardCatalogue(props) {
     setIsPrevShow(
       array[0].responseData.instructions.isPrev
     );
+
+    // set loading false after doing all the process
+    setIsLoading(false);
   }
 
   function handleFetchedDataDropdowns(data) {
@@ -172,11 +189,6 @@ export default function DashboardCatalogue(props) {
     return temp.map((obj) => obj[property]);
   }
 
-  function setDataAndUpdate(value) {
-    setIsUpdating(true);
-    setData(value);
-  }
-
   function handleOpenDetail(item, navigate) {
     navigate(`/product-detail?productId=${item.id}`);
   }
@@ -189,16 +201,14 @@ export default function DashboardCatalogue(props) {
 
   function handleUpdateProducts() {
     let objToBeUpdated = [];
+
     for (let i = 0; i < defaultResponse.length; i++) {
       const temp = defaultResponse[i];
       const compare = data.find(
         (val) => val.id === temp.id
       );
 
-      if (
-        compare &&
-        JSON.stringify(compare) !== JSON.stringify(temp)
-      )
+      if (compare && !isEqual(compare, temp))
         objToBeUpdated.push(compare);
     }
 
@@ -231,6 +241,10 @@ export default function DashboardCatalogue(props) {
       "products",
       JSON.stringify(targetUpdates)
     );
+    // formData.append(
+    //   "imageDatas",
+    //   image
+    // );
 
     axiosService
       .patchDataWithOnRequestInterceptors(
@@ -255,23 +269,33 @@ export default function DashboardCatalogue(props) {
       });
   }
 
-  function handleCancelUpdateProducts() {
+  function handleSetDataToUpdate(value) {
+    if (isEqual(defaultResponse, data))
+      setIsUpdating(false);
+    else {
+      setIsUpdating(true);
+      setData(value);
+    }
+  }
+
+  function handleClearDataToUpdate() {
     setData(cloneDeep(defaultResponse));
+    setImagesData(cloneDeep(defaultImagesData));
+    setFilesData(cloneDeep(defaultFilesData));
     setIsUpdating(false);
   }
 
   function handleNumberChange(index, field, event) {
     const temp = [...data];
-    temp[index][field] = unformattedNumber(
-      event.target.value
-    );
-    setDataAndUpdate(temp);
+    const targetValue = event.target.value;
+    temp[index][field] = unformattedNumber(targetValue);
+    handleSetDataToUpdate(temp);
   }
 
   function handleTextChange(index, field, value) {
     const temp = [...data];
     temp[index][field] = value;
-    setDataAndUpdate(temp);
+    handleSetDataToUpdate(temp);
   }
 
   function handleDropdownChange(
@@ -291,7 +315,7 @@ export default function DashboardCatalogue(props) {
     );
 
     temp[index][field] = found.id;
-    setDataAndUpdate(temp);
+    handleSetDataToUpdate(temp);
   }
 
   function handleEditComponent(
@@ -305,7 +329,7 @@ export default function DashboardCatalogue(props) {
 
     targetVal[targetIndex] = value;
     temp[parentIndex][field] = JSON.stringify(targetVal);
-    setDataAndUpdate(temp);
+    handleSetDataToUpdate(temp);
   }
 
   function handleAddComponent(
@@ -318,7 +342,7 @@ export default function DashboardCatalogue(props) {
     targetVal.push(defaultValue);
 
     temp[parentIndex][field] = JSON.stringify(targetVal);
-    setDataAndUpdate(temp);
+    handleSetDataToUpdate(temp);
   }
 
   function handleRemoveComponent(
@@ -331,17 +355,35 @@ export default function DashboardCatalogue(props) {
     targetVal.splice(targetIndex, 1);
 
     temp[parentIndex][field] = JSON.stringify(targetVal);
-    setDataAndUpdate(temp);
+    handleSetDataToUpdate(temp);
+  }
+
+  function handleSetImagesData(id, state) {
+    let temp = cloneDeep(imagesData);
+    temp[id] = state;
+    setImagesData(temp);
+    setIsUpdating(true);
+    setIsUpdatingImages(true);
+  }
+
+  function handleSetFilesData(state) {
+    setFilesData(state);
+    setIsUpdating(true);
+    setIsUpdatingFiles(true);
   }
 
   function handleNextPage() {
     setPage(page + 1);
     setIsUpdating(false);
+    setIsLoading(true);
+    setData([]);
   }
 
   function handlePrevPage() {
     if (page > 0) setPage(page - 1);
     setIsUpdating(false);
+    setIsLoading(true);
+    setData([]);
   }
 
   function handleAxiosError(error) {
@@ -360,6 +402,64 @@ export default function DashboardCatalogue(props) {
         setModalToggle,
         modalToggle
       );
+  }
+
+  async function handleGetFilesAsync(result) {
+    let fetchedImageDatas = {};
+    let fetchedFileDatas = {};
+    for (let index = 0; index < result.length; index++) {
+      const current = result[index];
+      const mappedFileInfos = current.MasterFiles.reduce(
+        (acc, val) => {
+          let targetFile = {
+            fileId: val.id,
+            fileName: val.filename,
+            fileType: val.fileType,
+            mimeType: val.mimetype,
+          };
+          if (val.fileType === PRODUCT_CATALOGUE_IMAGE) {
+            acc[PRODUCT_CATALOGUE_IMAGE].push(targetFile);
+          } else if (
+            val.fileType ===
+            PRODUCT_CATALOGUE_ADDITIONAL_FILES
+          ) {
+            acc[PRODUCT_CATALOGUE_ADDITIONAL_FILES].push(
+              targetFile
+            );
+          }
+          return acc;
+        },
+        {
+          [PRODUCT_CATALOGUE_IMAGE]: [],
+          [PRODUCT_CATALOGUE_ADDITIONAL_FILES]: [],
+        }
+      );
+
+      await Promise.all([
+        getBase64FromImagesUrl(
+          axiosService,
+          mappedFileInfos[PRODUCT_CATALOGUE_IMAGE]
+        ),
+        getBase64FromImagesUrl(
+          axiosService,
+          mappedFileInfos[
+            PRODUCT_CATALOGUE_ADDITIONAL_FILES
+          ]
+        ),
+      ])
+        .then((response) => {
+          fetchedImageDatas[current.id] =
+            response[0].responseData;
+          fetchedFileDatas[current.id] =
+            response[1].responseData;
+        })
+        .catch((error) => console.error(error));
+    }
+
+    setImagesData(cloneDeep(fetchedImageDatas));
+    setDefaultImagesData(cloneDeep(fetchedImageDatas));
+    setFilesData(cloneDeep(fetchedFileDatas));
+    setDefaultFilesData(cloneDeep(fetchedFileDatas));
   }
 
   // COMPONENTS SPECIFIC //
@@ -506,7 +606,7 @@ export default function DashboardCatalogue(props) {
                   </span>
                 </ShowAlterButton>
                 <ShowAlterButton
-                  onClick={handleCancelUpdateProducts}
+                  onClick={handleClearDataToUpdate}
                   className="dashboard-catalogue-update-button red-bg-color">
                   <span className="light-color">
                     Cancel
@@ -515,28 +615,28 @@ export default function DashboardCatalogue(props) {
               </Fragment>
             )}
           </div>
-          {data.map((item, index) => {
-            return (
-              <ShowDisplayItem
-                key={index}
-                item={item}
-                index={index}
-                formatDateID={formatDateID}
-                formattedNumber={formattedNumber}
-                handleTextChange={handleTextChange}
-                handleDropdownChange={handleDropdownChange}
-                handleNumberChange={handleNumberChange}
-                handleOpenDetail={handleOpenDetail}
-                handleAddComponent={handleAddComponent}
-                handleEditComponent={handleEditComponent}
-                handleRemoveComponent={
-                  handleRemoveComponent
-                }
-                arrayDataValues={fetchedDatas}
-                navigate={navigate}
-              />
-            );
-          })}
+          {data?.map((item, index) => (
+            <ShowDisplayItem
+              key={index}
+              item={item}
+              index={index}
+              formatDateID={formatDateID}
+              formattedNumber={formattedNumber}
+              imagesData={imagesData}
+              filesData={filesData}
+              handleSetImagesData={handleSetImagesData}
+              handleSetFilesData={handleSetFilesData}
+              handleTextChange={handleTextChange}
+              handleDropdownChange={handleDropdownChange}
+              handleNumberChange={handleNumberChange}
+              handleOpenDetail={handleOpenDetail}
+              handleAddComponent={handleAddComponent}
+              handleEditComponent={handleEditComponent}
+              handleRemoveComponent={handleRemoveComponent}
+              arrayDataValues={fetchedDatas}
+              navigate={navigate}
+            />
+          ))}
           <ShowResultMessage />
           {!isLoading && data.length > 0 && (
             <div className="dashboard-catalogue-paging justify-center">

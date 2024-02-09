@@ -60,15 +60,13 @@ export function smoothScrollTop() {
   });
 }
 
-export const getBase64 = (file) => {
-  // file reader is a promise
-  return new Promise((resolve, reject) => {
+export const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
     reader.readAsDataURL(file);
   });
-};
 
 export const b64toBlob = (
   b64Data,

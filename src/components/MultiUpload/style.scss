@@ -11,7 +11,8 @@
   box-sizing: border-box;
   text-overflow: ellipsis;
   white-space: break-spaces;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .multi-upload-picture-field {
@@ -44,8 +45,9 @@
 }
 
 .multi-upload-file-text {
-  margin-left: 12px;
+  margin: 0px 12px;
   font-weight: bold;
+  word-break: break-all;
 }
 
 .multi-upload-file-list-container {
@@ -64,7 +66,12 @@
 }
 
 .multi-upload-file-img {
-  height: 50px;
+  height: 75px;
+  max-height: 75px;
+  min-height: 75px;
+  width: 75px;
+  max-width: 75px;
+  min-width: 75px;
 }
 
 .multi-upload-red {

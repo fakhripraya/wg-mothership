@@ -163,6 +163,10 @@ export const URL_GET_CATEGORIES = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSIO
 export const URL_GET_COURIERS = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/couriers`;
 export const URL_GET_UOM = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/uom`;
 
+// CHRONOS SERVICE ROUTE
+export const URL_GET_FILE = `/v1/file`;
+export const URL_GET_FILES = `/v1/files`;
+
 // USER RDP ROLE
 export const HOST = "HOST";
 export const PEER = "PEER";

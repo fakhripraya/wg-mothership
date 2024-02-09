@@ -10,6 +10,19 @@ import {
 import FileIcon from "../../assets/svg/file.svg";
 import Button from "../Button";
 
+// TODO: current flow is using base64,
+// analyze whether or not blob is able to be implemented with this flow
+export const defaultHandleRemoveImageUpload = (
+  base64s,
+  setBase64s,
+  index
+) => {
+  // Use splice to remove the item at the specified index
+  let temp = [...base64s];
+  temp.splice(index, 1);
+  setBase64s(temp);
+};
+
 export const AcceptedFileItems = (props) =>
   props.base64s?.length > 0 && (
     <Fragment>
@@ -31,16 +44,20 @@ export const AcceptedFileItems = (props) =>
               alt={file.name}
             />
             <label className="multi-upload-file-text">
-              {file.name} - {formattedNumber(file.size)}{" "}
-              bytes
+              {file.name} - ({formattedNumber(file.size)}{" "}
+              bytes)
             </label>
           </li>
           <Button
             onClick={() => {
-              // Use splice to remove the item at the specified index
-              let temp = [...props.base64s];
-              temp.splice(index, 1);
-              props.setBase64s(temp);
+              if (props.handleRemoveImageUpload)
+                props.handleRemoveImageUpload(index);
+              else
+                defaultHandleRemoveImageUpload(
+                  props.base64s,
+                  props.setBase64s,
+                  index
+                );
             }}
             className="justify-flex-end multi-upload-button red-bg-color">
             <h4 className="multi-upload-button-text">X</h4>
@@ -89,47 +106,42 @@ export default function MultiUpload(props) {
     validator: multiFileValidator,
   });
 
-  function onDropRejected(rejectedFiles) {
-    (async function () {
-      const fileRejections = rejectedFiles;
-      const proceed =
-        fileRejections.length > 0 ? true : false;
-      const temp = [];
-      for (var i = 0; fileRejections.length > i; i++) {
-        const converted = await getBase64(
-          fileRejections[i].file
-        );
-        temp.push({
-          file: {
-            name: fileRejections[i].file.name,
-            type: fileRejections[i].file.type,
-            size: fileRejections[i].file.size,
-            base64: converted,
-          },
-          errors: fileRejections[i].errors,
-        });
-      }
-      if (proceed) props.setRejected([...temp]);
-    })();
+  async function onDropRejected(rejectedFiles) {
+    const fileRejections = rejectedFiles;
+    const proceed =
+      fileRejections.length > 0 ? true : false;
+    const temp = [];
+    for (var i = 0; fileRejections.length > i; i++) {
+      const converted = await getBase64(
+        fileRejections[i].file
+      );
+      temp.push({
+        file: {
+          name: fileRejections[i].file.name,
+          type: fileRejections[i].file.type,
+          size: fileRejections[i].file.size,
+          base64: converted,
+        },
+        errors: fileRejections[i].errors,
+      });
+    }
+    if (proceed) props.setRejected([...temp]);
   }
 
-  function onDropAccepted(acceptedFiles) {
-    (async function () {
-      const proceed =
-        acceptedFiles.length > 0 ? true : false;
-      const temp = [...props.base64s];
-      for (var i = 0; acceptedFiles.length > i; i++) {
-        if (temp.length >= props.maxLength) break;
-        const converted = await getBase64(acceptedFiles[i]);
-        temp.push({
-          name: acceptedFiles[i].name,
-          type: acceptedFiles[i].type,
-          size: acceptedFiles[i].size,
-          base64: converted,
-        });
-      }
-      if (proceed) props.setBase64s(temp);
-    })();
+  async function onDropAccepted(acceptedFiles) {
+    const proceed = acceptedFiles.length > 0 ? true : false;
+    const temp = [...props.base64s];
+    for (var i = 0; acceptedFiles.length > i; i++) {
+      if (temp.length >= props.maxLength) break;
+      const converted = await getBase64(acceptedFiles[i]);
+      temp.push({
+        name: acceptedFiles[i].name,
+        type: acceptedFiles[i].type,
+        size: acceptedFiles[i].size,
+        base64: converted,
+      });
+    }
+    if (proceed) props.setBase64s(temp);
   }
 
   function multiFileValidator(file) {
@@ -184,6 +196,9 @@ export default function MultiUpload(props) {
         <AcceptedFileItems
           base64s={props.base64s}
           setBase64s={props.setBase64s}
+          handleRemoveImageUpload={
+            props.handleRemoveImageUpload
+          }
         />
       </div>
       <div className="multi-upload-picture-list">
