@@ -57,10 +57,8 @@ export const ShowDisplayItemImagesModal = (props) =>
           </h3>
           <MultiUpload
             formName={ADD_CATALOGUE_FORM}
-            base64s={
-              props.imagesData?.[props.item.id] || []
-            }
-            setBase64s={(state) =>
+            files={props.imagesData?.[props.item.id] || []}
+            setFiles={(state) =>
               props.handleSetImagesData(
                 props.item.id,
                 state
@@ -75,10 +73,15 @@ export const ShowDisplayItemImagesModal = (props) =>
 
               if (temp.length === 1)
                 return alert("Minimal harus ada 1 foto");
-              temp.splice(index, 1);
+
+              const spliced = temp.splice(index, 1);
               props.handleSetImagesData(
                 props.item.id,
                 temp
+              );
+              props.handleRemovedImagesData(
+                props.item.id,
+                spliced
               );
             }}
             maxLength={5}

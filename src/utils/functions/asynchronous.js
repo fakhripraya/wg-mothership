@@ -205,7 +205,7 @@ export async function handleShowVillages(
     );
 }
 
-export const getBase64FromImageUrl = async (
+export const getFilesFromImageUrl = async (
   service,
   fileInfo
 ) => {
@@ -255,7 +255,7 @@ export const getBase64FromImageUrl = async (
   }
 };
 
-export const getBase64FromImagesUrl = async (
+export const getFilesFromImagesUrl = async (
   service,
   fileInfos
 ) => {

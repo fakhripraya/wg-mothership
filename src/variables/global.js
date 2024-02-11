@@ -1,6 +1,15 @@
 // GLOBAL STRING
 export const NO_STRING = "";
 export const NO_DATA = "No Data";
+export const UPLOADED_UPDATE_IMAGE_FILES =
+  "uploadedUpdateImageFiles";
+export const UPLOADED_UPDATE_ADDITIONAL_FILES =
+  "uploadedUpdateAdditionalFiles";
+export const UPLOADED_IMAGE_FILES = "uploadedImageFiles";
+export const UPLOADED_ADDITIONAL_FILES =
+  "uploadedAdditionalFiles";
+export const UPLOADED_STORE_PROFILE_PICTURE =
+  "uploadedStoreProfilePicture";
 export const ADMIN_FEE = 1500;
 export const GENERAL_MULTIUPLOAD_LABEL =
   "Geser file dan masukkan file ke box ini atau klik untuk pilih file";

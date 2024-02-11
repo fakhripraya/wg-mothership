@@ -4,7 +4,6 @@ import { useDropzone } from "react-dropzone";
 import UploadIcon from "../../assets/svg/upload-image.svg";
 import {
   formattedNumber,
-  getBase64,
   isImageType,
 } from "../../utils/functions/global";
 import FileIcon from "../../assets/svg/file.svg";
@@ -13,21 +12,27 @@ import Button from "../Button";
 // TODO: current flow is using base64,
 // analyze whether or not blob is able to be implemented with this flow
 export const defaultHandleRemoveImageUpload = (
-  base64s,
-  setBase64s,
+  files,
+  setFiles,
   index
 ) => {
   // Use splice to remove the item at the specified index
-  let temp = [...base64s];
+  let temp = [...files];
   temp.splice(index, 1);
-  setBase64s(temp);
+  setFiles(temp);
+};
+
+export const defineFileSrc = (file) => {
+  if (file.blob) return URL.createObjectURL(file.blob);
+  if (file.base64) return file.base64;
+  if (file.url) return file.url;
 };
 
 export const AcceptedFileItems = (props) =>
-  props.base64s?.length > 0 && (
+  props.files?.length > 0 && (
     <Fragment>
       <h3>File Diterima</h3>
-      {props.base64s.map((file, index) => (
+      {props.files.map((file, index) => (
         <div
           key={`multi-upload-file-${props.uniqueKey}-${index}`}
           className="multi-upload-file-list-container">
@@ -38,7 +43,7 @@ export const AcceptedFileItems = (props) =>
               className="multi-upload-file-img"
               src={
                 isImageType(file.type)
-                  ? file.base64
+                  ? defineFileSrc(file)
                   : FileIcon
               }
               alt={file.name}
@@ -54,8 +59,8 @@ export const AcceptedFileItems = (props) =>
                 props.handleRemoveImageUpload(index);
               else
                 defaultHandleRemoveImageUpload(
-                  props.base64s,
-                  props.setBase64s,
+                  props.files,
+                  props.setFiles,
                   index
                 );
             }}
@@ -79,7 +84,7 @@ export const FileRejectionItems = (props) =>
             className="multi-upload-file-img"
             src={
               isImageType(file.type)
-                ? file.base64
+                ? defineFileSrc(file)
                 : FileIcon
             }
             alt={file.name}
@@ -112,15 +117,12 @@ export default function MultiUpload(props) {
       fileRejections.length > 0 ? true : false;
     const temp = [];
     for (var i = 0; fileRejections.length > i; i++) {
-      const converted = await getBase64(
-        fileRejections[i].file
-      );
       temp.push({
         file: {
           name: fileRejections[i].file.name,
           type: fileRejections[i].file.type,
           size: fileRejections[i].file.size,
-          base64: converted,
+          blob: fileRejections[i].file,
         },
         errors: fileRejections[i].errors,
       });
@@ -130,18 +132,17 @@ export default function MultiUpload(props) {
 
   async function onDropAccepted(acceptedFiles) {
     const proceed = acceptedFiles.length > 0 ? true : false;
-    const temp = [...props.base64s];
+    const temp = [...props.files];
     for (var i = 0; acceptedFiles.length > i; i++) {
       if (temp.length >= props.maxLength) break;
-      const converted = await getBase64(acceptedFiles[i]);
       temp.push({
         name: acceptedFiles[i].name,
         type: acceptedFiles[i].type,
         size: acceptedFiles[i].size,
-        base64: converted,
+        blob: acceptedFiles[i],
       });
     }
-    if (proceed) props.setBase64s(temp);
+    if (proceed) props.setFiles(temp);
   }
 
   function multiFileValidator(file) {
@@ -194,8 +195,8 @@ export default function MultiUpload(props) {
       </div>
       <div className="multi-upload-picture-list">
         <AcceptedFileItems
-          base64s={props.base64s}
-          setBase64s={props.setBase64s}
+          files={props.files}
+          setFiles={props.setFiles}
           handleRemoveImageUpload={
             props.handleRemoveImageUpload
           }

@@ -31,6 +31,8 @@ import {
   LOGIN,
   NO_DATA,
   PDF,
+  UPLOADED_ADDITIONAL_FILES,
+  UPLOADED_IMAGE_FILES,
   URL_GET_CATALOGUE_DATA,
   URL_GET_CATEGORIES,
   URL_GET_COURIERS,
@@ -343,14 +345,14 @@ export default function AddProduct() {
     for (var i = 0; maxLengthUpload > i; i++) {
       if (productPictures[i])
         formData.append(
-          "uploadedImageFiles",
-          b64toBlob(productPictures[i].base64),
+          UPLOADED_IMAGE_FILES,
+          productPictures[i].blob,
           productPictures[i].name
         );
       if (additionalDocuments[i])
         formData.append(
-          "uploadedAdditionalFiles",
-          b64toBlob(additionalDocuments[i].base64),
+          UPLOADED_ADDITIONAL_FILES,
+          additionalDocuments[i].blob,
           additionalDocuments[i].name
         );
     }
@@ -368,7 +370,7 @@ export default function AddProduct() {
         errorModalToggle
       );
 
-    // Process raw data and base64s to be sent via POST request
+    // Process raw data and files to be sent via POST request
     const formData = handleCreateFormData();
 
     // Post data
@@ -614,8 +616,8 @@ export default function AddProduct() {
               </label>
               <AcceptedFileItems
                 uniqueKey="product-image-upload"
-                base64s={productPictures}
-                setBase64s={setProductPictures}
+                files={productPictures}
+                setFiles={setProductPictures}
               />
               <FileRejectionItems
                 rejected={rejectedProductPictures}
@@ -892,8 +894,8 @@ export default function AddProduct() {
               <MultiUpload
                 formName={ADD_CATALOGUE_FORM}
                 customIcon={AgreementIcon}
-                base64s={additionalDocuments}
-                setBase64s={setAdditionalDocuments}
+                files={additionalDocuments}
+                setFiles={setAdditionalDocuments}
                 rejected={rejectedAdditionalDocuments}
                 setRejected={setRejectedAdditionalDocuments}
                 maxLength={5}

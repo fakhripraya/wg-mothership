@@ -18,12 +18,11 @@ import {
   CONTENT_TYPE,
   IS_OTP_VERIFIED,
   LOGIN,
+  UPLOADED_STORE_PROFILE_PICTURE,
   URL_POST_ADD_USER_STORE,
   X_SID,
 } from "../../variables/global";
 import {
-  b64toBlob,
-  getBase64,
   handleError500,
   handleErrorMessage,
   handleOpenOverridingHome,
@@ -114,11 +113,10 @@ export default function AddStore() {
   // to handle the user-selected file
   async function handleUploadChange(event) {
     const fileUploaded = event.target.files[0];
-    const converted = await getBase64(fileUploaded);
     setProfilePicture({
       name: fileUploaded.name,
       size: fileUploaded.size,
-      base64: converted,
+      blob: fileUploaded,
     });
   }
 
@@ -181,8 +179,8 @@ export default function AddStore() {
     );
     profilePicture &&
       formData.append(
-        "uploadedStoreProfilePicture",
-        b64toBlob(profilePicture.base64),
+        UPLOADED_STORE_PROFILE_PICTURE,
+        profilePicture.blob,
         profilePicture.name
       );
 
@@ -384,7 +382,9 @@ export default function AddStore() {
                     round={true}
                     src={
                       profilePicture &&
-                      profilePicture.base64
+                      URL.createObjectURL(
+                        profilePicture.blob
+                      )
                     }
                     size={150}
                     title={data.storeName}

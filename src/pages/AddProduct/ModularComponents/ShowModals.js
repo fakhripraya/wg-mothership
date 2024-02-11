@@ -103,8 +103,8 @@ export const ShowUploadModal = (props) => (
       </h3>
       <MultiUpload
         formName={ADD_CATALOGUE_FORM}
-        base64s={props.productPictures}
-        setBase64s={props.setProductPictures}
+        files={props.productPictures}
+        setFiles={props.setProductPictures}
         rejected={props.rejectedProductPictures}
         setRejected={props.setRejectedProductPictures}
         maxLength={5}

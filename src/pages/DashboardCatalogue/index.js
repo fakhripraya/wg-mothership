@@ -32,6 +32,8 @@ import {
   NO_DATA,
   PRODUCT_CATALOGUE_ADDITIONAL_FILES,
   PRODUCT_CATALOGUE_IMAGE,
+  UPLOADED_UPDATE_ADDITIONAL_FILES,
+  UPLOADED_UPDATE_IMAGE_FILES,
   URL_GET_CATALOGUE_DATA,
   URL_GET_CATEGORIES,
   URL_GET_COURIERS,
@@ -47,7 +49,7 @@ import cloneDeep from "lodash-es/cloneDeep";
 import SearchIcon from "../../assets/svg/search-icon.svg";
 import { authInterceptor } from "../../utils/functions/credentials";
 import { isEqual } from "lodash-es";
-import { getBase64FromImagesUrl } from "../../utils/functions/asynchronous";
+import { getFilesFromImagesUrl } from "../../utils/functions/asynchronous";
 
 export default function DashboardCatalogue(props) {
   // HOOK
@@ -56,7 +58,12 @@ export default function DashboardCatalogue(props) {
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
   const [imagesData, setImagesData] = useState({});
+  const [removedImagesData, setRemovedImagesData] =
+    useState({});
   const [filesData, setFilesData] = useState({});
+  const [removedFilesData, setRemovedFilesData] = useState(
+    {}
+  );
   const [fetchedDatas, setFetchedDatas] = useState(
     ADD_CATALOGUE_INITIAL_FETCHED_DATAS
   );
@@ -201,6 +208,8 @@ export default function DashboardCatalogue(props) {
 
   function handleUpdateProducts() {
     let objToBeUpdated = [];
+    let updatedImagesData = [];
+    let updatedFilesData = [];
 
     for (let i = 0; i < defaultResponse.length; i++) {
       const temp = defaultResponse[i];
@@ -236,15 +245,22 @@ export default function DashboardCatalogue(props) {
       {}
     );
 
-    const formData = new FormData();
-    formData.append(
-      "products",
-      JSON.stringify(targetUpdates)
-    );
-    // formData.append(
-    //   "imageDatas",
-    //   image
-    // );
+    let payload = {
+      products: targetUpdates,
+    };
+
+    if (isUpdatingImages)
+      payload = {
+        ...payload,
+        [UPLOADED_UPDATE_IMAGE_FILES]:
+          JSON.stringify(imagesData),
+      };
+    if (isUpdatingFiles)
+      payload = {
+        ...payload,
+        [UPLOADED_UPDATE_ADDITIONAL_FILES]:
+          JSON.stringify(filesData),
+      };
 
     axiosService
       .patchDataWithOnRequestInterceptors(
@@ -253,9 +269,9 @@ export default function DashboardCatalogue(props) {
           url: URL_PATCH_STORE_PRODUCT(storeId),
           headers: {
             ...defaultConfigs.headers,
-            [CONTENT_TYPE]: "multipart/form-data",
+            [CONTENT_TYPE]: "application/json",
           },
-          data: formData,
+          data: payload,
         },
         async () =>
           await authInterceptor(axiosService, cookies)
@@ -263,14 +279,18 @@ export default function DashboardCatalogue(props) {
       .then(() => {
         setDefaultResponse(cloneDeep(data));
         setIsUpdating(false);
+        setIsUpdatingImages(false);
+        setIsUpdatingFiles(false);
       })
-      .catch((error) => {
-        handleAxiosError(error);
-      });
+      .catch((err) => console.error(err));
+    // .catch((error) => handleAxiosError(error));
   }
 
   function handleSetDataToUpdate(value) {
-    if (isEqual(defaultResponse, data))
+    if (
+      isEqual(defaultResponse, data) &&
+      !(isUpdatingImages || isUpdatingFiles)
+    )
       setIsUpdating(false);
     else {
       setIsUpdating(true);
@@ -281,8 +301,12 @@ export default function DashboardCatalogue(props) {
   function handleClearDataToUpdate() {
     setData(cloneDeep(defaultResponse));
     setImagesData(cloneDeep(defaultImagesData));
+    setRemovedImagesData([]);
     setFilesData(cloneDeep(defaultFilesData));
+    setRemovedImagesData([]);
     setIsUpdating(false);
+    setIsUpdatingImages(false);
+    setIsUpdatingFiles(false);
   }
 
   function handleNumberChange(index, field, event) {
@@ -366,10 +390,28 @@ export default function DashboardCatalogue(props) {
     setIsUpdatingImages(true);
   }
 
-  function handleSetFilesData(state) {
+  function handleRemovedImagesData(id, state) {
+    let temp = cloneDeep(removedImagesData);
+    temp[id] = state;
+    setRemovedImagesData(temp);
+    setIsUpdating(true);
+    setIsUpdatingImages(true);
+  }
+
+  function handleSetFilesData(id, state) {
+    let temp = cloneDeep(filesData);
+    temp[id] = state;
     setFilesData(state);
     setIsUpdating(true);
     setIsUpdatingFiles(true);
+  }
+
+  function handleRemovedFilesData(id, state) {
+    let temp = cloneDeep(removedFilesData);
+    temp[id] = state;
+    setRemovedFilesData(temp);
+    setIsUpdating(true);
+    setIsUpdatingImages(true);
   }
 
   function handleNextPage() {
@@ -436,11 +478,11 @@ export default function DashboardCatalogue(props) {
       );
 
       await Promise.all([
-        getBase64FromImagesUrl(
+        getFilesFromImagesUrl(
           axiosService,
           mappedFileInfos[PRODUCT_CATALOGUE_IMAGE]
         ),
-        getBase64FromImagesUrl(
+        getFilesFromImagesUrl(
           axiosService,
           mappedFileInfos[
             PRODUCT_CATALOGUE_ADDITIONAL_FILES
@@ -625,7 +667,13 @@ export default function DashboardCatalogue(props) {
               imagesData={imagesData}
               filesData={filesData}
               handleSetImagesData={handleSetImagesData}
+              handleRemovedImagesData={
+                handleRemovedImagesData
+              }
               handleSetFilesData={handleSetFilesData}
+              handleRemovedFilesData={
+                handleRemovedFilesData
+              }
               handleTextChange={handleTextChange}
               handleDropdownChange={handleDropdownChange}
               handleNumberChange={handleNumberChange}

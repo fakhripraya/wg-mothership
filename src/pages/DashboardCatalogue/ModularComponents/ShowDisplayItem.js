@@ -12,6 +12,7 @@ import Modal from "../../../components/Modal";
 import { ShowDisplayItemImagesModal } from "./ShowModals";
 import { handleOpenModal } from "../../../utils/functions/global";
 import SkeletonWrapper from "../../../components/SkeletonWrapper";
+import { defineFileSrc } from "../../../components/MultiUpload";
 
 function handleFormatDropdownFromID(id, array) {
   const found = array.find((val) => val.id === id);
@@ -30,7 +31,10 @@ const ShowDisplayItemImages = (props) => {
         dependencyData={mappedImages}>
         <img
           className="content-wrapper"
-          src={mappedImages?.[0]?.base64}
+          src={
+            mappedImages?.[0] &&
+            defineFileSrc(mappedImages[0])
+          }
           alt={mappedImages?.[0]?.name}
           onClick={() => props.handleOpenModalUpload()}
         />
@@ -53,7 +57,7 @@ const ShowDisplayItemImages = (props) => {
               <img
                 key={`dashboard-catalogue-img-${props.item.productName}-${index}`}
                 className="dashboard-catalogue-identifier-sub-img cursor-pointer"
-                src={val.base64}
+                src={defineFileSrc(val)}
                 alt={val.name}
                 onClick={() =>
                   props.handleOpenModalUpload()
@@ -74,7 +78,9 @@ const ShowDisplayItem = ({
   imagesData,
   filesData,
   handleSetImagesData,
+  handleRemovedImagesData,
   handleSetFilesData,
+  handleRemovedFilesData,
   handleTextChange,
   handleDropdownChange,
   handleNumberChange,
@@ -111,6 +117,7 @@ const ShowDisplayItem = ({
           item={item}
           imagesData={imagesData}
           handleSetImagesData={handleSetImagesData}
+          handleRemovedImagesData={handleRemovedImagesData}
           rejectedImagesData={rejectedImagesData}
           setRejectedImagesData={setRejectedImagesData}
           modalImagesUploadToggle={modalImagesUploadToggle}
