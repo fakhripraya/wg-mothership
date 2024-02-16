@@ -485,6 +485,15 @@
   transition: all 0.3s ease-in-out;
 }
 
+.dashboard-catalogue-body-remove-button-wrapper {
+  display: flex;
+  flex-direction: row;
+
+  > * {
+    width: 100%;
+  }
+}
+
 .dashboard-catalogue-body-option-button:hover {
   opacity: 0.65;
 }

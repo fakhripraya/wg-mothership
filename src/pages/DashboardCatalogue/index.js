@@ -28,10 +28,13 @@ import {
   CLIENT_USER_INFO,
   CONTENT_TYPE,
   DASHBOARD_CATALOG,
+  IS_NOT_AUTHENTICATE,
   LOGIN,
   NO_DATA,
   PRODUCT_CATALOGUE_ADDITIONAL_FILES,
   PRODUCT_CATALOGUE_IMAGE,
+  REMOVED_ADDITIONAL_FILES_DATA,
+  REMOVED_IMAGE_FILES_DATA,
   UPLOADED_UPDATE_ADDITIONAL_FILES,
   UPLOADED_UPDATE_IMAGE_FILES,
   URL_GET_CATALOGUE_DATA,
@@ -58,12 +61,13 @@ export default function DashboardCatalogue(props) {
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
   const [imagesData, setImagesData] = useState({});
-  const [removedImagesData, setRemovedImagesData] =
+  const [removedImagesFile, setRemovedImagesFile] =
     useState({});
   const [filesData, setFilesData] = useState({});
-  const [removedFilesData, setRemovedFilesData] = useState(
-    {}
-  );
+  const [
+    removedAdditionalFiles,
+    setRemovedAdditionalFiles,
+  ] = useState({});
   const [fetchedDatas, setFetchedDatas] = useState(
     ADD_CATALOGUE_INITIAL_FETCHED_DATAS
   );
@@ -78,11 +82,9 @@ export default function DashboardCatalogue(props) {
   const [isNextShow, setIsNextShow] = useState(true);
   const [isPrevShow, setIsPrevShow] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isUpdatingImages, setIsUpdatingImages] =
-    useState(false);
-  const [isUpdatingFiles, setIsUpdatingFiles] =
-    useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUpdateLoading, setIsUpdateLoading] =
+    useState(false);
   const axiosService = useAxios();
   const [modalToggle, setModalToggle] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -206,120 +208,171 @@ export default function DashboardCatalogue(props) {
     );
   }
 
-  function handleUpdateProducts() {
-    let objToBeUpdated = [];
-    let updatedImagesData = [];
-    let updatedFilesData = [];
+  async function handleUpdateProducts() {
+    setIsUpdateLoading(true);
 
+    let promises = [];
     for (let i = 0; i < defaultResponse.length; i++) {
       const temp = defaultResponse[i];
       const compare = data.find(
         (val) => val.id === temp.id
       );
 
-      if (compare && !isEqual(compare, temp))
-        objToBeUpdated.push(compare);
-    }
+      const updatedImagesData = imagesData[compare.id];
+      const removedImagesData =
+        removedImagesFile[compare.id];
+      const updatedFilesData = filesData[compare.id];
+      const removedFilesData =
+        removedAdditionalFiles[compare.id];
 
-    // Constructing an object with the fields to update
-    const targetUpdates = objToBeUpdated.reduce(
-      (accumulator, data) => {
-        accumulator[data.id] = {
-          productName: data.productName,
-          productDescription: data.productDescription,
-          productHashtag: data.productHashtag,
-          productCondition: data.productCondition,
-          productWeight: data.productWeight,
-          productWeightUnit: data.productWeightUnit,
-          productPrice: data.productPrice,
-          productSKU: data.productSKU,
-          productStocks: data.productStocks,
-          productSafetyStocks: data.productSafetyStocks,
-          courierChoosen: data.availableCourierList,
-          productCatalogue: data.catalogueId,
-          productCategory: data.categoryId,
-          productUOM: data.uomId,
-        };
-        return accumulator;
-      },
-      {}
-    );
+      if (
+        isEqual(compare, temp) &&
+        isEqual(
+          updatedImagesData,
+          defaultImagesData[compare.id]
+        ) &&
+        isEqual(
+          updatedFilesData,
+          defaultFilesData[compare.id]
+        ) &&
+        removedImagesData?.length === 0 &&
+        removedFilesData?.length === 0
+      )
+        continue;
 
-    let payload = {
-      products: targetUpdates,
-    };
-
-    if (isUpdatingImages)
-      payload = {
-        ...payload,
-        [UPLOADED_UPDATE_IMAGE_FILES]:
-          JSON.stringify(imagesData),
-      };
-    if (isUpdatingFiles)
-      payload = {
-        ...payload,
-        [UPLOADED_UPDATE_ADDITIONAL_FILES]:
-          JSON.stringify(filesData),
+      const objToBeUpdated = {
+        id: compare.id,
+        productName: compare.productName,
+        productDescription: compare.productDescription,
+        productHashtag: compare.productHashtag,
+        productCondition: compare.productCondition,
+        productWeight: compare.productWeight,
+        productWeightUnit: compare.productWeightUnit,
+        productPrice: compare.productPrice,
+        productSKU: compare.productSKU,
+        productStocks: compare.productStocks,
+        productSafetyStocks: compare.productSafetyStocks,
+        courierChoosen: compare.availableCourierList,
+        productCatalogue: compare.catalogueId,
+        productCategory: compare.categoryId,
+        productUOM: compare.uomId,
       };
 
-    axiosService
-      .patchDataWithOnRequestInterceptors(
-        {
+      const formData = new FormData();
+      formData.append(
+        "product",
+        JSON.stringify(objToBeUpdated)
+      );
+
+      const maxLength = (() => {
+        let maxValue = 0;
+        [
+          updatedImagesData?.length,
+          updatedFilesData?.length,
+          removedImagesData?.length,
+          removedFilesData?.length,
+        ].forEach((val) => {
+          //getting the value from each object and
+          //comparing to existing value
+          const valueFromObject = val || 0;
+          maxValue = Math.max(maxValue, valueFromObject);
+        });
+
+        return maxValue;
+      })();
+
+      // This will only filter images or files that has blob
+      // If the current images/files only has URL that means its an existing one
+      // This loop will also append the list of to be removed file to reduce the
+      // Time complexity
+      let fileImagesToBeRemoved = [];
+      let additionalFilesToBeRemoved = [];
+      for (var j = 0; maxLength > j; j++) {
+        if (updatedImagesData?.[j]?.blob)
+          formData.append(
+            UPLOADED_UPDATE_IMAGE_FILES,
+            updatedImagesData[j].blob,
+            updatedImagesData[j].name
+          );
+        if (updatedFilesData?.[j]?.blob)
+          formData.append(
+            UPLOADED_UPDATE_ADDITIONAL_FILES,
+            updatedFilesData[j].blob,
+            updatedFilesData[j].name
+          );
+        if (removedImagesData?.[j]?.id)
+          fileImagesToBeRemoved.push({
+            id: removedImagesData[j].id,
+            destination: removedImagesData[j].destination,
+          });
+        if (removedFilesData?.[j]?.id)
+          additionalFilesToBeRemoved.push({
+            id: removedFilesData[j].id,
+            destination: removedFilesData[j].destination,
+          });
+      }
+
+      formData.append(
+        REMOVED_IMAGE_FILES_DATA,
+        JSON.stringify(fileImagesToBeRemoved)
+      );
+      formData.append(
+        REMOVED_ADDITIONAL_FILES_DATA,
+        JSON.stringify(additionalFilesToBeRemoved)
+      );
+
+      promises.push(
+        axiosService.patchData({
           endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-          url: URL_PATCH_STORE_PRODUCT(storeId),
+          url: URL_PATCH_STORE_PRODUCT,
           headers: {
             ...defaultConfigs.headers,
-            [CONTENT_TYPE]: "application/json",
+            [CONTENT_TYPE]: "multipart/form-data",
           },
-          data: payload,
-        },
-        async () =>
-          await authInterceptor(axiosService, cookies)
-      )
+          data: formData,
+        })
+      );
+    }
+
+    const result = await authInterceptor(
+      axiosService,
+      cookies
+    );
+
+    if (result.responseStatus === 500) handleError500();
+    if (IS_NOT_AUTHENTICATE(result)) {
+      cookies.remove(CLIENT_USER_INFO, { path: "/" });
+      handleOpenOverridingHome(LOGIN);
+    }
+
+    await Promise.all(promises)
       .then(() => {
         setDefaultResponse(cloneDeep(data));
         setIsUpdating(false);
-        setIsUpdatingImages(false);
-        setIsUpdatingFiles(false);
       })
-      .catch((err) => console.error(err));
-    // .catch((error) => handleAxiosError(error));
-  }
-
-  function handleSetDataToUpdate(value) {
-    if (
-      isEqual(defaultResponse, data) &&
-      !(isUpdatingImages || isUpdatingFiles)
-    )
-      setIsUpdating(false);
-    else {
-      setIsUpdating(true);
-      setData(value);
-    }
+      .catch((error) => handleAxiosError(error))
+      .finally(() => setIsUpdateLoading(false));
   }
 
   function handleClearDataToUpdate() {
     setData(cloneDeep(defaultResponse));
     setImagesData(cloneDeep(defaultImagesData));
-    setRemovedImagesData([]);
     setFilesData(cloneDeep(defaultFilesData));
-    setRemovedImagesData([]);
+    setRemovedImagesFile([]);
     setIsUpdating(false);
-    setIsUpdatingImages(false);
-    setIsUpdatingFiles(false);
   }
 
   function handleNumberChange(index, field, event) {
     const temp = [...data];
     const targetValue = event.target.value;
     temp[index][field] = unformattedNumber(targetValue);
-    handleSetDataToUpdate(temp);
+    setData(temp);
   }
 
   function handleTextChange(index, field, value) {
     const temp = [...data];
     temp[index][field] = value;
-    handleSetDataToUpdate(temp);
+    setData(temp);
   }
 
   function handleDropdownChange(
@@ -339,7 +392,7 @@ export default function DashboardCatalogue(props) {
     );
 
     temp[index][field] = found.id;
-    handleSetDataToUpdate(temp);
+    setData(temp);
   }
 
   function handleEditComponent(
@@ -353,7 +406,7 @@ export default function DashboardCatalogue(props) {
 
     targetVal[targetIndex] = value;
     temp[parentIndex][field] = JSON.stringify(targetVal);
-    handleSetDataToUpdate(temp);
+    setData(temp);
   }
 
   function handleAddComponent(
@@ -366,7 +419,7 @@ export default function DashboardCatalogue(props) {
     targetVal.push(defaultValue);
 
     temp[parentIndex][field] = JSON.stringify(targetVal);
-    handleSetDataToUpdate(temp);
+    setData(temp);
   }
 
   function handleRemoveComponent(
@@ -379,39 +432,31 @@ export default function DashboardCatalogue(props) {
     targetVal.splice(targetIndex, 1);
 
     temp[parentIndex][field] = JSON.stringify(targetVal);
-    handleSetDataToUpdate(temp);
+    setData(temp);
   }
 
   function handleSetImagesData(id, state) {
     let temp = cloneDeep(imagesData);
     temp[id] = state;
     setImagesData(temp);
-    setIsUpdating(true);
-    setIsUpdatingImages(true);
   }
 
   function handleRemovedImagesData(id, state) {
-    let temp = cloneDeep(removedImagesData);
+    let temp = cloneDeep(removedImagesFile);
     temp[id] = state;
-    setRemovedImagesData(temp);
-    setIsUpdating(true);
-    setIsUpdatingImages(true);
+    setRemovedImagesFile(temp);
   }
 
   function handleSetFilesData(id, state) {
     let temp = cloneDeep(filesData);
     temp[id] = state;
     setFilesData(state);
-    setIsUpdating(true);
-    setIsUpdatingFiles(true);
   }
 
   function handleRemovedFilesData(id, state) {
-    let temp = cloneDeep(removedFilesData);
+    let temp = cloneDeep(removedAdditionalFiles);
     temp[id] = state;
-    setRemovedFilesData(temp);
-    setIsUpdating(true);
-    setIsUpdatingImages(true);
+    setRemovedAdditionalFiles(temp);
   }
 
   function handleNextPage() {
@@ -431,10 +476,7 @@ export default function DashboardCatalogue(props) {
   function handleAxiosError(error) {
     setIsLoading(false);
     if (error.responseStatus === 500) handleError500();
-    if (
-      error.responseStatus === 401 ||
-      error.responseStatus === 403
-    ) {
+    if (IS_NOT_AUTHENTICATE(error)) {
       cookies.remove(CLIENT_USER_INFO, { path: "/" });
       handleOpenOverridingHome(LOGIN);
     } else
@@ -585,6 +627,19 @@ export default function DashboardCatalogue(props) {
     })();
   }, [page]);
 
+  useEffect(() => {
+    let toggle = true;
+    if (
+      isEqual(defaultResponse, data) &&
+      isEqual(defaultImagesData, imagesData) &&
+      isEqual(defaultFilesData, filesData)
+    ) {
+      toggle = false;
+    }
+
+    setIsUpdating(toggle);
+  }, [data, imagesData, filesData]);
+
   return (
     <Fragment>
       <Modal
@@ -641,10 +696,15 @@ export default function DashboardCatalogue(props) {
             {isUpdating && (
               <Fragment>
                 <ShowAlterButton
-                  onClick={handleUpdateProducts}
+                  onClick={() =>
+                    !isUpdateLoading &&
+                    handleUpdateProducts()
+                  }
                   className="dashboard-catalogue-update-button main-bg-color">
                   <span className="light-color">
-                    Update
+                    {isUpdateLoading
+                      ? "...Loading"
+                      : "Update"}
                   </span>
                 </ShowAlterButton>
                 <ShowAlterButton

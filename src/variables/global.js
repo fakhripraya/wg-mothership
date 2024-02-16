@@ -5,6 +5,10 @@ export const UPLOADED_UPDATE_IMAGE_FILES =
   "uploadedUpdateImageFiles";
 export const UPLOADED_UPDATE_ADDITIONAL_FILES =
   "uploadedUpdateAdditionalFiles";
+export const REMOVED_IMAGE_FILES_DATA =
+  "removedImageFilesData";
+export const REMOVED_ADDITIONAL_FILES_DATA =
+  "removedAdditionalFilesData";
 export const UPLOADED_IMAGE_FILES = "uploadedImageFiles";
 export const UPLOADED_ADDITIONAL_FILES =
   "uploadedAdditionalFiles";
@@ -121,8 +125,8 @@ export const URL_POST_OTP = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/
 export const URL_CHECK_AUTH_AND_REFRESH_TOKEN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/token`;
 
 // ZEUS SERVICE ROUTE
-export const URL_PATCH_STORE_PRODUCT = (storeId) =>
-  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/product/update?storeId=${storeId}`;
+export const URL_DELETE_STORE_PRODUCT = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/product/delete`;
+export const URL_PATCH_STORE_PRODUCT = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/product/update`;
 export const URL_POST_ADD_STORE_PRODUCT_CATALOGUE = (
   storeId
 ) =>

@@ -91,6 +91,9 @@ const ShowDisplayItem = ({
   arrayDataValues,
   navigate,
 }) => {
+  const [isRemoving, setIsRemoving] = useState(false);
+  const [isLoadingRemove, setIsLoadingRemove] =
+    useState(false);
   const [rejectedImagesData, setRejectedImagesData] =
     useState([]);
   const [rejectedFilesData, setRejectedFilesData] =
@@ -105,6 +108,10 @@ const ShowDisplayItem = ({
       setModalImagesUploadToggle,
       modalImagesUploadToggle
     );
+  }
+
+  function handleRemoveProduct() {
+    setIsLoadingRemove(true);
   }
 
   return (
@@ -518,9 +525,36 @@ const ShowDisplayItem = ({
               className="dark-color light-bg-color dashboard-catalogue-body-option-button">
               Showcase
             </p>
-            <p className="margin-top-0 margin-bottom-0 red-bg-color dashboard-catalogue-body-option-button">
-              Remove
-            </p>
+            {!isRemoving && (
+              <p
+                onClick={() =>
+                  !isRemoving && setIsRemoving(true)
+                }
+                className="margin-top-0 margin-bottom-0 red-bg-color dashboard-catalogue-body-option-button">
+                Remove
+              </p>
+            )}
+            {isRemoving && (
+              <div className="dashboard-catalogue-body-remove-button-wrapper">
+                <p
+                  onClick={() =>
+                    !isLoadingRemove &&
+                    handleRemoveProduct()
+                  }
+                  className="margin-top-0 margin-bottom-0 red-bg-color dashboard-catalogue-body-option-button">
+                  {isLoadingRemove
+                    ? "...Loading"
+                    : "Confirm"}
+                </p>
+                <p
+                  onClick={() =>
+                    isRemoving && setIsRemoving(false)
+                  }
+                  className="margin-top-0 margin-bottom-0 transparent-bg-color dashboard-catalogue-body-option-button">
+                  Cancel
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
