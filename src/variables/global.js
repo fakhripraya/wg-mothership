@@ -114,31 +114,28 @@ export const URL_ROOM_CHECK = "/v1/room/check";
 export const URL_ROOM_CREATE = "/v1/room/create";
 
 // OLYMPUS SERVICE ROUTE
-export const URL_GET_GOOGLE_URL = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/google/url`;
-export const URL_POST_REGISTER = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/signup`;
-export const URL_POST_LOGIN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/login`;
-export const URL_POST_FORGOT_PW = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/pw/forgot`;
-export const URL_POST_GOOGLE_CALLBACK = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/google/callback`;
-export const URL_POST_NEW_PW = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/pw/new`;
-export const URL_POST_LOGOUT = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/logout`;
-export const URL_POST_OTP = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/verify/otp`;
-export const URL_CHECK_AUTH_AND_REFRESH_TOKEN = `/v${process.env.REACT_APP_OLYMPUS_SERVICE_VERSION}/auth/token`;
+export const URL_GET_GOOGLE_URL = `/v1/auth/google/url`;
+export const URL_POST_REGISTER = `/v1/auth/signup`;
+export const URL_POST_LOGIN = `/v1/auth/login`;
+export const URL_POST_FORGOT_PW = `/v1/auth/pw/forgot`;
+export const URL_POST_GOOGLE_CALLBACK = `/v1/auth/google/callback`;
+export const URL_POST_NEW_PW = `/v1/auth/pw/new`;
+export const URL_POST_LOGOUT = `/v1/auth/logout`;
+export const URL_POST_OTP = `/v1/auth/verify/otp`;
+export const URL_CHECK_AUTH_AND_REFRESH_TOKEN = `/v1/auth/token`;
 
 // ZEUS SERVICE ROUTE
-export const URL_DELETE_STORE_PRODUCT = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/product/delete`;
-export const URL_PATCH_STORE_PRODUCT = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/product/update`;
+export const URL_DELETE_STORE_PRODUCT = `/v1/store/product/delete`;
+export const URL_PATCH_STORE_PRODUCT = `/v1/store/product/update`;
 export const URL_POST_ADD_STORE_PRODUCT_CATALOGUE = (
   storeId
-) =>
-  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/store/product/add?storeId=${storeId}`;
+) => `/v1/store/product/add?storeId=${storeId}`;
 export const URL_POST_ADD_USER_STORE = (userId) =>
-  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores/add`;
+  `/v1/user/${userId}/stores/add`;
 export const URL_GET_DASHBOARD_STORES = (userId) =>
-  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/stores`;
+  `/v1/user/${userId}/stores`;
 export const URL_GET_PRODUCT_DETAILS = (productId) =>
-  `/v${
-    process.env.REACT_APP_ZEUS_SERVICE_VERSION
-  }/store/catalogues/product-details${
+  `/v1/store/catalogues/product-details${
     productId ? `?productId=${productId}` : ""
   }`;
 export const URL_GET_CATALOGUE_DATA = ({
@@ -150,9 +147,7 @@ export const URL_GET_CATALOGUE_DATA = ({
   itemPage,
   itemPerPage,
 }) =>
-  `/v${
-    process.env.REACT_APP_ZEUS_SERVICE_VERSION
-  }/store/catalogues${
+  `/v1/store/catalogues${
     storeId ? `?storeId=${storeId}` : ""
   }${
     isWithProducts
@@ -167,14 +162,14 @@ export const URL_GET_CATALOGUE_DATA = ({
   }`;
 
 export const URL_GET_STORE_INFO = (query) =>
-  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/stores${query}`;
+  `/v1/stores${query}`;
 export const URL_POST_GET_USER_BUY_ADDRESSES = (userId) =>
-  `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/user/${userId}/saved-address`;
+  `/v1/user/${userId}/saved-address`;
 
-export const URL_GET_PRODUCT_LIST = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/products`;
-export const URL_GET_CATEGORIES = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/category`;
-export const URL_GET_COURIERS = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/couriers`;
-export const URL_GET_UOM = `/v${process.env.REACT_APP_ZEUS_SERVICE_VERSION}/uom`;
+export const URL_GET_PRODUCT_LIST = `/v1/products`;
+export const URL_GET_CATEGORIES = `/v1/category`;
+export const URL_GET_COURIERS = `/v1/couriers`;
+export const URL_GET_UOM = `/v1/uom`;
 
 // CHRONOS SERVICE ROUTE
 export const URL_GET_FILE = `/v1/file`;
