@@ -147,6 +147,7 @@ export const showDisplayName = (obj) => {
     return obj.details
       ? obj.details.fullName
       : `Guest-${obj.socketId}`;
+  else return "";
 };
 
 export const isImageType = (type) => {

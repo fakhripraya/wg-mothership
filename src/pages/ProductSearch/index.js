@@ -391,7 +391,7 @@ export default function ProductSearch() {
                 />
                 <Tag
                   onClick={() => setCategory(NO_STRING)}
-                  className="transparent-bg-color"
+                  className="transparent-bg-color cursor-pointer"
                   text="Clear"
                 />
                 <div

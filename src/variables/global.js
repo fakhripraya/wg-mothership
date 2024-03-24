@@ -1,6 +1,7 @@
 // GLOBAL STRING
 export const NO_STRING = "";
 export const NO_DATA = "No Data";
+export const LOADING = "Loading...";
 export const UPLOADED_UPDATE_IMAGE_FILES =
   "uploadedUpdateImageFiles";
 export const UPLOADED_UPDATE_ADDITIONAL_FILES =

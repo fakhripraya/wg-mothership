@@ -88,6 +88,7 @@ const ShowDisplayItem = ({
   handleAddComponent,
   handleEditComponent,
   handleRemoveComponent,
+  handleRemoveProduct,
   arrayDataValues,
   navigate,
 }) => {
@@ -110,8 +111,11 @@ const ShowDisplayItem = ({
     );
   }
 
-  function handleRemoveProduct() {
+  async function handleRemove() {
     setIsLoadingRemove(true);
+    await handleRemoveProduct(item.id).finally(() =>
+      setIsLoadingRemove(false)
+    );
   }
 
   return (
@@ -538,8 +542,7 @@ const ShowDisplayItem = ({
               <div className="dashboard-catalogue-body-remove-button-wrapper">
                 <p
                   onClick={() =>
-                    !isLoadingRemove &&
-                    handleRemoveProduct()
+                    !isLoadingRemove && handleRemove()
                   }
                   className="margin-top-0 margin-bottom-0 red-bg-color dashboard-catalogue-body-option-button">
                   {isLoadingRemove

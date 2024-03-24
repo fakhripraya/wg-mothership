@@ -1,7 +1,12 @@
 import axios from "axios";
 import { createAxios } from "../../config/xhr/axios";
 import { AXIOS_INITIAL_VALUE } from "../../variables/initial/axios";
-import { GET, PATCH, POST } from "../../variables/global";
+import {
+  DELETE,
+  GET,
+  PATCH,
+  POST,
+} from "../../variables/global";
 
 // get data without parameter
 export const useAxios = () => {
@@ -355,6 +360,41 @@ export const useAxios = () => {
     });
   };
 
+  const deleteData = async (reqConfig) => {
+    // creates the cancel token source
+    var cancelSource = axios.CancelToken.source();
+    // Start timing now
+    console.time("Load Time");
+    return new Promise(async (resolve, reject) => {
+      // Initial Value
+      var result = { ...AXIOS_INITIAL_VALUE };
+      await createAxios(reqConfig.endpoint)({
+        method: DELETE,
+        headers: reqConfig.headers,
+        url: reqConfig.url,
+        data: reqConfig.data,
+        cancelToken: cancelSource.token,
+      })
+        .then((response) => {
+          result.responseData = response.data;
+          result.responseStatus = response.status;
+          console.timeEnd("Load Time");
+          resolve(result);
+        })
+        .catch((error) => {
+          result.responseError = true;
+          if (error.response) {
+            if (axios.isCancel(error))
+              return cancelSource.cancel();
+            result.errorContent = error.response.data;
+            result.responseStatus = error.response.status;
+          } else result.responseStatus = 500;
+          console.timeEnd("Load Time");
+          reject(result);
+        });
+    });
+  };
+
   const getURLParams = (url, key) =>
     url.searchParams.get(key);
 
@@ -371,6 +411,7 @@ export const useAxios = () => {
     postDataWithOnRequestInterceptors,
     patchData,
     patchDataWithOnRequestInterceptors,
+    deleteData,
     getURLParams,
     setURLParams,
   };

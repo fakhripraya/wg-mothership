@@ -37,6 +37,7 @@ import {
   REMOVED_IMAGE_FILES_DATA,
   UPLOADED_UPDATE_ADDITIONAL_FILES,
   UPLOADED_UPDATE_IMAGE_FILES,
+  URL_DELETE_STORE_PRODUCT,
   URL_GET_CATALOGUE_DATA,
   URL_GET_CATEGORIES,
   URL_GET_COURIERS,
@@ -134,78 +135,28 @@ export default function DashboardCatalogue(props) {
   ];
 
   // FUNCTIONS SPECIFIC //
-  function handleMapResponses(array) {
-    // map the responses to the states
-    if (array[0].responseData.result.length > 0) {
-      const result = array[0].responseData.result;
+  async function handleFetchDatas() {
+    await axiosService
+      .getAllData(endpoints)
+      .then((result) => {
+        handleMapResponses(result.responseData);
+      })
+      .catch((error) => {
+        handleAxiosError(error);
+      });
+  }
 
-      // both cloned deep to prevent having the same reference
-      handleGetFilesAsync(result);
-      setDefaultResponse(cloneDeep(result));
-      setData(cloneDeep(result));
+  async function handleRemoveProduct(id) {
+    try {
+      await axiosService.deleteData({
+        ...defaultConfigs,
+        url: `${URL_DELETE_STORE_PRODUCT}?id=${id}`,
+      });
+
+      await handleFetchDatas();
+    } catch (error) {
+      console.error(error);
     }
-
-    let [fct, fcs, fcr, fuom] = [
-      "catalogueName",
-      "categoryName",
-      "courierName",
-      "uom",
-    ].map((property, index) =>
-      handleDropdownProperties(array, index, property)
-    );
-
-    let newFetchedDatas = { ...fetchedDatas };
-    newFetchedDatas = {
-      datas: {
-        catalogues: array[0].responseData.catalogues,
-        categories: array[1].responseData,
-        couriers: array[2].responseData,
-        productUOM: array[3].responseData,
-      },
-      dropdowns: {
-        catalogues: handleFetchedDataDropdowns(fct),
-        categories: handleFetchedDataDropdowns(fcs),
-        couriers: handleFetchedDataDropdowns(fcr),
-        productUOM: handleFetchedDataDropdowns(fuom),
-      },
-    };
-
-    setFetchedDatas(newFetchedDatas);
-    setIsNextShow(
-      array[0].responseData.instructions.isNext
-    );
-    setIsPrevShow(
-      array[0].responseData.instructions.isPrev
-    );
-
-    // set loading false after doing all the process
-    setIsLoading(false);
-  }
-
-  function handleFetchedDataDropdowns(data) {
-    return data.length ? data : [NO_DATA];
-  }
-
-  function handleDropdownProperties(
-    array,
-    index,
-    property
-  ) {
-    let temp;
-    if (array[index].responseData.catalogues)
-      temp = array[index].responseData.catalogues;
-    else temp = array[index].responseData;
-    return temp.map((obj) => obj[property]);
-  }
-
-  function handleOpenDetail(item, navigate) {
-    navigate(`/product-detail?productId=${item.id}`);
-  }
-
-  function handleGoToAddProduct() {
-    navigate(
-      `/dashboard/add/product?storeId=${props.data.selectedStore.id}`
-    );
   }
 
   async function handleUpdateProducts() {
@@ -352,6 +303,80 @@ export default function DashboardCatalogue(props) {
       })
       .catch((error) => handleAxiosError(error))
       .finally(() => setIsUpdateLoading(false));
+  }
+
+  function handleMapResponses(array) {
+    // map the responses to the states
+    if (array[0].responseData.result.length > 0) {
+      const result = array[0].responseData.result;
+
+      // both cloned deep to prevent having the same reference
+      handleGetFilesAsync(result);
+      setDefaultResponse(cloneDeep(result));
+      setData(cloneDeep(result));
+    }
+
+    let [fct, fcs, fcr, fuom] = [
+      "catalogueName",
+      "categoryName",
+      "courierName",
+      "uom",
+    ].map((property, index) =>
+      handleDropdownProperties(array, index, property)
+    );
+
+    let newFetchedDatas = { ...fetchedDatas };
+    newFetchedDatas = {
+      datas: {
+        catalogues: array[0].responseData.catalogues,
+        categories: array[1].responseData,
+        couriers: array[2].responseData,
+        productUOM: array[3].responseData,
+      },
+      dropdowns: {
+        catalogues: handleFetchedDataDropdowns(fct),
+        categories: handleFetchedDataDropdowns(fcs),
+        couriers: handleFetchedDataDropdowns(fcr),
+        productUOM: handleFetchedDataDropdowns(fuom),
+      },
+    };
+
+    setFetchedDatas(newFetchedDatas);
+    setIsNextShow(
+      array[0].responseData.instructions.isNext
+    );
+    setIsPrevShow(
+      array[0].responseData.instructions.isPrev
+    );
+
+    // set loading false after doing all the process
+    setIsLoading(false);
+  }
+
+  function handleFetchedDataDropdowns(data) {
+    return data.length ? data : [NO_DATA];
+  }
+
+  function handleDropdownProperties(
+    array,
+    index,
+    property
+  ) {
+    let temp;
+    if (array[index].responseData.catalogues)
+      temp = array[index].responseData.catalogues;
+    else temp = array[index].responseData;
+    return temp.map((obj) => obj[property]);
+  }
+
+  function handleOpenDetail(item, navigate) {
+    navigate(`/product-detail?productId=${item.id}`);
+  }
+
+  function handleGoToAddProduct() {
+    navigate(
+      `/dashboard/add/product?storeId=${props.data.selectedStore.id}`
+    );
   }
 
   function handleClearDataToUpdate() {
@@ -590,41 +615,29 @@ export default function DashboardCatalogue(props) {
     );
   };
 
-  const ShowResultMessage = () => {
-    const messageStyle = {
-      color: "white",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "stretch",
-      textAlign: "center",
-    };
-    if (!isLoading && data.length > 0) return;
-    return (
+  const ShowResultMessage = () =>
+    (isLoading || data.length <= 0) && (
       <div
         className="dashboard-catalogue-body margin-top-12-18"
-        style={messageStyle}>
+        style={{
+          color: "white",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "stretch",
+          textAlign: "center",
+        }}>
         {isLoading && <p>Loading Bentar...</p>}
         {!isLoading && data.length <= 0 && (
           <p>Belum Ada Barang nih, tambahin dulu gih !</p>
         )}
       </div>
     );
-  };
 
   // INITIAL RENDER
   useEffect(() => {
     if (currentTab !== DASHBOARD_CATALOG) return;
     smoothScrollTop();
-    (async () => {
-      await axiosService
-        .getAllData(endpoints)
-        .then((result) => {
-          handleMapResponses(result.responseData);
-        })
-        .catch((error) => {
-          handleAxiosError(error);
-        });
-    })();
+    handleFetchDatas();
   }, [page]);
 
   useEffect(() => {
@@ -741,6 +754,7 @@ export default function DashboardCatalogue(props) {
               handleAddComponent={handleAddComponent}
               handleEditComponent={handleEditComponent}
               handleRemoveComponent={handleRemoveComponent}
+              handleRemoveProduct={handleRemoveProduct}
               arrayDataValues={fetchedDatas}
               navigate={navigate}
             />

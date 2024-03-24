@@ -1041,9 +1041,7 @@ export default function CreativeStore() {
             const findRoom = (() => {
               if (isContinueInvoke) return;
               return Object.entries(socketsInTheStore).find(
-                ([roomKey, socketVal]) => {
-                  return roomKey === key;
-                }
+                ([roomKey]) => roomKey === key
               );
             })();
 
@@ -1635,11 +1633,10 @@ export default function CreativeStore() {
                 </div>
                 <div className="creative-store-header">
                   <h4 className="creative-store-store-title">
-                    {storeInfo && storeInfo.storeName}
+                    {storeInfo?.storeName}
                   </h4>
                   <label className="creative-store-store-label">
-                    {storeInfo &&
-                      storeInfo.storeDescription}
+                    {storeInfo?.storeDescription}
                   </label>
                 </div>
               </div>
@@ -1680,27 +1677,21 @@ export default function CreativeStore() {
                         style={{ cursor: "pointer" }}
                         round={true}
                         size={50}
-                        title={showDisplayName(
-                          userJoin && userJoin
-                        )}
-                        name={showDisplayName(
-                          userJoin && userJoin
-                        )}
+                        title={showDisplayName(userJoin)}
+                        name={showDisplayName(userJoin)}
                       />
                     </div>
                   </div>
                   <div className="creative-store-user-avatar-side-container">
                     <ShowFullName
                       connectionStatus={connectionStatus}
-                      fullName={showDisplayName(
-                        userJoin && userJoin
-                      )}
+                      fullName={showDisplayName(userJoin)}
                       statusMessage={"Guest User"}
                     />
                   </div>
                 </div>
               )}
-              {login && login.user && (
+              {login?.user && (
                 <div className="creative-store-sub-container creative-store-user-avatar">
                   <div className="creative-store-user-avatar-container">
                     <div className="creative-store-user-identifier-img-wrapper">
@@ -1733,10 +1724,7 @@ export default function CreativeStore() {
                       onClick={() => handleBottomSheet()}
                       className="creative-store-filter-button"
                     />
-                    <h4>
-                      {joinedChatRoom &&
-                        joinedChatRoom.roomTitle}
-                    </h4>
+                    <h4>{joinedChatRoom?.roomTitle}</h4>
                   </div>
                 </div>
                 <div

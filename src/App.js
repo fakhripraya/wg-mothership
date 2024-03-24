@@ -27,7 +27,7 @@ import { setItem } from "./utils/redux/reducers/cartReducer";
 
 // FIXED Implement the IS_OTP_NOT_VERIFIED function to all authentication validation,
 // TODO: Test auth/security leak
-// FIXME: Change <br /> usage, its a bad practice mozilla cant work
+// FIXME: Change <br /> usage, its a bad practice, mozilla can't work properly with it
 // FIXME: Fix virtual keyboard problem on mobile browsers
 function App() {
   // STATE
@@ -79,6 +79,7 @@ function App() {
       }, 150); // Adjust the delay as needed (300 milliseconds in this example)
     };
 
+    // Add channel broadcast event to update every browser tab
     const channel = new BroadcastChannel(
       "REDUX_UPDATER_CHANNEL"
     );
@@ -86,6 +87,7 @@ function App() {
       "message",
       handleCartBroadcast
     );
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -104,20 +106,18 @@ function App() {
         basename="/">
         <NavBar />
         <Routes>
-          {routes.map((item, index) => {
-            return (
-              <Route
-                key={`route-${index}`}
-                path={item.path}
-                element={
-                  <Suspense fallback={<p>Loading...</p>}>
-                    {item.component}
-                  </Suspense>
-                }
-                exact
-              />
-            );
-          })}
+          {routes.map((item, index) => (
+            <Route
+              key={`route-${index}`}
+              path={item.path}
+              element={
+                <Suspense fallback={<p>Loading...</p>}>
+                  {item.component}
+                </Suspense>
+              }
+              exact
+            />
+          ))}
         </Routes>
         <Footer />
         <FloatButton
