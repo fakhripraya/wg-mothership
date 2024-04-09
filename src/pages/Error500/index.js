@@ -12,11 +12,11 @@ export default function Error500() {
           <h3 className="margin-bottom-0 red-color">
             ERROR 500
           </h3>
-          <br />
+          <div className="breakline" />
           <label>
             Waduh server kami sedang{" "}
             <span className="red-color">bermasalah</span>{" "}
-            <br />
+            <div className="breakline" />
             kalau <span className="red-color">
               error
             </span>{" "}
@@ -24,7 +24,7 @@ export default function Error500() {
             <span className="red-color">satu jam</span>,
             segera hubungin kami ya
           </label>
-          <br />
+          <div className="breakline" />
           <Button onClick={() => navigate("/")}>
             Balik ke home
           </Button>

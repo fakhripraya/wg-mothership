@@ -23,11 +23,11 @@ import {
 } from "./variables/styles/app";
 import { Cache, ConfigProvider } from "react-avatar";
 import { useDispatch } from "react-redux";
-import { setItem } from "./utils/redux/reducers/cartReducer";
+import { setItem } from "./utils/redux/reducers/cart/cartReducer";
 
 // FIXED Implement the IS_OTP_NOT_VERIFIED function to all authentication validation,
 // TODO: Test auth/security leak
-// FIXME: Change <br /> usage, its a bad practice, mozilla can't work properly with it
+// FIXME: Change <div className="breakline" /> usage, its a bad practice, mozilla can't work properly with it
 // FIXME: Fix virtual keyboard problem on mobile browsers
 function App() {
   // STATE

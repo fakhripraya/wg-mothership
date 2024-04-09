@@ -14,12 +14,12 @@ export const ShowErrorModal = (props) => {
             X
           </h4>
         </Button>
-        <br />
+        <div className="breakline" />
         <h3 className="margin-top-0 margin-bottom-12-18">
           There is an{" "}
           <span className="red-color">ERROR</span>
         </h3>
-        <br />
+        <div className="breakline" />
         <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
           {props.errorMessage}
         </label>
@@ -39,11 +39,11 @@ export const ShowAddressModal = (props) => {
             X
           </h4>
         </Button>
-        <br />
+        <div className="breakline" />
         <h3 className="margin-top-0 margin-bottom-12-18">
           Tambah Alamat Tujuan Pengiriman
         </h3>
-        <br />
+        <div className="breakline" />
         <div className="transaction-payment-text-container">
           <div className="transaction-payment-text-wrapper">
             <div className="transaction-payment-textinput-box">
@@ -61,7 +61,7 @@ export const ShowAddressModal = (props) => {
                 className="transaction-payment-textinput darker-bg-color"
               />
             </div>
-            <br />
+            <div className="breakline" />
             <div className="transaction-payment-textinput-box">
               <label className="transaction-payment-input-title">
                 No HP
@@ -77,7 +77,7 @@ export const ShowAddressModal = (props) => {
                 className="transaction-payment-textinput darker-bg-color"
               />
             </div>
-            <br />
+            <div className="breakline" />
             <div className="transaction-payment-textinput-box">
               <label className="transaction-payment-input-title">
                 Alamat Lengkap
@@ -93,7 +93,7 @@ export const ShowAddressModal = (props) => {
                 className="transaction-payment-longtext-area darker-bg-color"
               />
             </div>
-            <br />
+            <div className="breakline" />
             <div className="transaction-payment-textinput-box">
               <label className="transaction-payment-input-title">
                 Pesan Untuk Kurir
@@ -109,8 +109,8 @@ export const ShowAddressModal = (props) => {
                 className="transaction-payment-longtext-area darker-bg-color"
               />
             </div>
-            <br />
-            <br />
+            <div className="breakline" />
+            <div className="breakline" />
             <p className="align-self-start margin-0">
               Dengan ini kamu sudah membaca dan menyetujui{" "}
               <span className="font-bold main-color cursor-pointer">
@@ -143,17 +143,17 @@ export const ShowPaymentModal = (props) => {
             X
           </h4>
         </Button>
-        <br />
+        <div className="breakline" />
         <h3 className="margin-top-0 margin-bottom-12-18">
           Pembayaran
         </h3>
         <div className="transaction-payment-text-container">
           <div className="transaction-payment-text-wrapper">
-            <br />
+            <div className="breakline" />
             <label className="font-bold">
               Mau Bayar Pakai Apa ?
             </label>
-            <br />
+            <div className="breakline" />
             <Button className="margin-bottom-8">
               BCA Syariah
             </Button>
@@ -177,18 +177,18 @@ export const ShowPaymentModal = (props) => {
               style={{ opacity: 0.1 }}
               className="max-width"
             />
-            <br />
+            <div className="breakline" />
             <label className="font-bold">
               Detail Pembayaran
             </label>
-            <br />
+            <div className="breakline" />
             <label>Total: Rp.20,000,000</label>
             <label>Biaya Transaksi: Rp.20,000,000</label>
             <hr
               style={{ opacity: 0.1 }}
               className="max-width"
             />
-            <br />
+            <div className="breakline" />
             <label style={{ fontSize: "1.25em" }}>
               Grand Total :{" "}
             </label>
@@ -202,7 +202,7 @@ export const ShowPaymentModal = (props) => {
               style={{ opacity: 0.1 }}
               className="max-width"
             />
-            <br />
+            <div className="breakline" />
             <p className="align-self-start margin-0">
               Dengan ini kamu sudah membaca dan menyetujui{" "}
               <span className="font-bold main-color cursor-pointer">

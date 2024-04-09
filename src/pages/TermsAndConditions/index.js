@@ -13,7 +13,7 @@ export default function TermsAndConditions() {
     <div className="tnc-container">
       <div className="tnc-wrapper">
         <h2>Syarat dan Ketentuan</h2>
-        <br />
+        <div className="breakline" />
         <label className="font-bold">Pasal 1</label>
         <label className="font-bold">Pendahuluan</label>
         <p>
@@ -84,7 +84,7 @@ export default function TermsAndConditions() {
           quasi repellat odio autem unde distinctio illo
           ipsa cupiditate aliquam sunt?
         </p>
-        <br />
+        <div className="breakline" />
         <label className="font-bold">Pasal 2</label>
         <label className="font-bold">Penggunaan Data</label>
         <p>
@@ -155,7 +155,7 @@ export default function TermsAndConditions() {
           quasi repellat odio autem unde distinctio illo
           ipsa cupiditate aliquam sunt?
         </p>
-        <br />
+        <div className="breakline" />
         <label className="font-bold">Pasal 3</label>
         <label className="font-bold">Penggunaan Data</label>
         <p>
@@ -226,7 +226,7 @@ export default function TermsAndConditions() {
           quasi repellat odio autem unde distinctio illo
           ipsa cupiditate aliquam sunt?
         </p>
-        <br />
+        <div className="breakline" />
         <label className="font-bold">Pasal 4</label>
         <label className="font-bold">Penggunaan Data</label>
         <p>
@@ -297,7 +297,7 @@ export default function TermsAndConditions() {
           quasi repellat odio autem unde distinctio illo
           ipsa cupiditate aliquam sunt?
         </p>
-        <br />
+        <div className="breakline" />
         <label className="font-bold">Pasal 5</label>
         <label className="font-bold">Penggunaan Data</label>
         <p>

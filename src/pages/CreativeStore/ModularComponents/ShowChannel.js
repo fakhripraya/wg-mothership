@@ -6,8 +6,8 @@ import React, {
 import DynamicAccordion from "../../../components/DynamicAccordion";
 import ShowRooms from "./ShowRooms";
 
-const ShowChannel = (props) => {
-  return useMemo(
+const ShowChannel = (props) =>
+  useMemo(
     () => (
       <Fragment>
         <DynamicAccordion
@@ -29,7 +29,6 @@ const ShowChannel = (props) => {
     ),
     [props.value[1], props.listenJoinRoom]
   );
-};
 
 const ShowChannels = (props) => {
   const render = useCallback(

@@ -2,6 +2,7 @@ import AudioMasuk from "../../assets/audio/user-in.mp3";
 import KeluarMasuk from "../../assets/audio/user-out.mp3";
 import RemoteIn from "../../assets/audio/remote-in.mp3";
 import RemoteOut from "../../assets/audio/remote-out.mp3";
+import { setOpenTab } from "../../utils/redux/reducers/creativeStore/creativeStoreReducer";
 
 // URI
 export const JOINING_AUDIO_URL = AudioMasuk;
@@ -29,3 +30,53 @@ export const DISCONNECTED = "DISCONNECTED";
 // RIGHT SIDE PANEL
 export const VISITORS = "VISITORS";
 export const TRANSACTION_ORDERS = "TRANSACTION_ORDERS";
+
+// CREATIVE STORE TABS
+export const CREATIVE_STORE_SETTING =
+  "CREATIVE_STORE_SETTING";
+export const PERMISSION_SETTING = "PERMISSION_SETTING";
+export const ADD_CHANNEL = "ADD_CHANNEL";
+export const ADD_CATEGORY = "ADD_CATEGORY";
+export const INVITE_PEOPLE = "INVITE_PEOPLE";
+export const CREATIVE_STORE_TABS = (props) => [
+  {
+    onClick: () => {
+      props.dispatch(setOpenTab(CREATIVE_STORE_SETTING));
+    },
+    title: "Setting Toko",
+    iconClass:
+      "creative-store-icon-button creative-store-gear-button",
+  },
+  {
+    onClick: () => {
+      props.dispatch(setOpenTab(PERMISSION_SETTING));
+    },
+    title: "Setting Akses",
+    iconClass:
+      "creative-store-icon-button creative-store-key-button",
+  },
+  {
+    onClick: () => {
+      props.dispatch(setOpenTab(ADD_CHANNEL));
+    },
+    title: "Tambah Channel",
+    iconClass:
+      "creative-store-icon-button creative-store-add-button",
+  },
+  {
+    onClick: () => {
+      props.dispatch(setOpenTab(ADD_CATEGORY));
+    },
+    title: "Tambah Kategori",
+    iconClass:
+      "creative-store-icon-button creative-store-add-button",
+  },
+  {
+    onClick: () => {
+      props.dispatch(setOpenTab(INVITE_PEOPLE));
+    },
+    title: "Invite Yang Lain",
+    iconClass:
+      "creative-store-icon-button creative-store-invite-button",
+  },
+];

@@ -1,8 +1,8 @@
 import { Fragment, useCallback, useMemo } from "react";
 import Avatar from "react-avatar";
 
-const ShowNewPurchaseOrder = (props) => {
-  return useMemo(
+const ShowNewPurchaseOrder = (props) =>
+  useMemo(
     () => (
       <div className="creative-store-visitor-user darker-bg-color">
         <div className="creative-store-avatar-container">
@@ -31,7 +31,6 @@ const ShowNewPurchaseOrder = (props) => {
     ),
     [props.value]
   );
-};
 
 const ShowNewPurchaseOrders = (props) => {
   const render = useCallback(

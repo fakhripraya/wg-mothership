@@ -2,8 +2,8 @@ import React, { useCallback, useMemo } from "react";
 import ShowSockets from "./ShowSockets";
 import { TEXT } from "../../../variables/constants/creativeStore";
 
-const ShowRoom = (props) => {
-  return useMemo(
+const ShowRoom = (props) =>
+  useMemo(
     () => (
       <button
         key={`${props.uniqueKey}-dynamic-accordion-${props.value[1].roomTitle}-${props.index}`}
@@ -33,7 +33,6 @@ const ShowRoom = (props) => {
     ),
     [props.value[1], props.listenJoinRoom]
   );
-};
 
 const ShowRooms = (props) => {
   const render = useCallback(

@@ -11,13 +11,13 @@ export const ShowCourierModal = (props) => {
             className="align-self-end detail-modal-button red-bg-color">
             <h4 className="detail-modal-button-text">X</h4>
           </Button>
-          <br />
+          <div className="breakline" />
           <h3 className="margin-top-0 margin-bottom-12-18">
             Pilihan{" "}
             <span className="main-color">Kurir</span> yang
             tersedia
           </h3>
-          <br />
+          <div className="breakline" />
           {props.productData &&
             JSON.parse(
               props.productData.availableCourierList

@@ -90,12 +90,12 @@ export default function Login(props) {
             className="align-self-end login-button red-bg-color">
             <h4 className="login-button-text">X</h4>
           </Button>
-          <br />
+          <div className="breakline" />
           <h3 className="margin-top-0 margin-bottom-12-18">
             There is an{" "}
             <span className="red-color">ERROR</span>
           </h3>
-          <br />
+          <div className="breakline" />
           <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
             {errorMessage}
           </label>
@@ -160,7 +160,7 @@ export default function Login(props) {
                   className="login-textinput text-align-center"
                 />
               </div>
-              <br />
+              <div className="breakline" />
               <label
                 onClick={() => handleOpenForgotPassword()}
                 className="login-forgot-pass main-color cursor-pointer">
@@ -175,8 +175,8 @@ export default function Login(props) {
                 className="login-button">
                 <p className="login-button-text">Login</p>
               </Button>
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <label className="login-middle-text">
                 Atau lanjut dengan
               </label>
@@ -192,8 +192,8 @@ export default function Login(props) {
                   />
                 </Button>
               </div>
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <label className="login-middle-text">
                 Belum jadi member ?{" "}
                 <span

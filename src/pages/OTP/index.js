@@ -101,12 +101,12 @@ export default function OTP(props) {
             className="align-self-end otp-button red-bg-color">
             <h4 className="otp-button-text">X</h4>
           </Button>
-          <br />
+          <div className="breakline" />
           <h3 className="margin-top-0 margin-bottom-12-18">
             There is an&nbsp;
             <span className="red-color">ERROR</span>
           </h3>
-          <br />
+          <div className="breakline" />
           <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
             {errorMessage}
           </label>
@@ -164,7 +164,7 @@ export default function OTP(props) {
                   className="otp-textinput text-align-center"
                 />
               </div>
-              <br />
+              <div className="breakline" />
               <Button
                 onClick={() => handleSubmitOTP()}
                 className="otp-button">

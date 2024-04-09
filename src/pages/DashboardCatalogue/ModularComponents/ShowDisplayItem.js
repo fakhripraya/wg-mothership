@@ -156,7 +156,7 @@ const ShowDisplayItem = ({
             <label className="margin-top-0 margin-bottom-0">
               {formatDateID(item.createdAt)}
             </label>
-            <br />
+            <div className="breakline" />
             <label className="margin-top-0 margin-bottom-0">
               {item.productCode}
             </label>
@@ -176,7 +176,7 @@ const ShowDisplayItem = ({
               </span>
               Views
             </label>
-            <br />
+            <div className="breakline" />
             <label className="margin-bottom-0">
               <span className="main-color">
                 {formattedNumber("187")}&nbsp;
@@ -184,7 +184,7 @@ const ShowDisplayItem = ({
               Terjual
             </label>
           </div>
-          <br />
+          <div className="breakline" />
           <div className="dashboard-catalogue-items dashboard-catalogue-pricelist">
             <p className="margin-top-0 dashboard-catalogue-body-title">
               <span className="light-color">Harga</span>
@@ -203,7 +203,7 @@ const ShowDisplayItem = ({
                 className="dashboard-catalogue-textinput darker-bg-color light-color"
               />
             </div>
-            <br />
+            <div className="breakline" />
           </div>
           <div className="dashboard-catalogue-items dashboard-catalogue-body-stock">
             <p className="margin-top-0 dashboard-catalogue-body-title">
@@ -287,7 +287,7 @@ const ShowDisplayItem = ({
               values={arrayDataValues.dropdowns.productUOM}
             />
           </div>
-          <br />
+          <div className="breakline" />
           <div className="dashboard-catalogue-items dashboard-catalogue-expedition">
             <p className="margin-top-0 dashboard-catalogue-body-title">
               <span className="light-color">
@@ -494,7 +494,7 @@ const ShowDisplayItem = ({
               />
             </div>
           </div>
-          <br />
+          <div className="breakline" />
           <div className="dashboard-catalogue-items dashboard-catalogue-body-description">
             <p className="margin-top-0 dashboard-catalogue-body-title">
               <span className="light-color">Deskripsi</span>
@@ -514,7 +514,7 @@ const ShowDisplayItem = ({
               />
             </div>
           </div>
-          <br />
+          <div className="breakline" />
           <div className="dashboard-catalogue-items dashboard-catalogue-body-option-detail">
             <p className="margin-top-0 dashboard-catalogue-body-title">
               <span className="light-color">Opsi</span>

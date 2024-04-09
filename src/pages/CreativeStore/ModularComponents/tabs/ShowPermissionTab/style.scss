@@ -1,0 +1,76 @@
+.creative-store-permission {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  min-height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.creative-store-role-container {
+  flex: 30%;
+  height: auto;
+  min-height: 100%;
+  flex-direction: column;
+  display: flex;
+  overflow-y: hidden;
+  padding: 0px 16px 0px 8px;
+  border-right: 2px solid #2c2f33;
+}
+
+.creative-store-role-container:hover {
+  overflow-y: scroll;
+}
+
+.creative-store-role-element {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: fit-content;
+  justify-content: flex-start;
+}
+
+.creative-store-access-container {
+  flex: 70%;
+  height: auto;
+  flex-direction: column;
+  display: flex;
+  overflow-y: scroll;
+  padding: 0px 8px 0px 16px;
+}
+
+.creative-store-access-header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: fit-content;
+  justify-content: space-between;
+}
+
+.creative-store-access-element {
+  display: grid;
+  grid-template-areas:
+    "title tools"
+    "description ."
+    "description .";
+  width: 100%;
+  height: fit-content;
+  padding: 16px 0px;
+  border-bottom: 2px solid #2c2f33;
+}
+
+.creative-store-access-element-item-title {
+  grid-area: title;
+}
+
+.creative-store-access-element-item-description {
+  grid-area: description;
+}
+
+.creative-store-access-element-item-tools {
+  grid-area: tools;
+  padding-left: 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

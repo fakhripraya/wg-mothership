@@ -13,7 +13,7 @@ export default function TermsAndConditions() {
     <div className="privacy-policy-container">
       <div className="privacy-policy-wrapper">
         <h2>Kebijakan Privasi</h2>
-        <br />
+        <div className="breakline" />
         <label className="font-bold">Pasal 1</label>
         <label className="font-bold">Pendahuluan</label>
         <p>
@@ -84,7 +84,7 @@ export default function TermsAndConditions() {
           quasi repellat odio autem unde distinctio illo
           ipsa cupiditate aliquam sunt?
         </p>
-        <br />
+        <div className="breakline" />
         <label className="font-bold">Pasal 2</label>
         <label className="font-bold">Penggunaan Data</label>
         <p>

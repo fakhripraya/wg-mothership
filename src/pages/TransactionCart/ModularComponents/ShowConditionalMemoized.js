@@ -116,12 +116,12 @@ export default function ShowConditionalMemoized(props) {
             </div>
           </div>
         </div>
-        <br />
+        <div className="breakline" />
         <hr
           style={{ opacity: 0.1 }}
           className="max-width"
         />
-        <br />
+        <div className="breakline" />
         <label
           style={{
             fontSize: "1.25em",

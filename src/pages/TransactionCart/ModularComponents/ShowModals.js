@@ -11,12 +11,12 @@ export const ShowErrorModal = (props) => {
             X
           </h4>
         </Button>
-        <br />
+        <div className="breakline" />
         <h3 className="margin-top-0 margin-bottom-12-18">
           There is an{" "}
           <span className="red-color">ERROR</span>
         </h3>
-        <br />
+        <div className="breakline" />
         <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
           {props.errorMessage}
         </label>

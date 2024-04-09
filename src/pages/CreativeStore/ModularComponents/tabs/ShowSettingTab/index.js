@@ -1,21 +1,23 @@
 import Avatar from "react-avatar";
-import Button from "../../../components/Button";
-import TextInput from "../../../components/TextInput";
-import Dropdown from "../../../components/DynamicDropdown";
+import Button from "../../../../../components/Button";
+import TextInput from "../../../../../components/TextInput";
+import Dropdown from "../../../../../components/DynamicDropdown";
 import {
   INITIAL_PROVINCES,
   INITIAL_REGENCIES,
   INITIAL_DISTRICTS,
   INITIAL_VILLAGES,
-} from "../../../variables/initial/global";
-import { STORE_INITIAL_VALUE } from "../../../variables/initial/store";
+} from "../../../../../variables/initial/global";
+import { STORE_INITIAL_VALUE } from "../../../../../variables/initial/store";
 import {
   handleShowDistrict,
   handleShowProvinces,
   handleShowRegencies,
   handleShowVillages,
-} from "../../../utils/functions/asynchronous";
+} from "../../../../../utils/functions/asynchronous";
 import { useEffect, useState } from "react";
+import { setOpenTab } from "../../../../../utils/redux/reducers/creativeStore/creativeStoreReducer";
+import { NO_STRING } from "../../../../../variables/global";
 
 export const ShowSettingTab = (props) => {
   // STATES
@@ -64,49 +66,29 @@ export const ShowSettingTab = (props) => {
     <div className="creative-store-body-container">
       <div className="creative-store-body-header-container">
         <div className="creative-store-body-header-left">
-          <h4>
-            {props.isOpenSettingTab && "🔧︱Setting toko"}
-          </h4>
+          <h4>{"🔧︱Setting Toko"}</h4>
         </div>
       </div>
       <div className="creative-store-setting-container">
-        <Button
-          onClick={props.functions.openSettingTab}
-          className="align-self-end creative-store-setting-button red-bg-color">
-          <h4 className="creative-store-setting-button-text">
-            X
-          </h4>
-        </Button>
-        <br />
-        <h3 className="margin-top-0 margin-bottom-12-18">
-          Setting Umum
-          <span className="main-color">{props.title}</span>
-        </h3>
         <label className="margin-top-0">
           Disini kalian bisa mengatur{" "}
           <span className="main-color">settingan umum</span>{" "}
-          pada{" "}
-          <span className="main-color">toko kalian</span>
-          <br />
-          monggo coba di{" "}
-          <span className="main-color">
-            utak-atik
-          </span> dulu{" "}
+          pada tokomu
         </label>
-        <br />
+        <div className="breakline" />
         <label className="font-bold margin-top-0">
           Mau ubah <span className="main-color">nama</span>{" "}
           toko ?
         </label>
-        <br />
+        <div className="breakline" />
         <div className="creative-store-setting-textinput-box margin-top-0">
           <TextInput
             type="text"
             className="align-self-center creative-store-setting-textinput dark-bg-color"
           />
         </div>
-        <br />
-        <br />
+        <div className="breakline" />
+        <div className="breakline" />
         <label className="font-bold margin-top-0">
           Mau ubah{" "}
           <span className="main-color">
@@ -114,7 +96,7 @@ export const ShowSettingTab = (props) => {
           </span>{" "}
           toko ?
         </label>
-        <br />
+        <div className="breakline" />
         <div className="creative-store-user-avatar-container align-self-start">
           <div className="creative-store-user-identifier-img-wrapper">
             <Avatar
@@ -124,19 +106,19 @@ export const ShowSettingTab = (props) => {
               title={"asdasd"}
               name={"asdasda"}
             />
-            <br />
-            <br />
+            <div className="breakline" />
+            <div className="breakline" />
             <Button>Ubah</Button>
           </div>
         </div>
-        <br />
-        <br />
+        <div className="breakline" />
+        <div className="breakline" />
         <label className="margin-top-0 font-bold">
           Mau ubah{" "}
           <span className="main-color">identitas</span> toko
           ?
         </label>
-        <br />
+        <div className="breakline" />
         <div className="creative-store-setting-textinput-box">
           <label className="creative-store-setting-input-title margin-0">
             Deskripsi Toko
@@ -173,17 +155,17 @@ export const ShowSettingTab = (props) => {
             className="align-self-center creative-store-setting-textinput dark-bg-color"
           />
         </div>
-        <br />
-        <br />
+        <div className="breakline" />
+        <div className="breakline" />
         <label className="margin-top-0 font-bold">
           Mau ubah{" "}
           <span className="main-color">alamat</span> toko ?
         </label>
-        <br />
+        <div className="breakline" />
         <label className="margin-top-0">
           Pilih <span className="main-color">provinsi</span>
         </label>
-        <br />
+        <div className="breakline" />
         <Dropdown
           onChange={(value) =>
             handleShowRegencies(
@@ -220,12 +202,12 @@ export const ShowSettingTab = (props) => {
               ? "display-none hidden"
               : ""
           }>
-          <br />
+          <div className="breakline" />
           <label className="margin-top-0">
             Pilih <span className="main-color">kota</span>
           </label>
-          <br />
-          <br />
+          <div className="breakline" />
+          <div className="breakline" />
           <Dropdown
             onChange={(value) =>
               handleShowDistrict(
@@ -262,13 +244,13 @@ export const ShowSettingTab = (props) => {
               ? "display-none hidden"
               : ""
           }>
-          <br />
+          <div className="breakline" />
           <label className="margin-top-0">
             Pilih{" "}
             <span className="main-color">kecamatan</span>
           </label>
-          <br />
-          <br />
+          <div className="breakline" />
+          <div className="breakline" />
           <Dropdown
             onChange={(value) =>
               handleShowVillages(
@@ -301,13 +283,13 @@ export const ShowSettingTab = (props) => {
               ? "display-none hidden"
               : ""
           }>
-          <br />
+          <div className="breakline" />
           <label className="margin-top-0">
             Pilih{" "}
             <span className="main-color">kelurahan</span>
           </label>
-          <br />
-          <br />
+          <div className="breakline" />
+          <div className="breakline" />
           <Dropdown
             onChange={(value) =>
               handleTextChangeByValue("storeVillage", value)
@@ -322,8 +304,8 @@ export const ShowSettingTab = (props) => {
             values={villages}
           />
         </div>
-        <br />
-        <br />
+        <div className="breakline" />
+        <div className="breakline" />
         <div className="creative-store-setting-textinput-box margin-top-0">
           <label className="creative-store-setting-input-title margin-0">
             Alamat
@@ -342,14 +324,23 @@ export const ShowSettingTab = (props) => {
             className="align-self-center creative-store-setting-textinput dark-bg-color"
           />
         </div>
-        <br />
-        <br />
+        <div className="breakline" />
+        <div className="breakline" />
         <Button
           onClick={() => {}}
           className="align-self-start add-store-button main-bg-color">
-          <p className="add-store-button-text">Submit</p>
+          <p className="add-store-button-text">Save</p>
         </Button>
-        <br />
+        <Button
+          onClick={() =>
+            props.dispatch(setOpenTab(NO_STRING))
+          }
+          className="align-self-start add-store-button transparent-bg-color">
+          <p className="add-store-button-text red-color">
+            Cancel
+          </p>
+        </Button>
+        <div className="breakline" />
       </div>
     </div>
   );

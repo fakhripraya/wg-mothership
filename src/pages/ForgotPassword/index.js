@@ -114,9 +114,9 @@ export default function ForgotPassword(props) {
               X
             </h4>
           </Button>
-          <br />
+          <div className="breakline" />
           <ShowTitle />
-          <br />
+          <div className="breakline" />
           <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
             {success
               ? "Kami sudah berhasil kirimin kamu recovery email ke kamu, tolong dicek ya"
@@ -173,7 +173,7 @@ export default function ForgotPassword(props) {
                   className="forgot-password-textinput text-align-center"
                 />
               </div>
-              <br />
+              <div className="breakline" />
               <label
                 onClick={() => handleOpenLogin()}
                 className="forgot-password-forgot-pass main-color cursor-pointer">

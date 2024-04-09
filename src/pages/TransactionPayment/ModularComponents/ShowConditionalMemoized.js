@@ -88,7 +88,7 @@ export default function ShowConditionalMemoized(props) {
               </h2>
             </div>
           </div>
-          <br />
+          <div className="breakline" />
           <hr
             style={{ opacity: 0.1 }}
             className="max-width"
@@ -109,7 +109,7 @@ export default function ShowConditionalMemoized(props) {
                       .addressPhoneNumber
                   }
                 </label>
-                <br />
+                <div className="breakline" />
                 <label>
                   {
                     props.buyingAddresses[selectedAddress]
@@ -117,14 +117,14 @@ export default function ShowConditionalMemoized(props) {
                   }
                 </label>
               </div>
-              <br />
+              <div className="breakline" />
               <hr
                 style={{ opacity: 0.1 }}
                 className="max-width"
               />
             </Fragment>
           )}
-          <br />
+          <div className="breakline" />
           <div className="transaction-payment-deliveryopt-container transaction-payment-deliveryopt-button-container">
             {props.buyingAddresses?.map((val, index) => (
               <Button
@@ -153,7 +153,7 @@ export default function ShowConditionalMemoized(props) {
               <span className="transaction-payment-plus-button-icon" />
             </Button>
           )}
-          <br />
+          <div className="breakline" />
           <hr
             style={{ opacity: 0.1 }}
             className="max-width"
@@ -179,7 +179,7 @@ export default function ShowConditionalMemoized(props) {
         <div className="transaction-payment-pricing-container">
           <div className="transaction-payment-pricing-box dark-bg-color">
             <h3 className="margin-0">Detail Checkout</h3>
-            <br />
+            <div className="breakline" />
             <p className="margin-bottom-8">
               Subtotal : Rp.
               {formattedNumber(handleSubtotal())}
@@ -188,12 +188,12 @@ export default function ShowConditionalMemoized(props) {
               Biaya Jasa Aplikasi : Rp.
               {formattedNumber(ADMIN_FEE)}
             </label>
-            <br />
-            <br />
+            <div className="breakline" />
+            <div className="breakline" />
             <label style={{ fontSize: "1em" }}>
               Total Belanja :{" "}
             </label>
-            <br />
+            <div className="breakline" />
             <label style={{ fontSize: "1.25em" }}>
               <span className="main-color  font-bold">
                 Rp.
@@ -206,7 +206,7 @@ export default function ShowConditionalMemoized(props) {
               style={{ opacity: 0.1 }}
               className="max-width"
             />
-            <br />
+            <div className="breakline" />
             <p className="align-self-start margin-0">
               Pastikan kamu sudah menanyakan ketersediaan{" "}
               <span className="font-bold main-color cursor-pointer">
@@ -214,7 +214,7 @@ export default function ShowConditionalMemoized(props) {
               </span>{" "}
               yang ingin kamu beli
             </p>
-            <br />
+            <div className="breakline" />
             <Button onClick={props.handleOpenModalPayment}>
               Lanjut Pembayaran
             </Button>

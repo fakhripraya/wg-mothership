@@ -176,7 +176,7 @@ export default function MultiUpload(props) {
             <label className="multi-upload-custom-typography">
               {props.label}
             </label>
-            <br />
+            <div className="breakline" />
             <img
               className="multi-upload-icon-img"
               src={
@@ -185,7 +185,7 @@ export default function MultiUpload(props) {
                   : UploadIcon
               }
               alt={`${props.formName}-icon-image`}></img>
-            <br />
+            <div className="breakline" />
             <label className="multi-upload-custom-typography">
               {props.subLabel}
             </label>

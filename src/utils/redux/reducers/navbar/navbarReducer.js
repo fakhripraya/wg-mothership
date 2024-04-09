@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { KEY_NAVBAR } from "../../../variables/global";
+import { KEY_NAVBAR } from "../../../../variables/global";
 
 const navbarReducer = createSlice({
   name: KEY_NAVBAR,

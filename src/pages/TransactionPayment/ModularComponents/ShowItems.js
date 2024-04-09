@@ -5,7 +5,6 @@ import React, {
 } from "react";
 import { formattedNumber } from "../../../utils/functions/global";
 import Dropdown from "../../../components/DynamicDropdown";
-import { setItem } from "../../../utils/redux/reducers/cartReducer";
 import {
   setCartStateAndBroadcast,
   updateCartField,
@@ -28,7 +27,7 @@ const ShowItem = (props) =>
 
     return (
       <Fragment>
-        <br />
+        <div className="breakline" />
         <label
           onClick={() => handleGoToProductPage()}
           className="font-bold main-color cursor-pointer margin-bottom-8">
@@ -70,7 +69,7 @@ const ShowItem = (props) =>
               value={handleCheckExpeditionAvailability()}
               values={props.data.availableCourierList}
             />
-            <br />
+            <div className="breakline" />
             <label style={{ marginBottom: "8px" }}>
               Harga Per Item :&nbsp;Rp.
               {formattedNumber(props.data.productPrice)}
@@ -92,7 +91,7 @@ const ShowItem = (props) =>
             </label>
           </div>
         </div>
-        <br />
+        <div className="breakline" />
         <hr
           style={{ opacity: 0.1 }}
           className="max-width"

@@ -39,7 +39,7 @@ import TheVideo3 from "../../assets/testvid3.mp4";
 import TheVideo4 from "../../assets/testvid4.mp4";
 import TheVideo5 from "../../assets/testvid5.mp4";
 import CartIcon from "../../assets/svg/cart-icon.svg";
-import ExitIcon from "../../assets/svg/logout.svg";
+import ExitIcon from "../../assets/svg/caret-angle-down.svg";
 import PauseIcon from "../../assets/svg/pause-button.svg";
 import MuteIcon from "../../assets/svg/headphone-disabled.svg";
 import UnmuteIcon from "../../assets/svg/headphone-enabled.svg";
@@ -615,7 +615,7 @@ export default function Home() {
                     alt="home-hero-reels-mute-button"
                   />
                 </div>
-                <br />
+                <div className="breakline" />
                 <div
                   onClick={() =>
                     handleScrollToFirstSection()

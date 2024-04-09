@@ -309,7 +309,7 @@ export default function ProductDetail() {
               <h3 className="detail-title margin-top-bottom-0">
                 {productData?.productName}
               </h3>
-              <br />
+              <div className="breakline" />
               <p className="detail-count">
                 Tersewa&nbsp;<span>35+</span>
               </p>
@@ -477,7 +477,7 @@ export default function ProductDetail() {
               <h3 className="detail-title margin-top-bottom-0">
                 Pesan
               </h3>
-              <br />
+              <div className="breakline" />
               <p className="detail-title margin-top-bottom-0 font-bold">
                 Jumlah Pembelian
               </p>
@@ -501,7 +501,7 @@ export default function ProductDetail() {
                 />
                 <Button>Buah</Button>
               </div>
-              <br />
+              <div className="breakline" />
               <p className="detail-title margin-top-bottom-0 font-bold">
                 Masukan Catatan Bila Ada
               </p>
@@ -538,11 +538,11 @@ export default function ProductDetail() {
                 className="main-bg-color">
                 Masukkan Keranjang
               </Button>
-              <br />
+              <div className="breakline" />
               <Button className="main-bg-color">
                 Langsung Pesan
               </Button>
-              <br />
+              <div className="breakline" />
               <div className="detail-flexbox-pricing-other">
                 <Button
                   onClick={() => {
@@ -584,7 +584,7 @@ export default function ProductDetail() {
               <p className="detail-body-text margin-top-0">
                 11 rating • 9 ulasan
               </p>
-              <br />
+              <div className="breakline" />
               <ShowAccordions
                 uniqueKey="filter-rating"
                 datas={PRODUCT_DETAIL_FILTER_DATA_OPTIONS}
@@ -681,7 +681,7 @@ export default function ProductDetail() {
                 rerum. Cum explicabo ea natus inventore esse
                 numquam ad placeat facere modi!
               </p>
-              <br />
+              <div className="breakline" />
               <div className="detail-comment">
                 <img
                   className="detail-pfp"
@@ -728,7 +728,7 @@ export default function ProductDetail() {
                 rerum. Cum explicabo ea natus inventore esse
                 numquam ad placeat facere modi!
               </p>
-              <br />
+              <div className="breakline" />
               <div className="detail-comment">
                 <img
                   className="detail-pfp"

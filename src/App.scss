@@ -102,6 +102,14 @@ body h6 {
 }
 
 /* Global Class Properties */
+.fit-height {
+  height: fit-content !important;
+}
+
+.fit-width {
+  width: fit-content !important;
+}
+
 .pointer-all {
   pointer-events: all !important;
 }
@@ -226,7 +234,7 @@ body h6 {
 }
 
 .justify-center {
-  justify-content: center;
+  justify-content: center !important;
 }
 
 .justify-flex-end {
@@ -304,6 +312,10 @@ body h6 {
 
 .display-flex {
   display: flex !important;
+}
+
+.breakline {
+  margin: 8px 0px 8px 0px;
 }
 
 .font-bold {

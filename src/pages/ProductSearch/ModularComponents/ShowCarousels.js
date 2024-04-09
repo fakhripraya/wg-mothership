@@ -34,8 +34,8 @@ export const ShowGrabableProductCardCarousel = (props) =>
         className="card-img"
         src={`${process.env.REACT_APP_CHRONOS_SERVICE}${obj?.MasterFiles[0]?.destination}`}
         alt={obj?.MasterFiles[0]?.destination}></img>
-      <br />
-      <br />
+      <div className="breakline" />
+      <div className="breakline" />
       <h3 className="light-color">{obj?.productName}</h3>
       <p className="margin-bottom-0 light-color">
         {

@@ -47,7 +47,7 @@ import {
 } from "../../utils/functions/global";
 import { cookies } from "../../config/cookie";
 import { useSelector, useDispatch } from "react-redux";
-import { setOverridingToggle } from "../../utils/redux/reducers/navbarReducer";
+import { setOverridingToggle } from "../../utils/redux/reducers/navbar/navbarReducer";
 import { ShowCart } from "./ModularComponents/ShowCart";
 import { ShowSearchBar } from "./ModularComponents/ShowSearch";
 import { PRODUCT_SORT_OPTIONS } from "../../variables/constants/dropdown";
@@ -69,7 +69,7 @@ export default function Navbar() {
       path: "/",
     });
     if (!IS_OTP_VERIFIED(login)) return;
-    if (state && state.cart)
+    if (state?.cart)
       temp = state.cart.filter((val) => {
         if (val.userId === login.user.userId) return val;
       });
@@ -302,12 +302,12 @@ export default function Navbar() {
           className="align-self-end navbar-modal-button red-bg-color">
           <h4 className="navbar-modal-button-text">X</h4>
         </Button>
-        <br />
+        <div className="breakline" />
         <h3 className="margin-top-0 margin-bottom-12-18">
           There is an{" "}
           <span className="red-color">ERROR</span>
         </h3>
-        <br />
+        <div className="breakline" />
         <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
           {errorMessage}
         </label>
@@ -325,7 +325,7 @@ export default function Navbar() {
           className="align-self-end navbar-modal-button red-bg-color">
           <h4 className="navbar-modal-button-text">X</h4>
         </Button>
-        <br />
+        <div className="breakline" />
         <h3 className="margin-top-0 margin-bottom-12-18">
           Yakin Mau{" "}
           <span className="red-color">Keluar</span> Dari

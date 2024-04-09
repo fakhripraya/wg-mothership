@@ -5,7 +5,7 @@ import {
   IS_OTP_VERIFIED,
   LOGIN,
 } from "../../variables/global";
-import { setItem } from "../redux/reducers/cartReducer";
+import { setItem } from "../redux/reducers/cart/cartReducer";
 import { handleOpenOverridingHome } from "./global";
 import { PRODUCT_DETAIL_INITIAL_BUYING_NOTE } from "../../variables/initial/productDetail";
 

@@ -61,7 +61,7 @@ export default function DashboardChat(props) {
             {/* <h5 onClick={() => handleOpenDetail(item, navigate)} className="margin-top-bottom-0 light-color main-bg-color dashboard-reminder-body-rent-button" >Pin</h5>
                     <h5 onClick={() => handleOpenDetail(item, navigate)} className="margin-bottom-0 light-color main-bg-color dashboard-reminder-body-rent-button" >Mute</h5> */}
             <FloatButton className="dashboard-menu-button dashboard-menu-button-pin" />
-            <br />
+            <div className="breakline" />
             <FloatButton className="dashboard-menu-button dashboard-menu-button-archive" />
           </div>
         </div>

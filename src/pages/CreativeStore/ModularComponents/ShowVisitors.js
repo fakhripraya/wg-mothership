@@ -2,8 +2,8 @@ import { Fragment, useCallback, useMemo } from "react";
 import { showDisplayName } from "../../../utils/functions/global";
 import Avatar from "react-avatar";
 
-const ShowVisitor = (props) => {
-  return useMemo(
+const ShowVisitor = (props) =>
+  useMemo(
     () => (
       <div className="creative-store-visitor-user cursor-pointer">
         <Avatar
@@ -26,7 +26,6 @@ const ShowVisitor = (props) => {
     ),
     [props.value]
   );
-};
 
 const ShowVisitors = (props) => {
   // generate display name

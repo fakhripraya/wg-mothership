@@ -508,7 +508,7 @@ export default function AddProduct() {
         <div className="add-product-wrapper">
           <div className="add-product-text-container">
             <div className="add-product-text-wrapper">
-              <br />
+              <div className="breakline" />
               <Button
                 style={{ paddingLeft: "0px" }}
                 onClick={() =>
@@ -540,8 +540,8 @@ export default function AddProduct() {
                   className="add-product-textinput"
                 />
               </div>
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <label className="margin-top-0 margin-bottom-12-18">
                 Produkmu masuk kedalam{" "}
                 <span className="main-color">kategori</span>{" "}
@@ -566,8 +566,8 @@ export default function AddProduct() {
                   values={fetchedDatas.dropdowns.categories}
                 />
               </div>
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <label className="margin-top-0 margin-bottom-12-18">
                 Kamu harus memasukan{" "}
                 <span className="main-color">produkmu</span>{" "}
@@ -606,7 +606,7 @@ export default function AddProduct() {
                   </h4>
                 </Button>
               </div>
-              <br />
+              <div className="breakline" />
               <label className="margin-top-0 margin-bottom-0">
                 Upload{" "}
                 <span className="main-color">foto</span>{" "}
@@ -631,7 +631,7 @@ export default function AddProduct() {
                   </h4>
                 </Button>
               </div>
-              <br />
+              <div className="breakline" />
               <h3 className="margin-bottom-12-18">
                 Atur{" "}
                 <span className="main-color">
@@ -672,7 +672,7 @@ export default function AddProduct() {
                   className="add-product-textinput"
                 />
               </div>
-              <br />
+              <div className="breakline" />
               <label className="margin-top-0 margin-bottom-12-18">
                 Kondisi{" "}
                 <span className="main-color">fisik</span>{" "}
@@ -688,7 +688,7 @@ export default function AddProduct() {
                   className="add-product-textinput"
                 />
               </div>
-              <br />
+              <div className="breakline" />
               <label className="margin-top-0 margin-bottom-12-18">
                 Kalau{" "}
                 <span className="main-color">berat</span>{" "}
@@ -722,8 +722,8 @@ export default function AddProduct() {
                   values={ADD_CATALOGUE_WEIGHTUNIT_OPTIONS}
                 />
               </div>
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <h3 className="margin-bottom-12-18">
                 Atur{" "}
                 <span className="main-color">harga</span>
@@ -746,7 +746,7 @@ export default function AddProduct() {
                   className="add-product-textinput"
                 />
               </div>
-              <br />
+              <div className="breakline" />
               <h3 className="margin-bottom-12-18">
                 Atur{" "}
                 <span className="main-color">stok</span>{" "}
@@ -820,8 +820,8 @@ export default function AddProduct() {
                   values={fetchedDatas.dropdowns.productUOM}
                 />
               </div>
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <h3 className="margin-bottom-12-18">
                 Atur{" "}
                 <span className="main-color">kurir</span>{" "}
@@ -872,8 +872,8 @@ export default function AddProduct() {
                   +
                 </h4>
               </Button>
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <h3 className="margin-bottom-12-18">
                 Upload{" "}
                 <span className="main-color">
@@ -909,8 +909,8 @@ export default function AddProduct() {
                   </span>
                 }
               />
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <div className="add-product-textinput-box">
                 <Checkbox
                   checked={agreementCheckbox}

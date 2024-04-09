@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { KEY_CART } from "../../../variables/global";
+import { KEY_CART } from "../../../../variables/global";
 
 const cartReducer = createSlice({
   name: KEY_CART,

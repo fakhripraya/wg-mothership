@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import Avatar from "react-avatar";
 
-const ShowSocket = (props) => {
-  return useMemo(
+const ShowSocket = (props) =>
+  useMemo(
     () => (
       <div className="creative-store-dynamic-accordion-socket-user">
         <Avatar
@@ -19,7 +19,6 @@ const ShowSocket = (props) => {
     ),
     [props.value[1]]
   );
-};
 
 const ShowSockets = (props) => {
   const render = useCallback(() => {

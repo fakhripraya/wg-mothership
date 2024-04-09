@@ -146,12 +146,12 @@ export default function Register(props) {
             className="align-self-end register-button red-bg-color">
             <h4 className="register-button-text">X</h4>
           </Button>
-          <br />
+          <div className="breakline" />
           <h3 className="margin-top-0 margin-bottom-12-18">
             There is an{" "}
             <span className="red-color">ERROR</span>
           </h3>
-          <br />
+          <div className="breakline" />
           <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
             {errorMessage}
           </label>
@@ -248,7 +248,7 @@ export default function Register(props) {
                   className="register-textinput text-align-center"
                 />
               </div>
-              <br />
+              <div className="breakline" />
               <label
                 onClick={() => handleOpenForgotPassword()}
                 className="register-forgot-pass main-color cursor-pointer">
@@ -261,8 +261,8 @@ export default function Register(props) {
                   Daftar
                 </p>
               </Button>
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <label className="register-middle-text">
                 atau lanjut dengan
               </label>
@@ -278,8 +278,8 @@ export default function Register(props) {
                   />
                 </Button>
               </div>
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <label className="register-middle-text">
                 Sudah punya akun ?&nbsp;
                 <span

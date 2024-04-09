@@ -31,7 +31,7 @@ const ShowItem = (props) =>
 
     return (
       <Fragment>
-        <br />
+        <div className="breakline" />
         <div className="transaction-cart-item-header">
           <div className="transaction-cart-item-header-storeinfo">
             <label
@@ -64,7 +64,7 @@ const ShowItem = (props) =>
               {props.data.productName}
             </label>
             <label>{props.data.productCode}</label>
-            <br />
+            <div className="breakline" />
             <TextArea
               placeholder="Tulis catatan untuk penjual"
               onChange={(e) => {
@@ -117,7 +117,7 @@ const ShowItem = (props) =>
                 Buah
               </Button>
             </div>
-            <br />
+            <div className="breakline" />
             <label className="text-align-end">
               Subtotal : Rp.
               {formattedNumber(
@@ -126,7 +126,7 @@ const ShowItem = (props) =>
             </label>
           </div>
         </div>
-        <br />
+        <div className="breakline" />
         <hr
           style={{ opacity: 0.1 }}
           className="max-width"

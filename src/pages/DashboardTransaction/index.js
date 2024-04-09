@@ -72,16 +72,16 @@ export default function DashboardTransaction(props) {
             <label className="margin-top-0 margin-bottom-0">
               Transaksi: {item.transactionCode}
             </label>
-            <br />
-            <br />
+            <div className="breakline" />
+            <div className="breakline" />
             <label className="margin-top-0 margin-bottom-0">
               Kode Barang: {item.productCode}
             </label>
-            <br />
+            <div className="breakline" />
             <label className="margin-top-0 margin-bottom-0">
               List date: {item.CreatedAt}
             </label>
-            <br />
+            <div className="breakline" />
             <div className="my-orders-identifier-img-wrapper">
               <img
                 className="my-orders-identifier-img"
@@ -104,15 +104,15 @@ export default function DashboardTransaction(props) {
                 {item.transactionCourier}
               </span>
             </label>
-            <br />
-            <br />
+            <div className="breakline" />
+            <div className="breakline" />
             <label className="margin-top-0 margin-bottom-0">
               Durasi Rental :{" "}
               <span className="main-color">
                 {item.transactionRentalDuration}
               </span>
             </label>
-            <br />
+            <div className="breakline" />
             <label className="margin-top-0 margin-bottom-0">
               Charging:{" "}
               <span className="main-color">
@@ -130,7 +130,7 @@ export default function DashboardTransaction(props) {
               className="margin-bottom-0 dark-color light-bg-color my-orders-body-rent-button">
               Detail Transaksi
             </h5>
-            <br />
+            <div className="breakline" />
             <h5 className="margin-top-0 margin-bottom-0 red-bg-color my-orders-body-rent-button">
               Batalkan Pesanan
             </h5>

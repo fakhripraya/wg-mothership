@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import Avatar from "react-avatar";
 
-const ShowChat = (props) => {
-  return useMemo(
+const ShowChat = (props) =>
+  useMemo(
     () => (
       <p style={{ whiteSpace: "pre-line" }}>
         {props.value[1].chatContent}
@@ -10,7 +10,6 @@ const ShowChat = (props) => {
     ),
     [props.value[1]]
   );
-};
 
 const ShowChats = (props) => {
   const render = useCallback(
@@ -27,8 +26,8 @@ const ShowChats = (props) => {
   return render();
 };
 
-const ShowChatWrapper = (props) => {
-  return useMemo(
+const ShowChatWrapper = (props) =>
+  useMemo(
     () => (
       <div className="creative-store-chattext-container">
         <div className="creative-store-chattext-avatar">
@@ -61,7 +60,6 @@ const ShowChatWrapper = (props) => {
     ),
     [props.value[1]]
   );
-};
 
 const ShowChatWrappers = (props) => {
   const render = useCallback(

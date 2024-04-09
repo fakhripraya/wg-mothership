@@ -1,5 +1,4 @@
 import React, {
-  Fragment,
   useCallback,
   useEffect,
   useMemo,
@@ -46,6 +45,8 @@ import {
   CONNECTING,
   DISCONNECTING,
   TEXT,
+  CREATIVE_STORE_SETTING,
+  PERMISSION_SETTING,
 } from "../../variables/constants/creativeStore";
 import { cookies } from "../../config/cookie";
 import { useAxios } from "../../utils/hooks/useAxios";
@@ -72,7 +73,11 @@ import ShowChatWrappers from "./ModularComponents/ShowChats";
 import { v4 as uuidv4 } from "uuid";
 import ShowVisitors from "./ModularComponents/ShowVisitors";
 import ShowNewPurchaseOrders from "./ModularComponents/ShowPurchaseOrders";
-import { ShowSettingTab } from "./ModularComponents/ShowSettingTab";
+import { useSelector, useDispatch } from "react-redux";
+import { setOpenTab } from "../../utils/redux/reducers/creativeStore/creativeStoreReducer";
+import { ShowTabButtons } from "./ModularComponents/tabs/ShowTabButtons";
+import { ShowSettingTab } from "./ModularComponents/tabs/ShowSettingTab";
+import { ShowPermissionTab } from "./ModularComponents/tabs/ShowPermissionTab";
 
 // FIXME: BUG-1: whenever user navigate (react navigation) to other page,
 // it will cause crash in the backend
@@ -94,6 +99,7 @@ export default function CreativeStore() {
 
   // HOOKS //
   const zeusService = useAxios();
+  const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const [searchParams] = useSearchParams();
 
@@ -103,7 +109,7 @@ export default function CreativeStore() {
     searchParams.get("id")
   );
   const [storeInfo, setStoreInfo] = useState(null);
-  const [isOpenSetting, setIsOpenSetting] = useState(false);
+  const [isOpenMenuTab, setIsOpenMenuTab] = useState(false);
   const [chatSocket, setChatSocket] = useState(null);
   const [webRTCSocket, setWebRTCSocket] = useState(null);
   const [rendered, setRendered] = useState(false);
@@ -129,6 +135,10 @@ export default function CreativeStore() {
     chatSocketFirstConnected: false,
     chatSocketStatus: NO_STRING,
   });
+
+  const openTab = useSelector(
+    (state) => state.creativeStore.openTab
+  );
 
   // VARIABLES //
   let login = cookies.get(CLIENT_USER_INFO);
@@ -1400,6 +1410,9 @@ export default function CreativeStore() {
 
   // this process will only render the user client side chat body, not the other peer
   const listenJoinChatRoom = async (channel, room) => {
+    // set the tab state into default value
+    dispatch(setOpenTab(NO_STRING));
+
     const newJoinedChatRoom = {
       channelId: channel.channelId,
       ...room,
@@ -1493,8 +1506,8 @@ export default function CreativeStore() {
     };
   };
 
-  const openSettingTab = () => {
-    setIsOpenSetting((state) => !state);
+  const openMenuTab = () => {
+    setIsOpenMenuTab((state) => !state);
   };
 
   // MEMOIZE COMPONENTS
@@ -1642,20 +1655,23 @@ export default function CreativeStore() {
               </div>
               <div className="creative-store-sub-container creative-store-add-menu">
                 <div
-                  onClick={openSettingTab}
-                  className="creative-store-add-menu-wording">
-                  <p className="white-color">
-                    Setting Toko
-                  </p>
-                  <span className="creative-store-gear-button" />
+                  onClick={() => openMenuTab()}
+                  className="creative-store-add-menu-wording justify-center">
+                  <span
+                    className={`creative-store-icon-button ${
+                      isOpenMenuTab
+                        ? "creative-store-caret-up-button"
+                        : "creative-store-caret-down-button"
+                    }`}
+                  />
                 </div>
+                {isOpenMenuTab && (
+                  <ShowTabButtons dispatch={dispatch} />
+                )}
               </div>
               <div className="creative-store-sub-container creative-store-scrollable-menu-header">
                 <Button className="creative-store-scrollable-menu-button">
                   Katalog
-                </Button>
-                <Button className="creative-store-scrollable-menu-button">
-                  Tambah Channel
                 </Button>
               </div>
               <div className="creative-store-sub-container creative-store-scrollable-menu-body">
@@ -1716,7 +1732,7 @@ export default function CreativeStore() {
                 </div>
               )}
             </div>
-            {!isOpenSetting && (
+            {openTab === NO_STRING && (
               <div className="creative-store-body-container">
                 <div className="creative-store-body-header-container">
                   <div className="creative-store-body-header-left">
@@ -1729,8 +1745,8 @@ export default function CreativeStore() {
                 </div>
                 <div
                   ref={chatBodyContainerRef}
-                  className="creative-store-chatbody-container dark-bg-color">
-                  <div className="creative-store-chatbody-wrapper">
+                  className="creative-store-mainbody-container creative-store-chatbody-container dark-bg-color">
+                  <div className="creative-store-mainbody-wrapper">
                     <ShowChatWrappers
                       uniqueKey={"chats"}
                       chats={chats}
@@ -1757,13 +1773,11 @@ export default function CreativeStore() {
                 </div>
               </div>
             )}
-            {isOpenSetting && (
-              <ShowSettingTab
-                isOpenSettingTab={isOpenSetting}
-                functions={{
-                  openSettingTab,
-                }}
-              />
+            {openTab === CREATIVE_STORE_SETTING && (
+              <ShowSettingTab dispatch={dispatch} />
+            )}
+            {openTab === PERMISSION_SETTING && (
+              <ShowPermissionTab dispatch={dispatch} />
             )}
             <div className="creative-store-right-panel-container">
               <div className="creative-store-sub-container creative-store-right-panel-tools">
@@ -1799,12 +1813,12 @@ export default function CreativeStore() {
                 </div>
               </div>
               <div className="creative-store-sub-container creative-store-scrollable-rightside-panel-header">
-                <h3 className="creative-store-scrollable-rightside-panel-title">
+                <p className="creative-store-scrollable-rightside-panel-title font-bold">
                   {selectedRightPanel === VISITORS
                     ? "Visitor"
                     : "Purchase Orders"}
-                </h3>
-                <hr className="creative-store-linebreak"></hr>
+                </p>
+                <hr className="creative-store-linebreak" />
               </div>
               <div className="creative-store-sub-container creative-store-scrollable-rightside-panel-body">
                 {showRightSidePanel}

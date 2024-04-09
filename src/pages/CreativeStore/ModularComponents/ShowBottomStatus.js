@@ -1,8 +1,8 @@
 import { Fragment, useMemo } from "react";
 import { CONNECTED } from "../../../variables/constants/creativeStore";
 
-export const ShowFullName = (props) => {
-  return useMemo(
+export const ShowFullName = (props) =>
+  useMemo(
     () => (
       <div className="creative-store-store-text-container">
         <h4 className="creative-store-store-text text-ellipsis">
@@ -17,10 +17,9 @@ export const ShowFullName = (props) => {
     ),
     [props.connectionStatus]
   );
-};
 
-export const ShowBottomStatus = (props) => {
-  return useMemo(
+export const ShowBottomStatus = (props) =>
+  useMemo(
     () => (
       <Fragment>
         <div className="creative-store-user-avatar-side-container">
@@ -57,4 +56,3 @@ export const ShowBottomStatus = (props) => {
     ),
     [props.connectionStatus]
   );
-};

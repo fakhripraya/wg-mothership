@@ -323,7 +323,7 @@ export default function AddStore() {
         <div className="add-store-wrapper">
           <div className="add-store-text-container">
             <div className="add-store-text-wrapper">
-              <br />
+              <div className="breakline" />
               <Button
                 style={{ paddingLeft: "0px" }}
                 onClick={() =>
@@ -356,7 +356,7 @@ export default function AddStore() {
                   className="add-store-textinput"
                 />
               </div>
-              <br />
+              <div className="breakline" />
               <h3 className="margin-bottom-12-18">
                 Set{" "}
                 <span className="main-color">
@@ -402,8 +402,8 @@ export default function AddStore() {
                   />
                 </div>
               </div>
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <label className="margin-top-0 margin-bottom-12-18">
                 Silahkan input{" "}
                 <span className="main-color">
@@ -463,7 +463,7 @@ export default function AddStore() {
                   className="add-store-textinput"
                 />
               </div>
-              <br />
+              <div className="breakline" />
               <h3 className="margin-bottom-12-18">
                 Set{" "}
                 <span className="main-color">alamat</span>{" "}
@@ -476,7 +476,7 @@ export default function AddStore() {
                 </span>{" "}
                 yuk biar orang-orang tau tempatnya
               </label>
-              <br />
+              <div className="breakline" />
               <label className="margin-top-0 margin-bottom-12-18">
                 Pilih{" "}
                 <span className="main-color">provinsi</span>
@@ -510,7 +510,7 @@ export default function AddStore() {
                     ? "display-none hidden"
                     : ""
                 }>
-                <br />
+                <div className="breakline" />
                 <h3 className="margin-top-0 margin-bottom-12-18">
                   Pilih{" "}
                   <span className="main-color">kota</span>
@@ -544,7 +544,7 @@ export default function AddStore() {
                     ? "display-none hidden"
                     : ""
                 }>
-                <br />
+                <div className="breakline" />
                 <h3 className="margin-top-0 margin-bottom-12-18">
                   Pilih{" "}
                   <span className="main-color">
@@ -576,7 +576,7 @@ export default function AddStore() {
                     ? "display-none hidden"
                     : ""
                 }>
-                <br />
+                <div className="breakline" />
                 <h3 className="margin-top-0 margin-bottom-12-18">
                   Pilih{" "}
                   <span className="main-color">
@@ -600,7 +600,7 @@ export default function AddStore() {
                   values={villages}
                 />
               </div>
-              <br />
+              <div className="breakline" />
               <div className="add-store-textinput-box">
                 <label className="add-store-input-title">
                   Alamat
@@ -627,8 +627,8 @@ export default function AddStore() {
                   className="add-store-textinput"
                 />
               </div>
-              <br />
-              <br />
+              <div className="breakline" />
+              <div className="breakline" />
               <div className="add-store-textinput-box">
                 <Checkbox
                   checked={agreementCheckbox}

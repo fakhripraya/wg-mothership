@@ -12,7 +12,7 @@ export default function Error404() {
           <h3 className="margin-bottom-0 red-color">
             ERROR 404
           </h3>
-          <br />
+          <div className="breakline" />
           <label>
             Mungkin halaman ini sedang{" "}
             <span className="red-color">maintenance</span>{" "}
@@ -21,7 +21,7 @@ export default function Error404() {
               tidak dapat ditemukan
             </span>
           </label>
-          <br />
+          <div className="breakline" />
           <Button
             onClick={() => (window.location.href = "/")}>
             Balik ke home

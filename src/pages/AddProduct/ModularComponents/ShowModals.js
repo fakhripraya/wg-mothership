@@ -49,7 +49,7 @@ export const ShowAddNewCatalogueModal = (props) => {
           className="align-self-end add-product-button red-bg-color">
           <h4 className="add-product-button-text">X</h4>
         </Button>
-        <br />
+        <div className="breakline" />
         <h3 className="margin-top-0 margin-bottom-12-18">
           Tambah Katalog
         </h3>
@@ -58,7 +58,7 @@ export const ShowAddNewCatalogueModal = (props) => {
           <span className="main-color">katalog</span> yang
           pas buat{" "}
           <span className="main-color">produk</span> di
-          tokomu? <br />{" "}
+          tokomu? <div className="breakline" />{" "}
           <span className="main-color">tambahin</span> dulu
           yuk !
         </label>
@@ -75,7 +75,7 @@ export const ShowAddNewCatalogueModal = (props) => {
             className="align-self-center add-product-textinput darker-bg-color"
           />
         </div>
-        <br />
+        <div className="breakline" />
         <Button
           onClick={() => handleCatalogueSubmit()}
           className="align-self-center add-product-button main-bg-color">
@@ -96,7 +96,7 @@ export const ShowUploadModal = (props) => (
         className="align-self-end add-product-button red-bg-color">
         <h4 className="add-product-button-text">X</h4>
       </Button>
-      <br />
+      <div className="breakline" />
       <h3 className="margin-top-0 margin-bottom-12-18">
         Upload <span className="main-color">Foto</span>{" "}
         Untuk Produkmu Disini
@@ -129,11 +129,11 @@ export const ShowErrorModal = (props) => (
         className="align-self-end add-product-modal-button red-bg-color">
         <h4 className="add-product-modal-button-text">X</h4>
       </Button>
-      <br />
+      <div className="breakline" />
       <h3 className="margin-top-0 margin-bottom-12-18">
         There is an <span className="red-color">ERROR</span>
       </h3>
-      <br />
+      <div className="breakline" />
       <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
         {props.errorMessage}
       </label>
@@ -147,11 +147,11 @@ export const ShowSuccessModal = (props) => (
       <h3 className="margin-top-0 margin-bottom-12-18">
         <span className="main-color">SUKSES</span>
       </h3>
-      <br />
+      <div className="breakline" />
       <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
         Sukses menambah display item !
       </label>
-      <br />
+      <div className="breakline" />
       <div
         style={{ padding: "0px", width: "30%" }}
         className="align-self-center add-store-modal-button">
