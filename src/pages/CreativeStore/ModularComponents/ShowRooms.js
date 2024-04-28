@@ -22,9 +22,17 @@ const ShowRoom = (props) =>
             props.joinedRoom
           );
         }}>
-        <p className="dynamic-accordion-subtitle light-color">
-          {props.value[1].roomTitle}
-        </p>
+        <div className="creative-store-row-button-wrapper full-width">
+          <p className="dynamic-accordion-subtitle light-color">
+            {props.value[1].roomTitle}
+          </p>
+          <span
+            className="creative-store-dynamic-accordion-button-wrench margin-right-6"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          />
+        </div>
         <ShowSockets
           uniqueKey={props.uniqueKey}
           value={props.value}

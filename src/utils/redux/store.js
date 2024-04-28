@@ -17,6 +17,7 @@ const persistConfig = {
   key: "root", // Storage key
   version: 1,
   storage, // Use the storage library
+  blacklist: ["creativeStore"],
   stateReconciler: autoMergeLevel2,
 };
 

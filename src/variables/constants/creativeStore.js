@@ -2,7 +2,34 @@ import AudioMasuk from "../../assets/audio/user-in.mp3";
 import KeluarMasuk from "../../assets/audio/user-out.mp3";
 import RemoteIn from "../../assets/audio/remote-in.mp3";
 import RemoteOut from "../../assets/audio/remote-out.mp3";
-import { setOpenTab } from "../../utils/redux/reducers/creativeStore/creativeStoreReducer";
+import {
+  setFeatureModal,
+  setOpenTab,
+} from "../../utils/redux/reducers/creativeStore/creativeStoreReducer";
+
+// LIST OF COLOR
+export const ROLE_PRESET_COLORS = [
+  "#1abc9c",
+  "#2ecc71",
+  "#3498db",
+  "#9b59b6",
+  "#e91e63",
+  "#f1c40f",
+  "#e67e22",
+  "#e74c3c",
+  "#95a5a6",
+  "#607d8b",
+  "#11806a",
+  "#1f8b4c",
+  "#206694",
+  "#71368a",
+  "#ad1457",
+  "#c27c0e",
+  "#a84300",
+  "#992d22",
+  "#979c9f",
+  "#546e7a",
+];
 
 // URI
 export const JOINING_AUDIO_URL = AudioMasuk;
@@ -27,6 +54,11 @@ export const CONNECTING = "CONNECTING";
 export const DISCONNECTING = "DISCONNECTING";
 export const DISCONNECTED = "DISCONNECTED";
 
+// CHANNEL TYPES
+export const ANNOUNCEMENT_CHANNEL = "ANNOUNCEMENT_CHANNEL";
+export const TEXT_CHANNEL = "TEXT_CHANNEL";
+export const VOICE_CHANNEL = "VOICE_CHANNEL";
+
 // RIGHT SIDE PANEL
 export const VISITORS = "VISITORS";
 export const TRANSACTION_ORDERS = "TRANSACTION_ORDERS";
@@ -35,9 +67,15 @@ export const TRANSACTION_ORDERS = "TRANSACTION_ORDERS";
 export const CREATIVE_STORE_SETTING =
   "CREATIVE_STORE_SETTING";
 export const PERMISSION_SETTING = "PERMISSION_SETTING";
+
+// MODAL NAME
 export const ADD_CHANNEL = "ADD_CHANNEL";
 export const ADD_CATEGORY = "ADD_CATEGORY";
+export const SETTING_SOCKET = "SETTING_SOCKET";
+export const SETTING_CHANNEL = "SETTING_CHANNEL";
+export const SETTING_CATEGORY = "SETTING_CATEGORY";
 export const INVITE_PEOPLE = "INVITE_PEOPLE";
+
 export const CREATIVE_STORE_TABS = (props) => [
   {
     onClick: () => {
@@ -57,7 +95,12 @@ export const CREATIVE_STORE_TABS = (props) => [
   },
   {
     onClick: () => {
-      props.dispatch(setOpenTab(ADD_CHANNEL));
+      props.dispatch(
+        setFeatureModal({
+          modal: ADD_CHANNEL,
+          toggle: true,
+        })
+      );
     },
     title: "Tambah Channel",
     iconClass:
@@ -65,7 +108,12 @@ export const CREATIVE_STORE_TABS = (props) => [
   },
   {
     onClick: () => {
-      props.dispatch(setOpenTab(ADD_CATEGORY));
+      props.dispatch(
+        setFeatureModal({
+          modal: ADD_CATEGORY,
+          toggle: true,
+        })
+      );
     },
     title: "Tambah Kategori",
     iconClass:
@@ -73,7 +121,12 @@ export const CREATIVE_STORE_TABS = (props) => [
   },
   {
     onClick: () => {
-      props.dispatch(setOpenTab(INVITE_PEOPLE));
+      props.dispatch(
+        setFeatureModal({
+          modal: INVITE_PEOPLE,
+          toggle: true,
+        })
+      );
     },
     title: "Invite Yang Lain",
     iconClass:

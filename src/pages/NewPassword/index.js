@@ -86,30 +86,28 @@ export default function NewPassword(props) {
   }
 
   // COMPONENTS SPECIFIC //
-  const ShowModal = () => {
-    return (
-      <div className="new-password-modal-container dark-bg-color">
-        <div className="new-password-modal-wrapper">
-          <Button
-            onClick={() =>
-              handleOpenModal(setModalToggle, modalToggle)
-            }
-            className="align-self-end new-password-button red-bg-color">
-            <h4 className="new-password-button-text">X</h4>
-          </Button>
-          <div className="breakline" />
-          <h3 className="margin-top-0 margin-bottom-12-18">
-            There is an{" "}
-            <span className="red-color">ERROR</span>
-          </h3>
-          <div className="breakline" />
-          <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
-            {errorMessage}
-          </label>
-        </div>
+  const ShowModal = () => (
+    <div className="new-password-modal-container dark-bg-color">
+      <div className="new-password-modal-wrapper">
+        <Button
+          onClick={() =>
+            handleOpenModal(setModalToggle, modalToggle)
+          }
+          className="align-self-end new-password-button red-bg-color">
+          <h4 className="new-password-button-text">X</h4>
+        </Button>
+        <div className="breakline" />
+        <h3 className="margin-top-0 margin-bottom-12-18">
+          There is an{" "}
+          <span className="red-color">ERROR</span>
+        </h3>
+        <div className="breakline" />
+        <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
+          {errorMessage}
+        </label>
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <Fragment>

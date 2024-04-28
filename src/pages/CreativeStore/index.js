@@ -32,14 +32,8 @@ import {
   VISITORS,
   TRANSACTION_ORDERS,
   VOICE,
-  JOINING_AUDIO_URL,
   JOINING_AUDIO,
   LEAVING_AUDIO,
-  MUTE_AUDIO,
-  UNMUTE_AUDIO,
-  UNMUTE_AUDIO_URL,
-  MUTE_AUDIO_URL,
-  LEAVING_AUDIO_URL,
   DISCONNECTED,
   CONNECTED,
   CONNECTING,
@@ -64,8 +58,7 @@ import {
   ShowBottomStatus,
   ShowFullName,
 } from "./ModularComponents/ShowBottomStatus";
-import Modal from "../../components/Modal";
-import { ShowErrorModal } from "./ModularComponents/ShowModals";
+import { ShowModals } from "./ModularComponents/ShowModals";
 import PageLoading from "../PageLoading";
 import { creativeStoreDb as db } from "../../config/dexie";
 import moment from "moment/moment";
@@ -74,10 +67,14 @@ import { v4 as uuidv4 } from "uuid";
 import ShowVisitors from "./ModularComponents/ShowVisitors";
 import ShowNewPurchaseOrders from "./ModularComponents/ShowPurchaseOrders";
 import { useSelector, useDispatch } from "react-redux";
-import { setOpenTab } from "../../utils/redux/reducers/creativeStore/creativeStoreReducer";
+import {
+  setOpenTab,
+  setErrorModal,
+} from "../../utils/redux/reducers/creativeStore/creativeStoreReducer";
 import { ShowTabButtons } from "./ModularComponents/tabs/ShowTabButtons";
 import { ShowSettingTab } from "./ModularComponents/tabs/ShowSettingTab";
 import { ShowPermissionTab } from "./ModularComponents/tabs/ShowPermissionTab";
+import { ShowAudios } from "./ModularComponents/ShowAudios";
 
 // FIXME: BUG-1: whenever user navigate (react navigation) to other page,
 // it will cause crash in the backend
@@ -85,11 +82,13 @@ import { ShowPermissionTab } from "./ModularComponents/tabs/ShowPermissionTab";
 // - Open creative-store
 // - After successfully load, navigate to other page via navbar
 // test result shows that it could still produce some anomaly that caused by unproper disconnection
+// FIXME: BUG-2: hover to scroll in mobile cause the screen to unable to scroll in mobile
 // TODO: Creative store needs to be standalone
 // so when both socket need to disconnect on page close
 // it will disconnect/cleanup properly
 // TODO: Make a retry function of websocket
 // and render the loading screen of reconnecting
+// TODO: Fix scrolling with media screen
 
 export default function CreativeStore() {
   // REFS //
@@ -109,7 +108,7 @@ export default function CreativeStore() {
     searchParams.get("id")
   );
   const [storeInfo, setStoreInfo] = useState(null);
-  const [isOpenMenuTab, setIsOpenMenuTab] = useState(false);
+  const [isOpenMenuTab, setIsOpenMenuTab] = useState(true);
   const [chatSocket, setChatSocket] = useState(null);
   const [webRTCSocket, setWebRTCSocket] = useState(null);
   const [rendered, setRendered] = useState(false);
@@ -121,10 +120,10 @@ export default function CreativeStore() {
   const [joinedRoom, setJoinedRoom] = useState(null);
   const [joinedChatRoom, setJoinedChatRoom] =
     useState(null);
-  const [toggle, setToggle] = useState(false);
+  const [toggleBottomSheet, setToggleBottomSheet] =
+    useState(false);
   const [selectedRightPanel, setSelectedRightPanel] =
     useState(VISITORS);
-  const [modalToggle, setModalToggle] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [joinedStatus, setJoinedStatus] =
     useState(DISCONNECTED);
@@ -138,6 +137,9 @@ export default function CreativeStore() {
 
   const openTab = useSelector(
     (state) => state.creativeStore.openTab
+  );
+  const errorModal = useSelector(
+    (state) => state.creativeStore.errorModal
   );
 
   // VARIABLES //
@@ -159,7 +161,6 @@ export default function CreativeStore() {
   // this variable will store all remote audio/video producer
   // to prevent multiple redundant consuming
   let consumedTransports = [];
-  // END OF VARIABLES //
 
   // CLASS SPECIFIC //
   // this class made specifically to store all the function
@@ -985,13 +986,14 @@ export default function CreativeStore() {
 
   function handleModalError(error) {
     if (error.responseStatus === 500) handleError500();
-    else
+    else {
       handleErrorMessage(
         error,
         setErrorMessage,
-        setModalToggle,
-        modalToggle
+        (toggle) => dispatch(setErrorModal(toggle)),
+        errorModal
       );
+    }
   }
 
   function handleSelectRightPanel(code) {
@@ -1375,11 +1377,7 @@ export default function CreativeStore() {
   }
 
   function handleBottomSheet() {
-    setToggle(!toggle);
-  }
-
-  function handleOpenModal(setToggle, toggleValue) {
-    setToggle(!toggleValue);
+    setToggleBottomSheet(!toggleBottomSheet);
   }
 
   const handleOnSendMessage = useCallback(() => {
@@ -1457,8 +1455,8 @@ export default function CreativeStore() {
               SYSTEM_STILL_EXECUTING_THE_CONNECTION,
           },
           setErrorMessage,
-          setModalToggle,
-          modalToggle
+          (toggle) => dispatch(setErrorModal(toggle)),
+          errorModal
         );
       }
       if (!IS_OTP_VERIFIED(login))
@@ -1591,35 +1589,8 @@ export default function CreativeStore() {
           "Tunggu bentar ya \n Kita lagi siapin tokonya..."
         }
       />
-      <Modal
-        className="dark-bg-color"
-        clicked={() =>
-          handleOpenModal(setModalToggle, modalToggle)
-        }
-        toggle={modalToggle}>
-        <ShowErrorModal
-          handleOpenModal={handleOpenModal}
-          setModalToggle={setModalToggle}
-          modalToggle={modalToggle}
-          errorMessage={errorMessage}
-        />
-      </Modal>
-      <audio
-        id={JOINING_AUDIO}
-        src={JOINING_AUDIO_URL}
-      />
-      <audio
-        id={LEAVING_AUDIO}
-        src={LEAVING_AUDIO_URL}
-      />
-      <audio
-        id={MUTE_AUDIO}
-        src={MUTE_AUDIO_URL}
-      />
-      <audio
-        id={UNMUTE_AUDIO}
-        src={UNMUTE_AUDIO_URL}
-      />
+      <ShowModals errorMessage={errorMessage} />
+      <ShowAudios />
       <div className="creative-store-audio-media-container"></div>
       <div
         className={
@@ -1828,7 +1799,7 @@ export default function CreativeStore() {
         </div>
       </div>
       <BottomSheet
-        toggle={toggle}
+        toggle={toggleBottomSheet}
         clicked={handleBottomSheet}>
         <div className="creative-store-mobile-tools-container"></div>
       </BottomSheet>

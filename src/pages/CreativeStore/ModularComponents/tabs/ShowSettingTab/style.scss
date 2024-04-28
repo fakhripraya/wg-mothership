@@ -1,0 +1,62 @@
+// SETTING TAB ELEMENTS //
+.creative-store-setting {
+  display: flex;
+  flex-direction: row;
+  margin-top: 12px;
+  padding: 12px;
+  padding-bottom: 0px !important;
+  border-radius: 1em;
+  // 100% height
+  // substract by 60px header
+  // substract by 12px margin top
+  // substract by 12px padding
+  height: calc(100% - 12px - 12px - 60px);
+}
+
+.creative-store-setting-container {
+  display: flex;
+  flex-direction: column;
+  width: 1080px;
+  overflow-y: hidden;
+  padding-right: 12px;
+
+  @media screen and (max-width: 1920px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 1400px) {
+    padding-right: 0px;
+  }
+}
+
+.creative-store-setting-container:hover {
+  overflow-y: scroll;
+}
+
+.creative-store-setting-background-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 12px;
+
+  @media screen and (max-width: 1400px) {
+    display: none;
+  }
+}
+
+.creative-store-setting-background-image {
+  display: flex;
+  max-height: 500px;
+  max-width: 500px;
+  height: auto;
+  width: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @media screen and (max-width: 1600px) {
+    max-height: 400px;
+    max-width: 400px;
+  }
+}

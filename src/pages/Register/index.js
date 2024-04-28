@@ -135,30 +135,28 @@ export default function Register(props) {
   }
 
   // COMPONENTS SPECIFIC //
-  const ShowModal = () => {
-    return (
-      <div className="register-modal-container dark-bg-color">
-        <div className="register-modal-wrapper">
-          <Button
-            onClick={() =>
-              handleOpenModal(setModalToggle, modalToggle)
-            }
-            className="align-self-end register-button red-bg-color">
-            <h4 className="register-button-text">X</h4>
-          </Button>
-          <div className="breakline" />
-          <h3 className="margin-top-0 margin-bottom-12-18">
-            There is an{" "}
-            <span className="red-color">ERROR</span>
-          </h3>
-          <div className="breakline" />
-          <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
-            {errorMessage}
-          </label>
-        </div>
+  const ShowModal = () => (
+    <div className="register-modal-container dark-bg-color">
+      <div className="register-modal-wrapper">
+        <Button
+          onClick={() =>
+            handleOpenModal(setModalToggle, modalToggle)
+          }
+          className="align-self-end register-button red-bg-color">
+          <h4 className="register-button-text">X</h4>
+        </Button>
+        <div className="breakline" />
+        <h3 className="margin-top-0 margin-bottom-12-18">
+          There is an{" "}
+          <span className="red-color">ERROR</span>
+        </h3>
+        <div className="breakline" />
+        <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
+          {errorMessage}
+        </label>
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <Fragment>

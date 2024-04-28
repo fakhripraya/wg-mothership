@@ -1,3 +1,4 @@
+import "./style.scss";
 import Avatar from "react-avatar";
 import Button from "../../../../../components/Button";
 import TextInput from "../../../../../components/TextInput";
@@ -18,6 +19,7 @@ import {
 import { useEffect, useState } from "react";
 import { setOpenTab } from "../../../../../utils/redux/reducers/creativeStore/creativeStoreReducer";
 import { NO_STRING } from "../../../../../variables/global";
+import CreativeStoreSettingIcon from "../../../../../assets/svg/creative-store-setting.svg";
 
 export const ShowSettingTab = (props) => {
   // STATES
@@ -69,148 +71,111 @@ export const ShowSettingTab = (props) => {
           <h4>{"🔧︱Setting Toko"}</h4>
         </div>
       </div>
-      <div className="creative-store-setting-container">
-        <label className="margin-top-0">
-          Disini kalian bisa mengatur{" "}
-          <span className="main-color">settingan umum</span>{" "}
-          pada tokomu
-        </label>
-        <div className="breakline" />
-        <label className="font-bold margin-top-0">
-          Mau ubah <span className="main-color">nama</span>{" "}
-          toko ?
-        </label>
-        <div className="breakline" />
-        <div className="creative-store-setting-textinput-box margin-top-0">
-          <TextInput
-            type="text"
-            className="align-self-center creative-store-setting-textinput dark-bg-color"
-          />
-        </div>
-        <div className="breakline" />
-        <div className="breakline" />
-        <label className="font-bold margin-top-0">
-          Mau ubah{" "}
-          <span className="main-color">
-            profile picture
-          </span>{" "}
-          toko ?
-        </label>
-        <div className="breakline" />
-        <div className="creative-store-user-avatar-container align-self-start">
-          <div className="creative-store-user-identifier-img-wrapper">
-            <Avatar
-              style={{ cursor: "pointer" }}
-              round={true}
-              size={150}
-              title={"asdasd"}
-              name={"asdasda"}
+      <div className="creative-store-setting">
+        <div className="creative-store-setting-container">
+          <label className="margin-top-0">
+            Disini kalian bisa mengatur{" "}
+            <span className="main-color">
+              settingan umum
+            </span>{" "}
+            pada tokomu
+          </label>
+          <div className="breakline" />
+          <label className="font-bold margin-top-0">
+            Mau ubah{" "}
+            <span className="main-color">nama</span> toko ?
+          </label>
+          <div className="breakline" />
+          <div className="creative-store-textinput-box margin-top-0">
+            <TextInput
+              type="text"
+              className="align-self-center creative-store-textinput dark-bg-color"
             />
-            <div className="breakline" />
-            <div className="breakline" />
-            <Button>Ubah</Button>
           </div>
-        </div>
-        <div className="breakline" />
-        <div className="breakline" />
-        <label className="margin-top-0 font-bold">
-          Mau ubah{" "}
-          <span className="main-color">identitas</span> toko
-          ?
-        </label>
-        <div className="breakline" />
-        <div className="creative-store-setting-textinput-box">
-          <label className="creative-store-setting-input-title margin-0">
-            Deskripsi Toko
+          <div className="breakline" />
+          <div className="breakline" />
+          <label className="font-bold margin-top-0">
+            Mau ubah{" "}
+            <span className="main-color">
+              profile picture
+            </span>{" "}
+            toko ?
           </label>
-          <TextInput
-            type="text"
-            className="align-self-center creative-store-setting-textinput dark-bg-color"
-          />
-        </div>
-        <div className="creative-store-setting-textinput-box">
-          <label className="creative-store-setting-input-title margin-0">
-            No HP
+          <div className="breakline" />
+          <div className="creative-store-user-avatar-container align-self-start">
+            <div className="creative-store-user-identifier-img-wrapper">
+              <Avatar
+                style={{ cursor: "pointer" }}
+                round={true}
+                size={150}
+                title={"asdasd"}
+                name={"asdasda"}
+              />
+              <Button className="margin-top-16">
+                Ubah
+              </Button>
+            </div>
+          </div>
+          <div className="breakline" />
+          <div className="breakline" />
+          <label className="margin-top-0 font-bold">
+            Mau ubah{" "}
+            <span className="main-color">identitas</span>{" "}
+            toko ?
           </label>
-          <TextInput
-            type="text"
-            className="align-self-center creative-store-setting-textinput dark-bg-color"
-          />
-        </div>
-        <div className="creative-store-setting-textinput-box">
-          <label className="creative-store-setting-input-title margin-0">
-            No Whatsapp
+          <div className="breakline" />
+          <div className="creative-store-textinput-box">
+            <label className="creative-store-input-title margin-0">
+              Deskripsi Toko
+            </label>
+            <TextInput
+              type="text"
+              className="align-self-center creative-store-textinput dark-bg-color"
+            />
+          </div>
+          <div className="creative-store-textinput-box">
+            <label className="creative-store-input-title margin-0">
+              No HP
+            </label>
+            <TextInput
+              type="text"
+              className="align-self-center creative-store-textinput dark-bg-color"
+            />
+          </div>
+          <div className="creative-store-textinput-box">
+            <label className="creative-store-input-title margin-0">
+              No Whatsapp
+            </label>
+            <TextInput
+              type="text"
+              className="align-self-center creative-store-textinput dark-bg-color"
+            />
+          </div>
+          <div className="creative-store-textinput-box">
+            <label className="creative-store-input-title margin-0">
+              Email
+            </label>
+            <TextInput
+              type="text"
+              className="align-self-center creative-store-textinput dark-bg-color"
+            />
+          </div>
+          <div className="breakline" />
+          <div className="breakline" />
+          <label className="margin-top-0 font-bold">
+            Mau ubah{" "}
+            <span className="main-color">alamat</span> toko
+            ?
           </label>
-          <TextInput
-            type="text"
-            className="align-self-center creative-store-setting-textinput dark-bg-color"
-          />
-        </div>
-        <div className="creative-store-setting-textinput-box">
-          <label className="creative-store-setting-input-title margin-0">
-            Email
-          </label>
-          <TextInput
-            type="text"
-            className="align-self-center creative-store-setting-textinput dark-bg-color"
-          />
-        </div>
-        <div className="breakline" />
-        <div className="breakline" />
-        <label className="margin-top-0 font-bold">
-          Mau ubah{" "}
-          <span className="main-color">alamat</span> toko ?
-        </label>
-        <div className="breakline" />
-        <label className="margin-top-0">
-          Pilih <span className="main-color">provinsi</span>
-        </label>
-        <div className="breakline" />
-        <Dropdown
-          onChange={(value) =>
-            handleShowRegencies(
-              value,
-              {
-                data,
-                STORE_INITIAL_VALUE,
-              },
-              {
-                setVillages,
-                setDistricts,
-                setRegencies,
-                setData,
-              },
-              {
-                setErrorMessage,
-                setModalToggle,
-                modalToggle,
-              }
-            )
-          }
-          style={{
-            width: "150px",
-            maxWidth: "150px",
-          }}
-          showTitle={false}
-          toggle={true}
-          value={data.storeProvince}
-          values={provinces}
-        />
-        <div
-          className={
-            regencies.length === 0
-              ? "display-none hidden"
-              : ""
-          }>
           <div className="breakline" />
           <label className="margin-top-0">
-            Pilih <span className="main-color">kota</span>
+            Pilih{" "}
+            <span className="main-color">provinsi</span>
           </label>
-          <div className="breakline" />
           <div className="breakline" />
           <Dropdown
             onChange={(value) =>
-              handleShowDistrict(
+              handleShowRegencies(
                 value,
                 {
                   data,
@@ -219,6 +184,7 @@ export const ShowSettingTab = (props) => {
                 {
                   setVillages,
                   setDistricts,
+                  setRegencies,
                   setData,
                 },
                 {
@@ -234,113 +200,177 @@ export const ShowSettingTab = (props) => {
             }}
             showTitle={false}
             toggle={true}
-            value={data.storeRegency}
-            values={regencies}
+            value={data.storeProvince}
+            values={provinces}
           />
-        </div>
-        <div
-          className={
-            districts.length === 0
-              ? "display-none hidden"
-              : ""
-          }>
+          <div
+            className={
+              regencies.length === 0
+                ? "display-none hidden"
+                : ""
+            }>
+            <div className="breakline" />
+            <label className="margin-top-0">
+              Pilih <span className="main-color">kota</span>
+            </label>
+            <div className="breakline" />
+            <div className="breakline" />
+            <Dropdown
+              onChange={(value) =>
+                handleShowDistrict(
+                  value,
+                  {
+                    data,
+                    STORE_INITIAL_VALUE,
+                  },
+                  {
+                    setVillages,
+                    setDistricts,
+                    setData,
+                  },
+                  {
+                    setErrorMessage,
+                    setModalToggle,
+                    modalToggle,
+                  }
+                )
+              }
+              style={{
+                width: "150px",
+                maxWidth: "150px",
+              }}
+              showTitle={false}
+              toggle={true}
+              value={data.storeRegency}
+              values={regencies}
+            />
+          </div>
+          <div
+            className={
+              districts.length === 0
+                ? "display-none hidden"
+                : ""
+            }>
+            <div className="breakline" />
+            <label className="margin-top-0">
+              Pilih{" "}
+              <span className="main-color">kecamatan</span>
+            </label>
+            <div className="breakline" />
+            <div className="breakline" />
+            <Dropdown
+              onChange={(value) =>
+                handleShowVillages(
+                  value,
+                  {
+                    data,
+                    STORE_INITIAL_VALUE,
+                  },
+                  { setVillages, setData },
+                  {
+                    setErrorMessage,
+                    setModalToggle,
+                    modalToggle,
+                  }
+                )
+              }
+              style={{
+                width: "150px",
+                maxWidth: "150px",
+              }}
+              showTitle={false}
+              toggle={true}
+              value={data.storeDistrict}
+              values={districts}
+            />
+          </div>
+          <div
+            className={
+              villages.length === 0
+                ? "display-none hidden"
+                : ""
+            }>
+            <div className="breakline" />
+            <label className="margin-top-0">
+              Pilih{" "}
+              <span className="main-color">kelurahan</span>
+            </label>
+            <div className="breakline" />
+            <div className="breakline" />
+            <Dropdown
+              onChange={(value) =>
+                handleTextChangeByValue(
+                  "storeVillage",
+                  value
+                )
+              }
+              style={{
+                width: "150px",
+                maxWidth: "150px",
+              }}
+              showTitle={false}
+              toggle={true}
+              value={data.storeVillage}
+              values={villages}
+            />
+          </div>
           <div className="breakline" />
-          <label className="margin-top-0">
-            Pilih{" "}
-            <span className="main-color">kecamatan</span>
+          <div className="breakline" />
+          <div className="creative-store-textinput-box margin-top-0">
+            <label className="creative-store-input-title margin-0">
+              Alamat
+            </label>
+            <TextInput
+              type="text"
+              className="align-self-center creative-store-textinput dark-bg-color"
+            />
+          </div>
+          <div className="creative-store-textinput-box">
+            <label className="creative-store-input-title margin-0">
+              Kode Pos
+            </label>
+            <TextInput
+              type="text"
+              className="align-self-center creative-store-textinput dark-bg-color"
+            />
+          </div>
+          <div className="breakline" />
+          <div className="creative-store-row-button-wrapper margin-top-bottom-8-12">
+            <Button
+              onClick={() => {}}
+              className="align-self-start creative-store-button main-bg-color">
+              <p className="creative-store-button-text">
+                Save
+              </p>
+            </Button>
+            <Button
+              onClick={() =>
+                props.dispatch(setOpenTab(NO_STRING))
+              }
+              className="align-self-start creative-store-button-button transparent-bg-color">
+              <p className="creative-store-button-text red-color">
+                Cancel
+              </p>
+            </Button>
+          </div>
+        </div>
+        <div className="creative-store-setting-background-container">
+          <img
+            className="creative-store-setting-background-image"
+            src={CreativeStoreSettingIcon}
+          />
+          <div className="breakline" />
+          <div className="breakline" />
+          <label className="text-center">
+            Your work is going to fill a large part of your
+            life, and the only way to be truly satisfied is
+            to do what you believe is great work
           </label>
           <div className="breakline" />
-          <div className="breakline" />
-          <Dropdown
-            onChange={(value) =>
-              handleShowVillages(
-                value,
-                {
-                  data,
-                  STORE_INITIAL_VALUE,
-                },
-                { setVillages, setData },
-                {
-                  setErrorMessage,
-                  setModalToggle,
-                  modalToggle,
-                }
-              )
-            }
-            style={{
-              width: "150px",
-              maxWidth: "150px",
-            }}
-            showTitle={false}
-            toggle={true}
-            value={data.storeDistrict}
-            values={districts}
-          />
-        </div>
-        <div
-          className={
-            villages.length === 0
-              ? "display-none hidden"
-              : ""
-          }>
-          <div className="breakline" />
-          <label className="margin-top-0">
-            Pilih{" "}
-            <span className="main-color">kelurahan</span>
+          <label className="font-bold text-center">
+            Steve Jobs
           </label>
-          <div className="breakline" />
-          <div className="breakline" />
-          <Dropdown
-            onChange={(value) =>
-              handleTextChangeByValue("storeVillage", value)
-            }
-            style={{
-              width: "150px",
-              maxWidth: "150px",
-            }}
-            showTitle={false}
-            toggle={true}
-            value={data.storeVillage}
-            values={villages}
-          />
         </div>
-        <div className="breakline" />
-        <div className="breakline" />
-        <div className="creative-store-setting-textinput-box margin-top-0">
-          <label className="creative-store-setting-input-title margin-0">
-            Alamat
-          </label>
-          <TextInput
-            type="text"
-            className="align-self-center creative-store-setting-textinput dark-bg-color"
-          />
-        </div>
-        <div className="creative-store-setting-textinput-box">
-          <label className="creative-store-setting-input-title margin-0">
-            Kode Pos
-          </label>
-          <TextInput
-            type="text"
-            className="align-self-center creative-store-setting-textinput dark-bg-color"
-          />
-        </div>
-        <div className="breakline" />
-        <div className="breakline" />
-        <Button
-          onClick={() => {}}
-          className="align-self-start add-store-button main-bg-color">
-          <p className="add-store-button-text">Save</p>
-        </Button>
-        <Button
-          onClick={() =>
-            props.dispatch(setOpenTab(NO_STRING))
-          }
-          className="align-self-start add-store-button transparent-bg-color">
-          <p className="add-store-button-text red-color">
-            Cancel
-          </p>
-        </Button>
-        <div className="breakline" />
       </div>
     </div>
   );

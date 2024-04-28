@@ -5,6 +5,9 @@ import React, {
 } from "react";
 import DynamicAccordion from "../../../components/DynamicAccordion";
 import ShowRooms from "./ShowRooms";
+import { SETTING_CATEGORY } from "../../../variables/constants/creativeStore";
+import { setFeatureModal } from "../../../utils/redux/reducers/creativeStore/creativeStoreReducer";
+import { useDispatch } from "react-redux";
 
 const ShowChannel = (props) =>
   useMemo(
@@ -13,7 +16,21 @@ const ShowChannel = (props) =>
         <DynamicAccordion
           toggle={true}
           isButton={false}
-          title={props.value[1].channelTitle}>
+          title={props.value[1].channelTitle}
+          prefixes={
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                props.dispatch(
+                  setFeatureModal({
+                    modal: SETTING_CATEGORY,
+                    toggle: true,
+                  })
+                );
+              }}
+              className="creative-store-dynamic-accordion-button-wrench"
+            />
+          }>
           <ShowRooms
             uniqueKey={props.uniqueKey}
             value={props.value}
@@ -23,7 +40,7 @@ const ShowChannel = (props) =>
           />
         </DynamicAccordion>
         {props.channels.length - 1 !== props.index && (
-          <hr className="creative-store-linebreak"></hr>
+          <hr className="creative-store-linebreak" />
         )}
       </Fragment>
     ),
@@ -31,6 +48,7 @@ const ShowChannel = (props) =>
   );
 
 const ShowChannels = (props) => {
+  const dispatch = useDispatch();
   const render = useCallback(
     () =>
       Object.entries(props.channels).map((obj, index) => (
@@ -42,10 +60,12 @@ const ShowChannels = (props) => {
           joinedRoom={props.joinedRoom}
           listenJoinRoom={props.listenJoinRoom}
           listenJoinChatRoom={props.listenJoinChatRoom}
+          dispatch={dispatch}
         />
       )),
     [props.channels, props.listenJoinRoom]
   );
+
   // return the memoized render function
   return render();
 };

@@ -62,12 +62,7 @@ function DynamicAccordion(props) {
             className="dynamic-accordion-button-label-caret"
             ref={caretRef}
           />
-          <span
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            className="dynamic-accordion-button-label-plus"
-          />
+          {props.prefixes}
         </div>
       </div>
       <div

@@ -4,6 +4,7 @@
   height: auto;
   min-height: 100%;
   width: 100%;
+  max-width: 1080px;
   overflow-y: scroll;
 }
 
@@ -28,9 +29,11 @@
   width: 100%;
   height: fit-content;
   justify-content: flex-start;
+  cursor: pointer;
+  //background-color: aqua;
 }
 
-.creative-store-access-container {
+.creative-store-edit-container {
   flex: 70%;
   height: auto;
   flex-direction: column;
@@ -39,7 +42,7 @@
   padding: 0px 8px 0px 16px;
 }
 
-.creative-store-access-header {
+.creative-store-edit-header {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -47,7 +50,16 @@
   justify-content: space-between;
 }
 
-.creative-store-access-element {
+.creative-store-edit-color-picker {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  height: fit-content;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.creative-store-edit-element {
   display: grid;
   grid-template-areas:
     "title tools"
@@ -59,18 +71,32 @@
   border-bottom: 2px solid #2c2f33;
 }
 
-.creative-store-access-element-item-title {
+.creative-store-edit-element-item-title {
   grid-area: title;
 }
 
-.creative-store-access-element-item-description {
+.creative-store-edit-element-item-description {
   grid-area: description;
 }
 
-.creative-store-access-element-item-tools {
+.creative-store-edit-element-item-tools {
   grid-area: tools;
   padding-left: 16px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.creative-store-list-of-color-wrapped-container {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.creative-store-list-of-color-item {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  margin-bottom: 8px;
 }

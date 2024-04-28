@@ -11,7 +11,7 @@ export default function Checkbox(props) {
         checked={props.checked}
         type="checkbox"
       />
-      <span className="checkbox-checkmark"></span>
+      <span className="checkbox-checkmark" />
     </label>
   );
 }

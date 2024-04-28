@@ -90,30 +90,28 @@ export default function OTP(props) {
   }
 
   // COMPONENTS SPECIFIC //
-  const ShowModal = () => {
-    return (
-      <div className="otp-modal-container dark-bg-color">
-        <div className="otp-modal-wrapper">
-          <Button
-            onClick={() =>
-              handleOpenModal(setModalToggle, modalToggle)
-            }
-            className="align-self-end otp-button red-bg-color">
-            <h4 className="otp-button-text">X</h4>
-          </Button>
-          <div className="breakline" />
-          <h3 className="margin-top-0 margin-bottom-12-18">
-            There is an&nbsp;
-            <span className="red-color">ERROR</span>
-          </h3>
-          <div className="breakline" />
-          <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
-            {errorMessage}
-          </label>
-        </div>
+  const ShowModal = () => (
+    <div className="otp-modal-container dark-bg-color">
+      <div className="otp-modal-wrapper">
+        <Button
+          onClick={() =>
+            handleOpenModal(setModalToggle, modalToggle)
+          }
+          className="align-self-end otp-button red-bg-color">
+          <h4 className="otp-button-text">X</h4>
+        </Button>
+        <div className="breakline" />
+        <h3 className="margin-top-0 margin-bottom-12-18">
+          There is an&nbsp;
+          <span className="red-color">ERROR</span>
+        </h3>
+        <div className="breakline" />
+        <label className="margin-top-0 margin-bottom-12-18 white-space-pre-line">
+          {errorMessage}
+        </label>
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <Fragment>

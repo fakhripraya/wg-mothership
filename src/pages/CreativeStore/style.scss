@@ -77,18 +77,14 @@
 }
 
 .creative-store-button {
-  margin: 0px auto;
   text-align: center;
-  background-color: transparent !important;
-  border: 1px solid #0da34d;
-  color: #0da34d;
-  max-width: 150px;
 }
 
-.creative-store-button:hover {
-  transform: scale(1) !important;
-  background-color: #0da34d !important;
-  color: #fff;
+.creative-store-button-text {
+  max-width: 150px;
+  min-width: 50px;
+  margin: 0px !important;
+  height: fit-content;
 }
 
 .creative-store-flex-container {
@@ -468,7 +464,7 @@
   width: stretch;
   background-color: #1c1d1d;
   justify-content: space-between;
-  padding: 9px;
+  padding: 12px;
   box-sizing: border-box;
 }
 
@@ -609,33 +605,14 @@
   background-image: url("../../assets/svg/gif-icon.svg");
 }
 
-// SETTING TAB ELEMENTS //
-.creative-store-setting-container {
-  display: flex;
-  flex-direction: column;
-  margin-top: 12px;
-  height: stretch;
-  padding: 12px;
-  overflow-y: hidden;
-  padding-bottom: 0px !important;
-  border-top-left-radius: 1em;
-  border-bottom-left-radius: 1em;
-  border-top-right-radius: 1em;
-  border-bottom-right-radius: 1em;
-}
-
-.creative-store-setting-container:hover {
-  overflow-y: scroll;
-}
-
-.creative-store-setting-input-title {
+.creative-store-input-title {
   width: 120px;
   max-width: 120px;
   min-width: 120px;
   margin: 10px 10px 0px 0px;
 }
 
-.creative-store-setting-textinput-box {
+.creative-store-textinput-box {
   margin-top: 12px;
   width: 100%;
   list-style: none;
@@ -643,17 +620,40 @@
   flex-direction: row;
 }
 
-.creative-store-setting-textinput {
+.creative-store-textinput {
   padding: 6px;
+  box-sizing: border-box;
   border-radius: 8px;
   width: 100%;
-  max-height: 20px;
+  min-height: 32px;
+  max-height: 32px;
   text-decoration: none;
   outline: none;
   text-align: start;
   font-size: large;
   background-color: rgb(29, 29, 29);
   color: #fff;
+}
+
+.creative-store-row-button-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.creative-store-dynamic-accordion-button-wrench {
+  display: flex;
+  content: "";
+  background-image: url("../../assets/svg/wrech-solid.svg");
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  transition: all 0.2s ease-in-out;
+}
+
+.creative-store-dynamic-accordion-button-wrench:hover {
+  transform: scale(1.1);
 }
 
 // RIGHT SIDE ELEMENTS //
