@@ -182,24 +182,22 @@ export const ShowSocketSettingModal = (props) =>
           </Button>
           <div className="breakline" />
           <h3 className="margin-top-0 margin-bottom-12-18">
-            Tambah kategori
+            -Nama socket-
           </h3>
-          <label>
-            Kategorikan text atau voice channel di creative
-            store ini
-          </label>
+          <label>-Desc socket-</label>
           <div className="breakline" />
-          <TextInput
-            type="text"
-            className="creative-store-textinput darker-bg-color margin-top-bottom-12-18"
-          />
-          <Button
-            onClick={() => {}}
-            className="align-self-start creative-store-button main-bg-color">
-            <p className="creative-store-button-text">
-              Tambah
-            </p>
-          </Button>
+          <div>
+            <label className="font-bold">Roles</label>
+            <div className="breakline" />
+            <div>
+              <ul>
+                <li>Role 1</li>
+                <li>Role 2</li>
+                <li>Role 3</li>
+                <li>Role 4</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     ),
@@ -225,22 +223,24 @@ export const ShowChannelSettingModal = (props) =>
           </Button>
           <div className="breakline" />
           <h3 className="margin-top-0 margin-bottom-12-18">
-            Tambah kategori
+            Setting channel
           </h3>
           <label>
-            Kategorikan text atau voice channel di creative
-            store ini
+            Kamu bisa atur setting khusus untuk channel ini
           </label>
           <div className="breakline" />
-          <TextInput
-            type="text"
-            className="creative-store-textinput darker-bg-color margin-top-bottom-12-18"
-          />
           <Button
             onClick={() => {}}
-            className="align-self-start creative-store-button main-bg-color">
+            className="align-self-start creative-store-button main-bg-color full-width margin-bottom-8">
             <p className="creative-store-button-text">
-              Tambah
+              Setting akses
+            </p>
+          </Button>
+          <Button
+            onClick={() => {}}
+            className="align-self-start creative-store-button main-bg-color full-width">
+            <p className="creative-store-button-text">
+              Hapus channel
             </p>
           </Button>
         </div>
@@ -274,15 +274,25 @@ export const ShowCategorySettingModal = (props) =>
             Kamu bisa atur setting khusus untuk kategori ini
           </label>
           <div className="breakline" />
-          <TextInput
-            type="text"
-            className="creative-store-textinput darker-bg-color margin-top-bottom-12-18"
-          />
           <Button
             onClick={() => {}}
-            className="align-self-start creative-store-button main-bg-color">
+            className="align-self-start creative-store-button main-bg-color full-width margin-bottom-8">
             <p className="creative-store-button-text">
-              Tambah
+              Tambah channel
+            </p>
+          </Button>
+          <Button
+            onClick={() => {}}
+            className="align-self-start creative-store-button main-bg-color full-width margin-bottom-8">
+            <p className="creative-store-button-text">
+              Setting akses
+            </p>
+          </Button>
+          <Button
+            onClick={() => {}}
+            className="align-self-start creative-store-button main-bg-color full-width">
+            <p className="creative-store-button-text">
+              Hapus kategori
             </p>
           </Button>
         </div>
