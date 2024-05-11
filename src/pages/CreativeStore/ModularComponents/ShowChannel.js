@@ -25,6 +25,7 @@ const ShowChannel = (props) =>
                   setFeatureModal({
                     modal: SETTING_CATEGORY,
                     toggle: true,
+                    title: props.value[1].channelTitle,
                   })
                 );
               }}

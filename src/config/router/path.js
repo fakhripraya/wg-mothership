@@ -13,6 +13,7 @@ import TransactionCart from "../../pages/TransactionCart";
 import TransactionPayment from "../../pages/TransactionPayment";
 import TermsAndConditions from "../../pages/TermsAndConditions";
 import PrivacyPolicy from "../../pages/PrivacyPolicy";
+import ConsentScreen from "../../pages/ConsentScreen";
 
 export const routes = [
   {
@@ -42,6 +43,10 @@ export const routes = [
   {
     path: "/dashboard/add/store",
     component: <AddStore />,
+  },
+  {
+    path: "/creative-store/consent-screen",
+    component: <ConsentScreen />,
   },
   {
     path: "/creative-store",

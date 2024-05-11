@@ -48,6 +48,30 @@
   margin: 6px !important;
 }
 
+.creative-store-category-settings-container {
+  width: stretch;
+  max-height: 1080px;
+  height: fit-content;
+  flex-direction: column;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.creative-store-category-settings-wrapper {
+  flex-direction: row;
+  width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.creative-store-category-settings-body {
+  width: stretch;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
 // MAIN STYLES //
 .creative-store {
   overflow: hidden;

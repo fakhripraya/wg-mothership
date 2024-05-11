@@ -11,6 +11,7 @@ const creativeStoreReducer = createSlice({
     featureModal: {
       modal: NO_STRING,
       toggle: false,
+      title: null,
     },
     errorModal: false,
   },

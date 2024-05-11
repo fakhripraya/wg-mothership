@@ -40,9 +40,7 @@ export const ShowBottomStatus = (props) =>
         <div className="creative-store-user-avatar-end-container">
           <span
             onClick={() =>
-              props.handleRoomSocketCleanUp(
-                props.joinedRoom
-              )
+              props.handleRoomSocketLeave(props.joinedRoom)
             }
             className={`creative-store-button-icon creative-store-button-icon-leave ${
               props.joinedStatus === CONNECTED

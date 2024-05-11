@@ -51,7 +51,7 @@ import {
   ShowSuccessModal,
 } from "./ModularComponents/ShowModals";
 import TextArea from "../../components/TextArea";
-import { PAGE_REDIRECTING_MESSAGE } from "../../variables/errorMessages/dashboard";
+import { LOGIN_PAGE_REDIRECTING_MESSAGE } from "../../variables/errorMessages/dashboard";
 import PageLoading from "../PageLoading";
 
 export default function AddStore() {
@@ -295,7 +295,7 @@ export default function AddStore() {
       // Placeholder message while redirecting to home page
       return (
         <PageLoading
-          loadingMessage={PAGE_REDIRECTING_MESSAGE}
+          loadingMessage={LOGIN_PAGE_REDIRECTING_MESSAGE}
         />
       );
     })();

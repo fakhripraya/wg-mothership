@@ -1,0 +1,44 @@
+.consent-screen-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+.consent-screen-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.consent-screen-center-window {
+  display: flex;
+  flex-direction: column;
+  max-height: 350px;
+  min-height: 350px;
+  min-width: 250px;
+  max-width: 500px;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.consent-screen-toc-container {
+  padding: 12px;
+  overflow-y: scroll;
+  border-radius: 12px;
+}
+
+.consent-screen-toc-textarea {
+  resize: none;
+  width: 100%;
+  height: 100%;
+}
+
+.consent-screen-button-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.consent-screen-button {
+  align-self: flex-start;
+}

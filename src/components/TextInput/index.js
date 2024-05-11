@@ -5,6 +5,8 @@ const TextInput = React.forwardRef((props, ref) => (
   <input
     ref={ref}
     value={props.value}
+    defaultValue={props.defaultValue}
+    readOnly={props.readOnly}
     placeholder={props.placeholder}
     style={props.style}
     onKeyUp={(e) => {

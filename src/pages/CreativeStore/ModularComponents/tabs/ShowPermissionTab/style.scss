@@ -26,11 +26,13 @@
 .creative-store-role-element {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 90%;
+  max-width: 90%;
   height: fit-content;
   justify-content: flex-start;
   cursor: pointer;
-  //background-color: aqua;
+  padding: 8px;
+  border-radius: 10px;
 }
 
 .creative-store-edit-container {
@@ -38,8 +40,12 @@
   height: auto;
   flex-direction: column;
   display: flex;
-  overflow-y: scroll;
+  overflow-y: hidden;
   padding: 0px 8px 0px 16px;
+}
+
+.creative-store-edit-container:hover {
+  overflow-y: scroll;
 }
 
 .creative-store-edit-header {
@@ -85,6 +91,18 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.creative-store-current-role-color {
+  border: none !important;
+  box-sizing: content-box !important;
+  background-color: transparent;
+  padding: 0px !important;
+  background: none !important;
+  min-width: 50px;
+  max-width: 50px;
+  min-height: 30px;
+  max-height: 30px;
 }
 
 .creative-store-list-of-color-wrapped-container {

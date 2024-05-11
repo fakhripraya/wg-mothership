@@ -46,7 +46,6 @@ import Checkbox from "../../components/Checkbox";
 import { useAxios } from "../../utils/hooks/useAxios";
 import {
   acceptNumericOnly,
-  b64toBlob,
   formattedNumber,
   handleError500,
   handleErrorMessage,
@@ -61,7 +60,7 @@ import {
 import { cookies } from "../../config/cookie";
 import TextArea from "../../components/TextArea";
 import PageLoading from "../PageLoading";
-import { PAGE_REDIRECTING_MESSAGE } from "../../variables/errorMessages/dashboard";
+import { LOGIN_PAGE_REDIRECTING_MESSAGE } from "../../variables/errorMessages/dashboard";
 import {
   ShowAddNewCatalogueModal,
   ShowErrorModal,
@@ -454,7 +453,7 @@ export default function AddProduct() {
     // Placeholder message while redirecting to home page
     return (
       <PageLoading
-        loadingMessage={PAGE_REDIRECTING_MESSAGE}
+        loadingMessage={LOGIN_PAGE_REDIRECTING_MESSAGE}
       />
     );
   }

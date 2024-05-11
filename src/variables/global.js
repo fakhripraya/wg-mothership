@@ -23,13 +23,11 @@ export const GENERAL_MULTIUPLOAD_SUBLABEL = (extensions) =>
 
 // GLOBAL VALIDATION
 export const IS_INPUT_OTP_ELIGIBLE = (userInfo) => {
-  return (
-    userInfo && userInfo.credentialToken && userInfo.sid
-  );
+  return userInfo?.credentialToken && userInfo?.sid;
 };
 
 export const IS_OTP_VERIFIED = (login) => {
-  return login && login.user && login.user.OTPVerified;
+  return login?.user?.OTPVerified;
 };
 
 export const IS_NOT_AUTHENTICATE = (result) => {
@@ -133,6 +131,12 @@ export const URL_POST_ADD_STORE_PRODUCT_CATALOGUE = (
 ) => `/v1/store/product/add?storeId=${storeId}`;
 export const URL_POST_ADD_USER_STORE = (userId) =>
   `/v1/user/${userId}/stores/add`;
+export const URL_POST_GET_USER_BUY_ADDRESSES = (userId) =>
+  `/v1/user/${userId}/saved-address`;
+export const URL_GET_USER_STORE_ROLES = (userId) =>
+  `/v1/user/${userId}/roles`;
+export const URL_GET_STORE_ROLES = (storeId) =>
+  `/v1/store/${storeId}/roles`;
 export const URL_GET_DASHBOARD_STORES = (userId) =>
   `/v1/user/${userId}/stores`;
 export const URL_GET_PRODUCT_DETAILS = (productId) =>
@@ -162,10 +166,17 @@ export const URL_GET_CATALOGUE_DATA = ({
     itemPerPage ? `&itemPerPage=${itemPerPage}` : ""
   }`;
 
-export const URL_GET_STORE_INFO = (query) =>
-  `/v1/stores${query}`;
-export const URL_POST_GET_USER_BUY_ADDRESSES = (userId) =>
-  `/v1/user/${userId}/saved-address`;
+export const URL_GET_STORE_INFO = `/v1/stores`;
+
+export const URL_POST_GET_USER_STORE_MEMBERSHIPS = (
+  userId
+) => `/v1/user/${userId}/store-memberships`;
+
+export const URL_POST_CREATE_STORE_ROLE = (storeId) =>
+  `//v1/store/${storeId}/roles/create`;
+
+export const URL_POST_USER_ASSIGN_ROLE = (userId) =>
+  `//v1/user/${userId}/roles/create`;
 
 export const URL_GET_PRODUCT_LIST = `/v1/products`;
 export const URL_GET_CATEGORIES = `/v1/category`;
@@ -188,6 +199,9 @@ export const SETTING_STORE_FORM = "SETTING_STORE_FORM";
 // COOKIES NAME
 export const CLIENT_USER_INFO = "CLIENT_USER_INFO";
 
+// STORAGE KEYS
+export const CLIENT_USER_ROLES = "CLIENT_USER_ROLES";
+
 // UPLOAD FILE EXTENSION MIME TYPE
 export const JPEG = "image/jpeg";
 export const PNG = "image/png";
@@ -201,6 +215,8 @@ export const PRODUCT_CATALOGUE_ADDITIONAL_FILES =
   "PRODUCT_CATALOGUE_ADDITIONAL_FILES";
 
 // REDUX ACTIONS
+export const KEY_USER = "KEY_USER";
 export const KEY_CREATIVE_STORE = "KEY_CREATIVE_STORE";
+export const KEY_CONSENT_SCREEN = "KEY_CONSENT_SCREEN";
 export const KEY_CART = "KEY_CART";
 export const KEY_NAVBAR = "KEY_NAVBAR";

@@ -12,7 +12,7 @@ import {
   handleOpenOverridingHome,
 } from "../../../utils/functions/global";
 import PageLoading from "../../PageLoading";
-import { PAGE_REDIRECTING_MESSAGE } from "../../../variables/errorMessages/dashboard";
+import { LOGIN_PAGE_REDIRECTING_MESSAGE } from "../../../variables/errorMessages/dashboard";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { cloneDeep } from "lodash-es";
@@ -41,17 +41,16 @@ export default function ShowConditionalMemoized(props) {
     return total;
   }
 
-  if (!IS_OTP_VERIFIED(props.login))
-    return (() => {
-      // Executing asynchronous call for redirecting to home page
-      handleOpenOverridingHome(LOGIN);
-      // Placeholder message while redirecting to home page
-      return (
-        <PageLoading
-          loadingMessage={PAGE_REDIRECTING_MESSAGE}
-        />
-      );
-    })();
+  if (!IS_OTP_VERIFIED(props.login)) {
+    // Executing asynchronous call for redirecting to home page
+    handleOpenOverridingHome(LOGIN);
+    // Placeholder message while redirecting to home page
+    return (
+      <PageLoading
+        loadingMessage={LOGIN_PAGE_REDIRECTING_MESSAGE}
+      />
+    );
+  }
 
   if (props.isLoadingPage) {
     return (

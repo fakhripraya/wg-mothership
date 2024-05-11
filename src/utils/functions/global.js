@@ -230,6 +230,33 @@ export const removeValueFromArray = (
   setData(temp);
 };
 
+export const compareSimilarValuesFromAnArray = (
+  val,
+  arr,
+  key
+) => {
+  // Iterate over the first array
+  if (arr.some((item) => item[key] === val)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const getSimilarValuesFrom2Array = (arr1, arr2) => {
+  const similarValues = [];
+
+  // Iterate over the first array
+  arr1.forEach((item1) => {
+    // Check if the name exists in the second array
+    if (arr2.some((item2) => item2.name === item1.name)) {
+      similarValues.push(item1.name);
+    }
+  });
+
+  return similarValues;
+};
+
 export const getURLParams = (url, key) =>
   url.searchParams.get(key);
 

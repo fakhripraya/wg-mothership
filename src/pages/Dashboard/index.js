@@ -36,7 +36,7 @@ import {
 import DashboardTransaction from "../DashboardTransaction";
 import DashboardChat from "../DashboardChat";
 import Avatar from "react-avatar";
-import { PAGE_REDIRECTING_MESSAGE } from "../../variables/errorMessages/dashboard";
+import { LOGIN_PAGE_REDIRECTING_MESSAGE } from "../../variables/errorMessages/dashboard";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
 import { STORE_INITIAL_VALUE } from "../../variables/initial/store";
@@ -247,7 +247,7 @@ export default function Dashboard() {
     // Placeholder message while redirecting to home page
     return (
       <PageLoading
-        loadingMessage={PAGE_REDIRECTING_MESSAGE}
+        loadingMessage={LOGIN_PAGE_REDIRECTING_MESSAGE}
       />
     );
   }

@@ -146,9 +146,7 @@ export default function Home() {
     },
     {
       ...defaultConfigs,
-      url: URL_GET_STORE_INFO(
-        `?limit=${carouselLimit}&isWithFiles=true`
-      ),
+      url: `${URL_GET_STORE_INFO}?limit=${carouselLimit}&isWithFiles=true`,
     },
     {
       ...defaultConfigs,

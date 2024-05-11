@@ -13,7 +13,7 @@ import {
   handleOpenOverridingHome,
 } from "../../../utils/functions/global";
 import PageLoading from "../../PageLoading";
-import { PAGE_REDIRECTING_MESSAGE } from "../../../variables/errorMessages/dashboard";
+import { LOGIN_PAGE_REDIRECTING_MESSAGE } from "../../../variables/errorMessages/dashboard";
 import { useDispatch } from "react-redux";
 import { cloneDeep } from "lodash-es";
 
@@ -42,17 +42,16 @@ export default function ShowConditionalMemoized(props) {
     return total;
   }
 
-  if (!IS_OTP_VERIFIED(props.login))
-    return (() => {
-      // Executing asynchronous call for redirecting to home page
-      handleOpenOverridingHome(LOGIN);
-      // Placeholder message while redirecting to home page
-      return (
-        <PageLoading
-          loadingMessage={PAGE_REDIRECTING_MESSAGE}
-        />
-      );
-    })();
+  if (!IS_OTP_VERIFIED(props.login)) {
+    // Executing asynchronous call for redirecting to home page
+    handleOpenOverridingHome(LOGIN);
+    // Placeholder message while redirecting to home page
+    return (
+      <PageLoading
+        loadingMessage={LOGIN_PAGE_REDIRECTING_MESSAGE}
+      />
+    );
+  }
 
   //TODO: We are not putting buying addresses validation here
   // because we will change this into shimmering load later
@@ -204,17 +203,15 @@ export default function ShowConditionalMemoized(props) {
             </label>
             <hr
               style={{ opacity: 0.1 }}
-              className="max-width"
+              className="max-width margin-top-bottom-16"
             />
-            <div className="breakline" />
-            <p className="align-self-start margin-0">
+            <p className="align-self-start">
               Pastikan kamu sudah menanyakan ketersediaan{" "}
               <span className="font-bold main-color cursor-pointer">
                 stok produk
               </span>{" "}
               yang ingin kamu beli
             </p>
-            <div className="breakline" />
             <Button onClick={props.handleOpenModalPayment}>
               Lanjut Pembayaran
             </Button>

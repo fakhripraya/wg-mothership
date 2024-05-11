@@ -53,6 +53,10 @@ export const CONNECTED = "CONNECTED";
 export const CONNECTING = "CONNECTING";
 export const DISCONNECTING = "DISCONNECTING";
 export const DISCONNECTED = "DISCONNECTED";
+export const IS_MEMBER_REDIRECTING_MESSAGE =
+  "Kamu udah member, langsung masuk aja ...";
+export const PAGE_LOADING_MESSAGE =
+  "Tunggu bentar ya \n Kita lagi siapin tokonya...";
 
 // CHANNEL TYPES
 export const ANNOUNCEMENT_CHANNEL = "ANNOUNCEMENT_CHANNEL";
@@ -69,6 +73,7 @@ export const CREATIVE_STORE_SETTING =
 export const PERMISSION_SETTING = "PERMISSION_SETTING";
 
 // MODAL NAME
+export const DELETE_CONFIRMATION = "DELETE_CONFIRMATION";
 export const ADD_CHANNEL = "ADD_CHANNEL";
 export const ADD_CATEGORY = "ADD_CATEGORY";
 export const SETTING_SOCKET = "SETTING_SOCKET";

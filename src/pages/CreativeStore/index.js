@@ -10,6 +10,7 @@ import "./style.scss";
 import {
   handleError500,
   handleErrorMessage,
+  handleOpenOverridingHome,
   removeAllChildNodes,
   showDisplayName,
   smoothScrollTop,
@@ -20,13 +21,18 @@ import { CREATIVE_STORE_DUMMY_PO } from "../../variables/initial/creativeStore";
 import Avatar from "react-avatar";
 import TextInput from "../../components/TextInput";
 import {
+  AUTHORIZATION,
   CLIENT_USER_INFO,
+  IS_NOT_AUTHENTICATE,
   IS_OTP_VERIFIED,
   LOGIN,
   MENU_MOBILE,
   NO_STRING,
   ROOM_UNAVAILABLE,
   URL_GET_STORE_INFO,
+  URL_POST_GET_USER_STORE_MEMBERSHIPS,
+  URL_GET_USER_STORE_ROLES,
+  X_SID,
 } from "../../variables/global";
 import {
   VISITORS,
@@ -41,12 +47,16 @@ import {
   TEXT,
   CREATIVE_STORE_SETTING,
   PERMISSION_SETTING,
+  PAGE_LOADING_MESSAGE,
 } from "../../variables/constants/creativeStore";
 import { cookies } from "../../config/cookie";
 import { useAxios } from "../../utils/hooks/useAxios";
 import { videoConfig } from "../../config/mediasoup/config";
 import { connectWebsocket } from "../../config/websocket/websocket";
-import { useSearchParams } from "react-router-dom";
+import {
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import {
   NO_STORE_FOUND_IN_THE_CREATIVE_STORE,
   SYSTEM_STILL_EXECUTING_THE_CONNECTION,
@@ -75,6 +85,8 @@ import { ShowTabButtons } from "./ModularComponents/tabs/ShowTabButtons";
 import { ShowSettingTab } from "./ModularComponents/tabs/ShowSettingTab";
 import { ShowPermissionTab } from "./ModularComponents/tabs/ShowPermissionTab";
 import { ShowAudios } from "./ModularComponents/ShowAudios";
+import { checkAuthAndRefresh } from "../../utils/functions/middlewares";
+import { setRoles } from "../../utils/redux/reducers/user/userReducer";
 
 // FIXME: BUG-1: whenever user navigate (react navigation) to other page,
 // it will cause crash in the backend
@@ -99,6 +111,7 @@ export default function CreativeStore() {
   // HOOKS //
   const zeusService = useAxios();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // eslint-disable-next-line no-unused-vars
   const [searchParams] = useSearchParams();
 
@@ -143,23 +156,20 @@ export default function CreativeStore() {
   );
 
   // VARIABLES //
-  let login = cookies.get(CLIENT_USER_INFO);
-  // device variable used to store device
-  // to create send/consume transport with the given rtpCapabilities
+  const pageLoadingClassName = rendered
+    ? "hidden no-height"
+    : "visible";
+  const parentContainerClassName = rendered
+    ? "visible creative-store-container"
+    : "hidden no-height";
+  const login = cookies.get(CLIENT_USER_INFO);
   let device;
   let rtpCapabilities;
-  // producerTransport needed only as an object,
-  // as it can produce multiple producer with a single producerTransport
   let producerTransport;
-  // consumerTransports need to be as array,
-  // as it will be needed to store multiple consumerTransport
   let consumerTransports = [];
-  // audio and video parameter for mediasoup producer configuration
   let audioProducer;
   let videoProducer;
   let videoParams = { videoConfig };
-  // this variable will store all remote audio/video producer
-  // to prevent multiple redundant consuming
   let consumedTransports = [];
 
   // CLASS SPECIFIC //
@@ -209,7 +219,7 @@ export default function CreativeStore() {
       this.peerRef.on(
         "user-already-joined",
         ({ JoinedRoom }) => {
-          handleRoomSocketCleanUp(JoinedRoom);
+          handleRoomSocketLeave(JoinedRoom);
         }
       );
 
@@ -713,7 +723,7 @@ export default function CreativeStore() {
 
     leaveRoom = async () => {
       await this.peerRef.emit("leave-room", () => {
-        handleCleanUp(this.joinedRoom, true);
+        handleSocketAttributeCleanUp(this.joinedRoom, true);
       });
     };
   }
@@ -873,10 +883,47 @@ export default function CreativeStore() {
   // FUNCTION SPECIFICS
   async function handleInitialize() {
     let result;
+    // if both sockets has been connected, handle page init
+    if (
+      !connectionStatus.webRTCSocketFirstConnected ||
+      !connectionStatus.chatSocketFirstConnected
+    )
+      return;
+
     try {
+      // check if the user has logged in
+      // if user does logged in, check whether they're a member of the store or not
+      // if they're not a member, redirect them to the consent screen
+      if (IS_OTP_VERIFIED(login)) {
+        const check =
+          await zeusService.getDataWithOnRequestInterceptors(
+            {
+              endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+              url: `${URL_POST_GET_USER_STORE_MEMBERSHIPS(
+                login?.user?.userId
+              )}?storeId=${storeId}`,
+            },
+            async () => {
+              const result = await checkAuthAndRefresh(
+                zeusService,
+                cookies
+              );
+
+              return result;
+            }
+          );
+
+        // redirect if true
+        if (check.responseData.length === 0)
+          return navigate(
+            `/creative-store/consent-screen?id=${storeId}`
+          );
+        else handleGetUserRoles();
+      }
+
       result = await zeusService.getData({
         endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-        url: URL_GET_STORE_INFO(`?storeId=${storeId}`),
+        url: `${URL_GET_STORE_INFO}?storeId=${storeId}`,
       });
     } catch (error) {
       if (error.responseStatus === 404) {
@@ -930,29 +977,34 @@ export default function CreativeStore() {
     audioElement.play();
   }
 
-  async function handleRoomSocketCleanUp(joinedRoom) {
+  async function handleRoomSocketLeave(joinedRoom) {
     // set room with the new value
     if (!joinedRoom) return;
     setJoinedStatus(DISCONNECTING);
     handleChangeStatus("Leaving...");
+
+    // this will delete the socket that rendered in the client side
+    // the setJoinedRoom(null) is to clear the joined room value
     handleDeleteSocketFromChannel(
       joinedRoom.channelId,
       joinedRoom.roomId,
       login.user
     );
-
-    // clear the joined room value
     setJoinedRoom(null);
+
     // signal the socket to leave the room and do some cleanup on the server side
     await mediaSignaler.leaveRoom().then(() => {
-      // set joined status
+      // set the joined status to be disconnected
+      // and set new connection status to empty string
       setJoinedStatus(DISCONNECTED);
-      // set new connection status
       handleChangeStatus(NO_STRING);
     });
   }
 
-  function handleCleanUp(joinedRoom, withAudio) {
+  function handleSocketAttributeCleanUp(
+    joinedRoom,
+    withAudio
+  ) {
     // handling user leaving audio , this indicates the user is leaving the room
     if (withAudio) handleJoinAudio(LEAVING_AUDIO);
     // set array variables to empty array
@@ -982,18 +1034,6 @@ export default function CreativeStore() {
     )[0];
     // remove all media element child
     if (videoContainer) removeAllChildNodes(videoContainer);
-  }
-
-  function handleModalError(error) {
-    if (error.responseStatus === 500) handleError500();
-    else {
-      handleErrorMessage(
-        error,
-        setErrorMessage,
-        (toggle) => dispatch(setErrorModal(toggle)),
-        errorModal
-      );
-    }
   }
 
   function handleSelectRightPanel(code) {
@@ -1081,7 +1121,7 @@ export default function CreativeStore() {
     return { ...newChannels };
   }
 
-  const handleNewSendedChatRender = (addingChat) => {
+  function handleNewSendedChatRender(addingChat) {
     if (
       addingChat.roomId !==
       chatSignaler.joinedChatRoom.roomId
@@ -1127,9 +1167,8 @@ export default function CreativeStore() {
 
       return { ...newChats };
     });
-  };
+  }
 
-  // do something about chat rendering
   function handleChatsRender(addingChats) {
     setChats(() => {
       if (addingChats.length === 0) return {};
@@ -1169,69 +1208,28 @@ export default function CreativeStore() {
     });
   }
 
-  function handleInitialJoinChatRoom(initialChannels) {
-    let joinedChatRoom = null;
-    for (const [key, value] of Object.entries(
-      initialChannels
-    )) {
-      const found = Object.entries(value.channelRooms).find(
-        ([, value]) => value.roomType === TEXT
-      );
-
-      if (found) {
-        joinedChatRoom = {
-          channelId: key,
-          ...found[1],
-        };
-        break;
-      }
-    }
-
-    if (joinedChatRoom) {
-      // set the joined chat room state
-      setJoinedChatRoom({ ...joinedChatRoom });
-      // set the chatSignaler joinedChatRoom properties to a new value
-      chatSignaler.joinedChatRoom = {
-        ...joinedChatRoom,
-      };
-    }
-
-    return joinedChatRoom;
-  }
-
-  // do something about channel rendering
-  // emit the initial channel socket data to be rendered
   function handleInitialChannelsRender(initialChannels) {
-    webRTCSocket.emit(
-      "get-channels-data",
-      {
-        storeId: storeId,
-      },
-      (socketsInTheStore) => {
-        setChannels(() => {
-          return handleChannelRender(
-            initialChannels,
-            socketsInTheStore
-          );
-        });
-      }
-    );
+    // do something about channel rendering
+    // emit the initial channel socket data to be rendered
+    try {
+      webRTCSocket.emit(
+        "get-channels-data",
+        {
+          storeId: storeId,
+        },
+        (socketsInTheStore) => {
+          setChannels(() => {
+            return handleChannelRender(
+              initialChannels,
+              socketsInTheStore
+            );
+          });
+        }
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
   }
-
-  // do something about rendering
-  function handleVisitorsRender(joinedUsers) {
-    setVisitors(() => {
-      return { ...joinedUsers };
-    });
-  }
-
-  function handlePurchaseOrdersRender(purchaseOrders) {
-    setPurchaseOrders(() => {
-      return [...purchaseOrders];
-    });
-  }
-
-  function handleAddPurchaseOrder(newPurchaseOrder) {}
 
   function handleSignaledChannelsRender(socketsInTheStore) {
     // do something about rendering
@@ -1249,6 +1247,68 @@ export default function CreativeStore() {
         socketsInTheStore
       );
     });
+  }
+
+  function handleVisitorsRender(joinedUsers) {
+    setVisitors(() => {
+      return { ...joinedUsers };
+    });
+  }
+
+  function handlePurchaseOrdersRender(purchaseOrders) {
+    setPurchaseOrders(() => {
+      return [...purchaseOrders];
+    });
+  }
+
+  function handleInitialJoinChatRoom(initialChannels) {
+    let joinedChatRoom = null;
+    for (const [key, value] of Object.entries(
+      initialChannels
+    )) {
+      const found = Object.entries(value.channelRooms).find(
+        ([, value]) => value.roomType === TEXT
+      );
+      if (found) {
+        joinedChatRoom = {
+          channelId: key,
+          ...found[1],
+        };
+        break;
+      }
+    }
+    if (joinedChatRoom) {
+      // set the joined chat room state
+      // set the chatSignaler joinedChatRoom properties to a new value
+      setJoinedChatRoom({ ...joinedChatRoom });
+      chatSignaler.joinedChatRoom = {
+        ...joinedChatRoom,
+      };
+    }
+    return joinedChatRoom;
+  }
+
+  function handleGetUserRoles() {
+    if (IS_OTP_VERIFIED(login))
+      zeusService
+        .getData({
+          headers: {
+            [AUTHORIZATION]: `Bearer ${login?.credentialToken?.accessToken}`,
+            [X_SID]: login?.sid,
+          },
+          endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+          url: URL_GET_USER_STORE_ROLES(
+            login?.user?.userId
+          ),
+        })
+        .then((result) =>
+          dispatch(setRoles(result.responseData))
+        )
+        .catch((error) => new Error(error));
+  }
+
+  function handleAddPurchaseOrder(newPurchaseOrder) {
+    console.log("handleaddPO");
   }
 
   function handleChangeStatus(newStatus) {
@@ -1380,6 +1440,20 @@ export default function CreativeStore() {
     setToggleBottomSheet(!toggleBottomSheet);
   }
 
+  function handleModalError(error) {
+    if (error.responseStatus === 500) handleError500();
+    if (IS_NOT_AUTHENTICATE(error)) {
+      cookies.remove(CLIENT_USER_INFO, { path: "/" });
+      handleOpenOverridingHome(LOGIN);
+    } else
+      handleErrorMessage(
+        error,
+        setErrorMessage,
+        (toggle) => dispatch(setErrorModal(toggle)),
+        errorModal
+      );
+  }
+
   const handleOnSendMessage = useCallback(() => {
     if (!IS_OTP_VERIFIED(login))
       return window.handleOpenOverriding(LOGIN);
@@ -1468,7 +1542,7 @@ export default function CreativeStore() {
       )
         return;
       if (joinedStatus === CONNECTED)
-        await handleRoomSocketCleanUp(joinedRoom);
+        await handleRoomSocketLeave(joinedRoom);
 
       // proceed altering room state and join status state
       setJoinedStatus(CONNECTING);
@@ -1527,6 +1601,7 @@ export default function CreativeStore() {
 
   // INITIAL PEERS CONNECTION
   useEffect(() => {
+    smoothScrollTop();
     setWebRTCSocket(
       connectWebsocket(
         process.env.REACT_APP_WG_SIGNALER_SERVICE
@@ -1541,14 +1616,7 @@ export default function CreativeStore() {
 
   // INITIAL RENDER AND INITIALIZATION
   useEffect(() => {
-    if (
-      connectionStatus.webRTCSocketFirstConnected &&
-      connectionStatus.chatSocketFirstConnected
-    ) {
-      smoothScrollTop();
-      handleInitialize();
-    }
-
+    handleInitialize();
     // FIXME: This could be the fix for BUG-1 problem
     // still need to test it periodically
     return async () => {
@@ -1558,7 +1626,10 @@ export default function CreativeStore() {
         return;
       if (chatSignaler) chatSignaler.peerRef.disconnect();
       if (mediaSignaler) mediaSignaler.peerRef.disconnect();
-      handleCleanUp(mediaSignaler.joinedRoom, false);
+      handleSocketAttributeCleanUp(
+        mediaSignaler.joinedRoom,
+        false
+      );
     };
   }, [
     connectionStatus.webRTCSocketFirstConnected,
@@ -1582,22 +1653,13 @@ export default function CreativeStore() {
   return (
     <div className="creative-store">
       <PageLoading
-        className={
-          rendered ? "hidden no-height" : "visible"
-        }
-        loadingMessage={
-          "Tunggu bentar ya \n Kita lagi siapin tokonya..."
-        }
+        className={pageLoadingClassName}
+        loadingMessage={PAGE_LOADING_MESSAGE}
       />
       <ShowModals errorMessage={errorMessage} />
       <ShowAudios />
       <div className="creative-store-audio-media-container"></div>
-      <div
-        className={
-          rendered
-            ? "visible creative-store-container"
-            : "hidden no-height"
-        }>
+      <div className={parentContainerClassName}>
         <div className="creative-store-wrapper">
           <div className="creative-store-flex-container">
             <div className="creative-store-left-panel-container">
@@ -1693,8 +1755,8 @@ export default function CreativeStore() {
                   </div>
                   <ShowBottomStatus
                     login={login}
-                    handleRoomSocketCleanUp={
-                      handleRoomSocketCleanUp
+                    handleRoomSocketLeave={
+                      handleRoomSocketLeave
                     }
                     connectionStatus={connectionStatus}
                     joinedRoom={joinedRoom}
@@ -1748,7 +1810,18 @@ export default function CreativeStore() {
               <ShowSettingTab dispatch={dispatch} />
             )}
             {openTab === PERMISSION_SETTING && (
-              <ShowPermissionTab dispatch={dispatch} />
+              <ShowPermissionTab
+                dispatch={dispatch}
+                handleErrorMessage={(error) =>
+                  handleErrorMessage(
+                    error,
+                    setErrorMessage,
+                    (toggle) =>
+                      dispatch(setErrorModal(toggle)),
+                    errorModal
+                  )
+                }
+              />
             )}
             <div className="creative-store-right-panel-container">
               <div className="creative-store-sub-container creative-store-right-panel-tools">
@@ -1797,6 +1870,7 @@ export default function CreativeStore() {
             </div>
           </div>
         </div>
+        {/* <ShowConsentScreen /> */}
       </div>
       <BottomSheet
         toggle={toggleBottomSheet}
