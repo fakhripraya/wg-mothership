@@ -831,8 +831,8 @@ export default function CreativeStore() {
             id,
           });
           // if the chat is intended to be send to user current joined room, render it
-          // if the chat is from the sender, update the sender chat checkmark
-          handleNewSendedChatRender(chat);
+          // TODO: if the chat is from the sender, update both the sender and receiver chat checkmark
+          handleNewChatRender(chat);
         }
       ).catch(function (e) {
         console.error(e.stack || e);
@@ -1074,6 +1074,29 @@ export default function CreativeStore() {
     return { ...newChannels };
   }
 
+  function handleInitialChannelsRender(initialChannels) {
+    // do something about channel rendering
+    // emit the initial channel socket data to be rendered
+    try {
+      webRTCSocket.emit(
+        "get-channels-data",
+        {
+          storeId: storeId,
+        },
+        (socketsInTheStore) => {
+          setChannels(() => {
+            return handleChannelRender(
+              initialChannels,
+              socketsInTheStore
+            );
+          });
+        }
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   function handleChannelRender(
     channels,
     socketsInTheStore
@@ -1121,7 +1144,25 @@ export default function CreativeStore() {
     return { ...newChannels };
   }
 
-  function handleNewSendedChatRender(addingChat) {
+  function handleSignaledChannelsRender(socketsInTheStore) {
+    // do something about rendering
+    // socketInTheStore comes from the receiving signal that got emitted from the server
+    // the flow supposed to be like:
+    /* 
+    - (source) emit signal to the server -> socket.emit("signal-channels-data", storeId) 
+    - this function is the same as "get-render-data", the differences is just the callback
+    - (server) server will process the signal and broadcast to the peer by -> (peer socket).emit("receive-channels-data",...)
+    - (other peers) and the other peer will retrieve the signal by -> socket.on("receive-channels-data",...)
+    */
+    setChannels((oldChannels) => {
+      return handleChannelRender(
+        oldChannels,
+        socketsInTheStore
+      );
+    });
+  }
+
+  function handleNewChatRender(addingChat) {
     if (
       addingChat.roomId !==
       chatSignaler.joinedChatRoom.roomId
@@ -1169,13 +1210,13 @@ export default function CreativeStore() {
     });
   }
 
-  function handleChatsRender(addingChats) {
+  function handleChatsRender(fetchedChats) {
     setChats(() => {
-      if (addingChats.length === 0) return {};
+      if (fetchedChats.length === 0) return {};
       let newChats = {};
       let tempChat = null;
       for (const [key, chat] of Object.entries(
-        addingChats
+        fetchedChats
       )) {
         let newChat = createNewChat(chat);
         if (!tempChat)
@@ -1205,47 +1246,6 @@ export default function CreativeStore() {
       };
 
       return { ...newChats };
-    });
-  }
-
-  function handleInitialChannelsRender(initialChannels) {
-    // do something about channel rendering
-    // emit the initial channel socket data to be rendered
-    try {
-      webRTCSocket.emit(
-        "get-channels-data",
-        {
-          storeId: storeId,
-        },
-        (socketsInTheStore) => {
-          setChannels(() => {
-            return handleChannelRender(
-              initialChannels,
-              socketsInTheStore
-            );
-          });
-        }
-      );
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
-  function handleSignaledChannelsRender(socketsInTheStore) {
-    // do something about rendering
-    // socketInTheStore comes from the receiving signal that got emitted from the server
-    // the flow supposed to be like:
-    /* 
-    - (source) emit signal to the server -> socket.emit("signal-channels-data", storeId) 
-    - this function is the same as "get-render-data", the differences is just the callback
-    - (server) server will process the signal and broadcast to the peer by -> (peer socket).emit("receive-channels-data",...)
-    - (other peers) and the other peer will retrieve the signal by -> socket.on("receive-channels-data",...)
-    */
-    setChannels((oldChannels) => {
-      return handleChannelRender(
-        oldChannels,
-        socketsInTheStore
-      );
     });
   }
 
