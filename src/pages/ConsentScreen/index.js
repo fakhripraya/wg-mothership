@@ -88,6 +88,16 @@ export default function ConsentScreen() {
     }
   }
 
+  function handleRedirect() {
+    navigate(`/creative-store?id=${storeInfo.id}`);
+    // Placeholder message while redirecting to the creative store
+    return (
+      <PageLoading
+        loadingMessage={IS_MEMBER_REDIRECTING_MESSAGE}
+      />
+    );
+  }
+
   function handleError(error) {
     if (IS_NOT_AUTHENTICATE(error))
       navigate(`/creative-store?id=${storeInfo.id}`);
@@ -157,16 +167,10 @@ export default function ConsentScreen() {
     );
   }
 
+  if (!IS_OTP_VERIFIED(login)) handleRedirect();
+
   // if member, executing asynchronous call to redirect to the creative store
-  if (isMember) {
-    navigate(`/creative-store?id=${storeInfo.id}`);
-    // Placeholder message while redirecting to the creative store
-    return (
-      <PageLoading
-        loadingMessage={IS_MEMBER_REDIRECTING_MESSAGE}
-      />
-    );
-  }
+  if (isMember) handleRedirect();
 
   if (!isRender)
     return (

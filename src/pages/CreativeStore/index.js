@@ -1074,29 +1074,6 @@ export default function CreativeStore() {
     return { ...newChannels };
   }
 
-  function handleInitialChannelsRender(initialChannels) {
-    // do something about channel rendering
-    // emit the initial channel socket data to be rendered
-    try {
-      webRTCSocket.emit(
-        "get-channels-data",
-        {
-          storeId: storeId,
-        },
-        (socketsInTheStore) => {
-          setChannels(() => {
-            return handleChannelRender(
-              initialChannels,
-              socketsInTheStore
-            );
-          });
-        }
-      );
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
   function handleChannelRender(
     channels,
     socketsInTheStore
@@ -1142,6 +1119,29 @@ export default function CreativeStore() {
     }
 
     return { ...newChannels };
+  }
+
+  function handleInitialChannelsRender(initialChannels) {
+    // do something about channel rendering
+    // emit the initial channel socket data to be rendered
+    try {
+      webRTCSocket.emit(
+        "get-channels-data",
+        {
+          storeId: storeId,
+        },
+        (socketsInTheStore) => {
+          setChannels(() => {
+            return handleChannelRender(
+              initialChannels,
+              socketsInTheStore
+            );
+          });
+        }
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   function handleSignaledChannelsRender(socketsInTheStore) {
@@ -1259,33 +1259,6 @@ export default function CreativeStore() {
     setPurchaseOrders(() => {
       return [...purchaseOrders];
     });
-  }
-
-  function handleInitialJoinChatRoom(initialChannels) {
-    let joinedChatRoom = null;
-    for (const [key, value] of Object.entries(
-      initialChannels
-    )) {
-      const found = Object.entries(value.channelRooms).find(
-        ([, value]) => value.roomType === TEXT
-      );
-      if (found) {
-        joinedChatRoom = {
-          channelId: key,
-          ...found[1],
-        };
-        break;
-      }
-    }
-    if (joinedChatRoom) {
-      // set the joined chat room state
-      // set the chatSignaler joinedChatRoom properties to a new value
-      setJoinedChatRoom({ ...joinedChatRoom });
-      chatSignaler.joinedChatRoom = {
-        ...joinedChatRoom,
-      };
-    }
-    return joinedChatRoom;
   }
 
   function handleGetUserRoles() {
@@ -1408,6 +1381,33 @@ export default function CreativeStore() {
         },
       },
     };
+  }
+
+  function handleInitialJoinChatRoom(initialChannels) {
+    let joinedChatRoom = null;
+    for (const [key, value] of Object.entries(
+      initialChannels
+    )) {
+      const found = Object.entries(value.channelRooms).find(
+        ([, value]) => value.roomType === TEXT
+      );
+      if (found) {
+        joinedChatRoom = {
+          channelId: key,
+          ...found[1],
+        };
+        break;
+      }
+    }
+    if (joinedChatRoom) {
+      // set the joined chat room state
+      // set the chatSignaler joinedChatRoom properties to a new value
+      setJoinedChatRoom({ ...joinedChatRoom });
+      chatSignaler.joinedChatRoom = {
+        ...joinedChatRoom,
+      };
+    }
+    return joinedChatRoom;
   }
 
   function handleJoinRoom(room, channel) {

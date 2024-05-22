@@ -26,6 +26,7 @@ import {
 } from "../../../../../utils/functions/global";
 import { useSearchParams } from "react-router-dom";
 import Toggle from "../../../../../components/Toggle";
+import RoleSignaler from "../../../Objects/RoleSignaler";
 
 export const ShowListOfColors = () => (
   <div className="creative-store-list-of-color-wrapped-container">
@@ -100,10 +101,66 @@ export const ShowPermissionTab = (props) => {
   const axiosService = useAxios();
   const [searchParams] = useSearchParams();
   const [storeId] = useState(searchParams.get("id"));
+  const [roleSocket, setRoleSocket] = useState(null);
   const [selectedRole, setSelectedRole] = useState(null);
   const [availableRoles, setAvailableRoles] = useState([]);
   const [availableAccesses, setAvailableAccesses] =
     useState([]);
+
+  let roleSignaler = useMemo(() => {
+    if (roleSocket) return new RoleSignaler(roleSocket);
+  }, [roleSocket]);
+
+  function handleError(error) {
+    if (error.responseStatus === 500) handleError500();
+    if (IS_NOT_AUTHENTICATE(error)) {
+      cookies.remove(CLIENT_USER_INFO, { path: "/" });
+      handleOpenOverridingHome(LOGIN);
+    } else props.handleErrorMessage(error);
+  }
+
+  function handleInitialize() {
+    axiosService
+      .getDataWithOnRequestInterceptors(
+        {
+          headers: {
+            [AUTHORIZATION]: `Bearer ${
+              cookies.get(CLIENT_USER_INFO, {
+                path: "/",
+              }).credentialToken.accessToken
+            }`,
+            [X_SID]: cookies.get(CLIENT_USER_INFO, {
+              path: "/",
+            }).sid,
+          },
+          endpoint: process.env.REACT_APP_ZEUS_SERVICE,
+          url: `${URL_GET_STORE_ROLES(
+            storeId
+          )}?isWithAccesses=true&isCreativeStore=true`,
+        },
+        async () => {
+          const result = await checkAuthAndRefresh(
+            axiosService,
+            cookies
+          );
+
+          return result;
+        }
+      )
+      .then((result) => {
+        setAvailableRoles(result.responseData.roles);
+        setAvailableAccesses(result.responseData.accesses);
+
+        const found = result.responseData.roles.find(
+          (val) => val.isMutable === true
+        );
+
+        setSelectedRole(found);
+      })
+      .catch((error) => handleError(error));
+  }
+
+  function handleUpdateRoleRender(purchaseOrders) {}
 
   const ShowRoleEditor = () => (
     <div className="creative-store-edit-container">
@@ -169,50 +226,7 @@ export const ShowPermissionTab = (props) => {
   );
 
   useEffect(() => {
-    axiosService
-      .getDataWithOnRequestInterceptors(
-        {
-          headers: {
-            [AUTHORIZATION]: `Bearer ${
-              cookies.get(CLIENT_USER_INFO, {
-                path: "/",
-              }).credentialToken.accessToken
-            }`,
-            [X_SID]: cookies.get(CLIENT_USER_INFO, {
-              path: "/",
-            }).sid,
-          },
-          endpoint: process.env.REACT_APP_ZEUS_SERVICE,
-          url: `${URL_GET_STORE_ROLES(
-            storeId
-          )}?isWithAccesses=true&isCreativeStore=true`,
-        },
-        async () => {
-          const result = await checkAuthAndRefresh(
-            axiosService,
-            cookies
-          );
-
-          return result;
-        }
-      )
-      .then((result) => {
-        setAvailableRoles(result.responseData.roles);
-        setAvailableAccesses(result.responseData.accesses);
-
-        const found = result.responseData.roles.find(
-          (val) => val.isMutable === true
-        );
-
-        setSelectedRole(found);
-      })
-      .catch((error) => {
-        if (error.responseStatus === 500) handleError500();
-        if (IS_NOT_AUTHENTICATE(error)) {
-          cookies.remove(CLIENT_USER_INFO, { path: "/" });
-          handleOpenOverridingHome(LOGIN);
-        } else props.handleErrorMessage(error);
-      });
+    handleInitialize();
   }, []);
 
   return (
